@@ -1,0 +1,184 @@
+#:kivy 1.10.0
+#:import GlobalVariables StackOverflow.globalvariables
+
+<SelectableButton>:
+    # Draw a background to indicate selection
+    canvas.before:
+        Color:
+            rgba: (0, 0.517, 0.705, 1) if self.selected else (0, 0.517, 0.705, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    background_color: [1, 0, 0, 1]  if self.selected else [1, 1, 1, 1]  # dark red else dark grey
+    on_release:
+        print("Pressed")
+
+<WrappedLabel@Label>:
+    size_hint_y: None
+    height: self.texture_size[1] + (self.texture_size[1]/2)
+    markup: True
+
+<RecycleViewPortfolio@RecycleView>:
+    viewclass: 'SelectableButton'
+    target_id: None
+#    id: rv_data_list
+    data: GlobalVariables.rv_data_global
+    SelectableRecycleGridLayout:
+        cols: 3
+        key_selection: 'selectable'
+        default_size: None, dp(26)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        multiselect: True
+        touch_multiselect: True
+
+<PortfolioRoot>:
+    BoxLayout:
+        list: rv_data_list
+        size: root.size
+        orientation: 'vertical'
+        WrappedLabel:
+            text: "[b] Portfolio Manager [/b]"
+            font_size: min(root.height, root.width) / 10
+        GridLayout:
+            size_hint_y: None
+            height: root.height * 0.1
+            cols: 4
+            rows: 1
+            #  Settings
+            padding: root.width * 0.001, root.height * 0.001
+            spacing: min(root.width, root.height) * 0.001
+
+            Button:
+                text: "Add"
+                background_color: [1, 1, 1, 1]
+                on_release:
+                    rv_data_list.populate_1()
+                    print("Add")
+
+            Button:
+                text: "Change"
+                background_color: [1, 1, 1, 1]
+                on_release:
+                    rv_data_list.populate_2()
+                    print("Change")
+
+            Button:
+                text: "Remove"
+                background_color: [1, 1, 1, 1]
+                on_release:
+                    rv_data_list.populate_3()
+                    print("Remove")
+
+            Button:
+                text: "Test"
+                background_color: [1, 1, 1, 1]
+                on_release:
+                    root.test_set_data()
+                    print("Test set data")
+
+        RecycleViewPortfolio:
+            id: rv_data_list
+
+<AddPopup>:
+    size_hint: 0.8, 0.8
+    title: "Add Asset"
+    title_size: root.height * 0.05
+    auto_dismiss: False
+    asset_name: asset_name
+    asset_price: asset_price
+    asset_amount: asset_amount
+    currency: currency
+    asset_class:asset_class
+    wrapped_button: wrapped_button
+    BoxLayout:
+        orientation: 'vertical'
+        GridLayout:
+            rows: 5
+            cols: 2
+            padding: root.width * 0.02, root.height * 0.02
+            spacing: min(root.width, root.height) * 0.02
+
+            Label:
+                id: asset_name_label
+                text: "Asset name"
+                halign: "center"
+                font_size: root.height/25
+                text_size: self.width, None
+                center_y: .5
+            TextInput:
+                id: asset_name
+                text: "Asset name"
+                halign: "center"
+                font_size: root.height/25
+                text_size: self.width, None
+                center_y: .5
+            Label:
+                id: asset_price_label
+                text: "Asset price"
+                halign: "center"
+                font_size: root.height/25
+                text_size: self.width, None
+                center_y: .5
+            TextInput:
+                id: asset_price
+                text: "asset"
+                halign: "center"
+                font_size: root.height/25
+                text_size: self.width, None
+                center_y: .5
+            Label:
+                id: asset_amount_label
+                text: "Asset amount"
+                halign: "center"
+                font_size: root.height/25
+                text_size: self.width, None
+                center_y: .5
+            TextInput:
+                id: asset_amount
+                text: "Asset amount"
+                halign: "center"
+                font_size: root.height/25
+                text_size: self.width, None
+                center_y: .5
+            Label:
+                id: currency_label
+                text: "Asset currency"
+                halign: "center"
+                font_size: root.height/25
+                text_size: self.width, None
+                center_y: .5
+            TextInput:
+                id: currency
+                text: "currency"
+                halign: "center"
+                font_size: root.height/25
+                text_size: self.width, None
+                center_y: .5
+            Label:
+                id: asset_class_label
+                text: "Asset class"
+                halign: "center"
+                font_size: root.height/25
+                text_size: self.width, None
+                center_y: .5
+            TextInput:
+                id: asset_class
+                text: "Asset class"
+                halign: "center"
+                font_size: root.height/25
+                text_size: self.width, None
+                center_y: .5
+        Button:
+            id: wrapped_button
+            text: "Save"
+            size_hint: 1, None
+            height: root.height / 8
+            on_release: root.save_asset()
+        Button:
+            id: wrapped_button
+            text: "close"
+            size_hint: 1, None
+            height: root.height / 8
+            on_release: root.dismiss()

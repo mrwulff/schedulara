@@ -1,0 +1,663 @@
+
+
+ScreenManager:
+    #:import Clipboard kivy.core.clipboard.Clipboard
+    #:import Snackbar kivymd.uix.snackbar.Snackbar
+    
+    SettingsScreen:
+    LoginScreen:
+    HomeScreen:
+    InfoScreen:
+    HistoryScreen:
+<P>:
+    adaptive_height: True
+    adaptive_width: True
+
+    MDTextField:
+        #text: "Search"
+        size_hint: .8, 0.2
+        pos_hint: {"x":0.0, "top":1}
+        id:searchf
+        helper_text: "Searches all shows "
+        hint_text: "Search"
+        helper_text_mode: "on_focus"
+
+    MDRectangleFlatIconButton:
+        text: "Search"
+        size_hint: .75, 0.2
+        pos_hint: {"x":0.2, "y":0.1}
+        icon: 'search'
+        on_press: 
+            #root.dismiss()
+            app.search(searchf)
+            #P.dismiss()
+
+<Prestore>:
+    adaptive_height: True
+    adaptive_width: True
+
+    MDTextField:
+        #text: "Search"
+        size_hint: .8, 0.2
+        pos_hint: {"x":0.0, "top":1}
+        id:restoretext
+        helper_text: "Paste Data"
+        hint_text: "Search"
+        helper_text_mode: "on_focus"
+
+    MDRectangleFlatIconButton:
+        text: "Restore"
+        size_hint: .75, 0.2
+        pos_hint: {"x":0.2, "y":0.1}
+        icon: 'star'
+        on_press: 
+            #root.dismiss()
+            app.restorebin(restoretext.text)
+            #P.dismiss()
+<SwipeToDeleteItem>:
+    id: std
+
+
+    canvas.before:
+        Color:
+            rgba: app.theme_cls.accent_color
+
+
+
+
+
+
+    size_hint_y: None
+    height:dp(150)
+
+    
+    type_swipe: "auto"
+    #on_swipe_complete: app.on_swipe_complete(root)
+    #focus_behavior: True
+
+
+
+    MDCardSwipeLayerBox:
+
+        MDIconButton:
+            icon: "trash-can"
+            pos_hint: {"center_y": .5}
+            #on_release: app.on_swipe_complete(root)
+            focus_behavior: True
+
+    MDCardSwipeFrontBox:
+        #border_radius: 5
+        #radius: 10
+        #elevation: 15
+        #focus_behavior: True
+
+        #OneLineListItem:
+        id: mdswipefrontbox
+        MDCard:
+            on_release:
+                app.change_screen('info','up')  if (root.text[0])!='C' else app.ccc()
+                root.click(self) if (root.text[0])!='C' else ''
+            MDFloatLayout:
+        #SmartTileWithLabel:
+                
+                #border_radius: app.bradius
+                #radius: app.radius
+                #ripple_behavior: True
+                md_bg_color: app.theme_cls.primary_light if int(root.text[-1:])%2==0 else app.theme_cls.primary_dark
+                
+                
+
+                theme_text_color: "Primary"
+                id: idmdcard
+                
+                MDLabel:
+                    
+                    id: idmdlabel
+                    font_name: app.mfont
+                    markup: True
+                    theme_text_color: "Primary"
+                    text: root.text
+                #FitImage:
+                    #source: 'images/black-rhino.png'
+                    #source: 'images/white-rhino.png'
+                    #size_hint: .2,.2
+                    #pos: 30,30
+                    #pos_hint: {'right':1, 'bottom':1}
+                MDLabel:
+                    #center: self.parent.center
+                    size: self.texture_size
+                    canvas.before:
+                        PushMatrix
+                        Rotate:
+                            #angle: app.angle
+                            angle: 90
+                            origin: self.center
+                    canvas.after:
+                        PopMatrix
+                    #text: 'Today!' if app.today = True else ''
+                    #text: str('lololol') if int(root.text[-1:])%2==0 else str('lol')
+                    markup: True
+                    text: str('[size=40]Today!') if root.text[6]=='0' else str('')
+                    id:istoday
+                    #text_size: 30
+                    
+                    size_hint: .2,1
+                    size: self.texture_size
+                    pos: 0,0
+                    pos_hint: {'right':1, 'bottom':1}
+                    
+           
+<HistoryItem>:
+    canvas.before:
+        Color:
+            rgba: app.theme_cls.accent_color
+    size_hint_y: None
+    height:dp(150)
+
+    MDCardSwipeLayerBox:
+
+        MDIconButton:
+            icon: "trash-can"
+            pos_hint: {"center_y": .5}
+            #on_release: app.on_swipe_complete(root)
+            focus_behavior: True
+
+    MDCardSwipeFrontBox:
+        #border_radius: 5
+        #radius: 10
+        #elevation: 15
+        #focus_behavior: True
+
+        #OneLineListItem:
+        id: mdswipefrontbox
+        
+        MDCard:
+        #SmartTileWithLabel:
+            source: 'images/rh.jpg'
+            border_radius: app.bradius
+            radius: app.radius
+            #focus_behavior: True
+            ripple_behavior: True
+            #md_bg_color: app.theme_cls.accent_color
+            md_bg_color: app.theme_cls.primary_light if int((root.text[-1:]))%2==1 else app.theme_cls.primary_dark
+            
+            on_release: 
+                #app.change_screen('info','up')
+                #root.click(self)
+
+                
+            #on_release: app.click(self)
+            #on_release: root.click(self)
+            theme_text_color: "Primary"
+            id: idmdcard
+            #border_radius:[0,5,0,5]
+            #radius:[0,5,0,5]
+            #elevation: 15
+            #padding: 25
+            #text:'lol'
+            
+
+
+            MDLabel:
+                id: idmdlabel
+                
+                
+                font_name: app.mfont
+                markup: True
+                theme_text_color: "Primary"
+                text: root.text
+                #text: (root.text[-1:])
+            #_no_ripple_effect: True
+
+    
+<HomeScreen>:
+    name: "home"
+    Image:
+        source: 'images/rh.jpg'
+        size: self.width,self.height
+    
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            set_notch: True
+            title: "Schedulee"
+            title: ""
+            height: app.mheight
+            type: app.mtype
+            left_action_items: [["magnify", lambda screen: app.search_menu(),'search'],]
+            right_action_items: [["calendar-blank-multiple", lambda x: app.do_history(),'calendar'],["menu", lambda screen: app.change_screen('settings', 'right'),'settings']]
+        
+        ScrollView:
+            id: sv
+            #on_scroll_y: app.check_pull_refresh(self,user_list)
+            MDList:
+                focus_behavior: True
+                spacing: app.cspacing
+                padding: app.cpadding,app.cpadding
+
+               # theme_text_color: "Primary"
+                id: users_lst
+<HistoryScreen>: 
+    name: 'history'
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            #title: "History"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('home','left'),'home']]
+            #right_action_items: [["magnify", lambda screen: app.change_screen('settings', 'right'),'settings']]
+        
+        MDBoxLayout:
+            #orientation: 'horizontal'
+            size_hint: 1,None
+            height: app.mheight
+            MDRaisedButton:
+                text: 'Current'
+                id: scurrent
+                #size_hint: .3,None
+                #height: app.mheight
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                on_press:(app.set_pp('current'))
+            MDRaisedButton:
+                text: 'Last '
+                #size_hint: .3,None
+                #height: app.mheight
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                #spacing:10,10
+                id: slast
+                on_press:(app.set_pp('last'))
+            MDRaisedButton:
+                text: 'Custom'
+                #size_hint: .3,None
+                #height: app.mheight
+                #md_bg_color: app.theme_cls.primary_dark
+                #padding:10
+                #spacing:10,10
+                id: scustom
+                on_press:
+                    (app.show_date_picker())
+                    (app.set_pp('custom'))
+            MDRaisedButton:
+                text: 'All'
+                id: sall
+                on_press:(app.set_pp('all'))
+        
+        MDBoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1,None
+            height: app.mheight
+            MDRaisedButton:
+                text: 'All'
+                id: dstart
+                #size_hint: .5,None
+                #height: app.mheight
+
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                #on_press:(app.show_date_picker())
+            MDRaisedButton:
+                text: 'All'
+                #size_hint: .5,None
+                #height: app.mheight
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                #spacing:10,10
+                id: dend
+                #on_press:(app.show_date_picker())
+            
+        ScrollView:
+            id: history_view
+
+            
+            MDList:
+                
+                spacing: app.cspacing
+                padding: app.cpadding,app.cpadding
+                id: history_list
+                
+<InfoScreen>: 
+    name: 'info'
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            #title: "Info"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('home','left'),'home']]
+        ScrollView:
+
+
+            MDList:
+                MDCard:
+                    size_hint: 1, None
+                    #height: sp(200)
+                    #padding: 10,10
+                    MDBoxLayout:
+                        id: box_top
+                        #spacing: "50dp"
+                        adaptive_height: True
+                        FitImage:
+                            #height: sp(200)
+                            source: 'images/tma.png'
+                            #size_hint: .9, None
+                            #height: 500
+
+                    
+
+
+                OneLineAvatarIconListItem: 
+                    id: date
+                    #on_release:
+                        #on_release: app.show_time_picker1()
+                    IconLeftWidget:
+                        icon: "calendar-clock-outline"
+
+                TwoLineAvatarIconListItem: 
+                    id: newhours
+                    text: 'Set Worked Hours'
+                    secondary_text: 'Set Lunches'
+                    on_release:
+                        app.show_time_picker1()
+                    YourContainer:
+                        id: container2
+                        Spinner:
+                            values:app.lunch
+                            id: lunches
+                    
+                        
+                    #on_long_press:
+                    #    app.save_show()
+                    IconLeftWidget:
+                        icon: "clipboard-outline"
+                OneLineAvatarIconListItem: 
+                    id: savehours
+                    text: 'Save Time'
+                    on_release:
+                        on_release: app.show_time_picker2()
+                    IconLeftWidget:
+                        icon: "clipboard-outline"
+
+                OneLineAvatarIconListItem: 
+                    id: jobid
+                    on_release:
+                        Clipboard.copy('Data')
+                    IconLeftWidget:
+                        icon: "clipboard-outline"
+
+
+
+                OneLineAvatarIconListItem: 
+                    id: show
+                    IconLeftWidget:
+                        icon: "account-group"
+                OneLineAvatarIconListItem: 
+                    on_press:
+                        app.maps()
+                    id: venue
+                    IconLeftWidget:
+                        icon: "stadium"
+                OneLineAvatarIconListItem: 
+                    id: location
+                    IconLeftWidget:
+                        icon: "map-marker"
+                OneLineAvatarIconListItem: 
+                    id: client
+                    IconLeftWidget:
+                        icon: "account-tie"
+                OneLineAvatarIconListItem: 
+                    id: type
+                    IconLeftWidget:
+                        icon: "bowling"
+                OneLineAvatarIconListItem: 
+                    id: wrench
+                    on_press:
+                        app.set_rate()
+                    IconLeftWidget:
+                        id: pos
+                        icon: "wrench"
+                    YourContainer:
+                        id: container2
+                        MDTextField:
+                            
+                            values:app.get_rate()
+                            id: rate
+                OneLineAvatarIconListItem: 
+                    id: status
+                    on_press:
+                        app.confirm(self.text)
+                    IconLeftWidget:
+                        icon: "check-decagram"
+                OneLineAvatarIconListItem: 
+                    id: notes
+                    IconLeftWidget:
+                        icon: "note-search-outline"
+                OneLineAvatarIconListItem: 
+                    id: d10
+                    IconLeftWidget:
+                        icon: "calendar-clock-outline"
+
+
+                OneLineAvatarIconListItem: 
+                    id: d12
+                    #IconLeftWidget:
+                        #icon: "calendar-clock-outline"
+
+                OneLineAvatarIconListItem: 
+                    id: d13
+                    #IconLeftWidget:
+                        #icon: "calendar-clock-outline"
+
+<SettingsScreen>:
+    name: "settings"
+    #Image:
+    #    source: 'images/rh.jpg'
+    #    size: self.width,self.height
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            #title: "Settings"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('home','left'),'home']]
+        ScrollView:
+
+
+            MDList:
+                OneLineAvatarIconListItem:
+                    icon: 'palette'
+                    text: "Login"
+                    on_press: app.change_screen('login', 'left')
+                    
+                    YourContainer:
+                        id: container   
+                    IconLeftWidget:
+                        icon: "account"             
+                OneLineAvatarIconListItem:
+                    text: "Theme"
+                    on_press: 
+                        app.show_theme_picker()
+                        
+                    
+                    YourContainer:
+                        id: container
+                        MDIconButton:
+                            icon: "content-save"
+                            text: "Edit"
+                            on_press:app.save_theme_picker()
+
+                    IconLeftWidget:
+                        icon: "palette"
+                
+                OneLineAvatarIconListItem:
+                    
+                    
+                    #text: "Sample Schedule"
+                    text: 'Debug'
+                    YourContainer:
+                        id: container
+
+                        MDSwitch:
+                            widget_style: "ios"
+                            icon: "plus"
+                            id: usecachebox
+                            #active: app.lol()
+                            active: app.check_att('usecache')
+                            on_active:
+                                #app.on_checkbox_active(*args)
+                                app.updatetext()
+                    IconLeftWidget:
+                        icon: "bug"
+                OneLineAvatarIconListItem:
+                    text: "Clear Data"
+                    on_release:
+                        app.show_delete_dialog()
+                    YourContainer:
+                        id: container
+                    IconLeftWidget:
+                        icon: "cancel"
+                OneLineAvatarIconListItem:
+                    text: "Backup Data"
+                    id: bud
+                    on_release:
+                        #app.backup()
+                        Clipboard.copy(app.backup())
+                        Snackbar(text="[font="+app.mfontb+"]Backup Copied to Clipboard!",bg_color=app.theme_cls.primary_color).open()
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                    YourContainer:
+                        id: container
+                    IconLeftWidget:
+                        icon: "cloud-upload"
+                    #IconRightWidget:
+                        #id: bud2
+                        #icon: "asdf"
+
+                OneLineAvatarIconListItem:
+                    text: "Restore Data"
+                    on_release:
+                        #app.restore()
+                        self.xxxx=Clipboard.paste()
+                        app.restorebin(self.xxxx)
+                        Snackbar(text="[font="+app.mfontb+"]Restored from Backup",bg_color=app.theme_cls.primary_light).open()
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                    YourContainer:
+                        id: container
+                    IconLeftWidget:
+                        icon: "cloud-download"
+
+                #OneLineAvatarIconListItem:
+                #    text: "Notifications"
+                #    YourContainer:
+                #        id: container
+                #        MDSwitch:
+                #            id: switchnotify
+                #    IconLeftWidget:
+                #        icon: "bell"
+
+                OneLineAvatarIconListItem:
+                    text: "Update Schedule"
+                    on_press: app.do_login('',False)
+                    YourContainer:
+                        id: container
+                    IconLeftWidget:
+                        icon: "cloud-download"
+                    
+
+
+                
+
+<LoginScreen>:
+    name: "login"
+    #Image:
+    #    source: 'images/rh.jpg'
+    #    size: self.width,self.height
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            type: app.mtype
+            title: "Login"
+            height: app.mheight
+            right_action_items: [['chevron-left', lambda screen: app.change_screen('settings', 'left'),'login']]
+        Screen:
+            
+            MDTextField:
+                hint_text: "Email"
+                #helper_text: "to join the chat (test mode)"
+                #helper_text_mode: "on_focus"
+                #icon_right: "android"
+                #icon_right_color: app.theme_cls.primary_color
+                pos_hint:{'center_x': 0.5, 'center_y': 0.55}
+                size_hint_x:None
+                font_size:dp(20)
+                width:dp(300)
+                id:temail
+            MDTextField:
+                hint_text: "Password"
+                helper_text: "Use website to Reset"
+                helper_text_mode: "on_focus"
+                icon_right: "lock"
+                icon_right_color: app.theme_cls.primary_color
+                pos_hint:{'center_x': 0.5, 'center_y': 0.45}
+                size_hint_x:None
+                font_size:sp(20)
+                width:sp(300)
+                password:True
+                password_mask: "*"
+                required: True
+                id:tpassword
+            #MDDropdownMenu:
+
+                #items: app.locations
+            Spinner:
+                text: 'location'
+                background_color: app.newercolor
+                background_normal: ''
+                values: app.locations
+                id: tloc
+                font_size:dp(20)
+                pos_hint:{'center_x': 0.5, 'center_y': 0.35}
+                size_hint: None,None
+                width:dp(300)
+                height: dp(30)
+                #font_size:dp(20)
+
+            MDRoundFlatButton:
+                text: "Login!"
+                theme_text_color: "Primary"
+                pos_hint: {"center_x": .5, "center_y": .2}
+                on_release:
+                    #app.check_login()
+                    app.save_login()
+                    app.do_login('',False)
+
+<ContentNavigationDrawer>:
+    orientation: "vertical"
+    padding: "8dp"
+    spacing: "8dp"
+
+    AnchorLayout:
+        anchor_x: "left"
+        size_hint_y: None
+        height: avatar.height
+
+        Image:
+            id: avatar
+            size_hint: None, None
+            size: "56dp", "56dp"
+            source: "kivymd_logo.png"
+
+    MDLabel:
+        text: "KivyMD library"
+        font_style: "Button"
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    MDLabel:
+        text: "kivydevelopment@gmail.com"
+        font_style: "Caption"
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    ScrollView:
+
+        DrawerList:
+            id: md_list
