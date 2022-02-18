@@ -8,7 +8,6 @@ pf= (platform.platform())
 if pf[0]=='W':
     scale=1
     notch=False
-    useold=True
 
 
 
@@ -24,6 +23,7 @@ from kivymd.uix.boxlayout import MDBoxLayout
 #from kivymd.uix.Floatlayout import MDFloatLayout
 from kivymd.uix.snackbar import Snackbar
 
+import pyperclip
 
 
 from kivymd.uix.button import MDFlatButton
@@ -95,13 +95,20 @@ import lib_tinyfs
 import lib_think
 import lib_updateuserdata
 import lib_extractjson
-#import lib_webserver
-#import paydays
-#import time
+import lib_webserver
+import paydays
+import time
 import webbrowser
 import shutil
 
+#twisted!
+from kivy.support import install_twisted_reactor
+install_twisted_reactor()
+from twisted.internet import reactor
+from twisted.internet import protocol
+from twisted.web import server, resource
 
+#/twisted
 
 
 
@@ -826,8 +833,9 @@ class Demo3App(MDApp):
         if x['usecache']=="False" or x['usecache']==False:
             print ("Using Live Data")
             if useold==False:
-                good_login=lib_think.login(ad,x,ios,App)
+                #good_login=lib_think.login(ad,x,ios,App)
                 #good_login=True
+                pass
             sch=(ad+'/realdata.html')
         
         
