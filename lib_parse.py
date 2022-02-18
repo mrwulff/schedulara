@@ -1,3 +1,64 @@
+def parsepayperiod(file):
+    import re
+    #print (file)
+    from bs4 import BeautifulSoup
+    aaa=open(file,'r',encoding="utf8")
+    soup = BeautifulSoup(aaa, 'html.parser')
+    grandtotal = soup.find("span", id="lblGrandTotal")
+    paydate = soup.find("span", id="lblPayDate")
+    reghours = soup.find("span", id="lblRegHoursTotal")
+    othours = soup.find("span", id="lblOTHoursTotal")
+    payperiod = soup.find("span", id="lblPayPeriod")
+    days=0
+    day = soup.findAll("span", id=re.compile('_ct'))
+    #day=soup.findAll('span', id=re.compile('^post_'))
+    days= (len(day))
+    #print (days,'daysss')
+    temp= (paydate.text)
+    temp=str.split(temp,' ')
+    temp=temp[3]
+    #print (temp)
+    
+    import datetime
+    past=False
+    dobj = datetime.datetime.strptime(temp, '%m/%d/%Y')
+    #print (dobj.day)
+    dobj2 = datetime.datetime.strftime(dobj, '%d %b %Y')
+
+
+
+    
+
+
+    #lblRegHoursTotal
+    #lblOTHoursTotal
+    #lblPayPeriod
+    #print (grandtotal.text)
+    #print (paydate.text)
+    #print (grandtotal.text)
+    #print (reghours)
+    #print (othours)
+    #print (paydate.text)
+    #ddict=dobjgrandtotal.text
+    totalhours=float(reghours.text)+float(othours.text)
+    text='Paydate: '+str(dobj2)+' '+grandtotal.text+'\nRegHours: '+reghours.text+' '+'Othours: '+othours.text+' Shows: '+str(days)
+    grandtotal=str.replace(grandtotal.text,',','')
+    grandtotal=str.replace(grandtotal,'$','')
+    grandtotal=float(grandtotal)
+
+    ddict = {
+            'paydate': dobj,
+            'moneytotal': grandtotal,
+            'reghours': reghours.text,
+            'othours:': othours.text,
+            'totalhours': totalhours,
+            'shows':days,
+            'dtext':text
+    }
+
+    
+    #print (text)
+    return ddict
 def parse(sch,ad,usecache):
     debug=False
     ios=True
@@ -132,3 +193,5 @@ def parse(sch,ad,usecache):
 
 
 
+x=parsepayperiod('y.html')
+print (x)

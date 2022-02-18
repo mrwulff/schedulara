@@ -76,7 +76,6 @@ if 1==1:
 config_file=(f"{HOME}/Library/Caches/{BUNDLE}")
 print (config_file,'THIS IS THE CONFIG FILE',platform)
 
-
 #if platform=='win':
 #    app = App.get_running_app()
 #    config_file=app.user_data_dir
@@ -174,6 +173,8 @@ class InfoScreen(Screen):
 
 
     pass
+class PayScreen(Screen):
+    pass
 class SettingsScreen(Screen):
     global x
     #app = App.get_running_app()
@@ -190,6 +191,9 @@ class YourContainer(IRightBodyTouch, MDBoxLayout):
     adaptive_width = True
 class HistoryItem(Screen):
     text = StringProperty()
+class PayItem(Screen):
+    text = StringProperty()
+
 class NewSlider(Screen):
     text= StringProperty()
 
@@ -301,6 +305,7 @@ class Demo3App(MDApp):
     mfont='fonts/SourceSansPro-Regular.ttf'
     dialog = None
     snackbar = None
+    rreverse=True
     def ccc(self):
         print (xxx)
         confable=[]
@@ -710,6 +715,7 @@ class Demo3App(MDApp):
         self.sm.add_widget(HomeScreen(name="home"))
         self.sm.add_widget(LoginScreen(name="login"))
         self.sm.add_widget(HistoryScreen(name="history"))
+        self.sm.add_widget(PayScreen(name="Pay"))
         
         #newcolor=webcolors.name_to_rgb(self.theme_cls.accent_palette)
         
@@ -723,6 +729,42 @@ class Demo3App(MDApp):
       
         
         return screen
+    def do_payperiod(self,ssort,rreverse):
+        self.root.current = "Pay"
+        self.root.current_screen.ids["payperiod_list"].clear_widgets()
+        #self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text='bla1'))
+        import glob, os
+        try:
+            os.chdir(config_file+'/pp')
+        except:
+            os.mkdir(config_file+'/pp')
+            os.chdir(config_file+'/pp')
+        x=0
+        listofdicks=[]
+        for file in glob.glob("*.html"):
+            #print (file)
+            dd=lib_parse.parsepayperiod(config_file+'/pp/'+file)
+            listofdicks.append(dd)
+            x=x+1
+            #self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text=str(dd)+'[size='+str(x)))
+            #if x<5:
+            #    self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text=str(dd['dtext'])+'[size=0]'+str(x)))
+        #listofdicks.sort()
+        #listofdicks= (sorted(listofdicks, key = lambda i: i['paydate'],reverse=True))
+        #listofdicks= (sorted(listofdicks, key = lambda i: i['shows'],reverse=True))
+        #listofdicks= (sorted(listofdicks, key = lambda i: i['moneytotal'],reverse=rrverse))
+        listofdicks= (sorted(listofdicks, key = lambda i: i[ssort],reverse=rreverse))
+
+        for i in range(len(listofdicks)):
+            
+            #print (listofdicks[i])
+            self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text=str(listofdicks[i]['dtext'])+'[size=0]'+str(i)))
+        
+            
+
+        xy='Found '+str(x)+' PayStubs '
+        self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text=xy+'[size=0]'+str(i+1)))
+        
     def do_history(self):
         
         
@@ -733,7 +775,8 @@ class Demo3App(MDApp):
         try:
             os.chdir(config_file+'/shows')
         except:
-            os.mkdir
+            os.mkdir(config_file+'/shows')
+            os.chdir(config_file+'/shows')
         x=0
 
         for file in glob.glob("*.json"):
