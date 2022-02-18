@@ -92,6 +92,7 @@ import lib_makeuserdata
 import lib_readuserdata
 import lib_tinyfs
 import lib_think
+import lib_ppdownloader
 import lib_updateuserdata
 import lib_extractjson
 import lib_webserver
@@ -306,6 +307,8 @@ class Demo3App(MDApp):
     dialog = None
     snackbar = None
     rreverse=True
+    def dlpp(self):
+        lib_ppdownloader.thinkpp(x,ad)
     def ccc(self):
         print (xxx)
         confable=[]
