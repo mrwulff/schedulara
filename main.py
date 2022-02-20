@@ -60,6 +60,9 @@ from kivymd.uix.picker import MDThemePicker
 from kivymd.uix.picker import MDTimePicker
 from kivymd.uix.picker import MDDatePicker
 from kivymd.uix.dialog import MDDialog
+from math import sin
+from kivy_garden.graph import Graph, MeshLinePlot,LinePlot
+from kivy.properties import NumericProperty
 
 
 import os
@@ -95,11 +98,13 @@ import lib_think
 import lib_ppdownloader
 import lib_updateuserdata
 import lib_extractjson
+import lib_makegraphs
 import lib_webserver
 import paydays
 import time
 import webbrowser
 import shutil
+
 
 #twisted!
 from kivy.support import install_twisted_reactor
@@ -161,8 +166,15 @@ class SpinnerWidget(Spinner):
         self.dropdown_cls = SpinnerDropdown
         self.option_cls = SpinnerOptions
         ...
-
+class AboutScreen(Screen):
+    pass
+class TrophyScreen(Screen):
+    pass
+class StatsScreen(Screen):
+    pass
 class LoginScreen(Screen):
+    pass
+class MainMenuScreen(Screen):
     pass
 class HomeScreen(Screen):
     pass
@@ -307,6 +319,34 @@ class Demo3App(MDApp):
     dialog = None
     snackbar = None
     rreverse=True
+    menurotate=10
+    menuscale=.5,.5
+    #zoom = NumericProperty(1)
+    def make_stats(self):
+        dd,dd2,maxd,maxm,max_dy,max_my=lib_makegraphs.parsepp(self,ad,'check')
+        print (dd[1])
+        lib_makegraphs.make_stats_pp(self,'Checks',dd,maxm,max_dy)
+
+        print (dd[1])
+
+        lib_makegraphs.make_stats_pp(self,'$/Day',dd2,maxd,max_dy)
+
+
+
+    
+    def maketransp(self):
+
+        x=(self.theme_cls.primary_color)
+        x[3]=.3
+        return x
+
+    def menuu(self):
+        self.do_login('',False)
+        
+    def mainmenuf(self):
+        self.root.current = "mainmenu"
+        #self.root.current_screen.ids["payperiod_list"].clear_widgets()
+        
     def dlpp(self):
         lib_ppdownloader.thinkpp(x,ad)
     def ccc(self):
@@ -719,6 +759,10 @@ class Demo3App(MDApp):
         self.sm.add_widget(LoginScreen(name="login"))
         self.sm.add_widget(HistoryScreen(name="history"))
         self.sm.add_widget(PayScreen(name="Pay"))
+        self.sm.add_widget(MainMenuScreen(name="mainmenu"))
+        self.sm.add_widget(AboutScreen(name="about"))
+        self.sm.add_widget(TrophyScreen(name="trophy"))
+        self.sm.add_widget(StatsScreen(name="stats"))
         
         #newcolor=webcolors.name_to_rgb(self.theme_cls.accent_palette)
         
@@ -746,7 +790,7 @@ class Demo3App(MDApp):
         listofdicks=[]
         for file in glob.glob("*.html"):
             #print (file)
-            dd=lib_parse.parsepayperiod(config_file+'/pp/'+file)
+            dd,junk=lib_parse.parsepayperiod(config_file+'/pp/'+file)
             listofdicks.append(dd)
             x=x+1
             #self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text=str(dd)+'[size='+str(x)))
@@ -766,7 +810,11 @@ class Demo3App(MDApp):
             
 
         xy='Found '+str(x)+' PayStubs '
-        self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text=xy+'[size=0]'+str(i+1)))
+        try:
+            self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text=xy+'[size=0]'+str(i+1)))
+        except:
+            self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text='No Pay Stubs found!'+'[size=0]'+str(1)))
+            
         
     def do_history(self):
         

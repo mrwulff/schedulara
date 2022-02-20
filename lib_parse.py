@@ -1,4 +1,10 @@
+
+
 def parsepayperiod(file):
+    from datetime import datetime
+    from datetime import date
+
+
     import re
     #print (file)
     from bs4 import BeautifulSoup
@@ -11,6 +17,41 @@ def parsepayperiod(file):
     payperiod = soup.find("span", id="lblPayPeriod")
     days=0
     day = soup.findAll("span", id=re.compile('_ct'))
+    #print (day)
+    ab=(soup.find_all('tr'))
+    
+
+
+
+    fullnj=[]
+    allday=[]
+    today = date.today()
+    for i in range(len(ab)):
+        nj=[]
+        ax=(ab[i].find_all('td'))
+        try:
+            alldays= [ax[5].get_text(),ax[11].get_text()]
+            allday.append(alldays)
+        except:
+            pass
+    realday=[]
+    for i in range(1,len(allday)-1):
+        allday[i][0],junk,junk=str.split(allday[i][0],' ')
+        junk,allday[i][1]=str.split(allday[i][1],'$')
+        allday[i][1],junk=str.split(allday[i][1],'\n')
+        allday[i][1]=float(allday[i][1])
+        try:
+            allday[i][0],junk=str.replace(allday[i][1],',','')
+        except:
+            pass
+        dayday = datetime.strptime(allday[i][0], '%m/%d/%Y')
+        delta=today-dayday.date()
+        allday[i][0]=delta.days
+        realday.append([delta.days,allday[i][1]])
+        
+
+        #print (allday[i])
+
     #day=soup.findAll('span', id=re.compile('^post_'))
     days= (len(day))
     #print (days,'daysss')
@@ -24,6 +65,8 @@ def parsepayperiod(file):
     dobj = datetime.datetime.strptime(temp, '%m/%d/%Y')
     #print (dobj.day)
     dobj2 = datetime.datetime.strftime(dobj, '%d %b %Y')
+    ddelta= (date.today()-dobj.date())
+    ddelta= (ddelta.days)
 
 
 
@@ -53,12 +96,13 @@ def parsepayperiod(file):
             'othours:': othours.text,
             'totalhours': totalhours,
             'shows':days,
+            'ddelta':ddelta,
             'dtext':text
     }
 
     
     #print (text)
-    return ddict
+    return ddict,realday
 def parse(sch,ad,usecache):
     debug=False
     ios=True
@@ -193,5 +237,5 @@ def parse(sch,ad,usecache):
 
 
 
-x=parsepayperiod('y.html')
+x=parsepayperiod('x.html')
 print (x)

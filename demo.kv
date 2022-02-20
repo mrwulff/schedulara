@@ -10,6 +10,10 @@ ScreenManager:
     InfoScreen:
     HistoryScreen:
     PayScreen:
+    MainMenuScreen:
+    AboutScreen:
+    TrophyScreen:
+    StatsScreen:
 <P>:
     adaptive_height: True
     adaptive_width: True
@@ -270,7 +274,261 @@ ScreenManager:
                 theme_text_color: "Primary"
                 text: root.text
                 #text: (root.text[-1:])
-            #_no_ripple_effect: True    
+            #_no_ripple_effect: True 
+<MyTile@SmartTileWithLabel>
+    size_hint_y: None
+    height: "200dp"
+    size: self.width,self.height
+    md_bg_color: app.maketransp()
+    #md_bg_color:(.1,.1,.1,.5)
+
+    #canvas.before:
+    #    PushMatrix
+    #    Rotate:
+    #            #angle: app.angle
+    #        angle: 90
+    #        origin: self.center
+    #canvas.after:
+    #    PopMatrix
+<AboutScreen>:
+    name: "about"
+    #Image:
+    #    source: 'images/rh.jpg'
+    #    size: self.width,self.height
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            #title: "Settings"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('mainmenu','left'),'home']]
+        ScrollView:
+
+
+            MDList:
+                OneLineAvatarIconListItem:
+                    icon: 'palette'
+                    text: "about"
+                    on_press: app.change_screen('login', 'left')
+                    
+                    YourContainer:
+                        id: container   
+                    IconLeftWidget:
+                        icon: "account"             
+                OneLineAvatarIconListItem:
+                    text: "info!"
+                    on_press: 
+                        app.show_theme_picker()
+<StatsScreen>:
+    name: "stats"
+    #Image:
+    #    source: 'images/rh.jpg'
+    #    size: self.width,self.height
+    BoxLayout:
+        id: graphs2
+        orientation: "vertical"
+        MDToolbar:
+            #title: "Settings"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('mainmenu','left'),'home']]
+        ScrollView:
+
+
+            MDList:
+                id: graphs
+                #OneLineAvatarIconListItem:
+                #    icon: 'palette'
+                #    text: "stats"
+                #    on_press: app.change_screen('login', 'left')
+                    
+                #    YourContainer:
+                #        id: container   
+                #    IconLeftWidget:
+                #        icon: "account"             
+                #OneLineAvatarIconListItem:
+                #    text: "stats2"
+                #    on_press: 
+                #        app.show_theme_picker()
+<TrophyScreen>:
+    name: "trophy"
+    #Image:
+    #    source: 'images/rh.jpg'
+    #    size: self.width,self.height
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            #title: "Settings"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('mainmenu','left'),'home']]
+        ScrollView:
+
+
+            MDList:
+                OneLineAvatarIconListItem:
+                    icon: 'palette'
+                    text: "achievements"
+                    on_press: app.change_screen('login', 'left')
+                    
+                    YourContainer:
+                        id: container   
+                    IconLeftWidget:
+                        icon: "account"             
+                OneLineAvatarIconListItem:
+                    text: "trophys"
+                    on_press: 
+                        app.show_theme_picker()
+<MainMenuScreen>:
+    name: "mainmenu"
+    FitImage:
+        source: 'images/largerhino.jpg'
+
+    ScrollView:
+
+        MDGridLayout:
+            cols: 2
+            adaptive_height: True
+            padding: dp(10), dp(10)
+            spacing: dp(10)
+            border_radius: 15
+            radius: 10
+            #Rotate: 90
+            #elevation: 15
+
+                    
+
+            MyTile:
+                
+                tile_text_color: app.theme_cls.accent_color
+                text: "[size=26]Schedule[/size][size=14][/size]"
+                on_release:
+                    app.do_login('',False)
+                
+                AnchorLayout:
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    canvas.before:
+                        PushMatrix
+                        Rotate:
+                            angle: app.menurotate
+                            origin: self.center
+                    canvas.after:
+                        PopMatrix
+
+                    FitImage:
+                        source: "images/calendar-month.png"
+                        size_hint: app.menuscale
+                
+
+            MyTile:
+                text: "[size=26]History[/size]"
+                tile_text_color: app.theme_cls.accent_color
+                on_release: app.do_history()
+                AnchorLayout:
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    canvas.before:
+                        PushMatrix
+                        Rotate:
+                            angle: app.menurotate
+                            origin: self.center
+                    canvas.after:
+                        PopMatrix
+
+                    FitImage:
+                        source: "images/history.png"
+                        size_hint: app.menuscale
+
+
+            MyTile:
+                #source: "cat-3.jpg"
+                text: "[size=26]PayStubs[/size]"
+                tile_text_color: app.theme_cls.accent_color
+                on_release:
+                    app.do_payperiod('paydate',app.rreverse)
+                AnchorLayout:
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    canvas.before:
+                        PushMatrix
+                        Rotate:
+                            angle: app.menurotate
+                            origin: self.center
+                    canvas.after:
+                        PopMatrix
+
+                    FitImage:
+                        source: "images/cash.png"
+                        size_hint: app.menuscale
+            MyTile:
+                #source: "cat-3.jpg"
+                text: "[size=26]Settings"
+                tile_text_color: app.theme_cls.accent_color
+                on_release:app.change_screen('settings', 'right')
+                AnchorLayout:
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    canvas.before:
+                        PushMatrix
+                        Rotate:
+                            angle: app.menurotate
+                            origin: self.center
+                    canvas.after:
+                        PopMatrix
+
+                    FitImage:
+                        source: "images/cog.png"
+                        size_hint: app.menuscale
+            MyTile:
+                text: "[size=26]Stats[/color]"
+                tile_text_color: app.theme_cls.accent_color
+                on_release:
+                    #app.change_screen('stats','left')
+                    app.make_stats()
+                AnchorLayout:
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    canvas.before:
+                        PushMatrix
+                        Rotate:
+                            angle: app.menurotate
+                            origin: self.center
+                    canvas.after:
+                        PopMatrix
+
+                    FitImage:
+                        source: "images/chart-line.png"
+                        size_hint: app.menuscale
+            MyTile:
+                text: "[size=26]Achievements[/color]"
+                tile_text_color: app.theme_cls.accent_color
+                on_release:
+                    app.change_screen('trophy','left')
+                AnchorLayout:
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    canvas.before:
+                        PushMatrix
+                        Rotate:
+                            angle: app.menurotate
+                            origin: self.center
+                    canvas.after:
+                        PopMatrix
+
+                    FitImage:
+                        source: "images/trophy.png"
+                        size_hint: app.menuscale
+            MyTile:
+                text: "[size=26]Info[/color]"
+                tile_text_color: app.theme_cls.accent_color
+                on_release:
+                    app.change_screen('about','left')
+                AnchorLayout:
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    canvas.before:
+                        PushMatrix
+                        Rotate:
+                            angle: app.menurotate
+                            origin: self.center
+                    canvas.after:
+                        PopMatrix
+
+                    FitImage:
+                        source: "images/info.png"
+                        size_hint: app.menuscale
+
 <HomeScreen>:
     name: "home"
     Image:
@@ -285,7 +543,7 @@ ScreenManager:
             title: ""
             height: app.mheight
             type: app.mtype
-            left_action_items: [["magnify", lambda screen: app.search_menu(),'search'],]
+            left_action_items: [["magnify", lambda screen: app.search_menu(),'search'],["home-circle", lambda screen: app.mainmenuf(),'mm'],]
             right_action_items: [["calendar-blank-multiple", lambda x: app.do_history(),'calendar'],["menu", lambda screen: app.change_screen('settings', 'right'),'settings']]
         
         ScrollView:

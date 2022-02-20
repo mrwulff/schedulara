@@ -82,10 +82,10 @@ def doublefake():
 
 
 
-def find_paychecks(a):
+def find_paychecks(a,ad):
     print ('find_paychecks')
     print (a)
-    b=open(a,'r')
+    b=open(ad+'/'+a,'r')
     c=[]
     for line in b.readlines():
         c.append(line)
@@ -157,7 +157,7 @@ def thinkpp(x,ad):
 
     aaa.write((aa))
     aaa.close()
-    g=find_paychecks(pp)
+    g=find_paychecks(pp,ad)
 
     
 
