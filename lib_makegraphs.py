@@ -5,7 +5,7 @@ from datetime import datetime
 def make_stats_pp(self,clabel,dd,newmax,y):
     import platform
     pf= (platform.platform())
-    platformheight=600
+    platformheight=500
     if pf[0]=='W':
         platformheight=200
     
