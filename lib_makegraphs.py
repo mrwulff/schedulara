@@ -3,6 +3,11 @@ from datetime import datetime
 
 
 def make_stats_pp(self,clabel,dd,newmax,y):
+    import platform
+    pf= (platform.platform())
+    platformheight=600
+    if pf[0]=='W':
+        platformheight=200
     
     print ('wtfhello')
     self.root.current = "stats"
@@ -13,7 +18,7 @@ def make_stats_pp(self,clabel,dd,newmax,y):
                         xmin=0, xmax=self.samples,
                         ymin=0, ymax=newmax,
                         draw_border=True,
-                        height=200,
+                        height=platformheight,
                         
                         
                         xlabel=clabel,
@@ -59,7 +64,7 @@ def parsepp(self,ad,type):
         if (dd['moneytotal'])>month_max:
             month_max=(dd['moneytotal'])
         z=[dd['ddelta'],dd['moneytotal']]
-        print (z,'wtf')
+        #print (z,'wtf')
         #z=[x,dd['ddelta']]
         dd2.append(z)
 

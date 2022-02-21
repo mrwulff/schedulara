@@ -323,6 +323,8 @@ class Demo3App(MDApp):
     menuscale=.5,.5
     #zoom = NumericProperty(1)
     def make_stats(self):
+        self.root.current = "stats"
+        self.root.current_screen.ids["graphs"].clear_widgets()
         dd,dd2,maxd,maxm,max_dy,max_my=lib_makegraphs.parsepp(self,ad,'check')
         print (dd[1])
         lib_makegraphs.make_stats_pp(self,'Checks',dd,maxm,max_dy)
