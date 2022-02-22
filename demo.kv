@@ -496,7 +496,8 @@ ScreenManager:
                 text: "[size=26]Achievements[/color]"
                 tile_text_color: app.theme_cls.accent_color
                 on_release:
-                    app.change_screen('trophy','left')
+                    #app.change_screen('trophy','left')
+                    app.trophys()
                 AnchorLayout:
                     pos_hint: {"center_x": .5, "center_y": .5}
                     canvas.before:

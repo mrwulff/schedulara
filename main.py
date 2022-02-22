@@ -322,6 +322,10 @@ class Demo3App(MDApp):
     menurotate=10
     menuscale=.5,.5
     #zoom = NumericProperty(1)
+
+    def trophys(self):
+        import lib_test
+        lib_test.n22()
     def make_stats(self):
         self.root.current = "stats"
         self.root.current_screen.ids["graphs"].clear_widgets()
@@ -738,6 +742,7 @@ class Demo3App(MDApp):
     def build(self):
 
 
+
         self.button = Button(text="Click",
                              on_release=self.search_menu)
 
@@ -901,6 +906,12 @@ class Demo3App(MDApp):
         x['city']=App.get_running_app().root.current_screen.ids['tloc'].text
         lib_updateuserdata.updateuser(x,ad)
     def do_login(self,search,useold):
+        print ('do_login')
+
+        #if pf[0]!='W':
+        #if 1==1:
+            #from lib_test import n22
+            #n22()
         
         
 
