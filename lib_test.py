@@ -1,5 +1,6 @@
 from pyobjus import *
 from pyobjus.dylib_manager import *
+from objc_util import *
 
 '''
 def al2():
@@ -110,8 +111,9 @@ def openlinks():
     url="comgooglecalendar://www.google.com/calendar/event?action=TEMPLATE&dates=20220201T010000Z%2F20220202T010000Z&text=asdf&location=&details="
     ios.open_url(url)
 def n22():
-    #import ctypes
+
     import notification
-    notification.schedule(message='hello',delay=5,action_url='http://google.com')
+
+    notification.schedule('NOW',delay=15,title='this is a titls',)
     x=notification.get_scheduled()
     print (x,'omggggg')
