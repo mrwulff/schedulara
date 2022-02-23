@@ -5,6 +5,7 @@ scale=2
 useold=False
 import platform
 pf= (platform.platform())
+scale=2
 if pf[0]=='W':
     scale=1
     notch=False
@@ -22,6 +23,8 @@ from kivymd.uix.list import IRightBodyTouch
 from kivymd.uix.boxlayout import MDBoxLayout
 #from kivymd.uix.Floatlayout import MDFloatLayout
 from kivymd.uix.snackbar import Snackbar
+#from kivy.effects.dampedscroll import DampedScrollEffect
+
 
 import pyperclip
 
@@ -46,7 +49,7 @@ import ssl
 import logging
 
 ssl.verify = False
-
+mjds=[]
 
 
 
@@ -114,6 +117,8 @@ import paydays
 import time
 import webbrowser
 import shutil
+from random import randrange
+
 
 
 
@@ -204,15 +209,15 @@ class NewSlider(Screen):
 
 
 class SwipeToDeleteItem(Screen):
-    #def on_touch_down(self, touch):
-        #pass
-#class SwipeToDeleteItem(MDCardSwipe):
 
     text = StringProperty()
     
 
     def click(self,*args):
         global idex
+        global mjds
+
+
 
         idex= (self.ids.idmdlabel.text)
 
@@ -249,9 +254,17 @@ class SwipeToDeleteItem(Screen):
             App.get_running_app().root.current_screen.ids['d10'].text=str(newxxx[13])
 
         except:
-            (newxxx)
+            (newxxx)    
         if newxxx[8]=='ME':
             App.get_running_app().root.current_screen.ids['pos'].icon='power-socket-us'
+
+        print (mjds[idex]['location'],'WTHMAN')
+        App.get_running_app().root.current_screen.ids['image'].source='images/'+x['city']+'.png'
+        try:
+        
+            App.get_running_app().root.current_screen.ids['image'].source='images/'+mjds[idex]['venue'].upper()+'.png'
+        except:
+            App.get_running_app().root.current_screen.ids['image'].source='images/'+x['city']+'.png'
 class ContentNavigationDrawer(Screen):
     screen_manager = ObjectProperty()
     nav_drawer = ObjectProperty()
@@ -277,7 +290,14 @@ ad=''
 xxx=''
 idex=1
 browser=''
+plus_search=0
+
+
 class Demo3App(MDApp):
+    scale=2
+    if pf[0]=='W':
+        scale=1
+        notch=False
     #def __init__(self, **kwargs):
     #    self.snackbar = None
     global idex
@@ -303,8 +323,8 @@ class Demo3App(MDApp):
     cpadding=20
     cspacing=10
     mtype='top'
-    bradius=20
-    radius=25
+    bradius=10*scale
+    radius=10*scale
     mfontel='fonts/SourceSansPro-ExtraLight.ttf'
     mfontb='fonts/SourceSansPro-Bold.ttf'
     mfont='fonts/SourceSansPro-Regular.ttf'
@@ -313,11 +333,11 @@ class Demo3App(MDApp):
     rreverse=True
     menurotate=10
     menuscale=.5,.5
-    notheight=400
-    pf= (platform.platform())
-        if pf[0]=='W':
-            notheight=400
-    #zoom = NumericProperty(1)
+
+    notheight=200*scale
+
+
+
     def format_minutes(self,t,v,d):
         #v=5
         if d==True:
@@ -432,7 +452,7 @@ class Demo3App(MDApp):
         return x
 
     def menuu(self):
-        self.do_login('',False)
+        self.do_login('',useold)
         
     def mainmenuf(self):
         self.root.current = "mainmenu"
@@ -612,7 +632,7 @@ class Demo3App(MDApp):
     def search(self,x):
         #term=App.get_running_app().root.current_screen.ids['search'].text
         print (x.text)
-        self.do_login(x.text,True)
+        self.do_login(x.text,useold)
         #root.dismiss()
     def set_caption(self, popup):
         self.button.text = popup.content.text
@@ -789,7 +809,7 @@ class Demo3App(MDApp):
             lib_makeuserdata.makeuserdata(App,config_file,ios)
             x=lib_readuserdata.readuserdata(App,config_file,ios)
             print (x,'readuserdata after creating it',type(x),x["username"])
-        self.do_login('',False)
+        self.do_login('',useold)
         #self.search_menu = SearchPopupMenu()
         #self.root.ids.usecache.state='down'
         
@@ -970,14 +990,38 @@ class Demo3App(MDApp):
         for i in range(len(allshows)):
             t=allshows[i]+'[size=1 sp]***'+str(i)
             self.root.current_screen.ids["history_list"].add_widget(HistoryItem(text=t))
-    def check_pull_refresh(self, view,user_list):
+    def check_pull_refresh(self,view,grid):
         max_pixel = 200
-        
-        to_relative = max_pixel / ( view.height)
-        if view.scroll_y < 1.0 + to_relative or self.refreshing:
-            return
+        #aa=self.root.get_screen("home").ids['sv']
+        #print 
+        totwidget=(plus_search)+2
+        action=totwidget
+        stupid=view.scroll_y
+        max=(view.scroll_y)/totwidget
+        max2=totwidget/view.scroll_y
+        max3=totwidget*view.scroll_y
+        junk=1*(stupid-1)
+        junk=junk*grid.height
+        print (junk,h/3,plus_search)
+        if abs(junk)>(h/3):
+            print ('overscroll')
+            self.do_login("",useold)
 
-        self.refresh_data()
+
+
+
+        
+        #for id in self.root.get_screen("home").ids:
+        #for id in self.root.get_screen("home").ids:
+        
+            #print (id)
+        #print (view.height,aa.height,aa.pos,aa.size,aa.scroll_distance,dir(aa))
+        
+        #to_relative = max_pixel / ( view.height)
+        #if view.scroll_y < 1.0 + to_relative or self.refreshing:
+            #return
+
+        #self.refresh_data()
     def refresh_data(self): 
         print ('lol')
     #def check_login(self):
@@ -1006,6 +1050,7 @@ class Demo3App(MDApp):
         global xxx
         global mjds
         global config_file
+        global plus_search
         good_login=False
         now = datetime.datetime.now()
         app = App.get_running_app()
@@ -1019,15 +1064,15 @@ class Demo3App(MDApp):
         
         if x['usecache']=="True" or x['usecache']==True :
             print('Using Cache2')
-            lib_createcache.createcache(ad,20)
+            lib_createcache.createcache(ad,randrange(1,100,10))
         sch=(ad+'/conf.html')
         
         if x['usecache']=="False" or x['usecache']==False:
             print ("Using Live Data")
             if useold==False:
-                good_login=lib_think.login(ad,x,ios,App)
+                #good_login=lib_think.login(ad,x,ios,App)
                 good_login=True
-                pass
+
                 if good_login==True:
                     sch=(ad+'/realdata.html')
         
@@ -1053,12 +1098,17 @@ class Demo3App(MDApp):
             self.root.current_screen.ids["users_lst"].add_widget(SwipeToDeleteItem(text=texta))
         #App.get_running_app().root.current_screen.ids['istoday'].text='wow'
         
-        
+        plus_search=0
         for i in range(len(mjds)):
             #lib_bonus.create_notification(mjds[i],x)
             texta=lib_tinyfs.format_text(i,mjds,now,'index')
             if search.lower() in str(xxx[i]).lower() or len(search)==0:
+                plus_search=plus_search+1
+
                 self.root.current_screen.ids["users_lst"].add_widget(SwipeToDeleteItem(text=texta))
+
+
+        print (plus_search,'plussearch')
         return good_login
                 
         
