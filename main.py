@@ -335,22 +335,25 @@ class Demo3App(MDApp):
     def do_settings(self):
         global x
         print (x)
-
-
-        self.root.get_screen("notification").ids['slider2'].value=x['not2time']
-        self.root.get_screen("notification").ids['slider1'].value=x['not1time']
-        
-        self.root.get_screen("notification").ids['disable1'].active=x['not1']
-        self.root.get_screen("notification").ids['disable2'].active=x['not2']
-        
-        
-        
         self.root.current = "settings"
-        if x['not']==True:
-            App.get_running_app().root.current_screen.ids['switchnotify'].active=True
+        try:
+            self.root.get_screen("notification").ids['slider2'].value=x['not2time']
+            self.root.get_screen("notification").ids['slider1'].value=x['not1time']
+            
+            self.root.get_screen("notification").ids['disable1'].active=x['not1']
+            self.root.get_screen("notification").ids['disable2'].active=x['not2']
+        
+            if x['not']==True:
+                App.get_running_app().root.current_screen.ids['switchnotify'].active=True
 
         
-        tog1=(App.get_running_app().root.current_screen.ids['switchnotify'].active)
+            tog1=(App.get_running_app().root.current_screen.ids['switchnotify'].active)
+        except:
+            x['not2time']=0
+            x['not1time']=0
+            x['not1']=False
+            x['not2']=False
+            x['not']=False
         #print (tog1)
         
         
@@ -1047,7 +1050,7 @@ class Demo3App(MDApp):
         
         
         for i in range(len(mjds)):
-            lib_bonus.create_notification(mjds[i],x)
+            #lib_bonus.create_notification(mjds[i],x)
             texta=lib_tinyfs.format_text(i,mjds,now,'index')
             if search.lower() in str(xxx[i]).lower() or len(search)==0:
                 self.root.current_screen.ids["users_lst"].add_widget(SwipeToDeleteItem(text=texta))

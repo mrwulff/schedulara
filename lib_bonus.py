@@ -31,10 +31,10 @@ def create_notification(x,y):
         
 
         import notification
-        if y['not']==True and y['not2']=True:
+        if y['not']==True and y['not2']==True:
             notification.schedule(x['show'],delay=delay2,title=x['venue'])
 
-        if y['not']==True and y['not1']=True:
+        if y['not']==True and y['not1']==True:
             notification.schedule(x['show'],delay=delay1,title=x['venue'])
 
 
