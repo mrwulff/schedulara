@@ -1,8 +1,18 @@
 
 def createcache(ad,numshows):
     #print ('THISISIOS',ad)
+    import platform
+    import appdirs
+    
+    #appdirs.user
+    #pf=( platform.platform()[:1])
+    if ad=='ad':
+        ad= (appdirs.user_config_dir())
+
     import datetime
     import random
+    from faker import Faker
+    fake = Faker()
 
     print (ad,'ccaa')
 
@@ -21,10 +31,15 @@ def createcache(ad,numshows):
     x= (datetime.date.today() + datetime.timedelta(days=+10))
     t=(x.strftime("%m"))+'/'+(x.strftime("%d"))+'/'+(x.strftime("%Y"))
     confs=t
+    
 
-    cshow=['GEORGE STRAIT','VGK','NCAA','RANDOM','UFC 269',' VGK vs DAL','PBL Boxing','(TM) EMPIRE CLASSIC BASKETBALL']
-    rven=['Dolby Theater','MGM Grand','T-Mobile Arena','Wynn','Mandalay Bay']
-    rpos=['SH','L3','V3','A3']
+    cshow=['GEORGE STRAIT','VGK','NCAA','RANDOM','UFC 269',' VGK vs DAL','PBL Boxing','(TM) EMPIRE CLASSIC BASKETBALL','Grammys','ACMA Awards','Training','']
+    rven=['Dolby Theater','MGM Grand','T-Mobile Arena','Wynn','Mandalay Bay','Virgin','Resorts World','Dollar Loan Center Center']
+    rpos=['SH','L3','V3','A3','L','ME','C','SL','SUP','']
+    ctimes=['8:00','9:00','5:00','21:00','8:00','16:00','8:00','8:00','8:00',]
+    for i in range(10):
+        cshow.append(fake.company())
+    print (cshow)
     #numshows=3
 
 
@@ -57,7 +72,7 @@ def createcache(ad,numshows):
         t=(x22.strftime("%m"))+'/'+(x22.strftime("%d"))+'/'+(x22.strftime("%Y"))
         nexts=t
         next="""<tr>
-            <td class="cell-noborder" style="background-color:Gray;">"""+nexts+"""</td><td class="cell-noborder" style="background-color:Gray;width:10px;">08:00</td><td class="cell-noborder" style="background-color:Gray;">24150</td><td class="cell-noborder" style="background-color:Gray;">"""+(random.choice(cshow))+""" </td><td class="cell-noborder" style="background-color:Gray;">"""+(random.choice(rven))+"""</td><td class="cell-noborder" style="background-color:Gray;">PARK MGM LAS VEGAS</td><td class="cell-noborder" style="background-color:Gray;">MGM RESORTS</td><td class="cell-noborder" style="background-color:Gray;">IN</td><td class="cell-noborder" style="background-color:Gray;">"""+(random.choice(rpos))+"""</td><td class="cell-noborder" style="background-color:Gray;">&nbsp;</td><td class="cell-noborder" style="background-color:Gray;">Confirmed</td><td class="cell-noborder-wide" style="background-color:Gray;">WORKING W/ JESSE</td><td class="cell-noborder" style="background-color:Gray;">&nbsp;</td><td class="cell-noborder-wide">&nbsp;</td>
+            <td class="cell-noborder" style="background-color:Gray;">"""+nexts+"""</td><td class="cell-noborder" style="background-color:Gray;width:10px;">"""+(random.choice(ctimes))+"""</td><td class="cell-noborder" style="background-color:Gray;">24150</td><td class="cell-noborder" style="background-color:Gray;">"""+(random.choice(cshow))+""" </td><td class="cell-noborder" style="background-color:Gray;">"""+(random.choice(rven))+"""</td><td class="cell-noborder" style="background-color:Gray;">PARK MGM LAS VEGAS</td><td class="cell-noborder" style="background-color:Gray;">MGM RESORTS</td><td class="cell-noborder" style="background-color:Gray;">IN</td><td class="cell-noborder" style="background-color:Gray;">"""+(random.choice(rpos))+"""</td><td class="cell-noborder" style="background-color:Gray;">&nbsp;</td><td class="cell-noborder" style="background-color:Gray;">Confirmed</td><td class="cell-noborder-wide" style="background-color:Gray;">WORKING W/ JESSE</td><td class="cell-noborder" style="background-color:Gray;">&nbsp;</td><td class="cell-noborder-wide">&nbsp;</td>
         </tr><br>\n"""
         aaa.write(next)
     aaa.write(conf)
@@ -67,3 +82,5 @@ def createcache(ad,numshows):
     return ad
 
 #createcache('')
+if __name__ == "__main__":
+    createcache('ad',10)

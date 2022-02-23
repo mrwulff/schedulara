@@ -20,9 +20,11 @@ def format_text(i,xxx,now,page):
     import datetime
     import humanize
     past=False
-    dobj = datetime.datetime.strptime(xxx[i][0]+'/'+xxx[i][1], '%m/%d/%Y/%H:%M')
+    #print (xxx,'xxxxx')
+    #print (xxx[i]["date"]+'/'+xxx[i]['time'])
+    dobj = datetime.datetime.strptime(xxx[i]["date"]+'/'+xxx[i]['time'], '%m/%d/%Y/%H:%M')
     try:
-        dobj = datetime.datetime.strptime(xxx[i][0]+'/'+xxx[i][1], '%m/%d/%Y/%H:%M')
+        dobj = datetime.datetime.strptime(xxx[i]['date']+'/'+xxx[i]['time'], '%m/%d/%Y/%H:%M')
     except:
         ('errrrror:',xxx[i])
     diff=now-dobj
@@ -31,10 +33,10 @@ def format_text(i,xxx,now,page):
     diff2=humanize.naturaltime(now - dobj)
     diff2=str(diff2)
     diff=str(diff)
-    if 'irmed' not in xxx[i][10]:
-        xxx[i][10]='[color=ff0000ff]'+xxx[i][10]+'[/color]'
-    if 'irmed'  in xxx[i][10]:
-        xxx[i][10]='[color=00ff00ff]'+xxx[i][10]+'[/color]'
+    if 'irmed' not in xxx[i]['status']:
+        xxx[i]['status']='[color=ff0000ff]'+xxx[i]['status']+'[/color]'
+    if 'irmed'  in xxx[i]['status']:
+        xxx[i][10]='[color=00ff00ff]'+xxx[i]['status']+'[/color]'
     fdate=(dobj.strftime("%A"))+', '+(dobj.strftime("%m"))+'/'+(dobj.strftime("%d"))+ ' ' +(dobj.strftime("%I"))+':'+(dobj.strftime("%M"))+'[sup]'+(dobj.strftime("%p"))+'[/sup]'
     if now.date()==dobj.date():
         #today='[color=#00007fff][b]TODAY[/b][/color]\n'
@@ -43,9 +45,14 @@ def format_text(i,xxx,now,page):
         today=''
     rindex=(len(xxx)-1)-i
     rindex=i
-    texta=today+''+fdate+' \n'+xxx[i][3]+' '+'\n[b]'+xxx[i][4]+'\n[/b][size=13 sp]'+xxx[i][5]+'\n'+xxx[i][8]+' '+xxx[i][7]+' '+xxx[i][10]+'\n'+diff2+'[size=1 sp]***'+str(rindex)
+    texta=today+''+fdate+' \n'+xxx[i]['show']+' '+'\n[b]'+xxx[i]['venue']+'\n[/b][size=13 sp]'+xxx[i]['location']+'\n'+xxx[i]['pos']+' '+xxx[i]['type']+' '+xxx[i]['status']+'\n'+diff2
     if past==True:
-        texta='[size=12 sp]'+fdate+'\n'+xxx[i][3]+'\n'+xxx[i][4]+'[size=1 sp]***'+str(rindex)
+        texta='[size=12 sp]'+fdate+'\n'+xxx[i]['show']+'\n'+xxx[i]['venue']
+    if xxx[i]['canceled']==True:
+        texta='[s][color=ff0000]'+texta
+    if xxx[i]['is_new']==True:
+        texta=texta+' new!'
+    texta=texta+'[size=1 sp]***'+str(rindex)
     
     if page=='index':    
         return texta

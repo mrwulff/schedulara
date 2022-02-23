@@ -103,12 +103,24 @@ def parsepayperiod(file):
     
     #print (text)
     return ddict,realday
+def format_textt(name):
+    name=str.replace(name,'/','')
+    name=str.replace(name,':','')
+    return name
 def parse(sch,ad,usecache):
+    import hashlib
     debug=False
+    if ad=='ad':
+        ad= "C:\\Users\\kw\\AppData\\Roaming\\demo3\\"
+        sch="C:\\Users\\kw\\AppData\\Roaming\\demo3\\new.html"
+        debug=True
+
+    #debug=False
     ios=True
 
     from logging import NOTSET
     import os
+    import json
     #
     appname = ""
     appauthor = "Acme"
@@ -123,9 +135,11 @@ def parse(sch,ad,usecache):
     global mj
     global mj2
     global mj3
+
     global l
     global firstName
     global lastName
+    mjds=[]
 
     l=[]
     
@@ -158,7 +172,7 @@ def parse(sch,ad,usecache):
     soup = BeautifulSoup(aaa, 'html.parser')
 
     nn=(soup.find_all('span'))
-    for i in range(len(nn)):
+    for i in range(1,len(nn)-1):
         try:
             realName= (nn[i].get_text())
             lastName,firstName=str.split(realName,', ')
@@ -171,8 +185,9 @@ def parse(sch,ad,usecache):
 
 
     fullnj=[]
-    for i in range(len(ab)):
+    for i in range(1,len(ab)-1):
         nj=[]
+        nj2={}
         ax=(ab[i].find_all('td'))
 
 
@@ -191,7 +206,54 @@ def parse(sch,ad,usecache):
         tk=(ax[10].get_text())
         conf=(ax[11].get_text())
 
+        thisdict = {
+            "date": ax[0].get_text(),
+            "time": ax[1].get_text(),
+            "job":  ax[2].get_text(),
+            "show": ax[3].get_text(),
+            "venue": ax[4].get_text(),
+            "location":  ax[5].get_text(),
+            "client": ax[6].get_text(),
+            "type": ax[7].get_text(),
+            "pos":  ax[8].get_text(),
+            "details": ax[9].get_text(),
+            "status": ax[10].get_text(),
+            "notes":  ax[11].get_text(),
+            "timekeep": ax[12].get_text(),
+            "plus": ax[13].get_text(),
+            "canceled": False,
+            "confirmid": "",
+            "lunches" : "",
+            "endtime" : "",
+            "is_new": False
+            
+}
+        try:
+            {"what":  ax[14].get_text()}
+            #print(i,ax[14])
+        except:
+            pass
+        try:
+            if 'dgR' in str(ax[13]):
+                xx=str(ax[13])
+                f=str.split(xx,'"')
+                thisdict["confirmable"]=  f[3]
+        except:
+            pass
+        #print ((ax[13]))
+        #thisdict={"canceled":  False}
+        if len((ax[13].get_text()))>3:
+            can= ((ax[13]))
 
+            #print (can)
+            if "Red" in str(can):
+                #print ("OMG ITS RED")
+                thisdict["canceled"]=  True
+
+                
+            
+
+        mjds.append(thisdict)
         nj.append (ax[0].get_text())
         nj.append(ax[1].get_text())
         nj.append(ax[2].get_text())
@@ -216,6 +278,38 @@ def parse(sch,ad,usecache):
         if i>0:
             mj3.append(nj)
 
+        fdate=format_textt(thisdict["date"])
+        ftime=format_textt(thisdict["time"])
+        fshow=format_textt(thisdict["show"])
+        fname= (fdate+' '+ftime+' '+thisdict['job']+' '+fshow)
+        
+        #hash_object = hashlib.sha1(str(thisdict))
+        #hex_dig = hash_object.hexdigest()
+        #print(hex_dig)
+        mystring = str(thisdict)
+        hash_object = hashlib.md5(mystring.encode())
+        fname=(hash_object.hexdigest())
+        
+        #thisdict['is_new']=False
+        try:
+            nf=(os.path.join(ad,'future_shows', fname)+'.json')
+            x=open(nf, 'r')
+            
+            thisdict['is_new']=False
+        except:
+            thisdict['is_new']=True
+            mystring = str(thisdict)
+            hash_object = hashlib.md5(mystring.encode())
+            fname=(hash_object.hexdigest())
+
+            try:
+                with open(ad+'/future_shows/'+fname+'.json', 'w') as outfile:
+                    json.dump(thisdict, outfile)
+            except:
+                os.mkdir(ad+'/future_shows')
+                with open(ad+'/future_shows/'+fname+'.json', 'w') as outfile:
+                    json.dump(thisdict, outfile)
+
         
 
     
@@ -233,9 +327,16 @@ def parse(sch,ad,usecache):
             l.append(str(ab[i]))
     #for z in range(len(mj3)):
         #print (mj3[z])
-    return mj3
+    if debug==True:
+        for i in range(len(mjds)):
+            pass
+            #print (mjds[i])
+    import json
+    final = json.dumps(mjds, indent=2)
+    #print (final)
+    return mj3,mjds
 
 
 
-#x=parsepayperiod('x.html')
-#print (x)
+if __name__ == "__main__":
+    parse('sch','ad',False)

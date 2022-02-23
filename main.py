@@ -41,6 +41,8 @@ from kivy.uix.textinput import TextInput
 import json
 from appdirs import *
 import ssl
+import logging
+
 ssl.verify = False
 
 
@@ -99,6 +101,7 @@ import lib_ppdownloader
 import lib_updateuserdata
 import lib_extractjson
 import lib_makegraphs
+import lib_bonus
 import lib_webserver
 import paydays
 import time
@@ -246,7 +249,7 @@ class SwipeToDeleteItem(Screen):
         except:
             App.get_running_app().root.current_screen.ids['rate'].text="?"
         now = datetime.datetime.now()
-        today,fdate=lib_tinyfs.format_text(idex,xxx,now,'info')
+        today,fdate=lib_tinyfs.format_text(idex,mjds,now,'info')
         try:
             App.get_running_app().root.current_screen.ids['date'].text=fdate
             #App.get_running_app().root.current_screen.ids['d0'].text=str(newxxx[0])
@@ -635,6 +638,7 @@ class Demo3App(MDApp):
     def updatetext(self):
         app = App.get_running_app()
         ad=app.user_data_dir
+        print (ad)
         if ios==False:
             config_file=ad
         debugbox=App.get_running_app().root.current_screen.ids['usecachebox'].active
@@ -917,6 +921,7 @@ class Demo3App(MDApp):
 
 
         global xxx
+        global mjds
         global config_file
         good_login=False
         now = datetime.datetime.now()
@@ -927,10 +932,7 @@ class Demo3App(MDApp):
 
         self.root.current = "home"
         self.root.current_screen.ids["users_lst"].clear_widgets()
-        if 1==2:
-            lib_createcache.createcache(ad,2)
-            sch=(ad+'/conf.html')
-            lib_think.login(ad,x,ios,App)
+
         
         if x['usecache']=="True" or x['usecache']==True :
             print('Using Cache2')
@@ -946,7 +948,7 @@ class Demo3App(MDApp):
             sch=(ad+'/realdata.html')
         
         
-        xxx=lib_parse.parse(sch,ad,x['usecache'])
+        xxx,mjds=lib_parse.parse(sch,ad,x['usecache'])
         
         
         
@@ -968,8 +970,9 @@ class Demo3App(MDApp):
         #App.get_running_app().root.current_screen.ids['istoday'].text='wow'
         
         
-        for i in range(len(xxx)-1):
-            texta=lib_tinyfs.format_text(i,xxx,now,'index')
+        for i in range(len(mjds)):
+            lib_bonus.create_notification(mjds[i])
+            texta=lib_tinyfs.format_text(i,mjds,now,'index')
             if search.lower() in str(xxx[i]).lower() or len(search)==0:
                 self.root.current_screen.ids["users_lst"].add_widget(SwipeToDeleteItem(text=texta))
         return good_login
