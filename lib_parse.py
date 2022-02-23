@@ -107,7 +107,7 @@ def format_textt(name):
     name=str.replace(name,'/','')
     name=str.replace(name,':','')
     return name
-def parse(sch,ad,usecache):
+def parse(sch,ad,usecache,x5):
     import hashlib
     debug=False
     if ad=='ad':
@@ -314,7 +314,13 @@ def parse(sch,ad,usecache):
 
     if flag_new==True:
         import lib_bonus
-        lib_bonus.cancel_notification() 
+        lib_bonus.cancel_notification()
+        for i in range(len(mjds)):
+            lib_bonus.create_notification(mjds[i],x5)
+            #try:
+            #    lib_bonus.create_notification(mjds[i],x5)
+            #except:
+            #    print ('failed to make notification')
 
     
     #for i in range(15,len(ab)-15):

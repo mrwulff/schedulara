@@ -313,6 +313,10 @@ class Demo3App(MDApp):
     rreverse=True
     menurotate=10
     menuscale=.5,.5
+    notheight=400
+    pf= (platform.platform())
+        if pf[0]=='W':
+            notheight=400
     #zoom = NumericProperty(1)
     def format_minutes(self,t,v,d):
         #v=5
@@ -1016,18 +1020,19 @@ class Demo3App(MDApp):
         if x['usecache']=="True" or x['usecache']==True :
             print('Using Cache2')
             lib_createcache.createcache(ad,20)
-            sch=(ad+'/conf.html')
+        sch=(ad+'/conf.html')
         
         if x['usecache']=="False" or x['usecache']==False:
             print ("Using Live Data")
             if useold==False:
-                #good_login=lib_think.login(ad,x,ios,App)
-                #good_login=True
+                good_login=lib_think.login(ad,x,ios,App)
+                good_login=True
                 pass
-            sch=(ad+'/realdata.html')
+                if good_login==True:
+                    sch=(ad+'/realdata.html')
         
         
-        xxx,mjds=lib_parse.parse(sch,ad,x['usecache'])
+        xxx,mjds=lib_parse.parse(sch,ad,x['usecache'],x)
         
         
         

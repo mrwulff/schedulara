@@ -3,9 +3,10 @@ def create_notification(x,y):
     import datetime
     now = datetime.datetime.now()
     import platform
-    d1=float(y['not1time']*60)
-    d2=float(y['not2time']*60)
-
+    d1=float(y['not1time'])
+    d2=float(y['not2time'])
+    d1=d1*60
+    d2=d2*60
     
 
     datetime_str = '09/19/18 13:55:26'
@@ -13,33 +14,35 @@ def create_notification(x,y):
 
     showdatetime = datetime.datetime.strptime(showdatetime, '%m/%d/%Y %H:%M')
     dif= (showdatetime-now)
-    delay2= (dif.total_seconds(),type(dif))
+    delay2= (dif.total_seconds())
     deyay2=delay2-d2
 
-    delay1= (dif.total_seconds(),type(dif))
+    delay1= (dif.total_seconds())
     deyay1=delay2-d1
 
 
     pf= platform.platform()
-    logging.info(pf,delay2)
-    print (pf)
-    pf='W'
+    #logging.info(pf,delay2)
+    #print (delay1,delay2)
+    #pf='W'
     if pf[0]=='W':
         logging.info('windows notifications not supported')
     if pf[0]!='W':
-        logging.debug('IOS BITCHES',pf)
+        print('IOS BITCHES',pf,x['show'],delay2,d2,now,showdatetime)
         
 
         import notification
         if y['not']==True and y['not2']==True:
-            notification.schedule(x['show'],delay=delay2,title=x['venue'])
+            notification.schedule(x['show'],delay=delay2)
+            print ('added not 2')
 
         if y['not']==True and y['not1']==True:
-            notification.schedule(x['show'],delay=delay1,title=x['venue'])
+            notification.schedule(x['show'],delay=delay1)
+            print ('added not 1')
 
 
-        x=notification.get_scheduled()
-        print (x,'omggggg')
+        x6=notification.get_scheduled()
+        print (len(x6),'omggggg')
         #print(type(datetime_object))
         #print(datetime_object)
 
@@ -48,9 +51,11 @@ def create_notification(x,y):
 
 def cancel_notification():
     import platform
-
+    import logging
+    
     pf= platform.platform()
     if pf[0]!='W':
+        import notification
         logging.debug('IOS BITCHES',pf)
         notification.cancel_all()
     
