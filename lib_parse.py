@@ -140,6 +140,7 @@ def parse(sch,ad,usecache):
     global firstName
     global lastName
     mjds=[]
+    flag_new=False
 
     l=[]
     
@@ -298,6 +299,7 @@ def parse(sch,ad,usecache):
             thisdict['is_new']=False
         except:
             thisdict['is_new']=True
+            flag_new=True
             mystring = str(thisdict)
             hash_object = hashlib.md5(mystring.encode())
             fname=(hash_object.hexdigest())
@@ -310,7 +312,9 @@ def parse(sch,ad,usecache):
                 with open(ad+'/future_shows/'+fname+'.json', 'w') as outfile:
                     json.dump(thisdict, outfile)
 
-        
+    if flag_new==True:
+        import lib_bonus
+        lib_bonus.cancel_notification() 
 
     
     #for i in range(15,len(ab)-15):

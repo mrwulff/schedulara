@@ -14,6 +14,7 @@ ScreenManager:
     AboutScreen:
     TrophyScreen:
     StatsScreen:
+    NotificationScreen:
 <P>:
     adaptive_height: True
     adaptive_width: True
@@ -545,7 +546,7 @@ ScreenManager:
             height: app.mheight
             type: app.mtype
             left_action_items: [["magnify", lambda screen: app.search_menu(),'search'],["home-circle", lambda screen: app.mainmenuf(),'mm'],]
-            right_action_items: [["calendar-blank-multiple", lambda x: app.do_history(),'calendar'],["menu", lambda screen: app.change_screen('settings', 'right'),'settings']]
+            right_action_items: [["calendar-blank-multiple", lambda x: app.do_history(),'calendar'],["menu", lambda screen: app.do_settings(),'settings']]
         
         ScrollView:
             id: sv
@@ -863,7 +864,99 @@ ScreenManager:
                     id: d13
                     #IconLeftWidget:
                         #icon: "calendar-clock-outline"
+<NotificationScreen>:
+    name: "notification"
+    #Image:
+    #    source: 'images/rh.jpg'
+    #    size: self.width,self.height
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            #title: "Settings"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('settings','left'),'home']]
+        MDBoxLayout:
+            orientation: 'vertical'
+            ScrollView:
+                MDGridLayout:
+                    cols: 1
+                    adaptive_height: True
+                    padding: '10dp', '15dp'
+                    spacing: '15dp'
 
+                    MDCard:
+                        orientation: 'vertical'
+                        size_hint: 1, None
+                        #size: 280, 200
+                        MDSlider:
+                            id:slider1
+                            max:180
+                            value:slider1.value
+                            step: 5
+                            #on_active: firstnottext
+                            on_touch_up: app.makenots('1')
+                            
+
+                        MDBoxLayout:
+                            cols:3
+                            adaptive_height: True
+                            padding: '30dp', '5dp'
+                            spacing: '30dp'
+
+                            MDLabel:
+                                id: text1
+                                markup: True
+                                padding: [15, 15]
+                                #text: str(slider1.value)
+                                text: (app.format_minutes('First',int(slider1.value),disable1.active))
+  
+
+                            MDSwitch:
+                                
+                                widget_style: "ios"
+                                width:35
+                                id: disable1
+                                text: "Disable1"
+                                group: "x"
+                    MDCard:
+                        orientation: 'vertical'
+                        size_hint: 1, None
+                        #size: 280, 200
+                        MDSlider:
+                            id:slider2
+                            max: 180
+                            step: 5
+                            value:slider2.value
+                            #on_active: firstnottext
+                            on_touch_up: app.makenots('2')
+                            
+
+                        MDBoxLayout:
+                            cols:3
+                            adaptive_height: True
+                            padding: '30dp', '5dp'
+                            spacing: '30dp'
+
+                            MDLabel:
+                                id: text2
+                                markup: True
+                                padding: [15, 15]
+                                text: (app.format_minutes('Second',int(slider2.value),disable2.active))
+  
+
+                            MDSwitch:
+                                
+                                widget_style: "ios"
+                                width:35
+                                id: disable2
+                                text: "Disable1"
+                                group: "x"
+
+
+
+
+             
+                
 <SettingsScreen>:
     name: "settings"
     #Image:
@@ -964,14 +1057,18 @@ ScreenManager:
                     on_release: 
                         app.dlpp()
 
-                #OneLineAvatarIconListItem:
-                #    text: "Notifications"
-                #    YourContainer:
-                #        id: container
-                #        MDSwitch:
-                #            id: switchnotify
-                #    IconLeftWidget:
-                #        icon: "bell"
+                OneLineAvatarIconListItem:
+                    text: "Notifications"
+                    on_release:app.makenots("1")
+                    YourContainer:
+                        id: container
+                        MDSwitch:
+                            on_active: app.enable_nots()
+                            widget_style: "ios"
+                            id: switchnotify
+
+                    IconLeftWidget:
+                        icon: "bell"
 
                 OneLineAvatarIconListItem:
                     text: "Update Schedule"

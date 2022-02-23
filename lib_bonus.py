@@ -1,8 +1,10 @@
-def create_notification(x):
+def create_notification(x,y):
     import logging
     import datetime
     now = datetime.datetime.now()
     import platform
+    d1=float(y['not1time']*60)
+    d2=float(y['not2time']*60)
 
     
 
@@ -12,10 +14,16 @@ def create_notification(x):
     showdatetime = datetime.datetime.strptime(showdatetime, '%m/%d/%Y %H:%M')
     dif= (showdatetime-now)
     delay2= (dif.total_seconds(),type(dif))
+    deyay2=delay2-d2
+
+    delay1= (dif.total_seconds(),type(dif))
+    deyay1=delay2-d1
+
+
     pf= platform.platform()
-    logging.info(pf)
+    logging.info(pf,delay2)
     print (pf)
-    pf='i'
+    pf='W'
     if pf[0]=='W':
         logging.info('windows notifications not supported')
     if pf[0]!='W':
@@ -23,8 +31,13 @@ def create_notification(x):
         
 
         import notification
+        if y['not']==True and y['not2']=True:
+            notification.schedule(x['show'],delay=delay2,title=x['venue'])
 
-        notification.schedule(x['show'],delay=delay2,title=x['venue'])
+        if y['not']==True and y['not1']=True:
+            notification.schedule(x['show'],delay=delay1,title=x['venue'])
+
+
         x=notification.get_scheduled()
         print (x,'omggggg')
         #print(type(datetime_object))
@@ -32,6 +45,15 @@ def create_notification(x):
 
 
     logging.debug (x)
+
+def cancel_notification():
+    import platform
+
+    pf= platform.platform()
+    if pf[0]!='W':
+        logging.debug('IOS BITCHES',pf)
+        notification.cancel_all()
+    
 
 
 
