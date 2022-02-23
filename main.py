@@ -34,6 +34,8 @@ from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.core.clipboard import ClipboardBase
 
+#from kivycupertino.uix.slider import CupertinoSlider
+
 
 
 from kivy.uix.textinput import TextInput
@@ -65,6 +67,11 @@ from kivymd.uix.dialog import MDDialog
 from math import sin
 from kivy_garden.graph import Graph, MeshLinePlot,LinePlot
 from kivy.properties import NumericProperty
+from kivymd.uix.button import MDRectangleFlatButton
+from kivymd.uix.button import MDFlatButton
+from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
+
+
 
 
 import os
@@ -109,40 +116,9 @@ import webbrowser
 import shutil
 
 
-#twisted!
-from kivy.support import install_twisted_reactor
-install_twisted_reactor()
-from twisted.internet import reactor
-from twisted.internet import protocol
-from twisted.web import server, resource
-
-#/twisted
 
 
 
-class Simple(resource.Resource):
-    isLeaf = True
-    def render_GET(self, request):
-        request.setHeader("Content-Type", "text/html; charset=utf-8")
-        print (xxx[idex])
-        f = open('demo.kv', "rb")
-        contents = f.read()
-        print (contents[:20])
-        #self.sendLine(contents[:20])
-        #f.close()
-        x=str(xxx[idex])
-        from os import walk
-        nf=(os.path.join(ad,'shows2.zip'))
-        filenames = next(walk(nf), (None, None, []))[2]  # [] if no file
-        print (filenames,'filenames')
-        
-        shutil.make_archive(ad+'/show2', 'zip', ad+'/shows')
-        with open(nf) as f:
-            
-            f=str(f)
-        return f.encode('utf-8')
-    def dataReceived(self, data):
-        self.transport.write(data)
 
 
 class SpinnerOptions(SpinnerOption):
@@ -189,6 +165,8 @@ class InfoScreen(Screen):
 
 
     pass
+class NotificationScreen(Screen):
+    pass
 class PayScreen(Screen):
     pass
 class SettingsScreen(Screen):
@@ -205,6 +183,9 @@ class SettingsScreen(Screen):
 
 class YourContainer(IRightBodyTouch, MDBoxLayout):
     adaptive_width = True
+class YourContainer2(IRightBodyTouch, MDBoxLayout):
+    adaptive_width = False
+    size_hint=(.9,.9)
 class HistoryItem(Screen):
     text = StringProperty()
 class PayItem(Screen):
@@ -282,10 +263,16 @@ class Prestore(FloatLayout):
     
 
     pass
+from kivymd.uix.button import MDRaisedButton
+
+class MyToggleButton(MDRaisedButton, MDToggleButton):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.background_down = self.theme_cls.primary_light
 
 
 newcolor=(.2,.2,.2)
-#x=''
+x=''
 ad=''
 xxx=''
 idex=1
@@ -296,6 +283,8 @@ class Demo3App(MDApp):
     global idex
     iii=idex
     bud2='65'
+    global x
+    x=x
     
 
 
@@ -325,7 +314,93 @@ class Demo3App(MDApp):
     menurotate=10
     menuscale=.5,.5
     #zoom = NumericProperty(1)
+    def format_minutes(self,t,v,d):
+        #v=5
+        if d==True:
+            return(t+' Notification will be sent '+ str(v) +' minutes before call')
+        if d==False:
+            return(t+' Notification disabled')
 
+
+    def enable_nots(self):
+        global x
+        self.root.current = "settings"
+        tog1=(App.get_running_app().root.current_screen.ids['switchnotify'].active)
+        print (tog1,x)
+        x['not']=tog1
+        lib_updateuserdata.updateuser(x,ad)
+        
+
+    
+    def do_settings(self):
+        global x
+        print (x)
+
+
+        self.root.get_screen("notification").ids['slider2'].value=x['not2time']
+        self.root.get_screen("notification").ids['slider1'].value=x['not1time']
+        
+        self.root.get_screen("notification").ids['disable1'].active=x['not1']
+        self.root.get_screen("notification").ids['disable2'].active=x['not2']
+        
+        
+        
+        self.root.current = "settings"
+        if x['not']==True:
+            App.get_running_app().root.current_screen.ids['switchnotify'].active=True
+
+        
+        tog1=(App.get_running_app().root.current_screen.ids['switchnotify'].active)
+        #print (tog1)
+        
+        
+        
+        
+        
+        lib_updateuserdata.updateuser(x,ad)
+
+
+    def loadnots(self,sslider):
+        global x
+
+        self.root.current = "notification"
+
+        if x['not1']==True:
+            App.get_running_app().root.current_screen.ids['disable1'].active=True
+
+        if x['not2']==True:
+            App.get_running_app().root.current_screen.ids['disable2'].active=True
+        App.get_running_app().root.current_screen.ids['slider2'].value=x['not2time']
+        try:
+            App.get_running_app().root.current_screen.ids['slider2'].value=x['not2time']
+            App.get_running_app().root.current_screen.ids['slider1'].value=x['not1time']
+        except:
+            print ('rip')
+        lib_updateuserdata.updateuser(x,ad)
+            
+    def makenots(self,sslider):
+        global x
+        self.root.current = "notification"
+
+        first=str(App.get_running_app().root.current_screen.ids['slider'+sslider].value)
+        #App.get_running_app().root.current_screen.ids['text'+sslider].text=first
+
+
+        text1=str(App.get_running_app().root.current_screen.ids['slider1'].value)
+        text2=str(App.get_running_app().root.current_screen.ids['slider2'].value)
+        tog1=(App.get_running_app().root.current_screen.ids['disable1'].active)
+        tog2=(App.get_running_app().root.current_screen.ids['disable2'].active)
+
+        
+        x['not1']=tog1
+        x['not1time']=text1
+
+        x['not2']=tog2
+        x['not2time']=text2
+        print (text1,text2,tog1,tog2,x)
+        lib_updateuserdata.updateuser(x,ad)
+
+        
     def trophys(self):
         import lib_test
         lib_test.n22()
@@ -774,6 +849,7 @@ class Demo3App(MDApp):
         self.sm.add_widget(AboutScreen(name="about"))
         self.sm.add_widget(TrophyScreen(name="trophy"))
         self.sm.add_widget(StatsScreen(name="stats"))
+        self.sm.add_widget(NotificationScreen(name="notification"))
         
         #newcolor=webcolors.name_to_rgb(self.theme_cls.accent_palette)
         
@@ -971,7 +1047,7 @@ class Demo3App(MDApp):
         
         
         for i in range(len(mjds)):
-            lib_bonus.create_notification(mjds[i])
+            lib_bonus.create_notification(mjds[i],x)
             texta=lib_tinyfs.format_text(i,mjds,now,'index')
             if search.lower() in str(xxx[i]).lower() or len(search)==0:
                 self.root.current_screen.ids["users_lst"].add_widget(SwipeToDeleteItem(text=texta))
