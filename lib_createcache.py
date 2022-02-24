@@ -11,8 +11,8 @@ def createcache(ad,numshows):
 
     import datetime
     import random
-    from faker import Faker
-    fake = Faker()
+    #from faker import Faker
+    #fake = Faker()
 
     print (ad,'ccaa')
 
@@ -37,8 +37,8 @@ def createcache(ad,numshows):
     rven=['Dolby Theater','MGM Grand','T-Mobile Arena','Wynn','Mandalay Bay','Virgin','Resorts World','Dollar Loan Center Center']
     rpos=['SH','L3','V3','A3','L','ME','C','SL','SUP','']
     ctimes=['8:00','9:00','5:00','21:00','8:00','16:00','8:00','8:00','8:00',]
-    for i in range(10):
-        cshow.append(fake.company())
+    #for i in range(10):
+    #    cshow.append(fake.company())
     print (cshow)
     #numshows=3
 

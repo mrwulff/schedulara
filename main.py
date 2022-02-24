@@ -4,11 +4,12 @@ debug=True
 scale=2
 useold=False
 import platform
-pf= (platform.platform())
-scale=2
-if pf[0]=='W':
-    scale=1
-    notch=False
+#pf= (platform.platform())
+
+#scale=2
+#if pf[0]=='W':
+#    scale=1
+#    notch=False
 
 
 
@@ -24,6 +25,13 @@ from kivymd.uix.boxlayout import MDBoxLayout
 #from kivymd.uix.Floatlayout import MDFloatLayout
 from kivymd.uix.snackbar import Snackbar
 #from kivy.effects.dampedscroll import DampedScrollEffect
+from kivy.utils import platform
+print (platform,'KIVY PLATFORM')
+if platform == 'linux':
+    print ('omgitslinux')
+if platform =='win':
+    notch=False
+    scale=1
 
 
 import pyperclip
@@ -78,7 +86,7 @@ from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 
 
 import os
-#if platform=='ios':
+
 if 1==1:
     w=1125/3
     h=2436/3
@@ -295,7 +303,7 @@ plus_search=0
 
 class Demo3App(MDApp):
     scale=2
-    if pf[0]=='W':
+    if platform[0]=='w':
         scale=1
         notch=False
     #def __init__(self, **kwargs):
@@ -429,8 +437,9 @@ class Demo3App(MDApp):
 
         
     def trophys(self):
-        import lib_test
-        lib_test.n22()
+        #import lib_test
+        #lib_test.n22()
+        pass
     def make_stats(self):
         self.root.current = "stats"
         self.root.current_screen.ids["graphs"].clear_widgets()
@@ -1003,9 +1012,9 @@ class Demo3App(MDApp):
         junk=1*(stupid-1)
         junk=junk*grid.height
         print (junk,h/3,plus_search)
-        if abs(junk)>(h/3):
+        if (junk)>(h/3):
             print ('overscroll')
-            self.do_login("",useold)
+            #self.do_login("",useold)
 
 
 
@@ -1070,7 +1079,7 @@ class Demo3App(MDApp):
         if x['usecache']=="False" or x['usecache']==False:
             print ("Using Live Data")
             if useold==False:
-                #good_login=lib_think.login(ad,x,ios,App)
+                good_login=lib_think.login(ad,x,ios,App)
                 good_login=True
 
                 if good_login==True:

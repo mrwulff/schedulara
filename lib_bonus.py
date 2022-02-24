@@ -52,9 +52,10 @@ def create_notification(x,y):
 def cancel_notification():
     import platform
     import logging
-    
-    pf= platform.platform()
-    if pf[0]!='W':
+        
+    from kivy.utils import platform
+    print (platform,'KIVY PLATFORM')
+    if platform == 'ios':
         import notification
         logging.debug('IOS BITCHES',pf)
         notification.cancel_all()
