@@ -3,8 +3,17 @@ def create_notification(x,y):
     import datetime
     now = datetime.datetime.now()
     import platform
-    d1=float(y['not1time'])
-    d2=float(y['not2time'])
+    try:
+        d1=float(y['not1time'])
+        d2=float(y['not2time'])
+    except:
+        y['not1time']=0
+        y['not2time']=0
+        y['not1']=False
+        y['not2']=False
+        y['not']=False
+        d1=float(y['not1time'])
+        d2=float(y['not2time'])
     d1=d1*60
     d2=d2*60
     
@@ -28,23 +37,24 @@ def create_notification(x,y):
     if pf[0]=='W':
         logging.info('windows notifications not supported')
     if pf[0]!='W':
-        print('IOS BITCHES',pf,x['show'],delay2,d2,now,showdatetime)
-        
+        if pf[0]!='L':
+            print('IOS BITCHES',pf,x['show'],delay2,d2,now,showdatetime)
+            
 
-        import notification
-        if y['not']==True and y['not2']==True:
-            notification.schedule(x['show'],delay=delay2)
-            print ('added not 2')
+            import notification
+            if y['not']==True and y['not2']==True:
+                notification.schedule(x['show'],delay=delay2)
+                print ('added not 2')
 
-        if y['not']==True and y['not1']==True:
-            notification.schedule(x['show'],delay=delay1)
-            print ('added not 1')
+            if y['not']==True and y['not1']==True:
+                notification.schedule(x['show'],delay=delay1)
+                print ('added not 1')
 
 
-        x6=notification.get_scheduled()
-        print (len(x6),'omggggg')
-        #print(type(datetime_object))
-        #print(datetime_object)
+            x6=notification.get_scheduled()
+            print (len(x6),'omggggg')
+            #print(type(datetime_object))
+            #print(datetime_object)
 
 
     logging.debug (x)
@@ -54,10 +64,13 @@ def cancel_notification():
     import logging
     
     pf= platform.platform()
+    print (pf)
     if pf[0]!='W':
-        import notification
-        logging.debug('IOS BITCHES',pf)
-        notification.cancel_all()
+        if pf[0]!='L':
+
+            import notification
+            logging.debug('IOS BITCHES',pf)
+            notification.cancel_all()
     
 
 
