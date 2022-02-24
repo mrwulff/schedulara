@@ -122,7 +122,7 @@ ScreenManager:
                 MDLabel:
                     padding: 20,20
                     id: idmdlabel
-                    font_name: app.mfont
+                    #font_name: app.mfont
                     markup: True
                     theme_text_color: "Primary"
                     text: root.text
@@ -211,7 +211,7 @@ ScreenManager:
                 id: idmdlabel
                 
                 
-                font_name: app.mfont
+                #font_name: app.mfont
                 markup: True
                 theme_text_color: "Primary"
                 text: root.text
@@ -273,7 +273,7 @@ ScreenManager:
                 id: idmdlabel
                 
                 
-                font_name: app.mfont
+                #font_name: app.mfont
                 markup: True
                 theme_text_color: "Primary"
                 text: root.text
@@ -1061,7 +1061,7 @@ ScreenManager:
                     on_release:
                         #app.backup()
                         Clipboard.copy(app.backup())
-                        Snackbar(text="[font="+app.mfontb+"]Backup Copied to Clipboard!",bg_color=app.theme_cls.primary_color).open()
+                        Snackbar(text="Backup Copied to Clipboard!",bg_color=app.theme_cls.primary_color).open()
                         pos_hint: {"center_x": .5, "center_y": .5}
                     YourContainer:
                         id: container
@@ -1077,7 +1077,7 @@ ScreenManager:
                         #app.restore()
                         self.xxxx=Clipboard.paste()
                         app.restorebin(self.xxxx)
-                        Snackbar(text="[font="+app.mfontb+"]Restored from Backup",bg_color=app.theme_cls.primary_light).open()
+                        Snackbar(text="Restored from Backup",bg_color=app.theme_cls.primary_light).open()
                         pos_hint: {"center_x": .5, "center_y": .5}
                     YourContainer:
                         id: container

@@ -165,9 +165,13 @@ def parse(sch,ad,usecache,x5):
     mj3=[]
     joob3=[]
     l2=[]
-
-    aaa=open(sch,'r',encoding="utf8")
-    encoding="utf8"
+    try:
+        aaa=open(sch,'r',encoding="utf8")
+        encoding="utf8"
+    except:
+        sch=(ad+'/conf.html')
+        aaa=open(sch,'r',encoding="utf8")
+        encoding="utf8"
 
     #ab=aaa.read()
     soup = BeautifulSoup(aaa, 'html.parser')
@@ -316,7 +320,8 @@ def parse(sch,ad,usecache,x5):
         import lib_bonus
         lib_bonus.cancel_notification()
         for i in range(len(mjds)):
-            lib_bonus.create_notification(mjds[i],x5)
+            pass
+            #lib_bonus.create_notification(mjds[i],x5)
             #try:
             #    lib_bonus.create_notification(mjds[i],x5)
             #except:

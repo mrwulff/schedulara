@@ -4,9 +4,17 @@ from datetime import datetime
 
 def make_stats_pp(self,clabel,dd,newmax,y):
     import platform
-    pf= (platform.platform())
+    
     platformheight=500
-    if pf[0]=='W':
+
+    from kivy.utils import platform
+    print (platform,'KIVY PLATFORM')
+    if platform == 'android':
+        print ('omg its android')
+
+
+
+    if platform=='win':
         platformheight=200
     
     print ('wtfhello')

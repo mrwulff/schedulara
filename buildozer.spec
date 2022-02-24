@@ -36,7 +36,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements =beautifulsoup4, python3,kivy,appdirs, kivymd, pillow, humanize, mechanize, bs4, emoji, webcolors, twisted, pyperclip, kivy-garden, kivy-garden.graph, faker
+requirements =webencodings,html5lib,beautifulsoup4,soupsieve, python3,kivy,appdirs, kivymd, pillow, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -85,7 +85,7 @@ fullscreen = 0
 #android.presplash_color = #FFFFFF
 
 # (list) Permissions
-#android.permissions = INTERNET
+android.permissions = INTERNET
 
 # (int) Target Android API, should be as high as possible.
 #android.api = 27

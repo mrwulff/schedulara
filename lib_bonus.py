@@ -2,7 +2,10 @@ def create_notification(x,y):
     import logging
     import datetime
     now = datetime.datetime.now()
-    import platform
+    from kivy.utils import platform
+    print (platform,'KIVY PLATFORM')
+    if platform == 'linux':
+        print ('omgitslinux')
     try:
         d1=float(y['not1time'])
         d2=float(y['not2time'])

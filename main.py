@@ -3,13 +3,7 @@ notch=True
 debug=True
 scale=2
 useold=False
-import platform
-#pf= (platform.platform())
 
-#scale=2
-#if pf[0]=='W':
-#    scale=1
-#    notch=False
 
 
 
@@ -86,16 +80,16 @@ from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 
 
 import os
+w=1125/3
+h=2436/3
+if platform =='win':
 
-if 1==1:
-    w=1125/3
-    h=2436/3
     Config.set('graphics', 'width', str(w))
     Config.set('graphics', 'height', str(h))
     Window.size = (w,h)
-    HOME = os.environ.get("HOME", "/")
-    BUNDLE = os.environ.get("KIVY_BUNDLE_ID", "/")
-    os.environ["PYTHON_EGG_CACHE"] = f"{HOME}/Library/Caches/{BUNDLE}"
+HOME = os.environ.get("HOME", "/")
+BUNDLE = os.environ.get("KIVY_BUNDLE_ID", "/")
+os.environ["PYTHON_EGG_CACHE"] = f"{HOME}/Library/Caches/{BUNDLE}"
 config_file=(f"{HOME}/Library/Caches/{BUNDLE}")
 print (config_file,'THIS IS THE CONFIG FILE',platform)
 
@@ -333,9 +327,9 @@ class Demo3App(MDApp):
     mtype='top'
     bradius=10*scale
     radius=10*scale
-    mfontel='fonts/SourceSansPro-ExtraLight.ttf'
-    mfontb='fonts/SourceSansPro-Bold.ttf'
-    mfont='fonts/SourceSansPro-Regular.ttf'
+    #mfontel='fonts/SourceSansPro-ExtraLight.ttf'
+    #mfontb='fonts/SourceSansPro-Bold.ttf'
+    #mfont='fonts/SourceSansPro-Regular.ttf'
     dialog = None
     snackbar = None
     rreverse=True
@@ -444,10 +438,10 @@ class Demo3App(MDApp):
         self.root.current = "stats"
         self.root.current_screen.ids["graphs"].clear_widgets()
         dd,dd2,maxd,maxm,max_dy,max_my=lib_makegraphs.parsepp(self,ad,'check')
-        print (dd[1])
+        #print (dd[1])
         lib_makegraphs.make_stats_pp(self,'Checks',dd,maxm,max_dy)
 
-        print (dd[1])
+        #print (dd[1])
 
         lib_makegraphs.make_stats_pp(self,'$/Day',dd2,maxd,max_dy)
 
