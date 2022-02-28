@@ -433,6 +433,7 @@ class Demo3App(MDApp):
         text1=str(App.get_running_app().root.current_screen.ids['slider1'].value)
         text2=str(App.get_running_app().root.current_screen.ids['slider2'].value)
         tog1=(App.get_running_app().root.current_screen.ids['disable1'].active)
+   
         tog2=(App.get_running_app().root.current_screen.ids['disable2'].active)
 
         
@@ -1126,10 +1127,11 @@ class Demo3App(MDApp):
         texta='[size=18 sp]'+founddates+str(cf)+'/'+str(tot)+' confirmed dates\n'+str(week)+' gigs this week[size=1 sp]***0'
         
 
-
+        indexnumber=0
         self.root.current_screen.ids["users_lst"].add_widget(SwipeToDeleteItem(text=texta))
         if cf<tot:
-            texta='Click To Confirm'+str(tot-cf)+' gigs [size=1 sp]***1'
+            indexnumber=indexnumber+1
+            texta='Click To Confirm'+str(tot-cf)+' gigs [size=1 sp]***'+str(indexnumber)
             self.root.current_screen.ids["users_lst"].add_widget(SwipeToDeleteItem(text=texta))
         #App.get_running_app().root.current_screen.ids['istoday'].text='wow'
         
@@ -1137,6 +1139,8 @@ class Demo3App(MDApp):
         for i in range(len(mjds)):
             #lib_bonus.create_notification(mjds[i],x)
             texta=lib_tinyfs.format_text(i,mjds,now,'index')
+            indexnumber=indexnumber+1
+            texta=texta+str(indexnumber)
             if search.lower() in str(xxx[i]).lower() or len(search)==0:
                 plus_search=plus_search+1
 

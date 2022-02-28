@@ -70,7 +70,7 @@ def cancel_notification():
     print (platform,'KIVY PLATFORM')
     if platform == 'ios':
         import notification_old
-        logging.debug('IOS BITCHES',pf)
+        logging.debug('IOS BITCHES')
         notification_old.cancel_all()
     
 
