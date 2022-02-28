@@ -8,7 +8,7 @@ try:
 except:
 	raise NotImplementedError('The notification module requires iOS 10 or later.')
 
-import _notification
+import notification as _notification
 import sys
 import uuid
 import os
@@ -17,7 +17,7 @@ import hashlib
 from numbers import Number
 import shutil
 import tempfile
-from _pythonista import make_url as pythonista_url
+#from _pythonista import make_url as pythonista_url
 
 UNNotificationRequest = ObjCClass('UNNotificationRequest')
 UNMutableNotificationContent = ObjCClass('UNMutableNotificationContent')
@@ -30,8 +30,20 @@ UNNotificationAction = ObjCClass('UNNotificationAction')
 UNTextInputNotificationAction = ObjCClass('UNTextInputNotificationAction')
 UNNotificationSound = ObjCClass('UNNotificationSound')
 UNNotificationAttachment = ObjCClass('UNNotificationAttachment')
+UIUserNotificationSettings = ObjCClass('UIUserNotificationSettings')
+UIApplication = ObjCClass('UIApplication')
+
+app = UIApplication.sharedApplication()
+
 
 CENTER = UNUserNotificationCenter.currentNotificationCenter()
+def authorize():
+	types = ((1<<0) | (1<<1) | (1<<2))
+	settings = UIUserNotificationSettings.settingsForTypes_categories_(types, None)
+	app.registerUserNotificationSettings_(settings)
+	return True
+
+
 
 if sys.version_info[0] >= 3:
 	basestring = str
@@ -46,17 +58,6 @@ def _load_notification_categories():
 		category_infos = {}
 	return category_infos
 
-
-def _save_notification_categories(category_infos):
-	file_path = os.path.expanduser('~/notification_categories.json')
-	with open(file_path, 'w') as f:
-		json.dump(category_infos, f, indent=2)
-
-
-def _clear_notification_categories():
-	file_path = os.path.expanduser('~/notification_categories.json')
-	with open(file_path, 'w') as f:
-		json.dump({}, f)
 
 
 def _get_soundlib_path():

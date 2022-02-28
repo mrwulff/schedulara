@@ -339,19 +339,10 @@ class Demo3App(MDApp):
 
     notheight=200*scale
 
-    def panel_open(self, *args):
-        Animation(
-            height=(self.root.ids.box.height + self.root.ids.content.height)
-            - self.theme_cls.standard_increment * 3,
-            d=0.5,
-        ).start(self.root.ids.box)
-
-    def panel_close(self, *args):
-        Animation(
-            height=(self.root.ids.box.height - self.root.ids.content.height)
-            + self.theme_cls.standard_increment * 3,
-            d=0.2,
-        ).start(self.root.ids.box)
+    def test_not(self):
+        import lib_test
+        #lib_test.testnot()
+        lib_bonus.create_notification(mjds[0],x,True)
 
     def format_minutes(self,t,v,d):
         #v=5
