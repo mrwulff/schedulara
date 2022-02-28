@@ -112,8 +112,8 @@ def openlinks():
     ios.open_url(url)
 def n22():
 
-    import notification
+    import notification_old
 
-    notification.schedule('NOW',delay=15,title='this is a titls',)
-    x=notification.get_scheduled()
+    notification_old.schedule('NOW',delay=15,title='this is a titls',)
+    x=notification_old.get_scheduled()
     print (x,'omggggg')

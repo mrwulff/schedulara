@@ -44,17 +44,17 @@ def create_notification(x,y):
             print('IOS BITCHES',pf,x['show'],delay2,d2,now,showdatetime)
             
 
-            import notification
+            import notification_old
             if y['not']==True and y['not2']==True:
-                notification.schedule(x['show'],delay=delay2)
+                notification_old.schedule(x['show'],delay=delay2)
                 print ('added not 2')
 
             if y['not']==True and y['not1']==True:
-                notification.schedule(x['show'],delay=delay1)
+                notification_old.schedule(x['show'],delay=delay1)
                 print ('added not 1')
 
 
-            x6=notification.get_scheduled()
+            x6=notification_old.get_scheduled()
             print (len(x6),'omggggg')
             #print(type(datetime_object))
             #print(datetime_object)
@@ -69,9 +69,9 @@ def cancel_notification():
     from kivy.utils import platform
     print (platform,'KIVY PLATFORM')
     if platform == 'ios':
-        import notification
+        import notification_old
         logging.debug('IOS BITCHES',pf)
-        notification.cancel_all()
+        notification_old.cancel_all()
     
 
 
