@@ -294,7 +294,8 @@ idex=1
 browser=''
 plus_search=0
 
-
+class Content(FloatLayout):
+    pass
 class Demo3App(MDApp):
     scale=2
     if platform[0]=='w':
@@ -338,7 +339,19 @@ class Demo3App(MDApp):
 
     notheight=200*scale
 
+    def panel_open(self, *args):
+        Animation(
+            height=(self.root.ids.box.height + self.root.ids.content.height)
+            - self.theme_cls.standard_increment * 3,
+            d=0.5,
+        ).start(self.root.ids.box)
 
+    def panel_close(self, *args):
+        Animation(
+            height=(self.root.ids.box.height - self.root.ids.content.height)
+            + self.theme_cls.standard_increment * 3,
+            d=0.2,
+        ).start(self.root.ids.box)
 
     def format_minutes(self,t,v,d):
         #v=5
@@ -408,6 +421,8 @@ class Demo3App(MDApp):
         lib_updateuserdata.updateuser(x,ad)
             
     def makenots(self,sslider):
+        from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelThreeLine,MDExpansionPanelOneLine
+
         global x
         self.root.current = "notification"
 
@@ -428,6 +443,23 @@ class Demo3App(MDApp):
         x['not2time']=text2
         print (text1,text2,tog1,tog2,x)
         lib_updateuserdata.updateuser(x,ad)
+        try:
+            self.root.current_screen.ids["box"].remove_widget(content.parent)
+
+        except:
+            print ('omg')
+        content=Content()
+        self.root.current_screen.ids["box"].add_widget(
+
+            MDExpansionPanel(
+                    content=Content(),
+                    panel_cls=MDExpansionPanelThreeLine(
+                        text="Text",
+                        secondary_text="Secondary text",
+                        tertiary_text="Tertiary text",
+                    )
+                )
+            )
 
         
     def trophys(self):

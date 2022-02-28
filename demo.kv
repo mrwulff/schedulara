@@ -16,6 +16,16 @@ ScreenManager:
     TrophyScreen:
     StatsScreen:
     NotificationScreen:
+<Content>
+    size_hint_y: None
+    #height: self.minimum_height
+
+    TwoLineIconListItem:
+        text: "(050)-123-45-67"
+        secondary_text: "Mobile"
+
+        IconLeftWidget:
+            icon: 'phone'
 <P>:
     adaptive_height: True
     adaptive_width: True
@@ -906,7 +916,11 @@ ScreenManager:
         MDBoxLayout:
             orientation: 'vertical'
             ScrollView:
+                
                 MDGridLayout:
+                    #id: nots
+                    adaptive_height: True
+                    id: box
                     cols: 1
                     adaptive_height: True
                     padding: '10dp', '15dp'
@@ -982,6 +996,7 @@ ScreenManager:
                                 id: disable2
                                 text: "Disable1"
                                 group: "x"
+
 
 
 
