@@ -84,3 +84,7 @@ venv-buildozer/
 venv-buildozer/lib/python3.8/site-packages/virtualenv-20.13.1.dist-info/LICENSE
 venv/
 bin/
+graph_generator_template.py
+graph_generator.py
+graph_widget.py
+g_main.py

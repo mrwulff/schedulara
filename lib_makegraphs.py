@@ -2,6 +2,10 @@ from kivy_garden.graph import Graph, BarPlot
 from datetime import datetime
 
 
+def make_matplot():
+    pass
+
+
 def make_stats_pp(self,clabel,dd,newmax,y):
     import platform
     

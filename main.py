@@ -120,6 +120,8 @@ import time
 import webbrowser
 import shutil
 from random import randrange
+from functools import partial
+
 
 
 
@@ -294,6 +296,7 @@ idex=1
 browser=''
 plus_search=0
 
+
 class Content(FloatLayout):
     pass
 class Demo3App(MDApp):
@@ -338,20 +341,44 @@ class Demo3App(MDApp):
     menuscale=.5,.5
 
     notheight=200*scale
+    sound_effects=['Ding','Bang','Lol']
+    def callback_for_menu_items(self, text):
+        self.menu.dismiss()
+        toast(text)
+    def menu_callback(self, text_item,v,v2):
+        #print(location[text_item])
+        #print (text_item,type(text_item))
+        print (v[text_item],'v[text')
+        App.get_running_app().root.current_screen.ids['button4'].text=v[text_item]
+        #self.root.get_screen("notification").ids['button4'].text=v[text_item]
+        global x
+        x[v2]=v[text_item]
+        print (x)
+        lib_updateuserdata.updateuser(x,ad)
+        
 
-    def panel_open(self, *args):
-        Animation(
-            height=(self.root.ids.box.height + self.root.ids.content.height)
-            - self.theme_cls.standard_increment * 3,
-            d=0.5,
-        ).start(self.root.ids.box)
 
-    def panel_close(self, *args):
-        Animation(
-            height=(self.root.ids.box.height - self.root.ids.content.height)
-            + self.theme_cls.standard_increment * 3,
-            d=0.2,
-        ).start(self.root.ids.box)
+    def choose_drop(self,v,v2):
+
+        menu_items = [
+            {
+                "text": f"{v[i]}",
+                #"scroll_type": ['bars'],
+                #"effect_cls": "ScrollEffect",
+                "viewclass": "OneLineListItem",
+                "on_release": lambda x=i: self.menu_callback(x,v,v2),
+            } for i in range(len(v)-1)
+        ]
+        print (self.root.get_screen("notification").ids)
+        self.menu = MDDropdownMenu(
+            caller=self.root.get_screen("notification").ids['button4'],
+            items=menu_items,
+            max_height=400,
+            #position="center",
+            width_mult=4,
+        )
+        #self.menu.caller = button4
+        self.menu.open()
 
     def format_minutes(self,t,v,d):
         #v=5
@@ -425,6 +452,11 @@ class Demo3App(MDApp):
 
         global x
         self.root.current = "notification"
+        try:
+            App.get_running_app().root.current_screen.ids['button4'].text=x['sound_effects']
+        except:
+            App.get_running_app().root.current_screen.ids['button4'].text='Normal'
+
 
         first=str(App.get_running_app().root.current_screen.ids['slider'+sslider].value)
         #App.get_running_app().root.current_screen.ids['text'+sslider].text=first
@@ -442,25 +474,14 @@ class Demo3App(MDApp):
 
         x['not2']=tog2
         x['not2time']=text2
-        print (text1,text2,tog1,tog2,x)
         lib_updateuserdata.updateuser(x,ad)
         try:
             self.root.current_screen.ids["box"].remove_widget(content.parent)
 
         except:
             print ('omg')
-        content=Content()
-        self.root.current_screen.ids["box"].add_widget(
 
-            MDExpansionPanel(
-                    content=Content(),
-                    panel_cls=MDExpansionPanelThreeLine(
-                        text="Text",
-                        secondary_text="Secondary text",
-                        tertiary_text="Tertiary text",
-                    )
-                )
-            )
+
 
         
     def trophys(self):
@@ -477,6 +498,9 @@ class Demo3App(MDApp):
         #print (dd[1])
 
         lib_makegraphs.make_stats_pp(self,'$/Day',dd2,maxd,max_dy)
+
+
+        lib_makegraphs.make_matplot(self)
 
 
 
@@ -1070,7 +1094,7 @@ class Demo3App(MDApp):
         self.root.current = "login"
         x['username']=App.get_running_app().root.current_screen.ids['temail'].text
         x['password']=App.get_running_app().root.current_screen.ids['tpassword'].text
-        x['city']=App.get_running_app().root.current_screen.ids['tloc'].text
+        x['city']=App.get_running_app().root.current_screen.ids['button4'].text
         lib_updateuserdata.updateuser(x,ad)
     def do_login(self,search,useold):
         print ('do_login')

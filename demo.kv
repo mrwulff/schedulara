@@ -16,6 +16,9 @@ ScreenManager:
     TrophyScreen:
     StatsScreen:
     NotificationScreen:
+
+
+
 <Content>
     size_hint_y: None
     #height: self.minimum_height
@@ -997,6 +1000,26 @@ ScreenManager:
                                 id: disable2
                                 text: "Disable1"
                                 group: "x"
+                    OneLineAvatarIconListItem: 
+                        id: button
+                        text: "Sound"
+
+                        IconLeftWidget:
+                            id: button2
+                            icon: "bullhorn"
+                        YourContainer:
+                            id: button3
+                            MDRaisedButton:
+                                id: button4
+                                padding: [15, 15]
+
+                                width: 5
+                                text: "Default"
+                                pos_hint: {'center_x': .5, 'center_y': .5}
+                                values: app.sound_effects
+                                items: app.sound_effects
+                                #id: noise
+                                on_release: app.choose_drop(app.sound_effects,'sound_effects')
 
 
 
@@ -1171,18 +1194,29 @@ ScreenManager:
             #MDDropdownMenu:
 
                 #items: app.locations
-            Spinner:
-                text: 'location'
-                background_color: app.newercolor
-                background_normal: ''
-                values: app.locations
-                id: tloc
-                font_size:dp(20)
-                pos_hint:{'center_x': 0.5, 'center_y': 0.35}
-                size_hint: None,None
-                width:dp(300)
-                height: dp(30)
+            #Spinner:
+            #    text: 'location'
+            #    background_color: app.newercolor
+            #    background_normal: ''
+            #    values: app.locations
+            #    id: tloc
+            #    font_size:dp(20)
+            #    pos_hint:{'center_x': 0.5, 'center_y': 0.35}
+            #    size_hint: None,None
+            #    width:dp(300)
+            #    height: dp(30)
                 #font_size:dp(20)
+            MDRaisedButton:
+                id: button4
+                #padding: [15, 15]
+
+                #width: 5
+                text: "Default"
+                pos_hint: {'center_x': .5, 'center_y': .35}
+                values: app.sound_effects
+                items: app.sound_effects
+                #id: noise
+                on_release: app.choose_drop(app.locations,'city')
 
             MDRoundFlatButton:
                 text: "Login!"
