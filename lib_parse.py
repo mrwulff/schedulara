@@ -321,7 +321,7 @@ def parse(sch,ad,usecache,x5):
         lib_bonus.cancel_notification()
         for i in range(len(mjds)):
             pass
-            #lib_bonus.create_notification(mjds[i],x5)
+            lib_bonus.create_notification(mjds[i],x5,False)
             #try:
             #    lib_bonus.create_notification(mjds[i],x5)
             #except:

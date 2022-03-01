@@ -15,15 +15,16 @@ def authorize():
 	app.registerUserNotificationSettings_(settings)
 
 @on_main_thread
-def schedule(message, delay=0, sound_name=None, action_url=None):
+def schedule(message, delay=0, sound_name=None, action_url=None,subtitle=None):
 	n = UILocalNotification.alloc().init().autorelease()
 	n.fireDate = NSDate.dateWithTimeIntervalSinceNow_(delay)
 	fire_date_since1970 = n.fireDate().timeIntervalSince1970()
 	n.alertBody = message
 	n.title='lolz'
+	n.body='asdfasdf'
 	n.subtitle='alertBody'
-	n.AlertLaunchImage='images/rh.jpg'
-	action_url='http://kevinwulff.com'
+	#n.AlertLaunchImage='images/rh.jpg'
+	#action_url='http://kevinwulff.com'
 	if action_url:
 		n.userInfo = {'actionURL': action_url}
 	if sound_name is not None:

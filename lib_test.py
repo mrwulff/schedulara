@@ -117,3 +117,23 @@ def n22():
     notification_old.schedule('NOW',delay=15,title='this is a titls',)
     x=notification_old.get_scheduled()
     print (x,'omggggg')
+    
+def testnot2():
+    import notification_old as notification2
+    #import notification
+    #xx=notification2.authorize()
+    #rint (xx,'wow')
+    notification2.schedule('!wow!',delay=10,subtitle='wow')
+    #notification.schedule('!wow!',delay=10,title= "title",subtitle='subtitle')
+
+    x=notification2.get_scheduled()
+    print (x)
+def testnot():
+    
+    #import notification_old
+    #notification_old.schedule('!wow55!',delay=10,subtitle='wow')
+
+
+    import notification
+    notification.schedule('!wo2w!',delay=5,subtitle='subtitle',title='title',attachments=['images/black-rhino.png'])
+

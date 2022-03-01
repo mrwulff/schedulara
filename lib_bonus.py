@@ -1,4 +1,5 @@
-def create_notification(x,y):
+def create_notification(x,y,debug):
+    print (x,'XDXXX','y',y)
     import logging
     import datetime
     now = datetime.datetime.now()
@@ -32,30 +33,38 @@ def create_notification(x,y):
     delay1= (dif.total_seconds())
     deyay1=delay2-d1
 
-
-    pf= platform.platform()
+    if debug==True:
+        delay1=5
+        delay2=10
     #logging.info(pf,delay2)
     #print (delay1,delay2)
     #pf='W'
-    if pf[0]=='W':
+    try:
+        y['not2time'],junk=str.split(y['not2time'],'.')
+        y['not1time'],junk=str.split(y['not1time'],'.')
+    except:
+        ''
+    if platform =='win':
         logging.info('windows notifications not supported')
-    if pf[0]!='W':
-        if pf[0]!='L':
-            print('IOS BITCHES',pf,x['show'],delay2,d2,now,showdatetime)
+    if platform !='win':
+        if platform !='win':
+            print('IOS BITCHES',x['show'],delay2,d2,now,showdatetime)
             
 
-            import notification_old
+            import notification
             if y['not']==True and y['not2']==True:
-                notification_old.schedule(x['show'],delay=delay2)
+                print (x,'xxxxxx')
+                print (x['show'])
+                notification.schedule(x['show'],delay=delay2,title= y['not2time']+' Minutes From Now: '+x['time'],subtitle=x['venue'],attachments=['images/black-rhino.png'],sound_name='images/beep.wav')
                 print ('added not 2')
 
             if y['not']==True and y['not1']==True:
-                notification_old.schedule(x['show'],delay=delay1)
+                notification.schedule(x['show'],delay=delay1,title= y['not1time']+' Minutes From Now:  '+x['time'],subtitle=x['venue'],attachments=['images/black-rhino.png'],sound_name='images/beep.wav')
                 print ('added not 1')
 
-
-            x6=notification_old.get_scheduled()
-            print (len(x6),'omggggg')
+            #import notification_old
+            #x6=notification.get_scheduled()
+            #print (len(x6),'omggggg')
             #print(type(datetime_object))
             #print(datetime_object)
 
@@ -69,9 +78,9 @@ def cancel_notification():
     from kivy.utils import platform
     print (platform,'KIVY PLATFORM')
     if platform == 'ios':
-        import notification_old
+        import notification_old as notification
         logging.debug('IOS BITCHES')
-        notification_old.cancel_all()
+        notification.cancel_all()
     
 
 
