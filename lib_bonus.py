@@ -7,6 +7,9 @@ def create_notification(x,y,debug):
     print (platform,'KIVY PLATFORM')
     if platform == 'linux':
         print ('omgitslinux')
+    d1=float(y['not1time'])
+    d2=float(y['not2time'])
+    '''
     try:
         d1=float(y['not1time'])
         d2=float(y['not2time'])
@@ -18,6 +21,7 @@ def create_notification(x,y,debug):
         y['not']=False
         d1=float(y['not1time'])
         d2=float(y['not2time'])
+    '''
     d1=d1*60
     d2=d2*60
     
@@ -27,17 +31,18 @@ def create_notification(x,y,debug):
 
     showdatetime = datetime.datetime.strptime(showdatetime, '%m/%d/%Y %H:%M')
     dif= (showdatetime-now)
+
     delay2= (dif.total_seconds())
     deyay2=delay2-d2
 
     delay1= (dif.total_seconds())
-    deyay1=delay2-d1
+    deyay1=delay1-d1
 
     if debug==True:
         delay1=5
         delay2=10
     #logging.info(pf,delay2)
-    #print (delay1,delay2)
+    print (delay1,delay2,'DELAY!@')
     #pf='W'
     try:
         y['not2time'],junk=str.split(y['not2time'],'.')
