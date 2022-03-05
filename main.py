@@ -154,14 +154,24 @@ class SpinnerWidget(Spinner):
         self.dropdown_cls = SpinnerDropdown
         self.option_cls = SpinnerOptions
         ...
+
+
 class AboutScreen(Screen):
     pass
+
+
 class TrophyScreen(Screen):
     pass
+
+
 class StatsScreen(Screen):
     pass
+
+
 class LoginScreen(Screen):
     pass
+
+
 class MainMenuScreen(Screen):
     pass
 class HomeScreen(Screen):
@@ -216,8 +226,7 @@ class SwipeToDeleteItem(Screen):
 
     text = StringProperty()
     
-
-    def click(self,*args):
+    def click(self, *args):
         global idex
         global mjds
 
@@ -237,25 +246,35 @@ class SwipeToDeleteItem(Screen):
             rate=lib_extractjson.extract_pos(App,config_file,xxx[idex][8])
             App.get_running_app().root.current_screen.ids['rate'].text=rate
         except:
-            App.get_running_app().root.current_screen.ids['rate'].text="?"
+            App.get_running_app().root.current_screen.ids["rate"].text = "?"
         now = datetime.datetime.now()
-        today,fdate=lib_tinyfs.format_text(idex,mjds,now,'info')
+        today, fdate = lib_tinyfs.format_text(idex, mjds, now, "info")
         try:
-            App.get_running_app().root.current_screen.ids['date'].text=fdate
-            #App.get_running_app().root.current_screen.ids['d0'].text=str(newxxx[0])
-            #App.get_running_app().root.current_screen.ids['d1'].text=str(newxxx[1])
-            App.get_running_app().root.current_screen.ids['jobid'].text=str(newxxx[2])
-            App.get_running_app().root.current_screen.ids['show'].text=str(newxxx[3])
-            App.get_running_app().root.current_screen.ids['venue'].text=str(newxxx[4])
-            App.get_running_app().root.current_screen.ids['location'].text=str(newxxx[5])
-            App.get_running_app().root.current_screen.ids['client'].text=str(newxxx[6])
-            App.get_running_app().root.current_screen.ids['type'].text=str(newxxx[7])
-            App.get_running_app().root.current_screen.ids['wrench'].text=str(newxxx[8])
-            App.get_running_app().root.current_screen.ids['status'].text=str(newxxx[10])
-            App.get_running_app().root.current_screen.ids['notes'].text=str(newxxx[11])
-            App.get_running_app().root.current_screen.ids['d12'].text=str(newxxx[12])
-            App.get_running_app().root.current_screen.ids['d13'].text=str(newxxx[9])
-            App.get_running_app().root.current_screen.ids['d10'].text=str(newxxx[13])
+            App.get_running_app().root.current_screen.ids["date"].text = fdate
+            # App.get_running_app().root.current_screen.ids['d0'].text=str(newxxx[0])
+            # App.get_running_app().root.current_screen.ids['d1'].text=str(newxxx[1])
+            App.get_running_app().root.current_screen.ids["jobid"].text = str(newxxx[2])
+            App.get_running_app().root.current_screen.ids["show"].text = str(newxxx[3])
+            App.get_running_app().root.current_screen.ids["venue"].text = str(newxxx[4])
+            App.get_running_app().root.current_screen.ids["location"].text = str(
+                newxxx[5]
+            )
+            App.get_running_app().root.current_screen.ids["client"].text = str(
+                newxxx[6]
+            )
+            App.get_running_app().root.current_screen.ids["type"].text = str(newxxx[7])
+            App.get_running_app().root.current_screen.ids["wrench"].text = str(
+                newxxx[8]
+            )
+            App.get_running_app().root.current_screen.ids["status"].text = str(
+                newxxx[10]
+            )
+            App.get_running_app().root.current_screen.ids["notes"].text = str(
+                newxxx[11]
+            )
+            App.get_running_app().root.current_screen.ids["d12"].text = str(newxxx[12])
+            App.get_running_app().root.current_screen.ids["d13"].text = str(newxxx[9])
+            App.get_running_app().root.current_screen.ids["d10"].text = str(newxxx[13])
 
         except:
             (newxxx)    
@@ -288,23 +307,25 @@ class MyToggleButton(MDRaisedButton, MDToggleButton):
         self.background_down = self.theme_cls.primary_light
 
 
-newcolor=(.2,.2,.2)
-x=''
-ad=''
-xxx=''
-idex=1
-browser=''
-plus_search=0
+newcolor = (0.2, 0.2, 0.2)
+x = ""
+ad = ""
+xxx = ""
+idex = 1
+browser = ""
+plus_search = 0
 
 
 class Content(FloatLayout):
     pass
+
+
 class Demo3App(MDApp):
-    scale=2
-    if platform[0]=='w':
-        scale=1
-        notch=False
-    #def __init__(self, **kwargs):
+    scale = 2
+    if platform[0] == "w":
+        scale = 1
+        notch = False
+    # def __init__(self, **kwargs):
     #    self.snackbar = None
     global idex
     iii=idex
@@ -312,28 +333,49 @@ class Demo3App(MDApp):
     global x
     x=x
     
-
-
-
-
-
-    
-    locations=['denver', 'dc', 'florida' ,'georgia' , 'indiana' ,'kentucky' , 'lasvegas' ,'losangeles' , 'louisiana' , 'michigan' , 'minnesota' , 'missouri' , 'mississippi' , 'montana' ,'newmexico' , 'northerncalifornia'  ,'northwest' ,'ohio' , 'reno' , 'california' , 'southcarolina' ,'tempe' , 'memphis' , 'texas' , 'tucson' ,'wisconsin'  ]
-    newercolor=newcolor
-    xxxx=xxx+'wtf'+str(idex)
-    lunch=['0','1','2']
-    if notch==True:
-        mheight=120
+    locations = [
+        "denver",
+        "dc",
+        "florida",
+        "georgia",
+        "indiana",
+        "kentucky",
+        "lasvegas",
+        "losangeles",
+        "louisiana",
+        "michigan",
+        "minnesota",
+        "missouri",
+        "mississippi",
+        "montana",
+        "newmexico",
+        "northerncalifornia",
+        "northwest",
+        "ohio",
+        "reno",
+        "california",
+        "southcarolina",
+        "tempe",
+        "memphis",
+        "texas",
+        "tucson",
+        "wisconsin",
+    ]
+    newercolor = newcolor
+    xxxx = xxx + "wtf" + str(idex)
+    lunch = ["0", "1", "2"]
+    if notch == True:
+        mheight = 120
     else:
-        mheight=45
-    cpadding=20
-    cspacing=10
-    mtype='top'
-    bradius=10*scale
-    radius=10*scale
-    #mfontel='fonts/SourceSansPro-ExtraLight.ttf'
-    #mfontb='fonts/SourceSansPro-Bold.ttf'
-    #mfont='fonts/SourceSansPro-Regular.ttf'
+        mheight = 45
+    cpadding = 20
+    cspacing = 10
+    mtype = "top"
+    bradius = 10 * scale
+    radius = 10 * scale
+    # mfontel='fonts/SourceSansPro-ExtraLight.ttf'
+    # mfontb='fonts/SourceSansPro-Bold.ttf'
+    # mfont='fonts/SourceSansPro-Regular.ttf'
     dialog = None
     snackbar = None
     rreverse=True
@@ -415,13 +457,13 @@ class Demo3App(MDApp):
         
             tog1=(App.get_running_app().root.current_screen.ids['switchnotify'].active)
         except:
-            x['not2time']=0
-            x['not1time']=0
-            x['not1']=False
-            x['not2']=False
-            x['not']=False
-        #print (tog1)
-        
+            x["not2time"] = 0
+            x["not1time"] = 0
+            x["not1"] = False
+            x["not2"] = False
+            x["not"] = False
+        # print (tog1)
+
         
         
         
@@ -727,25 +769,67 @@ class Demo3App(MDApp):
             App.get_running_app().root.current_screen.ids['slast'].md_bg_color= self.theme_cls.primary_light
             App.get_running_app().root.current_screen.ids['sall'].md_bg_color= self.theme_cls.primary_light
 
-        if current=='last':
-            App.get_running_app().root.current_screen.ids['scustom'].md_bg_color= self.theme_cls.primary_light
-            App.get_running_app().root.current_screen.ids['scurrent'].md_bg_color= self.theme_cls.primary_light
-            App.get_running_app().root.current_screen.ids['slast'].md_bg_color= self.theme_cls.primary_dark
-            App.get_running_app().root.current_screen.ids['sall'].md_bg_color= self.theme_cls.primary_light
-        if current=='custom':
-            App.get_running_app().root.current_screen.ids['scustom'].md_bg_color= self.theme_cls.primary_dark
-            App.get_running_app().root.current_screen.ids['scurrent'].md_bg_color= self.theme_cls.primary_light
-            App.get_running_app().root.current_screen.ids['slast'].md_bg_color= self.theme_cls.primary_light
-            App.get_running_app().root.current_screen.ids['sall'].md_bg_color= self.theme_cls.primary_light
-        if current=='all':
-            App.get_running_app().root.current_screen.ids['scustom'].md_bg_color= self.theme_cls.primary_light
-            App.get_running_app().root.current_screen.ids['scurrent'].md_bg_color= self.theme_cls.primary_light
-            App.get_running_app().root.current_screen.ids['slast'].md_bg_color= self.theme_cls.primary_light
-            App.get_running_app().root.current_screen.ids['sall'].md_bg_color= self.theme_cls.primary_dark
-            App.get_running_app().root.current_screen.ids['dend'].text=str('All')
-            App.get_running_app().root.current_screen.ids['dstart'].text=str('All')
-        flag=False
-        firstdate=datetime.date(2021, 10, 13)
+    def set_pp(self, current):
+        App.get_running_app().root.current_screen.ids[
+            "scustom"
+        ].md_bg_color = self.theme_cls.primary_light
+        if current == "current":
+            App.get_running_app().root.current_screen.ids[
+                "scustom"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "scurrent"
+            ].md_bg_color = self.theme_cls.primary_dark
+            App.get_running_app().root.current_screen.ids[
+                "slast"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].md_bg_color = self.theme_cls.primary_light
+
+        if current == "last":
+            App.get_running_app().root.current_screen.ids[
+                "scustom"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "scurrent"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "slast"
+            ].md_bg_color = self.theme_cls.primary_dark
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].md_bg_color = self.theme_cls.primary_light
+        if current == "custom":
+            App.get_running_app().root.current_screen.ids[
+                "scustom"
+            ].md_bg_color = self.theme_cls.primary_dark
+            App.get_running_app().root.current_screen.ids[
+                "scurrent"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "slast"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].md_bg_color = self.theme_cls.primary_light
+        if current == "all":
+            App.get_running_app().root.current_screen.ids[
+                "scustom"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "scurrent"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "slast"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].md_bg_color = self.theme_cls.primary_dark
+            App.get_running_app().root.current_screen.ids["dend"].text = str("All")
+            App.get_running_app().root.current_screen.ids["dstart"].text = str("All")
+        flag = False
+        firstdate = datetime.date(2021, 10, 13)
         #:
         now = datetime.datetime.now()
         now=datetime.date.today()
@@ -754,15 +838,23 @@ class Demo3App(MDApp):
             nextdate=firstdate+datetime.timedelta(days=14)
             lastdate=nextdate+datetime.timedelta(days=13)
             if nextdate <= now <= lastdate:
-                flag=True
-                if current=='current':
-                    App.get_running_app().root.current_screen.ids['dstart'].text=str(nextdate)
-                    App.get_running_app().root.current_screen.ids['dend'].text=str(lastdate)
-                if current=='last':
-                    App.get_running_app().root.current_screen.ids['dstart'].text=str(nextdate-datetime.timedelta(days=14))
-                    App.get_running_app().root.current_screen.ids['dend'].text=str(lastdate-datetime.timedelta(days=14))
-            firstdate=nextdate
-        if current !='custom':
+                flag = True
+                if current == "current":
+                    App.get_running_app().root.current_screen.ids["dstart"].text = str(
+                        nextdate
+                    )
+                    App.get_running_app().root.current_screen.ids["dend"].text = str(
+                        lastdate
+                    )
+                if current == "last":
+                    App.get_running_app().root.current_screen.ids["dstart"].text = str(
+                        nextdate - datetime.timedelta(days=14)
+                    )
+                    App.get_running_app().root.current_screen.ids["dend"].text = str(
+                        lastdate - datetime.timedelta(days=14)
+                    )
+            firstdate = nextdate
+        if current != "custom":
             self.do_history()
             
     def show_date_picker(self): 
@@ -816,6 +908,7 @@ class Demo3App(MDApp):
         name=str.replace(name,'/','')
         name=str.replace(name,':','')
         return name
+
     def show_time_picker2(self):
         lib_makeuserdata.makeshowfile(App,xxx[idex],config_file,ios)
         
@@ -823,13 +916,11 @@ class Demo3App(MDApp):
 
 
     def show_time_picker1(self):
-        #if App.get_running_app().root.current_screen.ids['newhours'].text=='Set Worked Hours':
-        if 1==1:
-            y=time_dialog1 = MDTimePicker()
-            x=time_dialog1.bind(time=self.get_time)
-            z=time_dialog1.open()
-        
-
+        # if App.get_running_app().root.current_screen.ids['newhours'].text=='Set Worked Hours':
+        if 1 == 1:
+            y = time_dialog1 = MDTimePicker()
+            x = time_dialog1.bind(time=self.get_time)
+            z = time_dialog1.open()
 
     def get_time(self, instance, time):
 
@@ -1082,14 +1173,15 @@ class Demo3App(MDApp):
             #return
 
         #self.refresh_data()
-    def refresh_data(self): 
-        print ('lol')
-    #def check_login(self):
-        #good_login=self.do_login('',False)
-        #if good_login==True:
-            #self.save_login()
-            #self.root.current = "home"
-            
+    def refresh_data(self):
+        print("lol")
+
+    # def check_login(self):
+    # good_login=self.do_login('',False)
+    # if good_login==True:
+    # self.save_login()
+    # self.root.current = "home"
+
     def save_login(self):
         self.root.current = "login"
         x['username']=App.get_running_app().root.current_screen.ids['temail'].text
@@ -1105,60 +1197,82 @@ class Demo3App(MDApp):
             #n22()
         
         
+    def do_login(self, search, useold):
+        print("do_login")
 
+        # if pf[0]!='W':
+        # if 1==1:
+        # from lib_test import n22
+        # n22()
 
         global xxx
         global mjds
         global config_file
         global plus_search
-        good_login=False
+        good_login = False
         now = datetime.datetime.now()
         app = App.get_running_app()
-        config_file=app.user_data_dir
-
-    
+        config_file = app.user_data_dir
 
         self.root.current = "home"
         self.root.current_screen.ids["users_lst"].clear_widgets()
 
-        
-        if x['usecache']=="True" or x['usecache']==True :
-            print('Using Cache2')
-            lib_createcache.createcache(ad,randrange(1,100,10))
-        sch=(ad+'/conf.html')
-        
-        if x['usecache']=="False" or x['usecache']==False:
-            print ("Using Live Data")
-            if useold==False:
-                good_login=lib_think.login(ad,x,ios,App)
-                good_login=True
+        if x["usecache"] == "True" or x["usecache"] == True:
+            print("Using Cache2")
+            lib_createcache.createcache(ad, randrange(1, 40, 10))
+        sch = ad + "/conf.html"
 
-                if good_login==True:
-                    sch=(ad+'/realdata.html')
-        
-        
-        xxx,mjds=lib_parse.parse(sch,ad,x['usecache'],x)
-        
-        
-        
-        
-        
-        cf,week,tot=lib_tinyfs.stats(xxx,now,search)
-        founddates=''
-        if len(search)>0:
-            founddates=str(tot)+'/'+str(len(xxx)-1)+'dates matching: '+str(search)+'\n'
+        if x["usecache"] == "False" or x["usecache"] == False:
+            print("Using Live Data")
+            if useold == False:
+                good_login = lib_think.login(ad, x, ios, App)
+                good_login = True
 
-        texta='[size=18 sp]'+founddates+str(cf)+'/'+str(tot)+' confirmed dates\n'+str(week)+' gigs this week[size=1 sp]***0'
-        
+                if good_login == True:
+                    sch = ad + "/realdata.html"
 
-        indexnumber=0
-        self.root.current_screen.ids["users_lst"].add_widget(SwipeToDeleteItem(text=texta))
-        if cf<tot:
-            indexnumber=indexnumber+1
-            texta='Click To Confirm'+str(tot-cf)+' gigs [size=1 sp]***'+str(indexnumber)
-            self.root.current_screen.ids["users_lst"].add_widget(SwipeToDeleteItem(text=texta))
-        #App.get_running_app().root.current_screen.ids['istoday'].text='wow'
-        
+        xxx, mjds = lib_parse.parse(sch, ad, x["usecache"], x)
+
+        cf, week, tot = lib_tinyfs.stats(xxx, now, search)
+        founddates = ""
+        if len(search) > 0:
+            founddates = (
+                str(tot)
+                + "/"
+                + str(len(xxx) - 1)
+                + "dates matching: "
+                + str(search)
+                + "\n"
+            )
+
+        texta = (
+            "[size=18 sp]"
+            + founddates
+            + str(cf)
+            + "/"
+            + str(tot)
+            + " confirmed dates\n"
+            + str(week)
+            + " gigs this week[size=1 sp]***0"
+        )
+
+        indexnumber = 0
+        self.root.current_screen.ids["users_lst"].add_widget(
+            SwipeToDeleteItem(text=texta)
+        )
+        if cf < tot:
+            indexnumber = indexnumber + 1
+            texta = (
+                "Click To Confirm"
+                + str(tot - cf)
+                + " gigs [size=1 sp]***"
+                + str(indexnumber)
+            )
+            self.root.current_screen.ids["users_lst"].add_widget(
+                SwipeToDeleteItem(text=texta)
+            )
+        # App.get_running_app().root.current_screen.ids['istoday'].text='wow'
+
         plus_search=0
         for i in range(len(mjds)):
             #lib_bonus.create_notification(mjds[i],x)
@@ -1170,12 +1284,14 @@ class Demo3App(MDApp):
 
                 self.root.current_screen.ids["users_lst"].add_widget(SwipeToDeleteItem(text=texta))
 
+                self.root.current_screen.ids["users_lst"].add_widget(
+                    SwipeToDeleteItem(text=texta)
+                )
 
-        print (plus_search,'plussearch')
+        print(plus_search, "plussearch")
         return good_login
                 
-        
-    #btnState2 = StringProperty("false")
+    # btnState2 = StringProperty("false")
+
+
 Demo3App().run()
-
-
