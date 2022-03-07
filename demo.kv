@@ -18,7 +18,26 @@ ScreenManager:
     NotificationScreen:
 
 
+<BlankMDCard>:
+    orientation: "vertical"
+    padding: "8dp"
+    spacing: "10dp"
+    #size_hint: None, None
+    #size: "280dp", "180dp"
+    #pos_hint: {"center_x": .5, "center_y": .5}
+    MDSeparator:
+        height: "3dp"
+    MDLabel:
+        text: root.text
+        theme_text_color: "Secondary"
+        size_hint_y: None
+        height: self.texture_size[1]
 
+    MDSeparator:
+        height: "1dp"
+
+    MDLabel:
+        text: root.text2
 <Content>
     size_hint_y: None
     #height: self.minimum_height
@@ -881,19 +900,7 @@ ScreenManager:
                     id: type
                     IconLeftWidget:
                         icon: "bowling"
-                OneLineAvatarIconListItem: 
-                    id: wrench
-                    on_press:
-                        app.set_rate()
-                    IconLeftWidget:
-                        id: pos
-                        icon: "wrench"
-                    YourContainer:
-                        id: container2
-                        MDTextField:
-                            
-                            values:app.get_rate()
-                            id: rate
+
                 OneLineAvatarIconListItem: 
                     id: status
                     on_press:
@@ -1084,21 +1091,42 @@ ScreenManager:
                     
                     
                     #text: "Sample Schedule"
-                    text: 'Debug'
+                    text: 'Randomize Data'
                     YourContainer:
                         id: container
 
                         MDSwitch:
                             widget_style: "ios"
                             icon: "plus"
-                            id: usecachebox
+                            id: usecache
                             #active: app.lol()
                             active: app.check_att('usecache')
                             on_active:
                                 #app.on_checkbox_active(*args)
-                                app.updatetext()
+                                app.updatetext("usecache")
+                    IconLeftWidget:
+                        icon: "bug"                
+                
+                OneLineAvatarIconListItem:
+                    
+                    
+                    #text: "Sample Schedule"
+                    text: 'Refresh Data on Load'
+                    YourContainer:
+                        id: container
+
+                        MDSwitch:
+                            widget_style: "ios"
+                            icon: "plus"
+                            id: refreshreload
+                            #active: app.lol()
+                            active: app.check_att('refreshreload')
+                            on_active:
+                                #app.on_checkbox_active(*args)
+                                app.updatetext("refreshreload")
                     IconLeftWidget:
                         icon: "bug"
+            
                 OneLineAvatarIconListItem:
                     text: "Clear Data"
                     on_release:
@@ -1113,7 +1141,7 @@ ScreenManager:
                     on_release:
                         #app.backup()
                         Clipboard.copy(app.backup())
-                        app.backup_tofiles()
+                        #app.backup_tofiles()
                         Snackbar(text="Backup Copied to Clipboard!",bg_color=app.theme_cls.primary_color).open()
                         pos_hint: {"center_x": .5, "center_y": .5}
                     YourContainer:
@@ -1137,7 +1165,7 @@ ScreenManager:
                     IconLeftWidget:
                         icon: "cloud-download"
                 OneLineAvatarIconListItem:
-                    text: 'download pp data'
+                    text: 'Download All Paystubs'
                     on_release: 
                         app.dlpp()
 

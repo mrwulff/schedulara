@@ -220,6 +220,17 @@ class NewSlider(Screen):
     text = StringProperty()
 
 
+from kivy.uix.label import Label
+
+
+class MD3Card(Screen):
+    text = StringProperty()
+
+
+class SmoothLabel(Label):
+    pass
+
+
 class SwipeToDeleteItem(Screen):
 
     text = StringProperty()
@@ -243,7 +254,11 @@ class SwipeToDeleteItem(Screen):
         except:
             App.get_running_app().root.current_screen.ids["rate"].text = "?"
         now = datetime.datetime.now()
-        today, fdate = lib_tinyfs.format_text(idex, mjds, now, "info")
+        try:
+            today, fdate = lib_tinyfs.format_text(idex, mjds, now, "info")
+            print("OMGWHATHAVEYOPUDONE ", idex)
+        except:
+            print("omgwhathaveyoudone ", idex)
         try:
             App.get_running_app().root.current_screen.ids["date"].text = fdate
             # App.get_running_app().root.current_screen.ids['d0'].text=str(newxxx[0])
@@ -270,18 +285,18 @@ class SwipeToDeleteItem(Screen):
             App.get_running_app().root.current_screen.ids["d12"].text = str(newxxx[12])
             App.get_running_app().root.current_screen.ids["d13"].text = str(newxxx[9])
             App.get_running_app().root.current_screen.ids["d10"].text = str(newxxx[13])
-
+            if newxxx[8] == "ME":
+                App.get_running_app().root.current_screen.ids[
+                    "pos"
+                ].icon = "power-socket-us"
+            App.get_running_app().root.current_screen.ids["image"].source = (
+                "images/" + x["city"] + ".png"
+            )
         except:
             (newxxx)
-        if newxxx[8] == "ME":
-            App.get_running_app().root.current_screen.ids[
-                "pos"
-            ].icon = "power-socket-us"
 
-        print(mjds[idex]["location"], "WTHMAN")
-        App.get_running_app().root.current_screen.ids["image"].source = (
-            "images/" + x["city"] + ".png"
-        )
+        # print(mjds[idex]["location"], "WTHMAN")
+
         try:
 
             App.get_running_app().root.current_screen.ids["image"].source = (
@@ -315,6 +330,19 @@ class MyToggleButton(MDRaisedButton, MDToggleButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.background_down = self.theme_cls.primary_light
+
+
+class MyLabel(Screen):
+    def on_size(self, *args):
+        self.text_size = self.size
+
+
+from kivymd.uix.card import MDCard
+
+
+class BlankMDCard(MDCard):
+    text = StringProperty()
+    text2 = StringProperty()
 
 
 newcolor = (0.2, 0.2, 0.2)
@@ -543,6 +571,8 @@ class Demo3App(MDApp):
         pass
 
     def make_stats(self):
+        from kivy.utils import get_color_from_hex
+
         self.root.current = "stats"
         self.root.current_screen.ids["graphs"].clear_widgets()
         dd, dd2, maxd, maxm, max_dy, max_my = lib_makegraphs.parsepp(self, ad, "check")
@@ -553,7 +583,19 @@ class Demo3App(MDApp):
 
         lib_makegraphs.make_stats_pp(self, "$/Day", dd2, maxd, max_dy)
 
-        lib_makegraphs.make_matplot(self)
+        # self.root.current_screen.ids["graphs"].add_widget(MD3Card(text="wow"))
+        stats = [
+            "stat1: 5667",
+            "stat2: 1567",
+            "stat3: 5671",
+            "stat4: 5o67",
+        ]
+        self.root.current_screen.ids["graphs"].add_widget(
+            BlankMDCard(text="Current YTD", text2="coming soon")
+        )
+        self.root.current_screen.ids["graphs"].add_widget(
+            BlankMDCard(text="Current Year", text2="soming soon!")
+        )
 
     def maketransp(self):
 
@@ -569,7 +611,12 @@ class Demo3App(MDApp):
         # self.root.current_screen.ids["payperiod_list"].clear_widgets()
 
     def dlpp(self):
-        lib_ppdownloader.thinkpp(x, ad)
+        paystubs, new = lib_ppdownloader.thinkpp(x, ad)
+        self.snackbar = Snackbar(
+            text="Downloaded " + str(new) + " Paystubs out of " + str(paystubs),
+            bg_color=self.theme_cls.primary_color,
+        )
+        self.snackbar.open()
 
     def ccc(self):
         print(xxx)
@@ -902,24 +949,35 @@ class Demo3App(MDApp):
         self.do_history()
 
     def check_att(self, b):
+        global x
 
-        # app = App.get_running_app()
-        # ad=app.user_data_dir
+        app = App.get_running_app()
+        ad = app.user_data_dir
         # config_file=ad
 
         if ios == True:
 
             x = lib_readuserdata.readuserdata(App, ad, ios)
+        try:
+            print(x[b], "checkingx[b]")
+        except:
+            print("cant do that")
+            x[b] = False
+            app = App.get_running_app()
+            ad = app.user_data_dir
+            lib_updateuserdata.updateuser(x, ad)
+        print(x, "XSUBB")
         return x[b]
 
-    def updatetext(self):
+    def updatetext(self, box):
         app = App.get_running_app()
         ad = app.user_data_dir
         print(ad)
         if ios == False:
             config_file = ad
-        debugbox = App.get_running_app().root.current_screen.ids["usecachebox"].active
-        x["usecache"] = debugbox
+        debugbox = App.get_running_app().root.current_screen.ids[box].active
+        x[box] = debugbox
+        print(x[box], "xbox")
         lib_updateuserdata.updateuser(x, ad)
 
     def maps(
@@ -1253,11 +1311,18 @@ class Demo3App(MDApp):
         if x["usecache"] == "False" or x["usecache"] == False:
             print("Using Live Data")
             if useold == False:
-                good_login = lib_think.login(ad, x, ios, App)
-                good_login = True
+                if x["refreshreload"] == True:
+                    good_login = lib_think.login(ad, x, ios, App)
+                    good_login = True
 
                 if good_login == True:
+                    print("GOOD LOGIN SIR")
                     sch = ad + "/realdata.html"
+                if x["refreshreload"] == False:
+                    try:
+                        sch = ad + "/realdata.html"
+                    except:
+                        print("realdata not found")
 
         xxx, mjds = lib_parse.parse(sch, ad, x["usecache"], x)
 
