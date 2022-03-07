@@ -836,6 +836,19 @@ ScreenManager:
                         on_release: app.show_time_picker2()
                     IconLeftWidget:
                         icon: "clipboard-outline"
+                OneLineAvatarIconListItem: 
+                    id: wrench
+                    on_press:
+                        app.set_rate()
+                    IconLeftWidget:
+                        id: pos
+                        icon: "wrench"
+                    YourContainer:
+                        id: container2
+                        MDTextField:
+                            
+                            values:app.get_rate()
+                            id: rate
 
                 OneLineAvatarIconListItem: 
                     id: jobid
