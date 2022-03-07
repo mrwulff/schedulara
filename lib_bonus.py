@@ -9,46 +9,41 @@ def create_notification(x,y,debug):
         print ('omgitslinux')
     d1=float(y['not1time'])
     d2=float(y['not2time'])
-    '''
-    try:
-        d1=float(y['not1time'])
-        d2=float(y['not2time'])
-    except:
-        y['not1time']=0
-        y['not2time']=0
-        y['not1']=False
-        y['not2']=False
-        y['not']=False
-        d1=float(y['not1time'])
-        d2=float(y['not2time'])
-    '''
+
     d1=d1*60
     d2=d2*60
+
+    #print (d1,d2,'omgwtfitsday1')
     
 
-    datetime_str = '09/19/18 13:55:26'
     showdatetime=x['date']+' '+x['time']
 
     showdatetime = datetime.datetime.strptime(showdatetime, '%m/%d/%Y %H:%M')
     dif= (showdatetime-now)
 
     delay2= (dif.total_seconds())
-    deyay2=delay2-d2
+    #print (delay2,'delay2',d2)
+    #print (type(delay2),type(d2))
+    delay2=delay2-d2
+    #print (delay2,'delay2-d2',d2)
 
     delay1= (dif.total_seconds())
-    deyay1=delay1-d1
+    #print (delay1,'delay1')
 
-    if debug==True:
-        delay1=5
-        delay2=10
+    delay1=delay1-d1
+    #print (delay1,'delay2-d1')
+
+    #if debug==56:
+    #    delay1=5
+    #    delay2=10
     #logging.info(pf,delay2)
     print (delay1,delay2,'DELAY!@')
     #pf='W'
-    try:
-        y['not2time'],junk=str.split(y['not2time'],'.')
-        y['not1time'],junk=str.split(y['not1time'],'.')
-    except:
-        ''
+    #try:
+    #    y['not2time'],junk=str.split(y['not2time'],'.')
+    #    y['not1time'],junk=str.split(y['not1time'],'.')
+    #except:
+    #    ''
     if platform =='win':
         logging.info('windows notifications not supported')
     if platform !='win':
@@ -58,14 +53,14 @@ def create_notification(x,y,debug):
 
             import notification
             if y['not']==True and y['not2']==True:
-                print (x,'xxxxxx')
-                print (x['show'])
+                #print (x,'xxxxxx')
+                #print (x['show'])
                 notification.schedule(x['show'],delay=delay2,title= y['not2time']+' Minutes From Now: '+x['time'],subtitle=x['venue'],attachments=['images/black-rhino.png'],sound_name='images/beep.wav')
-                print ('added not 2')
+                print ('added not 2 ',delay2)
 
             if y['not']==True and y['not1']==True:
                 notification.schedule(x['show'],delay=delay1,title= y['not1time']+' Minutes From Now:  '+x['time'],subtitle=x['venue'],attachments=['images/black-rhino.png'],sound_name='images/beep.wav')
-                print ('added not 1')
+                print ('added not 1 ',delay1)
 
             #import notification_old
             #x6=notification.get_scheduled()
