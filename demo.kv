@@ -176,17 +176,15 @@ ScreenManager:
                             origin: self.center
                     canvas.after:
                         PopMatrix
-                    #text: 'Today!' if app.today = True else ''
-                    #text: str('lololol') if int(root.text[-1:])%2==0 else str('lol')
                     markup: True
-                    text: str('[size=40sp]Today!') if root.text[6]=='0' else str('')
+                    text: str('[size=20sp]Today!') if root.text[6]=='0' else str('')
                     id:istoday
                     #text_size: 30
                     
-                    size_hint: .2,1
+                    size_hint: .4,1
                     size: self.texture_size
                     pos: 0,0
-                    pos_hint: {'right':1, 'bottom':1}
+                    pos_hint: {'right':1, 'top':1}
                     
            
 <HistoryItem>:
