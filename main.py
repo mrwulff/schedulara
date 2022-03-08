@@ -1350,6 +1350,7 @@ class Demo3App(MDApp):
         )
 
         indexnumber = 0
+        indexnumber_real = -1
         self.root.current_screen.ids["users_lst"].add_widget(
             SwipeToDeleteItem(text=texta)
         )
@@ -1371,7 +1372,8 @@ class Demo3App(MDApp):
             # lib_bonus.create_notification(mjds[i],x)
             texta = lib_tinyfs.format_text(i, mjds, now, "index")
             indexnumber = indexnumber + 1
-            texta = texta + str(indexnumber)
+            indexnumber_real = indexnumber_real + 1
+            texta = texta + str(indexnumber_real)
             if search.lower() in str(xxx[i]).lower() or len(search) == 0:
                 plus_search = plus_search + 1
 
