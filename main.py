@@ -1188,34 +1188,37 @@ class Demo3App(MDApp):
         tot = 0
         now = datetime.datetime.now()
         for file in glob.glob("*.json"):
-            data, pay2, ot2, hours2, tot2, date = lib_extractjson.extract_show(
-                App, file, config_file
-            )
+            try:
+                data, pay2, ot2, hours2, tot2, date = lib_extractjson.extract_show(
+                    App, file, config_file
+                )
 
-            show_date = datetime.datetime.strptime(date, "%m/%d/%Y")
-            dstart = App.get_running_app().root.current_screen.ids["dstart"].text
-            dend = App.get_running_app().root.current_screen.ids["dend"].text
-            print(show_date.date(), dstart, dend)
-            print(type(show_date.date()), type(dstart), type(dend))
-            force = False
-            if dstart == "All":
+                show_date = datetime.datetime.strptime(date, "%m/%d/%Y")
+                dstart = App.get_running_app().root.current_screen.ids["dstart"].text
+                dend = App.get_running_app().root.current_screen.ids["dend"].text
+                print(show_date.date(), dstart, dend)
+                print(type(show_date.date()), type(dstart), type(dend))
+                force = False
+                if dstart == "All":
 
-                dstart = datetime.datetime.strptime("1900", "%Y")
-                dend = datetime.datetime.strptime("2200", "%Y")
-                force = True
-            else:
-                # dstart != 'All':
-                print(dstart, dend, "WF")
-                dstart = datetime.datetime.strptime(dstart, "%Y-%m-%d")
-                dend = datetime.datetime.strptime(dend, "%Y-%m-%d")
-                print(type(show_date.date()), type(dstart.date()), type(dend.date()))
-            if dstart.date() <= show_date.date() <= dend.date():
+                    dstart = datetime.datetime.strptime("1900", "%Y")
+                    dend = datetime.datetime.strptime("2200", "%Y")
+                    force = True
+                else:
+                    # dstart != 'All':
+                    print(dstart, dend, "WF")
+                    dstart = datetime.datetime.strptime(dstart, "%Y-%m-%d")
+                    dend = datetime.datetime.strptime(dend, "%Y-%m-%d")
+                    print(type(show_date.date()), type(dstart.date()), type(dend.date()))
+                if dstart.date() <= show_date.date() <= dend.date():
 
-                allshows.append(data)
-                pay = pay + pay2
-                ot = ot + ot2
-                hours = hours + hours2
-                tot = tot + tot2
+                    allshows.append(data)
+                    pay = pay + pay2
+                    ot = ot + ot2
+                    hours = hours + hours2
+                    tot = tot + tot2
+            except:
+                print('failed to add show')
         self.root.current_screen.ids["history_list"].add_widget(
             HistoryItem(
                 text="pay="

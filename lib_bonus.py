@@ -52,15 +52,18 @@ def create_notification(x,y,debug):
             
 
             import notification
-            if y['not']==True and y['not2']==True:
-                #print (x,'xxxxxx')
-                #print (x['show'])
-                notification.schedule(x['show'],delay=delay2,title= y['not2time']+' Minutes From Now: '+x['time'],subtitle=x['venue'],attachments=['images/black-rhino.png'],sound_name='images/beep.wav')
-                print ('added not 2 ',delay2)
+            try:
+                if y['not']==True and y['not2']==True:
+                    #print (x,'xxxxxx')
+                    #print (x['show'])
+                    notification.schedule(x['show'],delay=delay2,title= y['not2time']+' Minutes From Now: '+x['time'],subtitle=x['venue'],attachments=['images/black-rhino.png'],sound_name='images/beep.wav')
+                    print ('added not 2 ',delay2)
 
-            if y['not']==True and y['not1']==True:
-                notification.schedule(x['show'],delay=delay1,title= y['not1time']+' Minutes From Now:  '+x['time'],subtitle=x['venue'],attachments=['images/black-rhino.png'],sound_name='images/beep.wav')
-                print ('added not 1 ',delay1)
+                if y['not']==True and y['not1']==True:
+                    notification.schedule(x['show'],delay=delay1,title= y['not1time']+' Minutes From Now:  '+x['time'],subtitle=x['venue'],attachments=['images/black-rhino.png'],sound_name='images/beep.wav')
+                    print ('added not 1 ',delay1)
+            except:
+                print ('failed to make nots')
 
             #import notification_old
             #x6=notification.get_scheduled()
