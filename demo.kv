@@ -16,6 +16,7 @@ ScreenManager:
     TrophyScreen:
     StatsScreen:
     NotificationScreen:
+    AnimateMoneyScreen:
 
 
 <BlankMDCard>:
@@ -325,6 +326,30 @@ ScreenManager:
     #        origin: self.center
     #canvas.after:
     #    PopMatrix
+<animateMoneyScreen>:
+    name: 'animate'
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            #Text: 'wow'
+            id: top
+        Label:
+            #Text: 'moneyinfo'
+            id: moneyinfo
+        Label:
+            #Text: 'moneya'
+            id: moneya
+        Label:
+            #Text: 'moneya'
+            id: moneyb
+        Button:
+            id: resetbutton
+            on_press: app.animate_money()
+        Button:
+            id: backbutton
+            on_press: app.change_screen('info','left')
+        
+
 <AboutScreen>:
     name: "about"
     #Image:
@@ -825,6 +850,7 @@ ScreenManager:
                 OneLineAvatarIconListItem: 
                     id: date
                     #on_release:
+                    on_press: app.animate_money()
                         #on_release: app.show_time_picker1()
                     IconLeftWidget:
                         icon: "calendar-clock-outline"
@@ -916,9 +942,11 @@ ScreenManager:
 
 
                 OneLineAvatarIconListItem: 
-                    id: d12
-                    #IconLeftWidget:
-                        #icon: "calendar-clock-outline"
+                    id: d13
+                    text: 'Animate Money!'
+                    on_press: app.animate_money()
+                    IconLeftWidget:
+                        icon: "cash-100"
 
                 OneLineAvatarIconListItem: 
                     id: d13

@@ -5,6 +5,7 @@ scale = 2
 useold = False
 
 
+from audioop import ratecv
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager
@@ -209,6 +210,10 @@ class YourContainer2(IRightBodyTouch, MDBoxLayout):
 
 
 class HistoryItem(Screen):
+    text = StringProperty()
+
+
+class AnimateMoneyScreen(Screen):
     text = StringProperty()
 
 
@@ -632,6 +637,35 @@ class Demo3App(MDApp):
             print(confable[i])
         self.snackbar = Snackbar(text="Success!", bg_color=self.theme_cls.primary_color)
         self.snackbar.open()
+
+    def animate_money(self):
+        self.root.current = "animate"
+        from datetime import datetime
+
+        show = xxx[idex]
+
+        # print(show[1], "wtfff", mjds[idex]["time"], mjds[idex]["pos"])
+        pos = mjds[idex]["pos"]
+        rate = lib_extractjson.extract_pos(App, config_file, pos)
+        print(rate)
+        start_time = mjds[idex]["date"] + "." + mjds[idex]["time"]
+        start_time = datetime.strptime(start_time, "%m/%d/%Y.%H:%M")
+
+        now = datetime.now()
+        difff = now - start_time
+        difff = int(difff.total_seconds() / 3600.0)
+        earn = difff * float(rate)
+        # earn = round(earn, 2)
+
+        # start_time = mjds[idex]["date"]
+        # start_time = datetime.strptime(start_time, "%m/%d/%Y")
+
+        self.root.get_screen("animate").ids["top"].text = str(start_time)
+        self.root.get_screen("animate").ids["moneyinfo"].text = str(rate)
+        self.root.get_screen("animate").ids["moneya"].text = str(difff)
+        self.root.get_screen("animate").ids["moneyb"].text = str(earn)
+        self.root.get_screen("animate").ids["resetbutton"].text = "reset"
+        self.root.get_screen("animate").ids["backbutton"].text = "back"
 
     def confirm(self, what):
         fail = self.confirm_real(what)
@@ -1108,6 +1142,7 @@ class Demo3App(MDApp):
         self.sm.add_widget(TrophyScreen(name="trophy"))
         self.sm.add_widget(StatsScreen(name="stats"))
         self.sm.add_widget(NotificationScreen(name="notification"))
+        self.sm.add_widget(AnimateMoneyScreen(name="animate"))
 
         # newcolor=webcolors.name_to_rgb(self.theme_cls.accent_palette)
 
@@ -1209,7 +1244,9 @@ class Demo3App(MDApp):
                     print(dstart, dend, "WF")
                     dstart = datetime.datetime.strptime(dstart, "%Y-%m-%d")
                     dend = datetime.datetime.strptime(dend, "%Y-%m-%d")
-                    print(type(show_date.date()), type(dstart.date()), type(dend.date()))
+                    print(
+                        type(show_date.date()), type(dstart.date()), type(dend.date())
+                    )
                 if dstart.date() <= show_date.date() <= dend.date():
 
                     allshows.append(data)
@@ -1218,7 +1255,7 @@ class Demo3App(MDApp):
                     hours = hours + hours2
                     tot = tot + tot2
             except:
-                print('failed to add show')
+                print("failed to add show")
         self.root.current_screen.ids["history_list"].add_widget(
             HistoryItem(
                 text="pay="
