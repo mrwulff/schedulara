@@ -1,3 +1,7 @@
+import time
+
+tic = time.perf_counter()
+
 ios = True
 notch = True
 debug = True
@@ -124,6 +128,9 @@ import webbrowser
 import shutil
 from random import randrange
 from functools import partial
+
+toc1 = time.perf_counter()
+print(tic - toc1, "firsttimer")
 
 
 class SpinnerOptions(SpinnerOption):
@@ -1254,18 +1261,19 @@ class Demo3App(MDApp):
             """"""
 
         self.sm = ScreenManager()
-        self.sm.add_widget(InfoScreen(name="info"))
-        self.sm.add_widget(SettingsScreen(name="settings"))
-        self.sm.add_widget(HomeScreen(name="home"))
-        self.sm.add_widget(LoginScreen(name="login"))
-        self.sm.add_widget(HistoryScreen(name="history"))
-        self.sm.add_widget(PayScreen(name="Pay"))
         self.sm.add_widget(MainMenuScreen(name="mainmenu"))
-        self.sm.add_widget(AboutScreen(name="about"))
-        self.sm.add_widget(TrophyScreen(name="trophy"))
-        self.sm.add_widget(StatsScreen(name="stats"))
-        self.sm.add_widget(NotificationScreen(name="notification"))
-        self.sm.add_widget(AnimateMoneyScreen(name="animate"))
+        if 1 == 2:
+            self.sm.add_widget(InfoScreen(name="info"))
+            self.sm.add_widget(SettingsScreen(name="settings"))
+            self.sm.add_widget(HomeScreen(name="home"))
+            self.sm.add_widget(LoginScreen(name="login"))
+            self.sm.add_widget(HistoryScreen(name="history"))
+            self.sm.add_widget(PayScreen(name="Pay"))
+            self.sm.add_widget(AboutScreen(name="about"))
+            self.sm.add_widget(TrophyScreen(name="trophy"))
+            self.sm.add_widget(StatsScreen(name="stats"))
+            self.sm.add_widget(NotificationScreen(name="notification"))
+            self.sm.add_widget(AnimateMoneyScreen(name="animate"))
 
         # newcolor=webcolors.name_to_rgb(self.theme_cls.accent_palette)
 
@@ -1579,6 +1587,8 @@ class Demo3App(MDApp):
         self.root.current_screen.ids["users_lst"].add_widget(
             SwipeToDeleteItem(text=texta)
         )
+        toc3 = time.perf_counter()
+        print(tic - toc3, "toc3time")
         if cf < tot:
             indexnumber = indexnumber + 1
             texta = (
