@@ -1,5 +1,6 @@
 
 
+
 ScreenManager:
     #:import Clipboard kivy.core.clipboard.Clipboard
     #:import Snackbar kivymd.uix.snackbar.Snackbar
@@ -328,28 +329,41 @@ ScreenManager:
     #    PopMatrix
 <animateMoneyScreen>:
     name: 'animate'
+
+
     BoxLayout:
         orientation: "vertical"
-        Label:
-            #Text: 'wow'
-            id: top
-        Label:
-            #Text: 'moneyinfo'
-            id: moneyinfo
-        Label:
-            #Text: 'moneya'
-            id: moneya
-        Label:
-            #Text: 'moneya'
-            id: moneyb
-        Button:
-            id: resetbutton
-            on_press: app.animate_money()
-        Button:
-            id: backbutton
-            on_press: app.change_screen('info','left')
-        
+        MDToolbar:
+            #title: "AnimateMoney"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('home','left')]]
+        ScrollView:
 
+
+            MDList:
+                TwoLineAvatarIconListItem:
+                    id:top
+                    IconLeftWidget:
+                        icon:"calendar-clock"
+                TwoLineAvatarIconListItem:
+                    id:moneyinfo
+                    IconLeftWidget:
+                        icon:"table-account"
+                TwoLineAvatarIconListItem:
+                    id:moneya
+                    IconLeftWidget:
+                TwoLineAvatarIconListItem:
+                    id:money_r
+                    IconLeftWidget:
+                        icon:"timer-sand"
+                TwoLineAvatarIconListItem:
+                    id:moneyb
+                    IconLeftWidget:
+                        icon:"cash-multiple"
+                TwoLineAvatarIconListItem:
+                    id:money_pay
+                    IconLeftWidget:
+                        icon:"cash-multiple"
 <AboutScreen>:
     name: "about"
     #Image:
@@ -459,6 +473,7 @@ ScreenManager:
                 
                 tile_text_color: app.theme_cls.accent_color
                 text: "[size=26]Schedule[/size][size=14][/size]"
+                
                 on_release:
                     app.do_login('',False)
                 
@@ -478,9 +493,10 @@ ScreenManager:
                 
 
             MyTile:
-                text: "[size=26]History[/size]"
+                
                 tile_text_color: app.theme_cls.accent_color
                 on_release: app.do_history()
+                text: "[size=26]History[/size][size=14][/size]"
                 AnchorLayout:
                     pos_hint: {"center_x": .5, "center_y": .5}
                     canvas.before:
@@ -494,7 +510,7 @@ ScreenManager:
                     FitImage:
                         source: "images/history.png"
                         size_hint: app.menuscale
-
+            
 
             MyTile:
                 #source: "cat-3.jpg"
@@ -866,6 +882,7 @@ ScreenManager:
                         Spinner:
                             values:app.lunch
                             id: lunches
+                            text: "1"
                     
                         
                     #on_long_press:
@@ -933,8 +950,12 @@ ScreenManager:
                         icon: "check-decagram"
                 OneLineAvatarIconListItem: 
                     id: notes
+                    on_press: 
+                        #Clipboard.copy(self.text)
+                        app.poppy("notes")
                     IconLeftWidget:
                         icon: "note-search-outline"
+                        
                 OneLineAvatarIconListItem: 
                     id: d10
                     IconLeftWidget:
@@ -952,6 +973,25 @@ ScreenManager:
                     id: d13
                     #IconLeftWidget:
                         #icon: "calendar-clock-outline"
+                TwoLineAvatarIconListItem: 
+                    id: newhours
+                    text: 'Set Overtime '
+                    #secondary_text: 'Set OT'
+                    #on_release:
+                    #    app.show_time_picker1()
+                    YourContainer:
+                        id: container2
+                        Spinner:
+                            values:app.ot
+                            id: ot_spin
+                            text: '8'
+                    
+                        
+                    #on_long_press:
+                    #    app.save_show()
+                    IconLeftWidget:
+
+                        icon: "clipboard-outline"
 <NotificationScreen>:
     name: "notification"
     #Image:

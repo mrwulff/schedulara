@@ -20,6 +20,8 @@ from kivy.properties import ObjectProperty
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.list import IRightBodyTouch
 from kivymd.uix.boxlayout import MDBoxLayout
+from kivy.clock import Clock
+from kivymd.uix.textfield import MDTextField
 
 # from kivymd.uix.Floatlayout import MDFloatLayout
 from kivymd.uix.snackbar import Snackbar
@@ -236,6 +238,31 @@ class SmoothLabel(Label):
     pass
 
 
+class DialogContent(MDBoxLayout):
+    """OPENS A DIALOG BOX THAT GETS THE TASK FROM THE USER"""
+
+    # from datetime import datetime
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # set the date_text label to today's date when useer first opens dialog box
+        now = datetime.datetime.now()
+        self.ids.newhours.text = now
+
+    def show_date_picker(self):
+        """Opens the date picker"""
+        date_dialog = MDDatePicker()
+        date_dialog.bind(on_save=self.on_save)
+        date_dialog.open()
+
+    def on_save(self, instance, value, date_range):
+        """This functions gets the date from the date picker and converts its it a
+        more friendly form then changes the date label on the dialog to that"""
+
+        date = value.strftime("%A %d %B %Y")
+        self.ids.date_text.text = str(date)
+
+
 class SwipeToDeleteItem(Screen):
 
     text = StringProperty()
@@ -363,6 +390,27 @@ class Content(FloatLayout):
     pass
 
 
+class CountDownLbl(Label):
+    angle = NumericProperty(0)
+    startCount = NumericProperty(20)
+    Count = NumericProperty()
+
+    def __init__(self, **kwargs):
+        super(CountDownLbl, self).__init__(**kwargs)
+        Clock.schedule_once(self.set_Circle, 0.1)
+        self.Count = self.startCount
+        Clock.schedule_interval(lambda x: self.set_Count(), 1)
+
+    def set_Count(self):
+        self.Count = self.Count - 1
+
+    def set_Circle(self, dt):
+        self.angle = self.angle + dt * 360
+        if self.angle >= 360:
+            self.angle = 0
+        Clock.schedule_once(self.set_Circle, 0.1)
+
+
 class Demo3App(MDApp):
     scale = 2
     if platform[0] == "w":
@@ -407,6 +455,7 @@ class Demo3App(MDApp):
     newercolor = newcolor
     xxxx = xxx + "wtf" + str(idex)
     lunch = ["0", "1", "2"]
+    ot = ["8", "10", "0", "1", "2", "3", "4", "5", "6", "7", "9"]
     if notch == True:
         mheight = 120
     else:
@@ -427,6 +476,19 @@ class Demo3App(MDApp):
 
     notheight = 200 * scale
     sound_effects = ["Ding", "Bang", "Lol"]
+
+    angle = NumericProperty(0)
+    startCount = NumericProperty(20)
+    Count = NumericProperty()
+
+    def set_Circle(self, dt):
+        self.angle = self.angle + dt * 360
+        if self.angle >= 360:
+            self.angle = 0
+        Clock.schedule_once(self.set_Circle, 0.1)
+
+    def set_Count(self):
+        self.Count = self.Count - 1
 
     def callback_for_menu_items(self, text):
         self.menu.dismiss()
@@ -640,32 +702,93 @@ class Demo3App(MDApp):
 
     def animate_money(self):
         self.root.current = "animate"
+        pos = mjds[idex]["pos"]
+        self.root.get_screen("animate").ids["top"].secondary_text = str("call start")
+        self.root.get_screen("animate").ids["moneyinfo"].secondary_text = str(
+            pos + " rate"
+        )
+        zzz = self.root.get_screen("info").ids["lunches"].text
+        hours_text = "Rounded Hours"
+        self.root.get_screen("animate").ids["moneya"].secondary_text = "Actual Hours"
+        self.root.get_screen("animate").ids["moneyb"].secondary_text = "Earned"
+        self.root.get_screen("animate").ids[
+            "money_pay"
+        ].secondary_text = "Earned (Actual)"
+        try:
+            if int(zzz) == 1:
+                hours_text = hours_text + " (-1 Hour Lunch)"
+            if int(zzz) == 2:
+                hours_text = hours_text + " (-2 Hour Lunches)"
+        except:
+            pass
+
+        self.root.get_screen("animate").ids["money_r"].secondary_text = hours_text
+
+        print(dir(self.root.get_screen("info").ids["lunches"]))
+        print(zzz, "zzz")
+
+        Clock.schedule_interval(self.update_label, 0.1)
+
+    def update_label(self, dt):
         from datetime import datetime
 
-        show = xxx[idex]
-
-        # print(show[1], "wtfff", mjds[idex]["time"], mjds[idex]["pos"])
-        pos = mjds[idex]["pos"]
-        rate = lib_extractjson.extract_pos(App, config_file, pos)
-        print(rate)
         start_time = mjds[idex]["date"] + "." + mjds[idex]["time"]
         start_time = datetime.strptime(start_time, "%m/%d/%Y.%H:%M")
-
+        pos = mjds[idex]["pos"]
+        rate = lib_extractjson.extract_pos(App, config_file, pos)
         now = datetime.now()
         difff = now - start_time
-        difff = int(difff.total_seconds() / 3600.0)
+        difff = int(difff.total_seconds())
+        diffs = difff / 3600
         earn = difff * float(rate)
-        # earn = round(earn, 2)
+        earn = earn / 3600
+        earn = round(earn, 2)
 
-        # start_time = mjds[idex]["date"]
-        # start_time = datetime.strptime(start_time, "%m/%d/%Y")
+        hours = int(diffs)
+        minutes = (diffs * 60) % 60
+        seconds = (diffs * 3600) % 60
 
+        newh = "%d:%02d.%02d" % (hours, minutes, seconds)
+        rhours = hours
+        if minutes < 5:
+            rminutes = 0
+        if minutes >= 5 and minutes < 35:
+            rminutes = 30
+        if minutes >= 35:
+            rminutes = 0
+            rhours = rhours + 1
+        zzz = self.root.get_screen("info").ids["lunches"].text
+        ot_after = float(self.root.get_screen("info").ids["ot_spin"].text)
+        try:
+            if int(zzz) > 0:
+                rhours = rhours - int(zzz)
+        except:
+            pass
+        r_hours = "%d:%02d" % (rhours, rminutes)
+
+        dec_hours = rhours
+        if rminutes == 30:
+            dec_hours = dec_hours + 0.5
+        r_pay = dec_hours * float(rate)
+        if dec_hours > ot_after:
+            r_pay = ot_after * float(rate)
+            ot_hours = dec_hours - ot_after
+            r_pay = r_pay + (ot_hours * float(rate) * 1.5)
+
+        # r_pay = dec_hours * float(rate)
+
+        # new_text = datetime.datetime.now().strftime("%H:%M:%S")
+
+        # label.text = new_text
+        # print(new_text)
         self.root.get_screen("animate").ids["top"].text = str(start_time)
-        self.root.get_screen("animate").ids["moneyinfo"].text = str(rate)
-        self.root.get_screen("animate").ids["moneya"].text = str(difff)
+        self.root.get_screen("animate").ids["moneyinfo"].text = str(
+            "%.2f" % float(rate)
+        )
+        self.root.get_screen("animate").ids["moneya"].text = str(newh)
         self.root.get_screen("animate").ids["moneyb"].text = str(earn)
-        self.root.get_screen("animate").ids["resetbutton"].text = "reset"
-        self.root.get_screen("animate").ids["backbutton"].text = "back"
+        self.root.get_screen("animate").ids["money_r"].text = str(r_hours)
+        self.root.get_screen("animate").ids["money_pay"].text = str("%.2f" % r_pay)
 
     def confirm(self, what):
         fail = self.confirm_real(what)
@@ -1153,10 +1276,7 @@ class Demo3App(MDApp):
 
         return screen
 
-    def do_payperiod(self, ssort, rreverse):
-        self.root.current = "Pay"
-        self.root.current_screen.ids["payperiod_list"].clear_widgets()
-        # self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text='bla1'))
+    def load_paychecks(self):
         import glob, os
 
         try:
@@ -1171,21 +1291,31 @@ class Demo3App(MDApp):
             dd, junk = lib_parse.parsepayperiod(config_file + "/pp/" + file)
             listofdicks.append(dd)
             x = x + 1
-            # self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text=str(dd)+'[size='+str(x)))
-            # if x<5:
-            #    self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text=str(dd['dtext'])+'[size=0]'+str(x)))
+        return listofdicks
+
+    def do_payperiod(self, ssort, rreverse):
+        self.root.current = "Pay"
+        self.root.current_screen.ids["payperiod_list"].clear_widgets()
+        listofdicks = self.load_paychecks()
+        # self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text='bla1'))
+
+        # self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text=str(dd)+'[size='+str(x)))
+        # if x<5:
+        #    self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text=str(dd['dtext'])+'[size=0]'+str(x)))
         # listofdicks.sort()
         # listofdicks= (sorted(listofdicks, key = lambda i: i['paydate'],reverse=True))
         # listofdicks= (sorted(listofdicks, key = lambda i: i['shows'],reverse=True))
         # listofdicks= (sorted(listofdicks, key = lambda i: i['moneytotal'],reverse=rrverse))
         listofdicks = sorted(listofdicks, key=lambda i: i[ssort], reverse=rreverse)
-
+        moneys = 0
+        print(listofdicks)
         for i in range(len(listofdicks)):
 
             # print (listofdicks[i])
             self.root.current_screen.ids["payperiod_list"].add_widget(
                 HistoryItem(text=str(listofdicks[i]["dtext"]) + "[size=0]" + str(i))
             )
+            moneys = moneys + float(listofdicks[i]["moneytotal"])
 
         xy = "Found " + str(x) + " PayStubs "
         try:
@@ -1196,6 +1326,7 @@ class Demo3App(MDApp):
             self.root.current_screen.ids["payperiod_list"].add_widget(
                 HistoryItem(text="No Pay Stubs found!" + "[size=0]" + str(1))
             )
+        print(moneys, "moneys")
 
     def do_history(self):
 
@@ -1282,18 +1413,21 @@ class Demo3App(MDApp):
         max_pixel = 200
         # aa=self.root.get_screen("home").ids['sv']
         # print
-        totwidget = (plus_search) + 2
-        action = totwidget
-        stupid = view.scroll_y
-        max = (view.scroll_y) / totwidget
-        max2 = totwidget / view.scroll_y
-        max3 = totwidget * view.scroll_y
-        junk = 1 * (stupid - 1)
-        junk = junk * grid.height
-        print(junk, h / 3, plus_search)
-        if (junk) > (h / 3):
-            print("overscroll")
-            # self.do_login("",useold)
+        try:
+            totwidget = (plus_search) + 2
+            action = totwidget
+            stupid = view.scroll_y
+            max = (view.scroll_y) / totwidget
+            max2 = totwidget / view.scroll_y
+            max3 = totwidget * view.scroll_y
+            junk = 1 * (stupid - 1)
+            junk = junk * grid.height
+            print(junk, h / 3, plus_search)
+            if (junk) > (h / 3):
+                print("overscroll")
+                # self.do_login("",useold)
+        except:
+            print("fail")
 
         # for id in self.root.get_screen("home").ids:
         # for id in self.root.get_screen("home").ids:
@@ -1306,6 +1440,57 @@ class Demo3App(MDApp):
         # return
 
         # self.refresh_data()
+
+    def grabText(self, inst):
+        from kivy.core.clipboard import Clipboard
+
+        Clipboard.copy(inst)
+
+        print("grabtext", inst)
+
+        self.snackbar = Snackbar(
+            text="Copied",
+            bg_color=self.theme_cls.primary_color,
+        )
+        self.snackbar.open()
+
+    task_list_dialog = None
+
+    def add_task(self, init):
+        # for x in range(len(self.dialog.clear_widgets)):
+        #    print(self.dialog.items[x])
+        print(dir(self.dialog))
+        self.dialog.text = "loser"
+        pass
+
+    def poppy(self, v):
+
+        print("lol")
+        ttt = mjds[idex][v]
+        if len(ttt) < 2:
+            self.snackbar = Snackbar(
+                text="[empty]",
+                bg_color=self.theme_cls.primary_color,
+            )
+            self.snackbar.open()
+
+        if not self.dialog:
+            self.dialog = MDDialog(
+                text=ttt,
+                type="custom",
+                # content_cls=Content(),
+                buttons=[
+                    MDFlatButton(
+                        text="Copy",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=(lambda a: self.grabText(ttt)),
+                    ),
+                ],
+            )
+        if len(ttt) > 2:
+            self.dialog.open()
+
+            self.dialog.text = ttt
 
     def refresh_data(self):
         print("lol")
