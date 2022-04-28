@@ -22,6 +22,15 @@ from kivy.config import Config
 
 from kivy.utils import platform
 from kivymd.uix.snackbar import Snackbar
+from kivymd.toast import toast
+
+from kivymd.uix.picker import MDThemePicker
+from kivymd.uix.picker import MDTimePicker
+from kivymd.uix.picker import MDDatePicker
+from kivy.uix.popup import Popup
+
+
+import datetime
 
 
 """
@@ -51,8 +60,7 @@ if platform == "win":
 
 
 from kivymd.uix.button import MDRectangleFlatIconButton
-from datetime import datetime
-from kivy.uix.popup import Popup
+
 from kivy.uix.button import Button
 from kivy.core.clipboard import ClipboardBase
 
@@ -78,9 +86,7 @@ import webcolors
 
 
 from kivy.core.window import Window
-from kivymd.uix.picker import MDThemePicker
-from kivymd.uix.picker import MDTimePicker
-from kivymd.uix.picker import MDDatePicker
+
 from kivymd.uix.dialog import MDDialog
 from math import sin
 from kivy_garden.graph import Graph, MeshLinePlot, LinePlot
@@ -129,7 +135,7 @@ import paydays
 import time
 import webbrowser
 import shutil
-from random import randrange
+
 from functools import partial
 """
 toc1 = time.perf_counter()
@@ -467,6 +473,7 @@ class Demo3App(MDApp):
 
     def on_start(self):
         global x
+        global ad
         # print("wtf")
         app = App.get_running_app()
         ad = app.user_data_dir
@@ -518,6 +525,9 @@ class Demo3App(MDApp):
 
         if x["usecache"] == "True" or x["usecache"] == True:
             print("Using Cache2")
+            import libs.lib_createcache as lib_createcache
+            from random import randrange
+
             lib_createcache.createcache(ad, randrange(1, 40, 10))
         sch = ad + "/conf.html"
 
@@ -613,6 +623,7 @@ class Demo3App(MDApp):
             len(mjds),
             (tic - time.perf_counter(), "after schedule"),
         )
+        toast(str(tic - time.perf_counter()))
         return good_login
 
     def do_settings(self):
@@ -703,10 +714,7 @@ class Demo3App(MDApp):
         # mfontb='fonts/SourceSansPro-Bold.ttf'
         # mfont='fonts/SourceSansPro-Regular.ttf'
         
-        snackbar = None
-        rreverse = True
-        menurotate = 10
-        menuscale = 0.5, 0.5
+
 
         notheight = 200 * scale
         
@@ -719,6 +727,11 @@ class Demo3App(MDApp):
     ot = ["8", "10", "0", "1", "2", "3", "4", "5", "6", "7", "9"]
     lunch = ["0", "1", "2"]
     dialog = None
+
+    snackbar = None
+    rreverse = True
+    menurotate = 10
+    menuscale = 0.5, 0.5
 
     def set_Circle(self, dt):
         self.angle = self.angle + dt * 360
@@ -891,10 +904,12 @@ class Demo3App(MDApp):
         self.do_login("", useold)
 
     def mainmenuf(self):
-        self.root.current = "mainmenu"
+        self.root.set_current("mainmenu")
         # self.root.current_screen.ids["payperiod_list"].clear_widgets()
 
     def dlpp(self):
+        import libs.lib_ppdownloader as lib_ppdownloader
+
         paystubs, new = lib_ppdownloader.thinkpp(x, ad)
         self.snackbar = Snackbar(
             text="Downloaded " + str(new) + " Paystubs out of " + str(paystubs),
@@ -1100,6 +1115,8 @@ class Demo3App(MDApp):
             os.remove(ad + "/shows/" + filenames[i])
 
     def show_delete_dialog(self):
+        from kivymd.uix.dialog import MDDialog
+
         if not self.dialog:
             self.dialog = MDDialog(
                 text="Discard draft?",
@@ -1121,6 +1138,9 @@ class Demo3App(MDApp):
         self.dialog.open()
 
     def backup(self):
+        import os
+        import shutil
+
         nf = os.path.join(ad, "shows2.zip")
         # nf='C:/Users/kw/AppData/Roaming/demo3/shows2.zip'
         try:
@@ -1134,6 +1154,7 @@ class Demo3App(MDApp):
                 f = str(f)
             # print (f)
             return f
+
         except:
             self.snackbar = Snackbar(
                 text="Make some show files first", bg_color=self.theme_cls.primary_color
@@ -1142,6 +1163,9 @@ class Demo3App(MDApp):
             return ""
 
     def restorebin(self, x):
+        import shutil
+        import os
+
         try:
             # print(x)
             nf2 = os.path.join(ad, "show3.zip")
@@ -1165,7 +1189,7 @@ class Demo3App(MDApp):
         show = P()  # Create a new instance of the P class
 
         popupWindow = Popup(
-            title="",
+            title="asdf",
             content=show,
             size_hint=(None, None),
             size=(400 * scale, 600 * scale),
@@ -1201,6 +1225,8 @@ class Demo3App(MDApp):
         x = xxx[idex][8]
         # rate=str(28.5)
         rate = App.get_running_app().root.current_screen.ids["rate"].text
+        import libs.lib_makeuserdata as lib_makeuserdata
+
         lib_makeuserdata.makeposfile(App, x, config_file, ios, rate)
 
     def get_date(self, date):
@@ -1334,6 +1360,8 @@ class Demo3App(MDApp):
         debugbox = App.get_running_app().root.current_screen.ids[box].active
         x[box] = debugbox
         # print(x[box], "xbox")
+        import libs.lib_updateuserdata as lib_updateuserdata
+
         lib_updateuserdata.updateuser(x, ad)
 
     def maps(
@@ -1351,7 +1379,9 @@ class Demo3App(MDApp):
         return name
 
     def show_time_picker2(self):
-        lib_makeuserdata.makeshowfile(App, xxx[idex], config_file, ios)
+        import libs.lib_makeuserdata
+
+        libs.lib_makeuserdata.makeshowfile(App, xxx[idex], config_file, ios)
 
     def show_time_picker1(self):
         # if App.get_running_app().root.current_screen.ids['newhours'].text=='Set Worked Hours':
@@ -1493,13 +1523,15 @@ class Demo3App(MDApp):
         listofdicks = []
         for file in glob.glob("*.html"):
             # print (file)
+            import libs.lib_parse as lib_parse
+
             dd, junk = lib_parse.parsepayperiod(config_file + "/pp/" + file)
             listofdicks.append(dd)
             x = x + 1
         return listofdicks
 
     def do_payperiod(self, ssort, rreverse):
-        self.root.current = "Pay"
+        self.root.set_current("pay")
         self.root.current_screen.ids["payperiod_list"].clear_widgets()
         listofdicks = self.load_paychecks()
         # self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text='bla1'))
@@ -1513,20 +1545,47 @@ class Demo3App(MDApp):
         # listofdicks= (sorted(listofdicks, key = lambda i: i['moneytotal'],reverse=rrverse))
         listofdicks = sorted(listofdicks, key=lambda i: i[ssort], reverse=rreverse)
         moneys = 0
+        hourst = 0
+        hoursot = 0
+        hourstot = 0
+        # hourstot=0
         # print(listofdicks)
         for i in range(len(listofdicks)):
 
-            # print (listofdicks[i])
+            print(listofdicks[i])
             self.root.current_screen.ids["payperiod_list"].add_widget(
                 HistoryItem(text=str(listofdicks[i]["dtext"]) + "[size=0]" + str(i))
             )
             moneys = moneys + float(listofdicks[i]["moneytotal"])
+            try:
+                hourst = hourst + float(listofdicks[i]["reghours"])
+            except:
+                pass
+            try:
+                hoursot = hoursot + float(listofdicks[i]["othours"])
+            except:
+                pass
+            try:
+                hourstot = hourstot + float(listofdicks[i]["totalhours"])
+            except:
+                pass
 
-        xy = "Found " + str(x) + " PayStubs "
+        xy = "Found " + str(i) + " PayStubs "
+        xyz1 = "Average Paycheck $ " + str(moneys / len(listofdicks))
+        xyz2 = "\nAverage Reg Hours: " + str(hourst / len(listofdicks))
+        xyz3 = "\nAverage Ot Hours: " + str(hoursot / len(listofdicks))
+        xyz4 = "\nAverage Total Hours: " + str((hourstot) / len(listofdicks))
+        xyzz = xyz1 + xyz2 + xyz3 + xyz4
+
         try:
             self.root.current_screen.ids["payperiod_list"].add_widget(
                 HistoryItem(text=xy + "[size=0]" + str(i + 1))
             )
+
+            self.root.current_screen.ids["payperiod_list"].add_widget(
+                HistoryItem(text=xyzz + "[size=0]" + str(i + 2))
+            )
+
         except:
             self.root.current_screen.ids["payperiod_list"].add_widget(
                 HistoryItem(text="No Pay Stubs found!" + "[size=0]" + str(1))
@@ -1535,7 +1594,7 @@ class Demo3App(MDApp):
 
     def do_history(self):
 
-        self.root.current = "history"
+        self.root.set_current("history")
         self.root.current_screen.ids["history_list"].clear_widgets()
         # self.root.current_screen.ids["history_list"].add_widget(HistoryItem(text='bla'))
         import glob, os
@@ -1557,13 +1616,16 @@ class Demo3App(MDApp):
         ot = 0
         pay = 0
         tot = 0
+
         now = datetime.datetime.now()
         for file in glob.glob("*.json"):
-            try:
-                data, pay2, ot2, hours2, tot2, date = lib_extractjson.extract_show(
+            if 1 == 1:
+                import libs.lib_extractjson
+
+                data, pay2, ot2, hours2, tot2, date = libs.lib_extractjson.extract_show(
                     App, file, config_file
                 )
-
+                print(data, pay2, ot2, hours2, tot2, date, "HOLY CRAP")
                 show_date = datetime.datetime.strptime(date, "%m/%d/%Y")
                 dstart = App.get_running_app().root.current_screen.ids["dstart"].text
                 dend = App.get_running_app().root.current_screen.ids["dend"].text
@@ -1580,18 +1642,21 @@ class Demo3App(MDApp):
                     # print(dstart, dend, "WF")
                     dstart = datetime.datetime.strptime(dstart, "%Y-%m-%d")
                     dend = datetime.datetime.strptime(dend, "%Y-%m-%d")
-                    print(
-                        type(show_date.date()), type(dstart.date()), type(dend.date())
-                    )
+                    # print(
+                    #    type(show_date.date()), type(dstart.date()), type(dend.date())
+                    # )
+                # print(data, dstart.date(), dend.date(), show_date.date(), "data66")
                 if dstart.date() <= show_date.date() <= dend.date():
+                    print(data, "inside the loop")
 
                     allshows.append(data)
                     pay = pay + pay2
                     ot = ot + ot2
                     hours = hours + hours2
                     tot = tot + tot2
-            except:
-                print("failed to add show")
+
+            # except:
+            # print("failed to add show")
         self.root.current_screen.ids["history_list"].add_widget(
             HistoryItem(
                 text="pay="
@@ -1609,6 +1674,7 @@ class Demo3App(MDApp):
         )
         s = allshows
         s = allshows.sort(reverse=True)
+        print(allshows, "allshows")
 
         for i in range(len(allshows)):
             t = allshows[i] + "[size=1 sp]***" + str(i)

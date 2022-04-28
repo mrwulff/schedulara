@@ -18,5 +18,20 @@
         "import": "from libs.uix.baseclass.info_screen import InfoScreen",
         "object": "InfoScreen()",
         "kv": "libs/uix/kv/info_screen.kv"
+    },
+    "mainmenu": {
+        "import": "from libs.uix.baseclass.mainmenu_screen import MainMenuScreen",
+        "object": "MainMenuScreen()",
+        "kv": "libs/uix/kv/MainMenu_screen.kv"
+    },
+    "history": {
+        "import": "from libs.uix.baseclass.history_screen import HistoryScreen",
+        "object": "HistoryScreen()",
+        "kv": "libs/uix/kv/history_screen.kv"
+    },
+    "pay": {
+        "import": "from libs.uix.baseclass.pay_screen import PayScreen",
+        "object": "PayScreen()",
+        "kv": "libs/uix/kv/pay_screen.kv"
     }
 }

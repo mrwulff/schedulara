@@ -1,0 +1,94 @@
+<PayScreen>
+    name: "Pay"
+    #Image:
+    #    source: 'images/rh.jpg'
+    #    size: self.width,self.height
+    
+    #BoxLayout:
+        #orientation: "vertical"
+    #MDToolbar:
+        #set_notch: True
+        #title: "Schedulee"
+        #title: ""
+        #height: app.mheight
+        #type: app.mtype
+        #type: 'top'
+        #left_action_items: [["magnify", lambda screen: app.search_menu(),'search'],]
+        #
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            #title: "History"
+            height: app.mheight
+            #left_action_items: [['chevron-left', lambda screen: app.change_screen('home','left'),'home']]
+            right_action_items: [["chevron-left", lambda x: app.do_history(),'calendar'],["home-circle", lambda screen: app.change_screen('home', 'right'),'home']]
+        
+        MDBoxLayout:
+            #orientation: 'horizontal'
+            size_hint: 1,None
+            height: app.mheight
+            MDRaisedButton:
+                text: 'Date'
+                id: scurrent
+                #size_hint: .3,None
+                #height: app.mheight
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                on_press:(app.do_payperiod('paydate',app.rreverse))
+            MDRaisedButton:
+                text: '$$$'
+                #size_hint: .3,None
+                #height: app.mheight
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                #spacing:10,10
+                id: slast
+                on_press:app.do_payperiod('moneytotal',app.rreverse)
+            MDRaisedButton:
+                text: 'Hours'
+                #size_hint: .3,None
+                #height: app.mheight
+                #md_bg_color: app.theme_cls.primary_dark
+                #padding:10
+                #spacing:10,10
+                id: scustom
+                on_press:
+                    app.do_payperiod('totalhours',app.rreverse)
+                    #(app.set_pp('custom'))
+            MDSwitch:
+                text: 'Reverse'
+                id: sall
+                #on_press:(app.setreverse)
+        
+        MDBoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1,None
+            height: app.mheight
+            MDRaisedButton:
+                text: 'All'
+                id: dstart
+                #size_hint: .5,None
+                #height: app.mheight
+
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                #on_press:(app.show_date_picker())
+            MDRaisedButton:
+                text: 'All'
+                #size_hint: .5,None
+                #height: app.mheight
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                #spacing:10,10
+                id: dend
+                #on_press:(app.show_date_picker())
+            
+        ScrollView:
+            #id: history_view
+
+            
+            MDList:
+                
+                spacing: app.cspacing
+                padding: app.cpadding,app.cpadding
+                id: payperiod_list

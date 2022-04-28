@@ -96,7 +96,7 @@ def parsepayperiod(file):
         "paydate": dobj,
         "moneytotal": grandtotal,
         "reghours": reghours.text,
-        "othours:": othours.text,
+        "othours": othours.text,
         "totalhours": totalhours,
         "shows": days,
         "ddelta": ddelta,
@@ -117,6 +117,7 @@ def parse(sch, ad, usecache, x5):
     import hashlib
 
     debug = False
+    print(ad, "ifadisblankwtf")
     if ad == "":
         ad = "C:\\Users\\kw\\AppData\\Roaming\\demo3\\"
         sch = "C:\\Users\\kw\\AppData\\Roaming\\demo3\\new.html"
