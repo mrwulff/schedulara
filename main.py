@@ -1,37 +1,46 @@
 import time
+import sys
 
 tic = time.perf_counter()
+from libs.uix.root import Root
 
 ios = True
 notch = True
 debug = True
 scale = 2
 useold = False
-
-
-from audioop import ratecv
-from kivymd.app import MDApp
-from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.properties import StringProperty
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.list import IRightBodyTouch
+from kivy.properties import ObjectProperty
+from kivy.uix.floatlayout import FloatLayout
+from kivymd.app import MDApp
+from kivy.core.window import Window
+from kivy.app import App
+from kivy.config import Config
+
+from kivy.utils import platform
+from kivymd.uix.snackbar import Snackbar
+
+
+"""
+from audioop import ratecv
+from kivy.lang import Builder
+
 from kivymd.uix.list import (
     MDList,
     ThreeLineIconListItem,
     TwoLineIconListItem,
     IconLeftWidget,
 )
-from kivy.properties import StringProperty
-from kivy.properties import ObjectProperty
+
 from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.list import IRightBodyTouch
-from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.clock import Clock
 from kivymd.uix.textfield import MDTextField
 
-# from kivymd.uix.Floatlayout import MDFloatLayout
-from kivymd.uix.snackbar import Snackbar
 
 # from kivy.effects.dampedscroll import DampedScrollEffect
-from kivy.utils import platform
 
 print(platform, "KIVY PLATFORM")
 if platform == "linux":
@@ -41,15 +50,10 @@ if platform == "win":
     scale = 1
 
 
-import pyperclip
-
-
-from kivymd.uix.button import MDFlatButton
 from kivymd.uix.button import MDRectangleFlatIconButton
 from datetime import datetime
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
-from kivy.uix.floatlayout import FloatLayout
 from kivy.core.clipboard import ClipboardBase
 
 # from kivycupertino.uix.slider import CupertinoSlider
@@ -70,11 +74,9 @@ from kivy.uix.spinner import Spinner, SpinnerOption
 from kivy.uix.dropdown import DropDown
 import webcolors
 
-from kivy.utils import platform
-from kivy.app import App
 
 
-from kivy.config import Config
+
 from kivy.core.window import Window
 from kivymd.uix.picker import MDThemePicker
 from kivymd.uix.picker import MDTimePicker
@@ -89,7 +91,7 @@ from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 
 
 import os
-
+"""
 w = 1125 / 3
 h = 2436 / 3
 if platform == "win":
@@ -97,6 +99,7 @@ if platform == "win":
     Config.set("graphics", "width", str(w))
     Config.set("graphics", "height", str(h))
     Window.size = (w, h)
+"""
 HOME = os.environ.get("HOME", "/")
 BUNDLE = os.environ.get("KIVY_BUNDLE_ID", "/")
 os.environ["PYTHON_EGG_CACHE"] = f"{HOME}/Library/Caches/{BUNDLE}"
@@ -128,11 +131,11 @@ import webbrowser
 import shutil
 from random import randrange
 from functools import partial
-
+"""
 toc1 = time.perf_counter()
 print(tic - toc1, "firsttimer")
 
-
+"""
 class SpinnerOptions(SpinnerOption):
     def __init__(self, **kwargs):
         super(SpinnerOptions, self).__init__(**kwargs)
@@ -142,11 +145,14 @@ class SpinnerOptions(SpinnerOption):
         self.height = 26
 
 
+
 class SpinnerDropdown(DropDown):
     def __init__(self, **kwargs):
         super(SpinnerDropdown, self).__init__(**kwargs)
         self.auto_width = False
         self.width = 150
+
+
 
 
 class SpinnerWidget(Spinner):
@@ -155,6 +161,7 @@ class SpinnerWidget(Spinner):
         self.dropdown_cls = SpinnerDropdown
         self.option_cls = SpinnerOptions
         ...
+"""
 
 
 class AboutScreen(Screen):
@@ -185,28 +192,8 @@ class HistoryScreen(Screen):
     pass
 
 
-class InfoScreen(Screen):
-
-    pass
-
-
-class NotificationScreen(Screen):
-    pass
-
-
 class PayScreen(Screen):
     pass
-
-
-class SettingsScreen(Screen):
-    global x
-    # app = App.get_running_app()
-    # ad=app.user_data_dir
-    # x=lib_readuserdata.readuserdata(App)
-
-    btnState2 = StringProperty("false")
-    # btnState = 'down'
-    # btnState2 = 'true'
 
 
 class YourContainer(IRightBodyTouch, MDBoxLayout):
@@ -292,12 +279,15 @@ class SwipeToDeleteItem(Screen):
             App.get_running_app().root.current_screen.ids["rate"].text = rate
         except:
             App.get_running_app().root.current_screen.ids["rate"].text = "?"
-        now = datetime.datetime.now()
+        from datetime import datetime
+
+        now = datetime.now()
         try:
             today, fdate = lib_tinyfs.format_text(idex, mjds, now, "info")
-            print("OMGWHATHAVEYOPUDONE ", idex)
+            # print("OMGWHATHAVEYOPUDONE ", idex)
         except:
-            print("omgwhathaveyoudone ", idex)
+            # print("omgwhathaveyoudone ", idex)
+            pass
         try:
             App.get_running_app().root.current_screen.ids["date"].text = fdate
             # App.get_running_app().root.current_screen.ids['d0'].text=str(newxxx[0])
@@ -364,11 +354,12 @@ class Prestore(FloatLayout):
 
 from kivymd.uix.button import MDRaisedButton
 
-
+"""
 class MyToggleButton(MDRaisedButton, MDToggleButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.background_down = self.theme_cls.primary_light
+"""
 
 
 class MyLabel(Screen):
@@ -397,6 +388,7 @@ class Content(FloatLayout):
     pass
 
 
+"""
 class CountDownLbl(Label):
     angle = NumericProperty(0)
     startCount = NumericProperty(20)
@@ -416,77 +408,317 @@ class CountDownLbl(Label):
         if self.angle >= 360:
             self.angle = 0
         Clock.schedule_once(self.set_Circle, 0.1)
+"""
+
+x = []
 
 
 class Demo3App(MDApp):
-    scale = 2
-    if platform[0] == "w":
-        scale = 1
-        notch = False
-    # def __init__(self, **kwargs):
-    #    self.snackbar = None
-    global idex
-    iii = idex
-    bud2 = "65"
-    global x
-    x = x
-
-    locations = [
-        "denver",
-        "dc",
-        "florida",
-        "georgia",
-        "indiana",
-        "kentucky",
-        "lasvegas",
-        "losangeles",
-        "louisiana",
-        "michigan",
-        "minnesota",
-        "missouri",
-        "mississippi",
-        "montana",
-        "newmexico",
-        "northerncalifornia",
-        "northwest",
-        "ohio",
-        "reno",
-        "california",
-        "southcarolina",
-        "tempe",
-        "memphis",
-        "texas",
-        "tucson",
-        "wisconsin",
-    ]
-    newercolor = newcolor
-    xxxx = xxx + "wtf" + str(idex)
-    lunch = ["0", "1", "2"]
-    ot = ["8", "10", "0", "1", "2", "3", "4", "5", "6", "7", "9"]
-    if notch == True:
-        mheight = 120
-    else:
-        mheight = 45
-    cpadding = 20
+    scale = 1
+    # print("omg")
+    print(tic - time.perf_counter(), "supershort")
     cspacing = 10
     mtype = "top"
     bradius = 10 * scale
     radius = 10 * scale
-    # mfontel='fonts/SourceSansPro-ExtraLight.ttf'
-    # mfontb='fonts/SourceSansPro-Bold.ttf'
-    # mfont='fonts/SourceSansPro-Regular.ttf'
-    dialog = None
-    snackbar = None
-    rreverse = True
-    menurotate = 10
-    menuscale = 0.5, 0.5
-
-    notheight = 200 * scale
+    mheight = 40
+    cpadding = 20
     sound_effects = ["Ding", "Bang", "Lol"]
 
-    angle = NumericProperty(0)
-    startCount = NumericProperty(20)
-    Count = NumericProperty()
+    def check_att(self, b):
+        global x
+        global ad
+
+        app = App.get_running_app()
+        ad = app.user_data_dir
+        # config_file=ad
+
+        if ios == True:
+            import libs.lib_readuserdata
+
+            x = libs.lib_readuserdata.readuserdata(App, ad, ios)
+        try:
+            # print(x[b], "checkingx[b]")
+            pass
+        except:
+            # print("cant do that")
+            x[b] = False
+            app = App.get_running_app()
+            ad = app.user_data_dir
+            # print(ad, "adadadad33")
+            libs.lib_updateuserdata.updateuser(x, ad)
+        # print(x, "XSUBB")
+        return x[b]
+
+    def check_pull_refresh(self, view, grid):
+        pass
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.title = "Kivy - Lazy Load"
+
+        Window.keyboard_anim_args = {"d": 0.2, "t": "linear"}
+        Window.softinput_mode = "below_target"
+
+    def build(self):
+        self.root = Root()
+        self.root.set_current("home")
+
+    def on_start(self):
+        global x
+        # print("wtf")
+        app = App.get_running_app()
+        ad = app.user_data_dir
+        # if ios == True:
+        if 1 == 1:
+            config_file = ad
+        print(tic - time.perf_counter(), "on start !!!")
+        import libs.lib_readuserdata
+
+        try:
+            x = libs.lib_readuserdata.readuserdata(App, config_file, ios)
+        except:
+            import libs.lib_makeuserdata
+
+            libs.lib_makeuserdata.makeuserdata(App, config_file, ios)
+            x = libs.lib_readuserdata.readuserdata(App, config_file, ios)
+        try:
+            self.theme_cls.theme_style = x["theme"]
+            self.theme_cls.primary_palette = x["pcolor"]
+            self.theme_cls.accent_palette = x["scolor"]
+        except:
+            pass
+        print(x)
+
+        self.do_login("", useold)
+
+    def do_login(self, search, useold):
+        print("do_login")
+
+        # if pf[0]!='W':
+        # if 1==1:
+        # from lib_test import n22
+        # n22()
+
+        global xxx
+        global mjds
+        global config_file
+        global plus_search
+        good_login = False
+        from datetime import datetime
+
+        now = datetime.now()
+        app = App.get_running_app()
+        config_file = app.user_data_dir
+
+        self.root.current = "home"
+        self.root.current_screen.ids["users_lst"].clear_widgets()
+        # print(x, "USECACHETEST")
+
+        if x["usecache"] == "True" or x["usecache"] == True:
+            print("Using Cache2")
+            lib_createcache.createcache(ad, randrange(1, 40, 10))
+        sch = ad + "/conf.html"
+
+        if x["usecache"] == "False" or x["usecache"] == False:
+            print("Using Live Data")
+            if useold == False:
+                if x["refreshreload"] == True:
+                    good_login = lib_think.login(ad, x, ios, App)
+                    good_login = True
+
+                if good_login == True:
+                    print("GOOD LOGIN SIR")
+                    sch = ad + "/realdata.html"
+                if x["refreshreload"] == False:
+                    try:
+                        sch = ad + "/realdata.html"
+                    except:
+                        print("realdata not found")
+
+        import libs.lib_parse
+
+        # print(ad, "ADADAD")
+
+        xxx, mjds = libs.lib_parse.parse(sch, ad, x["usecache"], x)
+
+        try:
+            cf, week, tot = libs.lib_tinyfs.stats(xxx, now, search)
+        except:
+            import libs.lib_tinyfs
+
+            cf, week, tot = libs.lib_tinyfs.stats(xxx, now, search)
+
+        founddates = ""
+        if len(search) > 0:
+            founddates = (
+                str(tot)
+                + "/"
+                + str(len(xxx) - 1)
+                + "dates matching: "
+                + str(search)
+                + "\n"
+            )
+
+        texta = (
+            "[size=18 sp]"
+            + founddates
+            + str(cf)
+            + "/"
+            + str(tot)
+            + " confirmed dates\n"
+            + str(week)
+            + " gigs this week[size=1 sp]***0"
+        )
+
+        indexnumber = 0
+        indexnumber_real = -1
+        self.root.current_screen.ids["users_lst"].add_widget(
+            SwipeToDeleteItem(text=texta)
+        )
+        toc3 = time.perf_counter()
+        print(tic - toc3, "toc3time")
+        if cf < tot:
+            indexnumber = indexnumber + 1
+            texta = (
+                "Click To Confirm"
+                + str(tot - cf)
+                + " gigs [size=1 sp]***"
+                + str(indexnumber)
+            )
+            self.root.current_screen.ids["users_lst"].add_widget(
+                SwipeToDeleteItem(text=texta)
+            )
+        # App.get_running_app().root.current_screen.ids['istoday'].text='wow'
+
+        plus_search = 0
+        for i in range(len(mjds)):
+            # lib_bonus.create_notification(mjds[i],x)
+            texta = libs.lib_tinyfs.format_text(i, mjds, now, "index")
+            indexnumber = indexnumber + 1
+            indexnumber_real = indexnumber_real + 1
+            texta = texta + str(indexnumber_real)
+            if search.lower() in str(xxx[i]).lower() or len(search) == 0:
+                # print("omg its working")
+                plus_search = plus_search + 1
+
+                self.root.current_screen.ids["users_lst"].add_widget(
+                    SwipeToDeleteItem(text=texta)
+                )
+
+        print(
+            plus_search,
+            "plussearch",
+            len(mjds),
+            (tic - time.perf_counter(), "after schedule"),
+        )
+        return good_login
+
+    def do_settings(self):
+        global x
+        # print(x)
+        self.root.set_current("settings")
+        # sm.set_current("settings")
+        try:
+            self.root.get_screen("notification").ids["slider2"].value = x["not2time"]
+            self.root.get_screen("notification").ids["slider1"].value = x["not1time"]
+
+            self.root.get_screen("notification").ids["disable1"].active = x["not1"]
+            self.root.get_screen("notification").ids["disable2"].active = x["not2"]
+
+            if x["not"] == True:
+                App.get_running_app().root.current_screen.ids[
+                    "switchnotify"
+                ].active = True
+
+            tog1 = App.get_running_app().root.current_screen.ids["switchnotify"].active
+        except:
+            x["not2time"] = 0
+            x["not1time"] = 0
+            x["not1"] = False
+            x["not2"] = False
+            x["not"] = False
+        # print (tog1)
+        import libs.lib_updateuserdata
+
+        libs.lib_updateuserdata.updateuser(x, ad)
+
+    """
+    class Demo3App2(MDApp):
+        scale = 2
+        if platform[0] == "w":
+            scale = 1
+            notch = False
+        # def __init__(self, **kwargs):
+        #    self.snackbar = None
+        global idex
+        iii = idex
+        bud2 = "65"
+        global x
+        x = x
+
+        locations = [
+            "denver",
+            "dc",
+            "florida",
+            "georgia",
+            "indiana",
+            "kentucky",
+            "lasvegas",
+            "losangeles",
+            "louisiana",
+            "michigan",
+            "minnesota",
+            "missouri",
+            "mississippi",
+            "montana",
+            "newmexico",
+            "northerncalifornia",
+            "northwest",
+            "ohio",
+            "reno",
+            "california",
+            "southcarolina",
+            "tempe",
+            "memphis",
+            "texas",
+            "tucson",
+            "wisconsin",
+        ]
+        newercolor = newcolor
+        xxxx = xxx + "wtf" + str(idex)
+        
+        
+        if notch == True:
+            mheight = 120
+        else:
+            mheight = 45
+        cpadding = 20
+        cspacing = 10
+        mtype = "top"
+        bradius = 10 * scale
+        radius = 10 * scale
+        # mfontel='fonts/SourceSansPro-ExtraLight.ttf'
+        # mfontb='fonts/SourceSansPro-Bold.ttf'
+        # mfont='fonts/SourceSansPro-Regular.ttf'
+        
+        snackbar = None
+        rreverse = True
+        menurotate = 10
+        menuscale = 0.5, 0.5
+
+        notheight = 200 * scale
+        
+
+        angle = NumericProperty(0)
+        startCount = NumericProperty(20)
+        Count = NumericProperty()
+"""
+    notheight = 200 * scale
+    ot = ["8", "10", "0", "1", "2", "3", "4", "5", "6", "7", "9"]
+    lunch = ["0", "1", "2"]
+    dialog = None
 
     def set_Circle(self, dt):
         self.angle = self.angle + dt * 360
@@ -504,12 +736,12 @@ class Demo3App(MDApp):
     def menu_callback(self, text_item, v, v2):
         # print(location[text_item])
         # print (text_item,type(text_item))
-        print(v[text_item], "v[text")
+        # print(v[text_item], "v[text")
         App.get_running_app().root.current_screen.ids["button4"].text = v[text_item]
         # self.root.get_screen("notification").ids['button4'].text=v[text_item]
         global x
         x[v2] = v[text_item]
-        print(x)
+        # print(x)
         lib_updateuserdata.updateuser(x, ad)
 
     def choose_drop(self, v, v2):
@@ -547,36 +779,11 @@ class Demo3App(MDApp):
         global x
         self.root.current = "settings"
         tog1 = App.get_running_app().root.current_screen.ids["switchnotify"].active
-        print(tog1, x)
+        # print(tog1, x)
         x["not"] = tog1
-        lib_updateuserdata.updateuser(x, ad)
+        import libs.libs_updateuserdata
 
-    def do_settings(self):
-        global x
-        print(x)
-        self.root.current = "settings"
-        try:
-            self.root.get_screen("notification").ids["slider2"].value = x["not2time"]
-            self.root.get_screen("notification").ids["slider1"].value = x["not1time"]
-
-            self.root.get_screen("notification").ids["disable1"].active = x["not1"]
-            self.root.get_screen("notification").ids["disable2"].active = x["not2"]
-
-            if x["not"] == True:
-                App.get_running_app().root.current_screen.ids[
-                    "switchnotify"
-                ].active = True
-
-            tog1 = App.get_running_app().root.current_screen.ids["switchnotify"].active
-        except:
-            x["not2time"] = 0
-            x["not1time"] = 0
-            x["not1"] = False
-            x["not2"] = False
-            x["not"] = False
-        # print (tog1)
-
-        lib_updateuserdata.updateuser(x, ad)
+        libs.lib_updateuserdata.updateuser(x, ad)
 
     def loadnots(self, sslider):
         global x
@@ -608,7 +815,8 @@ class Demo3App(MDApp):
         )
 
         global x
-        self.root.current = "notification"
+        # self.root.current = "notification"
+        self.root.set_current("notification")
         try:
             App.get_running_app().root.current_screen.ids["button4"].text = x[
                 "sound_effects"
@@ -632,7 +840,9 @@ class Demo3App(MDApp):
 
         x["not2"] = tog2
         x["not2time"] = text2
-        lib_updateuserdata.updateuser(x, ad)
+        import libs.lib_updateuserdata
+
+        libs.lib_updateuserdata.updateuser(x, ad)
         try:
             self.root.current_screen.ids["box"].remove_widget(content.parent)
 
@@ -693,7 +903,7 @@ class Demo3App(MDApp):
         self.snackbar.open()
 
     def ccc(self):
-        print(xxx)
+        # print(xxx)
         confable = []
         for i in range(len(xxx)):
 
@@ -702,8 +912,8 @@ class Demo3App(MDApp):
                 z.append(confable)
             except:
                 pass
-        for i in range(len(confable)):
-            print(confable[i])
+        # for i in range(len(confable)):
+        #    print(confable[i])
         self.snackbar = Snackbar(text="Success!", bg_color=self.theme_cls.primary_color)
         self.snackbar.open()
 
@@ -731,8 +941,8 @@ class Demo3App(MDApp):
 
         self.root.get_screen("animate").ids["money_r"].secondary_text = hours_text
 
-        print(dir(self.root.get_screen("info").ids["lunches"]))
-        print(zzz, "zzz")
+        # print(dir(self.root.get_screen("info").ids["lunches"]))
+        # print(zzz, "zzz")
 
         Clock.schedule_interval(self.update_label, 0.1)
 
@@ -811,7 +1021,7 @@ class Demo3App(MDApp):
                             old = True
                             l, x = str.split(line, "(")
                             x, l = str.split(x, ")")
-                            print(x)
+                            # print(x)
             except:
                 self.snackbar = Snackbar(
                     text="Not Logged In", bg_color=self.theme_cls.primary_color
@@ -836,9 +1046,10 @@ class Demo3App(MDApp):
     def confirm_real(self, what):
         global browser
         # print (what)
-        print(len(xxx[idex]))
+        # print(len(xxx[idex]))
         try:
-            print(xxx[idex][13])
+            # print(xxx[idex][13])
+            pass
         except:
             print("nonconfirm")
             return "fail"
@@ -884,7 +1095,7 @@ class Demo3App(MDApp):
         from os import walk
 
         filenames = next(walk(ad + "/shows"), (None, None, []))[2]  # [] if no file
-        print(filenames)
+        # print(filenames)
         for i in range(len(filenames)):
             os.remove(ad + "/shows/" + filenames[i])
 
@@ -932,7 +1143,7 @@ class Demo3App(MDApp):
 
     def restorebin(self, x):
         try:
-            print(x)
+            # print(x)
             nf2 = os.path.join(ad, "show3.zip")
             # j,x,j=str.split(x,'"')
             # print (x)
@@ -968,7 +1179,7 @@ class Demo3App(MDApp):
 
     def search(self, x):
         # term=App.get_running_app().root.current_screen.ids['search'].text
-        print(x.text)
+        # print(x.text)
         self.do_login(x.text, useold)
         # root.dismiss()
 
@@ -977,12 +1188,14 @@ class Demo3App(MDApp):
 
     def get_rate(self):
         try:
-            print(xxx[idex], "get_rate")
+            # print(xxx[idex], "get_rate")
             pos = xxx[idex][8]
             rate = extract_pos(App, config_file, pos)
             App.get_running_app().root.current_screen.ids["rate"].text = str(rate)
         except:
-            print(xxx, "get_rate23")
+
+            # print(xxx, "get_rate2error3")
+            pass
 
     def set_rate(self):
         x = xxx[idex][8]
@@ -1112,36 +1325,15 @@ class Demo3App(MDApp):
             App.get_running_app().root.current_screen.ids["dend"].text = str("")
         self.do_history()
 
-    def check_att(self, b):
-        global x
-
-        app = App.get_running_app()
-        ad = app.user_data_dir
-        # config_file=ad
-
-        if ios == True:
-
-            x = lib_readuserdata.readuserdata(App, ad, ios)
-        try:
-            print(x[b], "checkingx[b]")
-        except:
-            print("cant do that")
-            x[b] = False
-            app = App.get_running_app()
-            ad = app.user_data_dir
-            lib_updateuserdata.updateuser(x, ad)
-        print(x, "XSUBB")
-        return x[b]
-
     def updatetext(self, box):
         app = App.get_running_app()
         ad = app.user_data_dir
-        print(ad)
+        # print(ad)
         if ios == False:
             config_file = ad
         debugbox = App.get_running_app().root.current_screen.ids[box].active
         x[box] = debugbox
-        print(x[box], "xbox")
+        # print(x[box], "xbox")
         lib_updateuserdata.updateuser(x, ad)
 
     def maps(
@@ -1190,6 +1382,7 @@ class Demo3App(MDApp):
         btnState2 = StringProperty("false")
         lib_updateuserdata.updateuser(x, ad)
 
+    """
     def on_start(self):
         global x
         global ad
@@ -1208,6 +1401,7 @@ class Demo3App(MDApp):
         self.do_login("", useold)
         # self.search_menu = SearchPopupMenu()
         # self.root.ids.usecache.state='down'
+    """
 
     def lol(self):
         # x=lib_readuserdata.readuserdata(App,config_file)
@@ -1232,17 +1426,19 @@ class Demo3App(MDApp):
         p = self.theme_cls.primary_palette
         a = self.theme_cls.accent_palette
         x = lib_readuserdata.readuserdata(App, config_file, ios)
-        print(s, p, a, x)
+        # print(s, p, a, x)
         x["pcolor"] = p
         x["scolor"] = a
         x["theme"] = s
-        print(s, p, a, x)
+        # print(s, p, a, x)
         lib_updateuserdata.updateuser(x, ad)
 
     def change_screen(self, screen, direction):
         self.root.transition.direction = direction
-        self.root.current = screen
+        # self.root.current = screen
+        self.root.set_current(screen)
 
+    """
     def build(self):
 
         self.button = Button(text="Click", on_release=self.search_menu)
@@ -1258,7 +1454,7 @@ class Demo3App(MDApp):
             self.theme_cls.primary_palette = x["pcolor"]
             self.theme_cls.accent_palette = x["scolor"]
         except:
-            """"""
+            pass
 
         self.sm = ScreenManager()
         self.sm.add_widget(MainMenuScreen(name="mainmenu"))
@@ -1283,6 +1479,7 @@ class Demo3App(MDApp):
         # reactor.listenTCP(8080, site)
 
         return screen
+    """
 
     def load_paychecks(self):
         import glob, os
@@ -1316,7 +1513,7 @@ class Demo3App(MDApp):
         # listofdicks= (sorted(listofdicks, key = lambda i: i['moneytotal'],reverse=rrverse))
         listofdicks = sorted(listofdicks, key=lambda i: i[ssort], reverse=rreverse)
         moneys = 0
-        print(listofdicks)
+        # print(listofdicks)
         for i in range(len(listofdicks)):
 
             # print (listofdicks[i])
@@ -1334,7 +1531,7 @@ class Demo3App(MDApp):
             self.root.current_screen.ids["payperiod_list"].add_widget(
                 HistoryItem(text="No Pay Stubs found!" + "[size=0]" + str(1))
             )
-        print(moneys, "moneys")
+        # print(moneys, "moneys")
 
     def do_history(self):
 
@@ -1370,8 +1567,8 @@ class Demo3App(MDApp):
                 show_date = datetime.datetime.strptime(date, "%m/%d/%Y")
                 dstart = App.get_running_app().root.current_screen.ids["dstart"].text
                 dend = App.get_running_app().root.current_screen.ids["dend"].text
-                print(show_date.date(), dstart, dend)
-                print(type(show_date.date()), type(dstart), type(dend))
+                # print(show_date.date(), dstart, dend)
+                # print(type(show_date.date()), type(dstart), type(dend))
                 force = False
                 if dstart == "All":
 
@@ -1380,7 +1577,7 @@ class Demo3App(MDApp):
                     force = True
                 else:
                     # dstart != 'All':
-                    print(dstart, dend, "WF")
+                    # print(dstart, dend, "WF")
                     dstart = datetime.datetime.strptime(dstart, "%Y-%m-%d")
                     dend = datetime.datetime.strptime(dend, "%Y-%m-%d")
                     print(
@@ -1418,6 +1615,8 @@ class Demo3App(MDApp):
             self.root.current_screen.ids["history_list"].add_widget(HistoryItem(text=t))
 
     def check_pull_refresh(self, view, grid):
+        pass
+        """
         max_pixel = 200
         # aa=self.root.get_screen("home").ids['sv']
         # print
@@ -1430,12 +1629,13 @@ class Demo3App(MDApp):
             max3 = totwidget * view.scroll_y
             junk = 1 * (stupid - 1)
             junk = junk * grid.height
-            print(junk, h / 3, plus_search)
+            #print(junk, h / 3, plus_search)
             if (junk) > (h / 3):
                 print("overscroll")
                 # self.do_login("",useold)
         except:
             print("fail")
+            """
 
         # for id in self.root.get_screen("home").ids:
         # for id in self.root.get_screen("home").ids:
@@ -1454,7 +1654,7 @@ class Demo3App(MDApp):
 
         Clipboard.copy(inst)
 
-        print("grabtext", inst)
+        # print("grabtext", inst)
 
         self.snackbar = Snackbar(
             text="Copied",
@@ -1467,13 +1667,16 @@ class Demo3App(MDApp):
     def add_task(self, init):
         # for x in range(len(self.dialog.clear_widgets)):
         #    print(self.dialog.items[x])
-        print(dir(self.dialog))
+        # print(dir(self.dialog))
         self.dialog.text = "loser"
         pass
 
     def poppy(self, v):
+        from kivymd.uix.button import MDFlatButton
 
-        print("lol")
+        from kivymd.uix.dialog import MDDialog
+
+        # print("lol")
         ttt = mjds[idex][v]
         if len(ttt) < 2:
             self.snackbar = Snackbar(
@@ -1515,109 +1718,6 @@ class Demo3App(MDApp):
         x["password"] = App.get_running_app().root.current_screen.ids["tpassword"].text
         x["city"] = App.get_running_app().root.current_screen.ids["button4"].text
         lib_updateuserdata.updateuser(x, ad)
-
-    def do_login(self, search, useold):
-        print("do_login")
-
-        # if pf[0]!='W':
-        # if 1==1:
-        # from lib_test import n22
-        # n22()
-
-        global xxx
-        global mjds
-        global config_file
-        global plus_search
-        good_login = False
-        now = datetime.datetime.now()
-        app = App.get_running_app()
-        config_file = app.user_data_dir
-
-        self.root.current = "home"
-        self.root.current_screen.ids["users_lst"].clear_widgets()
-
-        if x["usecache"] == "True" or x["usecache"] == True:
-            print("Using Cache2")
-            lib_createcache.createcache(ad, randrange(1, 40, 10))
-        sch = ad + "/conf.html"
-
-        if x["usecache"] == "False" or x["usecache"] == False:
-            print("Using Live Data")
-            if useold == False:
-                if x["refreshreload"] == True:
-                    good_login = lib_think.login(ad, x, ios, App)
-                    good_login = True
-
-                if good_login == True:
-                    print("GOOD LOGIN SIR")
-                    sch = ad + "/realdata.html"
-                if x["refreshreload"] == False:
-                    try:
-                        sch = ad + "/realdata.html"
-                    except:
-                        print("realdata not found")
-
-        xxx, mjds = lib_parse.parse(sch, ad, x["usecache"], x)
-
-        cf, week, tot = lib_tinyfs.stats(xxx, now, search)
-        founddates = ""
-        if len(search) > 0:
-            founddates = (
-                str(tot)
-                + "/"
-                + str(len(xxx) - 1)
-                + "dates matching: "
-                + str(search)
-                + "\n"
-            )
-
-        texta = (
-            "[size=18 sp]"
-            + founddates
-            + str(cf)
-            + "/"
-            + str(tot)
-            + " confirmed dates\n"
-            + str(week)
-            + " gigs this week[size=1 sp]***0"
-        )
-
-        indexnumber = 0
-        indexnumber_real = -1
-        self.root.current_screen.ids["users_lst"].add_widget(
-            SwipeToDeleteItem(text=texta)
-        )
-        toc3 = time.perf_counter()
-        print(tic - toc3, "toc3time")
-        if cf < tot:
-            indexnumber = indexnumber + 1
-            texta = (
-                "Click To Confirm"
-                + str(tot - cf)
-                + " gigs [size=1 sp]***"
-                + str(indexnumber)
-            )
-            self.root.current_screen.ids["users_lst"].add_widget(
-                SwipeToDeleteItem(text=texta)
-            )
-        # App.get_running_app().root.current_screen.ids['istoday'].text='wow'
-
-        plus_search = 0
-        for i in range(len(mjds)):
-            # lib_bonus.create_notification(mjds[i],x)
-            texta = lib_tinyfs.format_text(i, mjds, now, "index")
-            indexnumber = indexnumber + 1
-            indexnumber_real = indexnumber_real + 1
-            texta = texta + str(indexnumber_real)
-            if search.lower() in str(xxx[i]).lower() or len(search) == 0:
-                plus_search = plus_search + 1
-
-                self.root.current_screen.ids["users_lst"].add_widget(
-                    SwipeToDeleteItem(text=texta)
-                )
-
-        print(plus_search, "plussearch")
-        return good_login
 
     # btnState2 = StringProperty("false")
 

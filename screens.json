@@ -1,0 +1,22 @@
+{
+    "home": {
+        "import": "from libs.uix.baseclass.home_screen import HomeScreen",
+        "object": "HomeScreen()",
+        "kv": "libs/uix/kv/home_screen.kv"
+    },
+    "settings": {
+        "import": "from libs.uix.baseclass.settings_screen import SettingsScreen",
+        "object": "SettingsScreen()",
+        "kv": "libs/uix/kv/settings_screen.kv"
+    },
+    "notification": {
+        "import": "from libs.uix.baseclass.notification_screen import NotificationScreen",
+        "object": "NotificationScreen()",
+        "kv": "libs/uix/kv/notification_screen.kv"
+    },
+    "info": {
+        "import": "from libs.uix.baseclass.info_screen import InfoScreen",
+        "object": "InfoScreen()",
+        "kv": "libs/uix/kv/info_screen.kv"
+    }
+}

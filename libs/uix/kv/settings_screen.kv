@@ -1,0 +1,150 @@
+<SettingsScreen>
+    name: "settings"
+    #Image:
+    #    source: 'images/rh.jpg'
+    #    size: self.width,self.height
+    BoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            #title: "Settings"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('home','left'),'home']]
+        ScrollView:
+
+
+            MDList:
+                OneLineAvatarIconListItem:
+                    icon: 'palette'
+                    text: "Login"
+                    on_press: app.change_screen('login', 'left')
+                    
+                    YourContainer:
+                        id: container   
+                    IconLeftWidget:
+                        icon: "account"             
+                OneLineAvatarIconListItem:
+                    text: "Theme"
+                    on_press: 
+                        app.show_theme_picker()
+                        
+                    
+                    YourContainer:
+                        id: container
+                        MDIconButton:
+                            icon: "content-save"
+                            text: "Edit"
+                            on_press:app.save_theme_picker()
+
+                    IconLeftWidget:
+                        icon: "palette"
+                
+                OneLineAvatarIconListItem:
+                    
+                    
+                    #text: "Sample Schedule"
+                    text: 'Randomize Data'
+                    YourContainer:
+                        id: container
+
+                        MDSwitch:
+                            widget_style: "ios"
+                            icon: "plus"
+                            id: usecache
+                            #active: app.lol()
+                            active: app.check_att('usecache')
+                            on_active:
+                                #app.on_checkbox_active(*args)
+                                app.updatetext("usecache")
+                    IconLeftWidget:
+                        icon: "bug"                
+                
+                OneLineAvatarIconListItem:
+                    
+                    
+                    #text: "Sample Schedule"
+                    text: 'Refresh Data on Load'
+                    YourContainer:
+                        id: container
+
+                        MDSwitch:
+                            widget_style: "ios"
+                            icon: "plus"
+                            id: refreshreload
+                            #active: app.lol()
+                            active: app.check_att('refreshreload')
+                            on_active:
+                                #app.on_checkbox_active(*args)
+                                app.updatetext("refreshreload")
+                    IconLeftWidget:
+                        icon: "bug"
+            
+                OneLineAvatarIconListItem:
+                    text: "Clear Data"
+                    on_release:
+                        app.show_delete_dialog()
+                    YourContainer:
+                        id: container
+                    IconLeftWidget:
+                        icon: "cancel"
+                OneLineAvatarIconListItem:
+                    text: "Backup Data"
+                    id: bud
+                    on_release:
+                        #app.backup()
+                        Clipboard.copy(app.backup())
+                        #app.backup_tofiles()
+                        Snackbar(text="Backup Copied to Clipboard!",bg_color=app.theme_cls.primary_color).open()
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                    YourContainer:
+                        id: container
+                    IconLeftWidget:
+                        icon: "cloud-upload"
+                    #IconRightWidget:
+                        #id: bud2
+                        #icon: "asdf"
+
+                OneLineAvatarIconListItem:
+                    text: "Restore Data"
+                    on_release:
+                        #app.restore()
+                        self.xxxx=Clipboard.paste()
+                        app.restorebin(self.xxxx)
+                        Snackbar(text="Restored from Backup",bg_color=app.theme_cls.primary_light).open()
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                    YourContainer:
+                        id: container
+                    IconLeftWidget:
+                        icon: "cloud-download"
+                OneLineAvatarIconListItem:
+                    text: 'Download All Paystubs'
+                    on_release: 
+                        app.dlpp()
+
+                OneLineAvatarIconListItem:
+                    text: "Notifications"
+                    on_release:app.makenots("1")
+                    YourContainer:
+                        id: container
+                        MDSwitch:
+                            on_active: app.enable_nots()
+                            widget_style: "ios"
+                            id: switchnotify
+
+                    IconLeftWidget:
+                        icon: "bell"
+
+                OneLineAvatarIconListItem:
+                    text: "Update Schedule"
+                    on_press: app.do_login('',False)
+                    YourContainer:
+                        id: container
+                    IconLeftWidget:
+                        icon: "cloud-download"
+
+                OneLineAvatarIconListItem:
+                    text: "Test Not"
+                    on_press: app.test_not()
+                    YourContainer:
+                        id: container
+                    IconLeftWidget:
+                        icon: "cloud-download"
