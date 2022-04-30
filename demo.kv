@@ -267,43 +267,7 @@ ScreenManager:
     #        origin: self.center
     #canvas.after:
     #    PopMatrix
-<animateMoneyScreen>:
-    name: 'animate'
 
-
-    BoxLayout:
-        orientation: "vertical"
-        MDToolbar:
-            #title: "AnimateMoney"
-            height: app.mheight
-            left_action_items: [['chevron-left', lambda screen: app.change_screen('home','left')]]
-        ScrollView:
-
-
-            MDList:
-                TwoLineAvatarIconListItem:
-                    id:top
-                    IconLeftWidget:
-                        icon:"calendar-clock"
-                TwoLineAvatarIconListItem:
-                    id:moneyinfo
-                    IconLeftWidget:
-                        icon:"table-account"
-                TwoLineAvatarIconListItem:
-                    id:moneya
-                    IconLeftWidget:
-                TwoLineAvatarIconListItem:
-                    id:money_r
-                    IconLeftWidget:
-                        icon:"timer-sand"
-                TwoLineAvatarIconListItem:
-                    id:moneyb
-                    IconLeftWidget:
-                        icon:"cash-multiple"
-                TwoLineAvatarIconListItem:
-                    id:money_pay
-                    IconLeftWidget:
-                        icon:"cash-multiple"
 <AboutScreen>:
     name: "about"
     #Image:
@@ -573,6 +537,11 @@ ScreenManager:
                     id: d10
                     IconLeftWidget:
                         icon: "calendar-clock-outline"
+                OneLineAvatarIconListItem: 
+                    id: d12
+                    IconLeftWidget:
+                        icon: "calendar-clock-outline"
+                    
 
 
                 OneLineAvatarIconListItem: 

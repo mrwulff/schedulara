@@ -46,7 +46,6 @@ from kivymd.uix.list import (
 )
 
 from kivymd.uix.menu import MDDropdownMenu
-from kivy.clock import Clock
 from kivymd.uix.textfield import MDTextField
 
 
@@ -281,6 +280,8 @@ class SwipeToDeleteItem(Screen):
             """"""
             newxxx = []
         try:
+            import libs.lib_extractjson as lib_extractjson
+
             rate = lib_extractjson.extract_pos(App, config_file, xxx[idex][8])
             App.get_running_app().root.current_screen.ids["rate"].text = rate
         except:
@@ -289,12 +290,14 @@ class SwipeToDeleteItem(Screen):
 
         now = datetime.now()
         try:
+            import libs.lib_tinyfs as lib_tinyfs
+
             today, fdate = lib_tinyfs.format_text(idex, mjds, now, "info")
             # print("OMGWHATHAVEYOPUDONE ", idex)
         except:
             # print("omgwhathaveyoudone ", idex)
             pass
-        try:
+        if 1 == 1:
             App.get_running_app().root.current_screen.ids["date"].text = fdate
             # App.get_running_app().root.current_screen.ids['d0'].text=str(newxxx[0])
             # App.get_running_app().root.current_screen.ids['d1'].text=str(newxxx[1])
@@ -319,7 +322,7 @@ class SwipeToDeleteItem(Screen):
             )
             App.get_running_app().root.current_screen.ids["d12"].text = str(newxxx[12])
             App.get_running_app().root.current_screen.ids["d13"].text = str(newxxx[9])
-            App.get_running_app().root.current_screen.ids["d10"].text = str(newxxx[13])
+            # App.get_running_app().root.current_screen.ids["d10"].text = str(newxxx[13])
             if newxxx[8] == "ME":
                 App.get_running_app().root.current_screen.ids[
                     "pos"
@@ -327,8 +330,8 @@ class SwipeToDeleteItem(Screen):
             App.get_running_app().root.current_screen.ids["image"].source = (
                 "images/" + x["city"] + ".png"
             )
-        except:
-            (newxxx)
+        # except:
+        #    (newxxx)
 
         # print(mjds[idex]["location"], "WTHMAN")
 
@@ -939,10 +942,12 @@ class Demo3App(MDApp):
         self.snackbar.open()
 
     def animate_money(self):
-        self.root.current = "animate"
+        from kivy.clock import Clock
+
+        self.root.set_current("animate")
         pos = mjds[idex]["pos"]
-        self.root.get_screen("animate").ids["top"].secondary_text = str("call start")
-        self.root.get_screen("animate").ids["moneyinfo"].secondary_text = str(
+        App.get_running_app().root.current_screen.ids["top"].text = str("call start")
+        App.get_running_app().root.current_screen.ids["moneyinfo"].secondary_text = str(
             pos + " rate"
         )
         zzz = self.root.get_screen("info").ids["lunches"].text
@@ -969,6 +974,7 @@ class Demo3App(MDApp):
 
     def update_label(self, dt):
         from datetime import datetime
+        import libs.lib_extractjson as lib_extractjson
 
         start_time = mjds[idex]["date"] + "." + mjds[idex]["time"]
         start_time = datetime.strptime(start_time, "%m/%d/%Y.%H:%M")
@@ -1217,15 +1223,21 @@ class Demo3App(MDApp):
         self.button.text = popup.content.text
 
     def get_rate(self):
-        try:
+        if 1 == 1:
+            import libs.lib_extractjson as lib_extractjson
+
             # print(xxx[idex], "get_rate")
             pos = xxx[idex][8]
-            rate = extract_pos(App, config_file, pos)
-            App.get_running_app().root.current_screen.ids["rate"].text = str(rate)
-        except:
+            rate = lib_extractjson.extract_pos(App, config_file, pos)
+            print("rate mofo", rate)
+            # App.get_running_app().root.current_screen.ids["rate"].text = str(rate)
+
+            # App.get_running_app().root.current_screen.ids["venue"].text = str(rate)
+            # except:
+            print("failed to get rate")
 
             # print(xxx, "get_rate2error3")
-            pass
+            # pass
 
     def set_rate(self):
         x = xxx[idex][8]
@@ -1234,6 +1246,7 @@ class Demo3App(MDApp):
         import libs.lib_makeuserdata as lib_makeuserdata
 
         lib_makeuserdata.makeposfile(App, x, config_file, ios, rate)
+        print("set rate")
 
     def get_date(self, date):
         """

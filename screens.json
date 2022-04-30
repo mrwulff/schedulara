@@ -33,5 +33,10 @@
         "import": "from libs.uix.baseclass.pay_screen import PayScreen",
         "object": "PayScreen()",
         "kv": "libs/uix/kv/pay_screen.kv"
+    },
+    "animate": {
+        "import": "from libs.uix.baseclass.animate_screen import AnimateScreen",
+        "object": "AnimateScreen()",
+        "kv": "libs/uix/kv/animate_screen.kv"
     }
 }

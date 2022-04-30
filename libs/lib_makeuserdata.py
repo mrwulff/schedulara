@@ -95,7 +95,9 @@ def makeposfile(App, x, config_file, ios, rate):
     try:
         with open(ad + "/pos/" + x + ".json", "w") as outfile:
             json.dump(y, outfile)
+        print("wrote pos file")
     except:
         os.mkdir(ad + "/pos")
         with open(ad + "/pos/" + x + ".json", "w") as outfile:
             json.dump(y, outfile)
+        print("updated pos file")
