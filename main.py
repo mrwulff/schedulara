@@ -31,6 +31,7 @@ from kivy.uix.popup import Popup
 
 
 import datetime
+import libs.lib_think as lib_think
 
 
 """
@@ -124,7 +125,6 @@ import lib_parse
 import lib_makeuserdata
 import lib_readuserdata
 import lib_tinyfs
-import lib_think
 import lib_ppdownloader
 import lib_updateuserdata
 import lib_extractjson
@@ -918,18 +918,24 @@ class Demo3App(MDApp):
         self.snackbar.open()
 
     def ccc(self):
-        # print(xxx)
+        print(mjds)
         confable = []
-        for i in range(len(xxx)):
+        for i in range(len(mjds)):
 
-            try:
-                z = xxx[i][13]
-                z.append(confable)
-            except:
-                pass
-        # for i in range(len(confable)):
-        #    print(confable[i])
-        self.snackbar = Snackbar(text="Success!", bg_color=self.theme_cls.primary_color)
+            if 1 == 1:
+                # if mjds[i].has_key(["confirmable"]):
+                if "confirmable" in mjds[i]:
+                    z = mjds[i]["confirmable"]
+                    print(z)
+                    confable.append(mjds[i]["confirmable"])
+            # except:
+            #    pass
+        for i in range(len(confable)):
+            print(confable[i], len(confable))
+        print(len(confable), "confable")
+        self.snackbar = Snackbar(
+            text="Success!" + str(len(confable)), bg_color=self.theme_cls.primary_color
+        )
         self.snackbar.open()
 
     def animate_money(self):
@@ -1070,7 +1076,7 @@ class Demo3App(MDApp):
             return "fail"
 
         print(type(browser))
-        try:
+        if 1 == 1:
             if 1 == 1:
                 try:
                     browser.select_form(name="ctl00")
@@ -1099,8 +1105,8 @@ class Demo3App(MDApp):
                 aaa = open(ad + "/realdata.html", "wb")
                 aaa.write((aa))
                 aaa.close()
-        except:
-            """"""
+        # except:
+        #    """"""
 
     def closeDialog(self, inst):
         self.dialog.dismiss()
