@@ -4,7 +4,7 @@ def parsepayperiod(file):
 
     import re
 
-    # print (file)
+    # print(file)
     from bs4 import BeautifulSoup
 
     aaa = open(file, "r", encoding="utf8")
@@ -18,6 +18,9 @@ def parsepayperiod(file):
     day = soup.findAll("span", id=re.compile("_ct"))
     # print (day)
     ab = soup.find_all("tr")
+    in_type = 0
+    out_type = 0
+    show_type = 0
 
     fullnj = []
     allday = []
@@ -27,10 +30,17 @@ def parsepayperiod(file):
         ax = ab[i].find_all("td")
         try:
             alldays = [ax[5].get_text(), ax[11].get_text()]
+            if (ax[1].get_text()) == "SHOW":
+                show_type = show_type + 1
+            if (ax[1].get_text()) == "OUT":
+                out_type = out_type + 1
+            if (ax[1].get_text()) == "IN":
+                in_type = in_type + 1
             allday.append(alldays)
         except:
             pass
     realday = []
+    # print(ab)
     for i in range(1, len(allday) - 1):
         allday[i][0], junk, junk = str.split(allday[i][0], " ")
         junk, allday[i][1] = str.split(allday[i][1], "$")
@@ -104,7 +114,9 @@ def parsepayperiod(file):
     }
 
     # print (text)
-    return ddict, realday
+    show_types = in_type, out_type, show_type
+    # print(show_types)
+    return ddict, realday, in_type, out_type, show_type
 
 
 def format_textt(name):
@@ -352,4 +364,5 @@ def parse(sch, ad, usecache, x5):
 
 
 if __name__ == "__main__":
-    parse("sch", "ad", False)
+    # parse("sch", "ad", False)
+    parsepayperiod("C:/Users/kw/AppData/Roaming/demo3/pp/01-25-2022.html")

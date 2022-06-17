@@ -1,0 +1,92 @@
+<StatsScreen>
+    name: "stats"
+    #Image:
+    #    source: 'images/rh.jpg'
+    #    size: self.width,self.height
+    BoxLayout:
+        id: graphs2
+        orientation: "vertical"
+        MDToolbar:
+            #title: "Settings"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('mainmenu','left'),'home']]
+        MDBoxLayout:
+            #orientation: 'horizontal'
+            size_hint: 1,None
+            height: app.mheight
+            MDRaisedButton:
+                text: 'YTD'
+                id: sytd
+                #size_hint: .3,None
+                #height: app.mheight
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                on_press:(app.make_stats('ytd',0,0))
+            MDRaisedButton:
+                text: 'Year'
+                id: syear
+                #size_hint: .3,None
+                #height: app.mheight
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                on_press:(app.make_stats('year',0,0))
+            MDRaisedButton:
+                text: 'All'
+                id: sall
+                #size_hint: .3,None
+                #height: app.mheight
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                on_press:(app.make_stats('all',0,0))
+            MDRaisedButton:
+                text: 'Custom'
+                id: scustom
+                #size_hint: .3,None
+                #height: app.mheight
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                on_press:
+                   # (app.make_stats('custom','custom'))
+                    (app.show_date_picker())
+        MDBoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1,None
+            height: app.mheight
+            MDRaisedButton:
+                text: 'All'
+                id: dstart
+                #size_hint: .5,None
+                #height: app.mheight
+
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                #on_press:(app.show_date_picker())
+            MDRaisedButton:
+                text: 'All'
+                #size_hint: .5,None
+                #height: app.mheight
+                #md_bg_color: app.theme_cls.primary_light
+                #padding:10
+                #spacing:10,10
+                id: dend
+                #on_press:(app.show_date_picker())
+
+
+        ScrollView:
+
+
+            MDList:
+                id: graphs
+                #OneLineAvatarIconListItem:
+                #    icon: 'palette'
+                #    text: "stats"
+                #    on_press: app.change_screen('login', 'left')
+                    
+                #    YourContainer:
+                #        id: container   
+                #    IconLeftWidget:
+                #        icon: "account"             
+                #OneLineAvatarIconListItem:
+                #    text: "stats2"
+                #    on_press: 
+                #        app.show_theme_picker()

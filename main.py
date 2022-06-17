@@ -28,6 +28,7 @@ from kivymd.uix.picker import MDThemePicker
 from kivymd.uix.picker import MDTimePicker
 from kivymd.uix.picker import MDDatePicker
 from kivy.uix.popup import Popup
+from kivymd.uix.menu import MDDropdownMenu
 
 
 import datetime
@@ -45,7 +46,6 @@ from kivymd.uix.list import (
     IconLeftWidget,
 )
 
-from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.textfield import MDTextField
 
 
@@ -177,18 +177,6 @@ class TrophyScreen(Screen):
     pass
 
 
-class StatsScreen(Screen):
-    pass
-
-
-class LoginScreen(Screen):
-    pass
-
-
-class MainMenuScreen(Screen):
-    pass
-
-
 class HomeScreen(Screen):
     pass
 
@@ -260,6 +248,10 @@ class DialogContent(MDBoxLayout):
 
         date = value.strftime("%A %d %B %Y")
         self.ids.date_text.text = str(date)
+
+
+class SwipeToDeleteItem2(Screen):
+    text = StringProperty()
 
 
 class SwipeToDeleteItem(Screen):
@@ -433,6 +425,35 @@ class Demo3App(MDApp):
     mheight = 40
     cpadding = 20
     sound_effects = ["Ding", "Bang", "Lol"]
+
+    locations = [
+        "denver",
+        "dc",
+        "florida",
+        "georgia",
+        "indiana",
+        "kentucky",
+        "lasvegas",
+        "losangeles",
+        "louisiana",
+        "michigan",
+        "minnesota",
+        "missouri",
+        "mississippi",
+        "montana",
+        "newmexico",
+        "northerncalifornia",
+        "northwest",
+        "ohio",
+        "reno",
+        "california",
+        "southcarolina",
+        "tempe",
+        "memphis",
+        "texas",
+        "tucson",
+        "wisconsin",
+    ]
 
     def check_att(self, b):
         global x
@@ -672,34 +693,7 @@ class Demo3App(MDApp):
         global x
         x = x
 
-        locations = [
-            "denver",
-            "dc",
-            "florida",
-            "georgia",
-            "indiana",
-            "kentucky",
-            "lasvegas",
-            "losangeles",
-            "louisiana",
-            "michigan",
-            "minnesota",
-            "missouri",
-            "mississippi",
-            "montana",
-            "newmexico",
-            "northerncalifornia",
-            "northwest",
-            "ohio",
-            "reno",
-            "california",
-            "southcarolina",
-            "tempe",
-            "memphis",
-            "texas",
-            "tucson",
-            "wisconsin",
-        ]
+        
         newercolor = newcolor
         xxxx = xxx + "wtf" + str(idex)
         
@@ -758,6 +752,8 @@ class Demo3App(MDApp):
         global x
         x[v2] = v[text_item]
         # print(x)
+        import libs.lib_updateuserdata as lib_updateuserdata
+
         lib_updateuserdata.updateuser(x, ad)
 
     def choose_drop(self, v, v2):
@@ -773,9 +769,10 @@ class Demo3App(MDApp):
             }
             for i in range(len(v) - 1)
         ]
-        print(self.root.get_screen("notification").ids)
+        # print(self.root.get_screen("notification").ids)
         self.menu = MDDropdownMenu(
-            caller=self.root.get_screen("notification").ids["button4"],
+            # caller=self.root.get_screen("notification").ids["button4"],
+            caller=App.get_running_app().root.current_screen.ids["button4"],
             items=menu_items,
             max_height=400,
             # position="center",
@@ -870,20 +867,129 @@ class Demo3App(MDApp):
         # lib_test.n22()
         pass
 
-    def make_stats(self):
+    def make_stats(self, start, b, e):
+        self.root.set_current("stats")
+        if start == "ytd":
+            App.get_running_app().root.current_screen.ids[
+                "scustom"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "sytd"
+            ].md_bg_color = self.theme_cls.primary_dark
+            App.get_running_app().root.current_screen.ids[
+                "syear"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].md_bg_color = self.theme_cls.primary_light
+        if start == "year":
+            App.get_running_app().root.current_screen.ids[
+                "scustom"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "syear"
+            ].md_bg_color = self.theme_cls.primary_dark
+            App.get_running_app().root.current_screen.ids[
+                "sytd"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].md_bg_color = self.theme_cls.primary_light
+
+        if start == "custom":
+            App.get_running_app().root.current_screen.ids[
+                "syear"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "scustom"
+            ].md_bg_color = self.theme_cls.primary_dark
+            App.get_running_app().root.current_screen.ids[
+                "sytd"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].md_bg_color = self.theme_cls.primary_light
+
+        if start == "all":
+            App.get_running_app().root.current_screen.ids[
+                "syear"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].md_bg_color = self.theme_cls.primary_dark
+            App.get_running_app().root.current_screen.ids[
+                "sytd"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "scustom"
+            ].md_bg_color = self.theme_cls.primary_light
+
         from kivy.utils import get_color_from_hex
 
-        self.root.current = "stats"
+        # self.root.current = "stats"
+        # self.root.current("stats")
+        # self.root.set_current("stats")
+        # self.root.current = "stats"
+
         self.root.current_screen.ids["graphs"].clear_widgets()
-        dd, dd2, maxd, maxm, max_dy, max_my = lib_makegraphs.parsepp(self, ad, "check")
-        # print (dd[1])
+        import libs.lib_makegraphs as lib_makegraphs
+
+        if start == "custom":
+            # new_finish = App.get_running_app().root.current_screen.ids["dstart"].text
+            # new_start = App.get_running_app().root.current_screen.ids["dend"].text
+            # new_finish = pp_date = datetime.datetime.strptime(new_finish, "%Y-%m-%d")
+            # new_start = pp_date = datetime.datetime.strptime(new_start, "%Y-%m-%d")
+            new_finish = e
+            new_start = b
+            print(type(e), "GARBAGE")
+        if start == "all":
+            new_finish = datetime.datetime.now() - datetime.timedelta(days=10365)
+            new_start = datetime.datetime.now()
+            App.get_running_app().root.current_screen.ids["dstart"].text = str("ALL")
+            App.get_running_app().root.current_screen.ids["dend"].text = str("ALL")
+        if start == "ytd":
+            doy = datetime.datetime.now().timetuple().tm_yday
+            new_finish = datetime.datetime.now() - datetime.timedelta(days=doy)
+            new_start = datetime.datetime.now()
+        if start == "year":
+            now = datetime.datetime.now()
+            three_yrs_ago = datetime.datetime.now() - datetime.timedelta(days=365)
+            new_start = now
+            new_finish = three_yrs_ago
+        # print(new_finish - new_start)
+        (
+            dd,
+            dd2,
+            maxd,
+            maxm,
+            max_dy,
+            max_my,
+            ins,
+            outs,
+            shows,
+            max_t,
+        ) = lib_makegraphs.parsepp(self, ad, "check", new_start, new_finish)
+
         lib_makegraphs.make_stats_pp(self, "Checks", dd, maxm, max_dy)
 
-        # print (dd[1])
-
         lib_makegraphs.make_stats_pp(self, "$/Day", dd2, maxd, max_dy)
+        dumb = str("In ~ Show ~ Out\n" + str(ins) + " " + str(shows) + " " + str(outs))
+        lib_makegraphs.make_stats_pp(
+            self,
+            dumb,
+            [[0, ins], [1, shows], [2, outs]],
+            max_t,
+            3,
+        )
 
-        # self.root.current_screen.ids["graphs"].add_widget(MD3Card(text="wow"))
+        # lib_makegraphs.make_stats_pp(self, "1", dd2, maxd, max_dy)
+        # self.root.current_screen.ids["graphs"].add_widget(HistoryItem(text="wow"))
+        # self.root.current_screen.ids["graphs"].add_widget(self.graph)
+        self.root.current_screen.ids["graphs"].add_widget(
+            SwipeToDeleteItem2(text="wow+0")
+        )
+        """
+        self.root.current_screen.ids["graphs"].add_widget(MD3Card(text="wow"))
         stats = [
             "stat1: 5667",
             "stat2: 1567",
@@ -896,6 +1002,10 @@ class Demo3App(MDApp):
         self.root.current_screen.ids["graphs"].add_widget(
             BlankMDCard(text="Current Year", text2="soming soon!")
         )
+
+        self.root.current_screen.ids["graphs"].add_widget(self.graph)
+    """
+        self.root.set_current("stats")
 
     def maketransp(self):
 
@@ -1368,7 +1478,12 @@ class Demo3App(MDApp):
         except:
             App.get_running_app().root.current_screen.ids["dstart"].text = str("")
             App.get_running_app().root.current_screen.ids["dend"].text = str("")
-        self.do_history()
+        print(self.root.current, "CURRENT SCREEN===:")
+        if self.root.current == "stats":
+            # self.make_stats("custom", "custom")
+            self.make_stats("custom", date_range[-1], date_range[0])
+        if self.root.current == "history":
+            self.do_history()
 
     def updatetext(self, box):
         app = App.get_running_app()
@@ -1544,7 +1659,9 @@ class Demo3App(MDApp):
             # print (file)
             import libs.lib_parse as lib_parse
 
-            dd, junk = lib_parse.parsepayperiod(config_file + "/pp/" + file)
+            dd, junk, junk, junk, junk = lib_parse.parsepayperiod(
+                config_file + "/pp/" + file
+            )
             listofdicks.append(dd)
             x = x + 1
         return listofdicks
@@ -1802,6 +1919,8 @@ class Demo3App(MDApp):
         x["username"] = App.get_running_app().root.current_screen.ids["temail"].text
         x["password"] = App.get_running_app().root.current_screen.ids["tpassword"].text
         x["city"] = App.get_running_app().root.current_screen.ids["button4"].text
+        import libs.lib_updateuserdata as lib_updateuserdata
+
         lib_updateuserdata.updateuser(x, ad)
 
     # btnState2 = StringProperty("false")
