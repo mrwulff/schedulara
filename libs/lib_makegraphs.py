@@ -81,7 +81,7 @@ def parsepp(self, ad, type, finish, start):
     ins = 0
     outs = 0
     shows = 0
-
+    all_pos = []
     for file in glob.glob("*.html"):
         # print(file)
         # file2, junk = str.split(file, ".")
@@ -96,17 +96,20 @@ def parsepp(self, ad, type, finish, start):
         try:
             start = start.date()
         except:
-            print("cannont convert start")
+            pass
+            # print("cannont convert start")
 
         try:
             finish = finish.date()
         except:
-            print("cannont convert finish")
+            # print("cannont convert finish")
+            pass
 
         try:
             pp_date = pp_date.date()
         except:
-            print("cannont convert pp_date")
+            # print("cannont convert pp_date")
+            pass
 
         # print(type(pp_date))
         # xx = type(start)
@@ -123,7 +126,9 @@ def parsepp(self, ad, type, finish, start):
 
         if start < pp_date and pp_date < finish:
 
-            dd, days, ins2, outs2, shows2 = lib_parse.parsepayperiod(ad + "/pp/" + file)
+            dd, days, ins2, outs2, shows2, positions = lib_parse.parsepayperiod(
+                ad + "/pp/" + file
+            )
             # print (days)
             ins = ins + ins2
             outs = outs + outs2
@@ -150,7 +155,9 @@ def parsepp(self, ad, type, finish, start):
             max_t = shows
 
         #    return dd2,5000
-    if 1 == 1:
+        for x in range(len(positions)):
+            all_pos.append(positions[x])
+    if type != "hats":
         return (
             dd2,
             realdays,
@@ -163,3 +170,10 @@ def parsepp(self, ad, type, finish, start):
             shows,
             max_t,
         )
+    if type == "hats":
+        # print(all_pos)
+        hats = list(set(all_pos))
+        print(hats, len(hats))
+        return hats, all_pos
+
+        pass

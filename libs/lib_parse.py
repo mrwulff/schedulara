@@ -21,12 +21,16 @@ def parsepayperiod(file):
     in_type = 0
     out_type = 0
     show_type = 0
+    positions = []
 
     fullnj = []
     allday = []
     today = date.today()
+    flag1 = False
+    flag2 = False
     for i in range(len(ab)):
-        nj = []
+        # print(ab[i])
+
         ax = ab[i].find_all("td")
         try:
             alldays = [ax[5].get_text(), ax[11].get_text()]
@@ -39,8 +43,32 @@ def parsepayperiod(file):
             allday.append(alldays)
         except:
             pass
+        try:
+
+            xx = ax[2].get_text()
+            # print(xx)
+            if flag2 == False:
+                # print(flag2)
+                if (xx) == "\xa0":
+                    # print("omg")
+                    flag2 = True
+
+            if flag1 == True and flag2 == False:
+                # print("wtf")
+                positions.append(xx)
+            if xx == "Pos":
+                # print("omg flag1")
+                flag1 = True
+
+        except:
+            # print(ax, "fail")
+            pass
+    # print(positions)
+    test_list = list(set(positions))
+    # print(test_list)
+    ###TODO
+
     realday = []
-    # print(ab)
     for i in range(1, len(allday) - 1):
         allday[i][0], junk, junk = str.split(allday[i][0], " ")
         junk, allday[i][1] = str.split(allday[i][1], "$")
@@ -54,8 +82,6 @@ def parsepayperiod(file):
         delta = today - dayday.date()
         allday[i][0] = delta.days
         realday.append([delta.days, allday[i][1]])
-
-        # print (allday[i])
 
     # day=soup.findAll('span', id=re.compile('^post_'))
     days = len(day)
@@ -116,7 +142,7 @@ def parsepayperiod(file):
     # print (text)
     show_types = in_type, out_type, show_type
     # print(show_types)
-    return ddict, realday, in_type, out_type, show_type
+    return ddict, realday, in_type, out_type, show_type, test_list
 
 
 def format_textt(name):

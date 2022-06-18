@@ -10,7 +10,7 @@ debug = True
 scale = 2
 useold = False
 from kivy.uix.screenmanager import Screen, ScreenManager
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, Property
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.list import IRightBodyTouch
 from kivy.properties import ObjectProperty
@@ -29,6 +29,11 @@ from kivymd.uix.picker import MDTimePicker
 from kivymd.uix.picker import MDDatePicker
 from kivy.uix.popup import Popup
 from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.list import (
+    IRightBodyTouch,
+    OneLineAvatarIconListItem,
+    TwoLineAvatarListItem,
+)
 
 
 import datetime
@@ -348,6 +353,13 @@ class P(FloatLayout):
     pass
 
 
+class TwoLineAvatarListItem22(TwoLineAvatarListItem):
+    icon = StringProperty("android")
+    # icon2 = StringProperty("android")
+    # icon_color = Property([0, 0, 1, 0])
+    # text_color = Property("")
+
+
 class Prestore(FloatLayout):
 
     pass
@@ -496,6 +508,7 @@ class Demo3App(MDApp):
         self.root.set_current("home")
 
     def on_start(self):
+        toast(str(tic - time.perf_counter()))
         global x
         global ad
         # print("wtf")
@@ -520,7 +533,7 @@ class Demo3App(MDApp):
             self.theme_cls.accent_palette = x["scolor"]
         except:
             pass
-        print(x)
+        print(x, "lol")
 
         self.do_login("", useold)
 
@@ -862,10 +875,52 @@ class Demo3App(MDApp):
         except:
             print("omg")
 
+    def about(self):
+        self.root.set_current("about")
+
+    def check_ach(self):
+        print("checking ach")
+        import libs.lib_ach
+
+        # dicts = self.load_paychecks()
+        libs.lib_ach.check_hats(self, ad)
+
     def trophys(self):
         # import lib_test
         # lib_test.n22()
-        pass
+        from kivymd.icon_definitions import md_icons
+        from kivymd.uix.list import TwoLineAvatarListItem
+
+        self.root.set_current("ach")
+        self.root.current_screen.ids["ach_id"].clear_widgets()
+        import libs.lib_ach
+
+        icons = list(md_icons.keys())
+
+        data = libs.lib_ach.list_ach(ad)
+        for i in range(len(data)):
+            print(data[i])
+            tt = data[i]["name"] + "\n" + data[i]["disc"] + "[size=0]" + str(i)
+            # self.root.current_screen.ids["ach_id"].add_widget(
+            #    ListItemWithCheckbox(
+            #        text=tt, icon=icons[i], icon2=icons[i + 10], secondary_text="lalala"
+            #    )
+            # )
+            real_icon = icons[i]
+            if data[i]["achieved"] == "False":
+                real_icon = "lock"
+            items = TwoLineAvatarListItem22(
+                text=data[i]["name"],
+                secondary_text=data[i]["disc"],
+                icon=real_icon,
+                # icon2=icons[i],
+                # text_color=self.theme_cls.text_color,
+            )
+
+            # items.text_color = (1, 0, 0, 0)
+            # items.icon_color = [1, 1, 0, 1]
+            # items = items.text_color = self.theme_cls.text_color
+            self.root.current_screen.ids["ach_id"].add_widget(items)
 
     def make_stats(self, start, b, e):
         self.root.set_current("stats")
@@ -951,11 +1006,23 @@ class Demo3App(MDApp):
             doy = datetime.datetime.now().timetuple().tm_yday
             new_finish = datetime.datetime.now() - datetime.timedelta(days=doy)
             new_start = datetime.datetime.now()
+            App.get_running_app().root.current_screen.ids["dstart"].text = str(
+                new_finish.date()
+            )
+            App.get_running_app().root.current_screen.ids["dend"].text = str(
+                new_start.date()
+            )
         if start == "year":
             now = datetime.datetime.now()
             three_yrs_ago = datetime.datetime.now() - datetime.timedelta(days=365)
             new_start = now
             new_finish = three_yrs_ago
+            App.get_running_app().root.current_screen.ids["dstart"].text = str(
+                new_finish.date()
+            )
+            App.get_running_app().root.current_screen.ids["dend"].text = str(
+                new_start.date()
+            )
         # print(new_finish - new_start)
         (
             dd,
@@ -973,7 +1040,10 @@ class Demo3App(MDApp):
         lib_makegraphs.make_stats_pp(self, "Checks", dd, maxm, max_dy)
 
         lib_makegraphs.make_stats_pp(self, "$/Day", dd2, maxd, max_dy)
-        dumb = str("In ~ Show ~ Out\n" + str(ins) + " " + str(shows) + " " + str(outs))
+        dumb = str(f"In ~ Show ~ Out\n" + str(ins) + " " + str(shows) + " " + str(outs))
+        dumb = str(f"In ~ Show ~ Out\n" + str(ins) + " " + str(shows) + " " + str(outs))
+        dumb = f"In  ~  Show  ~  Out\n{ins:<4}{outs:>8}{shows:>14}"
+
         lib_makegraphs.make_stats_pp(
             self,
             dumb,
@@ -1589,12 +1659,16 @@ class Demo3App(MDApp):
         s = self.theme_cls.theme_style
         p = self.theme_cls.primary_palette
         a = self.theme_cls.accent_palette
+        import libs.lib_readuserdata as lib_readuserdata
+
         x = lib_readuserdata.readuserdata(App, config_file, ios)
         # print(s, p, a, x)
         x["pcolor"] = p
         x["scolor"] = a
         x["theme"] = s
         # print(s, p, a, x)
+        import libs.lib_updateuserdata as lib_updateuserdata
+
         lib_updateuserdata.updateuser(x, ad)
 
     def change_screen(self, screen, direction):
@@ -1878,28 +1952,38 @@ class Demo3App(MDApp):
 
         from kivymd.uix.dialog import MDDialog
 
-        # print("lol")
-        ttt = mjds[idex][v]
-        if len(ttt) < 2:
-            self.snackbar = Snackbar(
-                text="[empty]",
-                bg_color=self.theme_cls.primary_color,
-            )
-            self.snackbar.open()
+        print("poppy", v)
+        if v == "about":
+            ttt = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            if not self.dialog:
+                self.dialog = MDDialog(
+                    text=ttt,
+                    type="custom",
+                    # content_cls=Content(),
+                    buttons=[],
+                )
+        if v == "notes":
+            ttt = mjds[idex][v]
+            if len(ttt) < 2:
+                self.snackbar = Snackbar(
+                    text="[empty]",
+                    bg_color=self.theme_cls.primary_color,
+                )
+                self.snackbar.open()
 
-        if not self.dialog:
-            self.dialog = MDDialog(
-                text=ttt,
-                type="custom",
-                # content_cls=Content(),
-                buttons=[
-                    MDFlatButton(
-                        text="Copy",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=(lambda a: self.grabText(ttt)),
-                    ),
-                ],
-            )
+            if not self.dialog:
+                self.dialog = MDDialog(
+                    text=ttt,
+                    type="custom",
+                    # content_cls=Content(),
+                    buttons=[
+                        MDFlatButton(
+                            text="Copy",
+                            text_color=self.theme_cls.primary_color,
+                            on_release=(lambda a: self.grabText(ttt)),
+                        ),
+                    ],
+                )
         if len(ttt) > 2:
             self.dialog.open()
 

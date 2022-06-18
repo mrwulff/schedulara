@@ -147,7 +147,9 @@
                 text: "[size=26]Info[/color]"
                 tile_text_color: app.theme_cls.accent_color
                 on_release:
-                    app.change_screen('about','left')
+                    #app.change_screen('about','left')
+                    #app.about()
+                    app.poppy("about")
                 AnchorLayout:
                     pos_hint: {"center_x": .5, "center_y": .5}
                     canvas.before:
