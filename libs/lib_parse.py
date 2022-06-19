@@ -4,7 +4,6 @@ def parsepayperiod(file):
 
     import re
 
-    # print(file)
     from bs4 import BeautifulSoup
 
     aaa = open(file, "r", encoding="utf8")
@@ -16,7 +15,6 @@ def parsepayperiod(file):
     payperiod = soup.find("span", id="lblPayPeriod")
     days = 0
     day = soup.findAll("span", id=re.compile("_ct"))
-    # print (day)
     ab = soup.find_all("tr")
     in_type = 0
     out_type = 0
@@ -29,11 +27,11 @@ def parsepayperiod(file):
     flag1 = False
     flag2 = False
     for i in range(len(ab)):
-        # print(ab[i])
 
         ax = ab[i].find_all("td")
         try:
-            alldays = [ax[5].get_text(), ax[11].get_text()]
+            alldays = [ax[5].get_text(), ax[11].get_text(), ax[4].get_text()]
+
             if (ax[1].get_text()) == "SHOW":
                 show_type = show_type + 1
             if (ax[1].get_text()) == "OUT":
@@ -46,50 +44,46 @@ def parsepayperiod(file):
         try:
 
             xx = ax[2].get_text()
-            # print(xx)
             if flag2 == False:
-                # print(flag2)
                 if (xx) == "\xa0":
-                    # print("omg")
                     flag2 = True
 
             if flag1 == True and flag2 == False:
-                # print("wtf")
                 positions.append(xx)
             if xx == "Pos":
-                # print("omg flag1")
                 flag1 = True
 
         except:
             # print(ax, "fail")
             pass
-    # print(positions)
-    test_list = list(set(positions))
-    # print(test_list)
+    # test_list = list(set(positions))
+    test_list = positions
     ###TODO
-
     realday = []
+    day_ach = []
+
     for i in range(1, len(allday) - 1):
-        allday[i][0], junk, junk = str.split(allday[i][0], " ")
+        # allday[i][0], junk, junk = str.split(allday[i][0], " ")
+        newallday0, junk, junk = str.split(allday[i][0], " ")
         junk, allday[i][1] = str.split(allday[i][1], "$")
         allday[i][1], junk = str.split(allday[i][1], "\n")
-        allday[i][1] = float(allday[i][1])
+        # allday[i][1] = float(allday[i][1])
+        newallday = float(allday[i][1])
         try:
-            allday[i][0], junk = str.replace(allday[i][1], ",", "")
+            newallday0, junk = str.replace(newallday, ",", "")
         except:
             pass
-        dayday = datetime.strptime(allday[i][0], "%m/%d/%Y")
+        dayday = datetime.strptime(newallday0, "%m/%d/%Y")
         delta = today - dayday.date()
-        allday[i][0] = delta.days
-        realday.append([delta.days, allday[i][1]])
+        newallday0 = delta.days
+        realday.append([delta.days, newallday])
+        day_ach.append([delta.days, allday[i][0], allday[i][2]])
 
     # day=soup.findAll('span', id=re.compile('^post_'))
     days = len(day)
-    # print (days,'daysss')
     temp = paydate.text
     temp = str.split(temp, " ")
     temp = temp[3]
-    # print (temp)
 
     import datetime
 
@@ -137,7 +131,10 @@ def parsepayperiod(file):
         "shows": days,
         "ddelta": ddelta,
         "dtext": text,
+        "daysago": realday[0],
+        "day_ach": day_ach,
     }
+    # print(realday, alldays)
 
     # print (text)
     show_types = in_type, out_type, show_type

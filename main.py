@@ -34,6 +34,7 @@ from kivymd.uix.list import (
     OneLineAvatarIconListItem,
     TwoLineAvatarListItem,
 )
+from kivy.uix.label import Label
 
 
 import datetime
@@ -186,6 +187,10 @@ class HomeScreen(Screen):
     pass
 
 
+class SmoothLabel(Label):
+    pass
+
+
 class HistoryScreen(Screen):
     pass
 
@@ -224,10 +229,6 @@ from kivy.uix.label import Label
 
 class MD3Card(Screen):
     text = StringProperty()
-
-
-class SmoothLabel(Label):
-    pass
 
 
 class DialogContent(MDBoxLayout):
@@ -354,7 +355,7 @@ class P(FloatLayout):
 
 
 class TwoLineAvatarListItem22(TwoLineAvatarListItem):
-    icon = StringProperty("android")
+    icon = StringProperty("")
     # icon2 = StringProperty("android")
     # icon_color = Property([0, 0, 1, 0])
     # text_color = Property("")
@@ -428,6 +429,7 @@ x = []
 
 class Demo3App(MDApp):
     scale = 1
+    i = 0
     # print("omg")
     print(tic - time.perf_counter(), "supershort")
     cspacing = 10
@@ -878,6 +880,94 @@ class Demo3App(MDApp):
     def about(self):
         self.root.set_current("about")
 
+    def ach_info(self, data):
+        print("info ach", data)
+        self.root.set_current("achinfo")
+        self.root.current_screen.ids["ach_info_id"].clear_widgets()
+        dd = [
+            [data["name"], data["disc"]],
+            ["Date Achieved:", data["date_achieved"]],
+            [data["ach_extra"], len(data["ach_shows"])],
+            ["Points:", data["ach_level"]],
+        ]
+        shows = ""
+        # print(data["ach_shows"])
+        # print(type(data["ach_shows"]))
+        # print("LISTNODATA")
+        newd = dict(
+            sorted(data["ach_shows"].items(), key=lambda item: item[1], reverse=True)
+        )
+
+        keys = list((newd).keys())
+        values = list((newd).values())
+        totshows = 0
+        for x in range(len(values)):
+            totshows = totshows + values[x]
+
+        # (keys,values) = zip(*tel.items())
+
+        # shows = "[font=Roboto-Regular]" + shows + "[/font]"
+        # print(f"{a:10}{b:10}{c:10}"
+        # print(shows)
+
+        for z in range(len(dd)):
+            # print(str(dd[z][0],str(dd[z][1])
+            items = TwoLineAvatarListItem22(
+                text=str(dd[z][0]),
+                secondary_text=str(dd[z][1]),
+                # icon=real_icon,
+                # on_release=lambda x, y=data[i]: self.ach_info(y),
+            )
+
+            self.root.current_screen.ids["ach_info_id"].add_widget(items)
+
+        # self.root.current_screen.ids["ach_info_id"].add_widget(SmoothLabel(text=self.ids.msg.text, size_hint_x=0.5, size_hint_y=0.1, pos_hint={"x": 0.1, "top": 0.8}, background_color=(0.2, 0.6, 1, 1)))
+        keys.insert(0, "Pos:")
+        values.insert(0, "#:")
+        for m in range(len(keys)):
+            try:
+                perc = values[m] / (totshows * 1.0)
+
+                perc = perc * 100
+                perc = f"{perc:.2f}%"
+                perc = str(perc)
+                keysm = str(keys[m])
+                valuesm = str(values[m])
+
+            except:
+                perc = data["ach_graph_disc"][0]
+                keysm = data["ach_graph_disc"][1]
+                try:
+                    valuesm = data["ach_graph_disc"][2]
+                except:
+                    valuesm = ""
+            while len(keysm) < 30:
+                keysm = keysm + " "
+            while len(valuesm) < 20:
+                valuesm = valuesm + " "
+            while len(perc) < 10:
+                perc = perc + " "
+
+            # shows = shows + (keys[m] + " " + str(values[m]) + " " + str(perc))
+            shows = f"[font=Roboto-Regular]{keysm} {str(valuesm)} {str(perc)}[/font]\n"
+
+            items = SmoothLabel(
+                text=(shows),
+                size_hint_x=0.5,
+                # font_name="Roboto-Regular",
+                markup=True,
+                # font_size="10dp",
+            )
+            self.root.current_screen.ids["ach_info_id"].add_widget(items)
+
+    def ach_reset(self):
+        print("reset ach")
+        import libs.lib_ach
+
+        libs.lib_ach.make_ach(ad)
+
+        self.trophys()
+
     def check_ach(self):
         print("checking ach")
         import libs.lib_ach
@@ -885,7 +975,10 @@ class Demo3App(MDApp):
         # dicts = self.load_paychecks()
         libs.lib_ach.check_hats(self, ad)
 
+        self.trophys()
+
     def trophys(self):
+        # global i
         # import lib_test
         # lib_test.n22()
         from kivymd.icon_definitions import md_icons
@@ -898,8 +991,9 @@ class Demo3App(MDApp):
         icons = list(md_icons.keys())
 
         data = libs.lib_ach.list_ach(ad)
+        points = 0
         for i in range(len(data)):
-            print(data[i])
+            # print(data[i])
             tt = data[i]["name"] + "\n" + data[i]["disc"] + "[size=0]" + str(i)
             # self.root.current_screen.ids["ach_id"].add_widget(
             #    ListItemWithCheckbox(
@@ -909,12 +1003,13 @@ class Demo3App(MDApp):
             real_icon = icons[i]
             if data[i]["achieved"] == "False":
                 real_icon = "lock"
+            if data[i]["achieved"] == "True":
+                real_icon = data[i]["ach_icon"]
             items = TwoLineAvatarListItem22(
                 text=data[i]["name"],
                 secondary_text=data[i]["disc"],
                 icon=real_icon,
-                # icon2=icons[i],
-                # text_color=self.theme_cls.text_color,
+                on_release=lambda x, y=data[i]: self.ach_info(y),
             )
 
             # items.text_color = (1, 0, 0, 0)
@@ -996,7 +1091,7 @@ class Demo3App(MDApp):
             # new_start = pp_date = datetime.datetime.strptime(new_start, "%Y-%m-%d")
             new_finish = e
             new_start = b
-            print(type(e), "GARBAGE")
+            # print(type(e), "GARBAGE")
         if start == "all":
             new_finish = datetime.datetime.now() - datetime.timedelta(days=10365)
             new_start = datetime.datetime.now()

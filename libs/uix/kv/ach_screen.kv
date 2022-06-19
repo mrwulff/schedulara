@@ -1,8 +1,6 @@
 <TwoLineAvatarListItem>
     IconLeftWidget:
         icon: root.icon
-        icon_color: app.theme_cls.accent_color
-        text_color: app.theme_cls.accent_color
 
 
 
@@ -16,69 +14,67 @@
     BoxLayout:
         id: graphs2
         orientation: "vertical"
+        
         MDToolbar:
             #title: "Settings"
             height: app.mheight
             left_action_items: [['chevron-left', lambda screen: app.change_screen('mainmenu','left'),'home']]
-            right_action_items: [["check-bold", lambda x: app.check_ach(),'check ach']]
+            right_action_items: [["check-bold", lambda x: app.check_ach(),'check ach'],["refresh", lambda x: app.ach_reset(),'reset ach']]
         MDBoxLayout:
-            #orientation: 'horizontal'
-            size_hint: 1,None
-            height: app.mheight
-            MDRaisedButton:
-                text: 'All'
-                id: sytd
-                #size_hint: .3,None
+            orientation: 'vertical'
+            adaptive_height: True
+            adaptive_size: True
+            #height: app.mheight
+            #size_hint: .1,.1
+            
+            MDBoxLayout:
+                #orientation: 'horizontal'
+                adaptive_height: True
+                adaptive_size: True
                 #height: app.mheight
-                #md_bg_color: app.theme_cls.primary_light
-                #padding:10
-                on_press:(app.make_stats('ytd',0,0))
-            MDRaisedButton:
-                text: 'Done'
-                id: syear
-                #size_hint: .3,None
-                #height: app.mheight
-                #md_bg_color: app.theme_cls.primary_light
-                #padding:10
-                on_press:(app.make_stats('year',0,0))
-            MDRaisedButton:
-                text: 'Not Yet Done'
-                id: sall
-                #size_hint: .3,None
-                #height: app.mheight
-                #md_bg_color: app.theme_cls.primary_light
-                #padding:10
-                on_press:(app.make_stats('all',0,0))
-            MDRaisedButton:
-                text: 'Custom'
-                id: scustom
-                #size_hint: .3,None
-                #height: app.mheight
-                #md_bg_color: app.theme_cls.primary_light
-                #padding:10
-                on_press:
-                   # (app.make_stats('custom','custom'))
-                    (app.show_date_picker())
+                #size_hint: .1,.1
+                
+                MDRaisedButton:
+                    text: 'All'
+                    id: sytd
+                    #size_hint: .3,None
+                    #height: app.mheight
+                    #md_bg_color: app.theme_cls.primary_light
+                    #padding:10
+                    on_press:(app.make_stats('ytd',0,0))
+                MDRaisedButton:
+                    text: 'Done'
+                    id: syear
+                    #size_hint: .3,None
+                    #height: app.mheight
+                    #md_bg_color: app.theme_cls.primary_light
+                    #padding:10
+                    on_press:(app.make_stats('year',0,0))
+                MDRaisedButton:
+                    text: 'Not Yet Done'
+                    id: sall
+                    #size_hint: .3,None
+                    #height: app.mheight
+                    #md_bg_color: app.theme_cls.primary_light
+                    #padding:10
+                    on_press:(app.make_stats('all',0,0))
+                MDRaisedButton:
+                    text: 'Custom'
+                    id: scustom
+                    #size_hint: .3,None
+                    #height: app.mheight
+                    #md_bg_color: app.theme_cls.primary_light
+                    #padding:10
+                    on_press:
+                    # (app.make_stats('custom','custom'))
+                        (app.show_date_picker())
 
-
+            OneLineAvatarIconListItem:
+                icon: 'palette'
+                text: "Points=0"
 
         ScrollView:
 
 
             MDList:
                 id: ach_id
-                #text_color: app.theme_cls.primary_color
-
-                OneLineAvatarIconListItem:
-                    icon: 'palette'
-                    text: "Points=0"
-                #    on_press: app.change_screen('login', 'left')
-                    
-                #    YourContainer:
-                #        id: container   
-                #    IconLeftWidget:
-                #        icon: "account"             
-                #OneLineAvatarIconListItem:
-                #    text: "stats2"
-                #    on_press: 
-                #        app.show_theme_picker()

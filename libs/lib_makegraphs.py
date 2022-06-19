@@ -82,6 +82,7 @@ def parsepp(self, ad, type, finish, start):
     outs = 0
     shows = 0
     all_pos = []
+    days_ach_list = []
     for file in glob.glob("*.html"):
         # print(file)
         # file2, junk = str.split(file, ".")
@@ -129,7 +130,9 @@ def parsepp(self, ad, type, finish, start):
             dd, days, ins2, outs2, shows2, positions = lib_parse.parsepayperiod(
                 ad + "/pp/" + file
             )
-            # print (days)
+            # print(dd["day_ach"], "DAYS MOTHERFUCKER")
+            # print((dd["day_ach"]), "DAYS MOTHERFUCKER")
+            days_ach_list = days_ach_list + dd["day_ach"]
             ins = ins + ins2
             outs = outs + outs2
             shows = shows + shows2
@@ -157,6 +160,7 @@ def parsepp(self, ad, type, finish, start):
         #    return dd2,5000
         for x in range(len(positions)):
             all_pos.append(positions[x])
+    print(len(days_ach_list), "DAYSACHLIST")
     if type != "hats":
         return (
             dd2,
@@ -174,6 +178,4 @@ def parsepp(self, ad, type, finish, start):
         # print(all_pos)
         hats = list(set(all_pos))
         print(hats, len(hats))
-        return hats, all_pos
-
-        pass
+        return hats, all_pos, days_ach_list
