@@ -887,22 +887,28 @@ class Demo3App(MDApp):
         dd = [
             [data["name"], data["disc"]],
             ["Date Achieved:", data["date_achieved"]],
-            [data["ach_extra"], len(data["ach_shows"])],
+            [data["ach_extra"], (data["ach_progress"])],
             ["Points:", data["ach_level"]],
         ]
         shows = ""
         # print(data["ach_shows"])
         # print(type(data["ach_shows"]))
         # print("LISTNODATA")
-        newd = dict(
-            sorted(data["ach_shows"].items(), key=lambda item: item[1], reverse=True)
-        )
-
-        keys = list((newd).keys())
-        values = list((newd).values())
-        totshows = 0
-        for x in range(len(values)):
-            totshows = totshows + values[x]
+        try:
+            newd = dict(
+                sorted(
+                    data["ach_shows"].items(), key=lambda item: item[1], reverse=True
+                )
+            )
+            keys = list((newd).keys())
+            values = list((newd).values())
+            totshows = 0
+            for x in range(len(values)):
+                totshows = totshows + values[x]
+        except:
+            newd = data["ach_shows"]
+            keys = data["ach_shows"]
+            values = data["ach_shows"]
 
         # (keys,values) = zip(*tel.items())
 
@@ -922,33 +928,65 @@ class Demo3App(MDApp):
             self.root.current_screen.ids["ach_info_id"].add_widget(items)
 
         # self.root.current_screen.ids["ach_info_id"].add_widget(SmoothLabel(text=self.ids.msg.text, size_hint_x=0.5, size_hint_y=0.1, pos_hint={"x": 0.1, "top": 0.8}, background_color=(0.2, 0.6, 1, 1)))
-        keys.insert(0, "Pos:")
-        values.insert(0, "#:")
+        # keys.insert(0, "Pos:")
+        # values.insert(0, "#:")
+        first = 30
+        second = 20
+        third = 20
         for m in range(len(keys)):
-            try:
-                perc = values[m] / (totshows * 1.0)
+            print(keys)
+            if data["name"] == "Hustle and Grind":
+                print("jesusccc")
 
-                perc = perc * 100
-                perc = f"{perc:.2f}%"
-                perc = str(perc)
-                keysm = str(keys[m])
-                valuesm = str(values[m])
+                # keysm = str(m)
+                keysm = ""
+                valuesm = data["ach_shows"][m][1]
+                perc = data["ach_shows"][m][2]
 
-            except:
-                perc = data["ach_graph_disc"][0]
-                keysm = data["ach_graph_disc"][1]
+                valuesm, junk, junk = str.split(valuesm, " ")
+                first = 4
+                third = 30
+            if data["name"] == "Celery man!":
+                print("jesusccc")
+
+                # keysm = str(m)
+                keysm = str(data["ach_shows"][m][0])
+                print(data["ach_shows"][m])
+                valuesm = data["ach_shows"][m][1]
+                perc = data["ach_shows"][m][2]
+
+                perc, junk, junk = str.split(perc, " ")
+                first = 6
+
+            if data["name"] == "Wear The Hat":
                 try:
-                    valuesm = data["ach_graph_disc"][2]
+                    perc = values[m] / (totshows * 1.0)
+
+                    perc = perc * 100
+                    perc = f"{perc:.2f}%"
+                    perc = str(perc)
+                    keysm = str(keys[m])
+                    valuesm = str(values[m])
+
                 except:
-                    valuesm = ""
-            while len(keysm) < 30:
+                    perc = data["ach_graph_disc"][0]
+                    keysm = data["ach_graph_disc"][1]
+                    try:
+                        valuesm = data["ach_graph_disc"][2]
+                    except:
+                        valuesm = ""
+            while len(keysm) < first:
                 keysm = keysm + " "
             while len(valuesm) < 20:
                 valuesm = valuesm + " "
-            while len(perc) < 10:
+            while len(perc) < third:
                 perc = perc + " "
 
-            # shows = shows + (keys[m] + " " + str(values[m]) + " " + str(perc))
+            if len(valuesm) > 15:
+                valuesm = valuesm[0:15]
+            if len(perc) > 15:
+                perc = perc[0:15]
+
             shows = f"[font=Roboto-Regular]{keysm} {str(valuesm)} {str(perc)}[/font]\n"
 
             items = SmoothLabel(
@@ -958,13 +996,19 @@ class Demo3App(MDApp):
                 markup=True,
                 # font_size="10dp",
             )
+            # if data["name"] == "Wear The Hat":
             self.root.current_screen.ids["ach_info_id"].add_widget(items)
+        # if data["name"] == "Hustle and Grind":
+        # self.root.current_screen.ids["ach_info_id"].add_widget(items)
 
     def ach_reset(self):
         print("reset ach")
         import libs.lib_ach
 
         libs.lib_ach.make_ach(ad)
+        App.get_running_app().root.current_screen.ids[
+            "ach_points"
+        ].text = "Points: " + str(0)
 
         self.trophys()
 
@@ -1011,11 +1055,16 @@ class Demo3App(MDApp):
                 icon=real_icon,
                 on_release=lambda x, y=data[i]: self.ach_info(y),
             )
+            if data[i]["ach_level"] > 0:
+                points = points + data[i]["ach_level"]
 
             # items.text_color = (1, 0, 0, 0)
             # items.icon_color = [1, 1, 0, 1]
             # items = items.text_color = self.theme_cls.text_color
             self.root.current_screen.ids["ach_id"].add_widget(items)
+            App.get_running_app().root.current_screen.ids[
+                "ach_points"
+            ].text = "Points: " + str(points)
 
     def make_stats(self, start, b, e):
         self.root.set_current("stats")

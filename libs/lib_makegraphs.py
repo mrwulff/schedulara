@@ -83,6 +83,7 @@ def parsepp(self, ad, type, finish, start):
     shows = 0
     all_pos = []
     days_ach_list = []
+    all_hours = []
     for file in glob.glob("*.html"):
         # print(file)
         # file2, junk = str.split(file, ".")
@@ -142,6 +143,7 @@ def parsepp(self, ad, type, finish, start):
                 month_max = dd["moneytotal"]
             z = [dd["ddelta"], dd["moneytotal"]]
             dd2.append(z)
+            all_hours = all_hours + dd["hours_ach"]
 
             for z in range(len(days)):
 
@@ -178,4 +180,4 @@ def parsepp(self, ad, type, finish, start):
         # print(all_pos)
         hats = list(set(all_pos))
         print(hats, len(hats))
-        return hats, all_pos, days_ach_list
+        return hats, all_pos, days_ach_list, all_hours

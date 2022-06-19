@@ -26,11 +26,13 @@ def parsepayperiod(file):
     today = date.today()
     flag1 = False
     flag2 = False
+    hhours = []
     for i in range(len(ab)):
 
         ax = ab[i].find_all("td")
         try:
             alldays = [ax[5].get_text(), ax[11].get_text(), ax[4].get_text()]
+            #
 
             if (ax[1].get_text()) == "SHOW":
                 show_type = show_type + 1
@@ -55,6 +57,15 @@ def parsepayperiod(file):
 
         except:
             # print(ax, "fail")
+            pass
+        try:
+
+            hours_worked = (float(ax[7].get_text())) + (float(ax[8].get_text()))
+            # print(hours_worked, "hoursworked")
+            # hours_worked = int(hours_worked)
+            hhours.append([hours_worked, ax[4].get_text(), ax[5].get_text()])
+        except:
+            # print(ax, "failuresss")
             pass
     # test_list = list(set(positions))
     test_list = positions
@@ -133,6 +144,7 @@ def parsepayperiod(file):
         "dtext": text,
         "daysago": realday[0],
         "day_ach": day_ach,
+        "hours_ach": hhours,
     }
     # print(realday, alldays)
 

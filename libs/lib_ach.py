@@ -28,7 +28,7 @@ def make_ach(ad):
     ach_disc = "This is just a test"
     achieved = "False"
     date_achieved = "0"
-    ach_level = 5
+    ach_level = 0
     ach_color = "Black"
     ach_shows = dict()
     ach_extra = "none"
@@ -44,7 +44,7 @@ def make_ach(ad):
         "disc": "Work 10 different Positions",
         "achieved": achieved,
         "date_achieved": date_achieved,
-        "ach_level": 10,
+        "ach_level": 0,
         "ach_color": ach_color,
         "ach_shows": ach_shows,
         "ach_extra": "Positions:",
@@ -59,7 +59,7 @@ def make_ach(ad):
         "disc": "Work 14 days in a Row",
         "achieved": achieved,
         "date_achieved": date_achieved,
-        "ach_level": 10,
+        "ach_level": 0,
         "ach_color": ach_color,
         "ach_shows": ach_shows,
         "ach_extra": "Dates:",
@@ -68,7 +68,23 @@ def make_ach(ad):
         "ach_icon": "calendar-sync",
         "ach_graph_disc": ["###:", "Date:"],
     }
-    ach = [hats, grind]
+
+    hourly = {
+        "name": "Celery man!",
+        "disc": "Work 18 Hours on a single call",
+        "achieved": achieved,
+        "date_achieved": date_achieved,
+        "ach_level": 0,
+        "ach_color": "Who's green, gets no overtime pay and snaps easily?",
+        "ach_shows": ach_shows,
+        "ach_extra": "Most Hours:",
+        "ach_hidden": ach_hidden,
+        "ach_progress": ach_progress,
+        "ach_icon": "clock-time-four",
+        "ach_graph_disc": ["Hours:", "Show", "Date:"],
+    }
+
+    ach = [hats, grind, hourly]
 
     for iii in range(len(ach)):
         children.append(ach[iii])
@@ -99,34 +115,56 @@ def make_ach(ad):
 
 
 def longestrun(myList):
-    sett = set()
+
     size = 1
-    for ind, elm in enumerate(myList):
-        print("bigger")
-        if ind > 0:
-            if elm == myList[ind - 1]:
+    max_size = 0
+    listshows = []
+    mshows = []
+    for i in range(len(myList) - 1):
+        # print(myList[i][0], myList[i + 1][0], myList[i][1])
+
+        if myList[i + 1][0] - 1 == myList[i][0] or myList[i + 1][0] == myList[i][0]:
+            if myList[i + 1][0] - 1 == myList[i][0]:
+
                 size += 1
-            else:
-                sett.update([size])
-                size = 1
-    sett.update([size])
-    return max(sett)
+            # print("omg")
+            listshows.append(myList[i])
+        else:
+            size = 1
+            # print("fail")
+            listshows = []
+        # print(size)
+        if max_size < size:
+            # print(size)
+            date = myList[i]
+            max_size = size
+            mshows = listshows
+
+    return max_size, date, mshows
 
 
 def check_hats(self, ad):
     print("checking hats")
+    points = 0
     import datetime
     import libs.lib_makegraphs as lib_makegraphs
 
     new_start = datetime.datetime.now()
     new_finish = datetime.datetime.now() - datetime.timedelta(days=10365)
-    h, h2, days = lib_makegraphs.parsepp(
+    h, h2, days, hours = lib_makegraphs.parsepp(
         self,
         ad,
         "hats",
         new_start,
         new_finish,
     )
+    hours.sort(key=lambda x: x[0], reverse=True)
+    top_hours = []
+    # print(hours, "hourssss")
+    if len(hours) > 5:
+        for aaa in range(5):
+            top_hours.append(hours[aaa])
+
     import json
     from collections import Counter
 
@@ -134,22 +172,45 @@ def check_hats(self, ad):
     days.sort()
     import itertools
 
-    print(days)
-    xx = longestrun(days[0])
-    print(xx, "whtdcfuck")
+    # print(days)
+    xx, date, shows = longestrun(days)
+    # print(xx, shows, "whtdcfuck")
     # for i in range(len(days)):
     #    print(days[i][0])
 
     f = open(ad + "/testtest22.json")
     data = json.load(f)
-    # print(data["children"][0], "data0")
+
+    ###hats
     data["children"][0]["ach_shows"] = Counter(h2)
     data["children"][0]["ach_progress"] = len(h)
-    if len(h) > 14:
+
+    if len(h) > 10:
         if data["children"][0]["achieved"] == "False":
             data["children"][0]["date_achieved"] = str(datetime.date.today())
 
         data["children"][0]["achieved"] = "True"
+        data["children"][0]["ach_level"] = 10
+
+    ###hustle
+    if len(shows) > 14:
+        if data["children"][1]["achieved"] == "False":
+            data["children"][1]["date_achieved"] = str(datetime.date.today())
+
+        data["children"][1]["achieved"] = "True"
+        data["children"][1]["ach_level"] = 10
+    data["children"][1]["ach_shows"] = shows
+    data["children"][1]["ach_progress"] = len(shows)
+
+    ###hours_ach
+    if hours[0][0] > 18:
+        print("ach unlocked!!!")
+        if data["children"][2]["achieved"] == "False":
+            data["children"][2]["date_achieved"] = str(datetime.date.today())
+        data["children"][2]["achieved"] = "True"
+        data["children"][2]["ach_level"] = 10
+        data["children"][2]["ach_shows"] = top_hours
+        data["children"][2]["ach_progress"] = hours[0][0]
 
     json_object = json.dumps(data, indent=4)
     x = open(ad + "/testtest22.json", "w")
