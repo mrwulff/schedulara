@@ -1,3 +1,4 @@
+from asyncio import queues
 import time
 import sys
 
@@ -35,6 +36,7 @@ from kivymd.uix.list import (
     TwoLineAvatarListItem,
 )
 from kivy.uix.label import Label
+from kivymd.uix.datatables import MDDataTable
 
 
 import datetime
@@ -60,9 +62,7 @@ from kivymd.uix.textfield import MDTextField
 print(platform, "KIVY PLATFORM")
 if platform == "linux":
     print("omgitslinux")
-if platform == "win":
-    notch = False
-    scale = 1
+
 
 
 from kivymd.uix.button import MDRectangleFlatIconButton
@@ -111,6 +111,7 @@ if platform == "win":
     Config.set("graphics", "width", str(w))
     Config.set("graphics", "height", str(h))
     Window.size = (w, h)
+    scale = 1
 """
 HOME = os.environ.get("HOME", "/")
 BUNDLE = os.environ.get("KIVY_BUNDLE_ID", "/")
@@ -590,7 +591,13 @@ class Demo3App(MDApp):
 
         # print(ad, "ADADAD")
 
-        xxx, mjds = libs.lib_parse.parse(sch, ad, x["usecache"], x)
+        xxx, mjds, name = libs.lib_parse.parse(sch, ad, x["usecache"], x)
+
+        print(x, "XXXXXXX")
+        x["name"] = name
+        import libs.lib_updateuserdata as lib_updateuserdata
+
+        lib_updateuserdata.updateuser(x, ad)
 
         try:
             cf, week, tot = libs.lib_tinyfs.stats(xxx, now, search)
@@ -745,6 +752,21 @@ class Demo3App(MDApp):
     menurotate = 10
     menuscale = 0.5, 0.5
 
+    def update_hi_score_keys(self):
+        print("updating scores")
+        import libs.lib_ach
+
+        win = libs.lib_ach.download_ach(ad)
+        toast(win)
+
+    def update_hi_score_data(self, ach):
+        print("updating scores")
+        import libs.lib_score
+
+        win = libs.lib_score.dl_score(x["name"], ach, ad)
+        toast(win)
+        self.ach_top(ach)
+
     def set_Circle(self, dt):
         self.angle = self.angle + dt * 360
         if self.angle >= 360:
@@ -809,7 +831,8 @@ class Demo3App(MDApp):
         tog1 = App.get_running_app().root.current_screen.ids["switchnotify"].active
         # print(tog1, x)
         x["not"] = tog1
-        import libs.libs_updateuserdata
+
+        import libs.lib_updateuserdata
 
         libs.lib_updateuserdata.updateuser(x, ad)
 
@@ -879,6 +902,39 @@ class Demo3App(MDApp):
 
     def about(self):
         self.root.set_current("about")
+
+    def ach_top(self, lol):
+        print("achtop", lol)
+        from kivy.metrics import dp
+        from kivy.uix.anchorlayout import AnchorLayout
+
+        self.root.set_current("achscore")
+        self.root.current_screen.ids["graphs3"].clear_widgets()
+        import libs.lib_score
+
+        name = x["name"]
+        scores, place, q = libs.lib_score.parse_score(
+            name, lol, ad, self.theme_cls.primary_color
+        )
+
+        print(scores, "SCORESSSS")
+        tables = MDDataTable(
+            # size_hint=(0.9, 0.6),
+            #
+            # background_color_selected_cell=self.theme_cls.primary_light,
+            column_data=[
+                ("Points", dp(20)),
+                ("Name", dp(30)),
+                ("Rank", dp(20)),
+            ],
+            row_data=[
+                q
+                # The number of elements must match the length
+                # of the `column_data` list.
+            ],
+        )
+
+        self.root.current_screen.ids["graphs3"].add_widget(tables)
 
     def ach_info(self, data):
         print("info ach", data)
@@ -1010,18 +1066,24 @@ class Demo3App(MDApp):
             "ach_points"
         ].text = "Points: " + str(0)
 
-        self.trophys()
+        self.trophys("all")
 
     def check_ach(self):
         print("checking ach")
         import libs.lib_ach
+        import libs.lib_score
 
         # dicts = self.load_paychecks()
         libs.lib_ach.check_hats(self, ad)
+        points = App.get_running_app().root.current_screen.ids["ach_points"].text
 
-        self.trophys()
+        junk, points = str.split(points, " ")
+        print(points, "POINTSITES")
+        libs.lib_score.submit(x["name"], points, 0, ad)
 
-    def trophys(self):
+        self.trophys("all")
+
+    def trophys(self, select):
         # global i
         # import lib_test
         # lib_test.n22()
@@ -1034,7 +1096,7 @@ class Demo3App(MDApp):
 
         icons = list(md_icons.keys())
 
-        data = libs.lib_ach.list_ach(ad)
+        data = libs.lib_ach.list_ach(ad, select)
         points = 0
         for i in range(len(data)):
             # print(data[i])
@@ -1527,10 +1589,10 @@ class Demo3App(MDApp):
         popupWindow = Popup(
             title="asdf",
             content=show,
-            size_hint=(None, None),
+            size_hint=(0.5, 0.5),
             size=(400 * scale, 600 * scale),
-            separator_height=0,
-            title_size=0,
+            separator_height=1,
+            title_size=1,
             background_color=(self.theme_cls.primary_dark),
         )
         # Create the popup window
@@ -1591,7 +1653,7 @@ class Demo3App(MDApp):
                 "scurrent"
             ].md_bg_color = self.theme_cls.primary_dark
             App.get_running_app().root.current_screen.ids[
-                "slast"
+                "s'last'"
             ].md_bg_color = self.theme_cls.primary_light
             App.get_running_app().root.current_screen.ids[
                 "sall"
@@ -2155,3 +2217,8 @@ class Demo3App(MDApp):
 
 
 Demo3App().run()
+
+
+# Your appId:	d6073280-f7af-4082-8b33-0356d7068f51
+# Your appSecret:	073276b2-4940-40f0-87cc-7e4805382cd0
+# https://www.highscores.ovh/

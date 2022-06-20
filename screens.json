@@ -59,6 +59,11 @@
         "object": "AchInfoScreen()",
         "kv": "libs/uix/kv/achinfoscreen.kv"
     },
+    "achscore": {
+        "import": "from libs.uix.baseclass.achscorescreen import AchScoreScreen",
+        "object": "AchScoreScreen()",
+        "kv": "libs/uix/kv/achscorescreen.kv"
+    },
     "animate": {
         "import": "from libs.uix.baseclass.animate_screen import AnimateScreen",
         "object": "AnimateScreen()",

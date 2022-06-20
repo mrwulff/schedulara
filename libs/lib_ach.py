@@ -1,11 +1,75 @@
-def list_ach(ad):
+def download_ach(ad):
+
+    import urllib.request, urllib.error, urllib.parse, json
+
+    flag = True
+    hash = False
+    try:
+
+        # openedFile = open(ad + "/ids22.json")
+        f = open(ad + "/ids22.json")
+        data = json.load(f)
+        print(data)
+
+        z = data["children"]
+
+    except:
+        print("fail")
+        z = ""
+
+    try:
+        url = "https://kevinwulff.com/wedding/ids22.json"
+
+        response = urllib.request.urlopen(url)
+        webContent = response.read().decode("UTF-8")
+        f = open(ad + "/ids22.json", "w")
+        f.write(webContent)
+        f.close
+        flag = True
+    except:
+
+        print("failed to dl")
+        return "failed to dl"
+
+    f = open(ad + "/ids22.json")
+    data = json.load(f)
+    print(data)
+
+    nz = data["children"]
+
+    if z == nz:
+        print("sameold")
+        return "No Update Avalable"
+
+    if flag == True:
+        return "Success. Downloaded new Tables"
+    if flag == False:
+        return "Falue[0]"
+
+
+def list_ach(ad, select):
     import json
 
     f = open(ad + "/testtest22.json")
     data = json.load(f)
-    print(data["children"][0])
-    print(len(data["children"]))
-    return data["children"]
+    newdata = []
+    xnewdata = []
+    # print(data["children"][0])
+    # print(len(data["children"]))
+    # print(data["children"])
+    z = data["children"]
+    for i in range(len(z)):
+        if (z[i]["achieved"]) == "True":
+            newdata.append(z[i])
+        if (z[i]["achieved"]) == "False":
+            xnewdata.append(z[i])
+
+    if select == "all":
+        return data["children"]
+    if select == "done":
+        return newdata
+    if select == "notdone":
+        return xnewdata
 
 
 def make_ach(ad):
@@ -217,8 +281,69 @@ def check_hats(self, ad):
     x.write(json_object)
 
 
+def make_scores(ad):
+    import json
+
+    response_json = {}
+    response_json["name"] = "Scores"
+
+    # where your children list will go
+    children = []
+
+    size = 500  # or whatever else you want
+
+    # For each item in your original list
+
+    # children.append({"name": "name", "size": size})
+    # children.append({"name": "name", "size": size})
+
+    score_name = "Test"
+    score_disc = "This is just a test"
+
+    # Dict = {1: 'Geeks', 2: 'For', 3: 'Geeks'}
+
+    zero = {
+        "name": "ach",
+        "appid": "d6073280-f7af-4082-8b33-0356d7068f51",
+        "secret": "073276b2-4940-40f0-87cc-7e4805382cd0",
+    }
+
+    one = {
+        "name": "hats",
+        "appid": "13efdf33-50c3-4a88-bd6f-a9342c18502d",
+        "secret": "fd31ac45-089b-4d79-bb0e-a378d58fe9a4",
+    }
+
+    two = {
+        "name": "grind",
+        "appid": "7102b222-2f8f-4b5d-b654-6e86ce450bcc",
+        "secret": "ddb635c1-b74c-4cf7-aadf-57cb7b986bb8",
+    }
+
+    three = {
+        "name": "celery",
+        "appid": "ddc1ae8c-d9ee-4854-ac61-597fffd9445f",
+        "secret": "7fd16428-49e8-46af-a44f-6e2ef9e5d8bf",
+    }
+
+    ach = [zero, one, two, three]
+
+    for iii in range(len(ach)):
+        children.append(ach[iii])
+
+    response_json["children"] = children
+
+    json_object = json.dumps(response_json, indent=4)
+    x = open(ad + "/ids22.json", "w")
+    x.write(json_object)
+
+
 if __name__ == "__main__":
+    ad = "C:/Users/kw/AppData/Roaming/demo3/"
     # make_ach("C:/Users/kw/AppData/Roaming/demo3/")
-    # list_ach("C:/Users/kw/AppData/Roaming/demo3/")
-    # make_ach("C:/Users/kw/AppData/Roaming/demo3/")
-    check_hats("", "C:/Users/kw/AppData/Roaming/demo3/")
+    # list_ach("C:/Users/kw/AppData/Roaming/demo3/", "done")
+    # make_scores("C:/Users/kw/AppData/Roaming/demo3/")
+    # check_hats("", "C:/Users/kw/AppData/Roaming/demo3/")
+    # make_scores("C:/Users/kw/AppData/Roaming/demo3/")
+    download_ach(ad)
+# y(uv7K9PJ2B1

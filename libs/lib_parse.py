@@ -232,6 +232,11 @@ def parse(sch, ad, usecache, x5):
 
     # ab=aaa.read()
     soup = BeautifulSoup(aaa, "html.parser")
+    name = soup.find("span", id="lblEmpName")
+
+    name = str.split(name.get_text(), ", ")
+    print(name, "wtfname")
+    name = name[1] + " " + name[0]
 
     nn = soup.find_all("span")
     for i in range(1, len(nn) - 1):
@@ -240,6 +245,10 @@ def parse(sch, ad, usecache, x5):
             lastName, firstName = str.split(realName, ", ")
         except:
             """"""
+    try:
+        print(name.get_text(), "realname")
+    except:
+        print(nn, "realname")
 
     ab = soup.find_all("tr")
 
@@ -395,7 +404,7 @@ def parse(sch, ad, usecache, x5):
 
     final = json.dumps(mjds, indent=2)
     # print (final)
-    return mj3, mjds
+    return mj3, mjds, name
 
 
 if __name__ == "__main__":
