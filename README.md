@@ -2,7 +2,7 @@
 Scheduling app
 
 
-cd /Users/kivy-ios
+cd ~
 . /venv/bin/activate
 
 cd ~/Documents/
