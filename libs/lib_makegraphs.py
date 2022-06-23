@@ -84,6 +84,7 @@ def parsepp(self, ad, type, finish, start):
     all_pos = []
     days_ach_list = []
     all_hours = []
+    max_t = 0
     for file in glob.glob("*.html"):
         # print(file)
         # file2, junk = str.split(file, ".")

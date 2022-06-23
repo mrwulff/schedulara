@@ -355,6 +355,13 @@ class P(FloatLayout):
     pass
 
 
+from kivymd.uix.dialog import MDDialog
+
+
+class IngredientDialog(MDDialog):
+    pass
+
+
 class TwoLineAvatarListItem22(TwoLineAvatarListItem):
     icon = StringProperty("")
     # icon2 = StringProperty("android")
@@ -401,6 +408,10 @@ plus_search = 0
 
 class Content(FloatLayout):
     pass
+
+
+class RecipeLine(MDBoxLayout):
+    text = StringProperty()
 
 
 """
@@ -536,9 +547,81 @@ class Demo3App(MDApp):
             self.theme_cls.accent_palette = x["scolor"]
         except:
             pass
-        print(x, "lol")
+        # print(x, "lol")
 
-        self.do_login("", useold)
+        # self.do_login("", useold)
+        self.newstart("", useold)
+
+    def newstart(self, search, useold):
+        self.root.set_current("newhome")
+        from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelTwoLine
+
+        self.card_file = [
+            {
+                "Category": "Chicken",
+                "Recipes": [
+                    {
+                        "title": "Chicken Adobo",
+                        "shopping list": [
+                            "Chicken",
+                            "parchment paper",
+                            "tomatoes",
+                            "spices",
+                        ],
+                    },
+                    {
+                        "title": "Chicken Noodle Soup",
+                        "shopping list": ["Chicken Stock", "egg noodles", "carrots"],
+                    },
+                ],
+            },
+            {
+                "Category": "Pork",
+                "Recipes": [
+                    {
+                        "title": "Pork Adobo",
+                        "shopping list": ["Bacon", "spices", "tomatoes"],
+                    },
+                    {
+                        "title": "Pork Burger",
+                        "shopping list": ["ground pork", "cheese", "buns"],
+                    },
+                ],
+            },
+        ]
+
+        for category in self.card_file:
+            print(category)
+            panel = MDExpansionPanel(
+                icon="recipe.png",
+                content=Content(),
+                panel_cls=MDExpansionPanelTwoLine(
+                    text=category["Category"], secondary_text="Tap to view recipes"
+                ),
+            )
+            self.root.get_screen("newhome").ids.rlist.add_widget(panel)
+            for recipe in category["Recipes"]:
+                print(recipe)
+                rw = RecipeLine(text=recipe["title"])
+                self.root.get_screen("newhome").ids.rlist.children[
+                    0
+                ].content.add_widget(rw)
+
+    def showinfo(self, cat, r):
+        ingredients = self.ingredients_list(cat, r)
+        print(f"{cat=}, {r=}, {ingredients=}")
+        ingredients_text = ""
+        for ingredient in ingredients:
+            ingredients_text += ingredient + "\n"
+        self.dialog = IngredientDialog(text=ingredients_text)
+        self.dialog.open()
+
+    def ingredients_list(self, selected_cat, selected_r):
+        for category in self.card_file:
+            if category["Category"] == selected_cat:
+                for recipe in category["Recipes"]:
+                    if recipe["title"] == selected_r:
+                        return recipe["shopping list"]
 
     def do_login(self, search, useold):
         print("do_login")
@@ -669,7 +752,7 @@ class Demo3App(MDApp):
             len(mjds),
             (tic - time.perf_counter(), "after schedule"),
         )
-        toast(str(tic - time.perf_counter()))
+        toast("lol" + str(tic - time.perf_counter()))
         return good_login
 
     def do_settings(self):
@@ -917,7 +1000,7 @@ class Demo3App(MDApp):
             name, lol, ad, self.theme_cls.primary_color
         )
 
-        print(scores, "SCORESSSS")
+        print(q, "SCORESSSS", place)
         tables = MDDataTable(
             # size_hint=(0.9, 0.6),
             #
@@ -1260,7 +1343,7 @@ class Demo3App(MDApp):
 
         # lib_makegraphs.make_stats_pp(self, "1", dd2, maxd, max_dy)
         # self.root.current_screen.ids["graphs"].add_widget(HistoryItem(text="wow"))
-        # self.root.current_screen.ids["graphs"].add_widget(self.graph)
+        # self.root.current_screen.ids["graphs"].add_wixdget(self.graph)
         self.root.current_screen.ids["graphs"].add_widget(
             SwipeToDeleteItem2(text="wow+0")
         )
@@ -1292,6 +1375,9 @@ class Demo3App(MDApp):
     def menuu(self):
         self.do_login("", useold)
 
+    def test_not(self):
+        toast("Success")
+
     def mainmenuf(self):
         self.root.set_current("mainmenu")
         # self.root.current_screen.ids["payperiod_list"].clear_widgets()
@@ -1299,12 +1385,15 @@ class Demo3App(MDApp):
     def dlpp(self):
         import libs.lib_ppdownloader as lib_ppdownloader
 
-        paystubs, new = lib_ppdownloader.thinkpp(x, ad)
-        self.snackbar = Snackbar(
-            text="Downloaded " + str(new) + " Paystubs out of " + str(paystubs),
-            bg_color=self.theme_cls.primary_color,
-        )
-        self.snackbar.open()
+        if x["name"] == "Test McDemo":
+            toast(str("No Paychecks found for ") + x["name"])
+        else:
+            paystubs, new = lib_ppdownloader.thinkpp(x, ad)
+            self.snackbar = Snackbar(
+                text="Downloaded " + str(new) + " Paystubs out of " + str(paystubs),
+                bg_color=self.theme_cls.primary_color,
+            )
+            self.snackbar.open()
 
     def ccc(self):
         print(mjds)
@@ -1423,6 +1512,13 @@ class Demo3App(MDApp):
     def confirm(self, what):
         fail = self.confirm_real(what)
         old = False
+        import libs.lib_readuserdata
+
+        x = libs.lib_readuserdata.readuserdata(App, ad, ios)
+        print(x)
+        if x["login"] == "False":
+            fail = "fail"
+
         if fail != "fail":
             nf2 = ad + "/realdata.html"
             try:
@@ -1467,7 +1563,7 @@ class Demo3App(MDApp):
             print("nonconfirm")
             return "fail"
 
-        print(type(browser))
+        print(type(browser), xxx[idex][13], what, "OMGWHATISTHISSTUFF")
         if 1 == 1:
             if 1 == 1:
                 try:
@@ -1882,66 +1978,21 @@ class Demo3App(MDApp):
         # self.root.current = screen
         self.root.set_current(screen)
 
-    """
-    def build(self):
-
-        self.button = Button(text="Click", on_release=self.search_menu)
-
-        global newcolor
-        try:
-            x = lib_readuserdata.readuserdata(App, config_file, ios)
-        except:
-            lib_makeuserdata.makeuserdata(App, config_file, ios)
-            x = lib_readuserdata.readuserdata(App, config_file, ios)
-        try:
-            self.theme_cls.theme_style = x["theme"]
-            self.theme_cls.primary_palette = x["pcolor"]
-            self.theme_cls.accent_palette = x["scolor"]
-        except:
-            pass
-
-        self.sm = ScreenManager()
-        self.sm.add_widget(MainMenuScreen(name="mainmenu"))
-        if 1 == 2:
-            self.sm.add_widget(InfoScreen(name="info"))
-            self.sm.add_widget(SettingsScreen(name="settings"))
-            self.sm.add_widget(HomeScreen(name="home"))
-            self.sm.add_widget(LoginScreen(name="login"))
-            self.sm.add_widget(HistoryScreen(name="history"))
-            self.sm.add_widget(PayScreen(name="Pay"))
-            self.sm.add_widget(AboutScreen(name="about"))
-            self.sm.add_widget(TrophyScreen(name="trophy"))
-            self.sm.add_widget(StatsScreen(name="stats"))
-            self.sm.add_widget(NotificationScreen(name="notification"))
-            self.sm.add_widget(AnimateMoneyScreen(name="animate"))
-
-        # newcolor=webcolors.name_to_rgb(self.theme_cls.accent_palette)
-
-        screen = Builder.load_file("demo.kv")
-        # site = server.Site(Simple())
-
-        # reactor.listenTCP(8080, site)
-
-        return screen
-    """
-
     def load_paychecks(self):
         import glob, os
 
         try:
-            os.chdir(config_file + "/pp")
+            os.chdir(ad + "/pp")
         except:
-            os.mkdir(config_file + "/pp")
-            os.chdir(config_file + "/pp")
+            os.mkdir(ad + "/pp")
+            os.chdir(ad + "/pp")
         x = 0
         listofdicks = []
         for file in glob.glob("*.html"):
             # print (file)
             import libs.lib_parse as lib_parse
 
-            dd, junk, junk, junk, junk = lib_parse.parsepayperiod(
-                config_file + "/pp/" + file
-            )
+            dd, junk, junk, junk, junk = lib_parse.parsepayperiod(ad + "/pp/" + file)
             listofdicks.append(dd)
             x = x + 1
         return listofdicks
@@ -1966,6 +2017,7 @@ class Demo3App(MDApp):
         hourstot = 0
         # hourstot=0
         # print(listofdicks)
+        i = 0
         for i in range(len(listofdicks)):
 
             print(listofdicks[i])
@@ -1987,25 +2039,28 @@ class Demo3App(MDApp):
                 pass
 
         xy = "Found " + str(i) + " PayStubs "
-        xyz1 = "Average Paycheck $ " + str(moneys / len(listofdicks))
-        xyz2 = "\nAverage Reg Hours: " + str(hourst / len(listofdicks))
-        xyz3 = "\nAverage Ot Hours: " + str(hoursot / len(listofdicks))
-        xyz4 = "\nAverage Total Hours: " + str((hourstot) / len(listofdicks))
-        xyzz = xyz1 + xyz2 + xyz3 + xyz4
+        if i > 0:
+            xyz1 = "Average Paycheck $ " + str(moneys / len(listofdicks))
+            xyz2 = "\nAverage Reg Hours: " + str(hourst / len(listofdicks))
+            xyz3 = "\nAverage Ot Hours: " + str(hoursot / len(listofdicks))
+            xyz4 = "\nAverage Total Hours: " + str((hourstot) / len(listofdicks))
+            xyzz = xyz1 + xyz2 + xyz3 + xyz4
 
-        try:
-            self.root.current_screen.ids["payperiod_list"].add_widget(
-                HistoryItem(text=xy + "[size=0]" + str(i + 1))
-            )
+            try:
+                self.root.current_screen.ids["payperiod_list"].add_widget(
+                    HistoryItem(text=xy + "[size=0]" + str(i + 1))
+                )
 
-            self.root.current_screen.ids["payperiod_list"].add_widget(
-                HistoryItem(text=xyzz + "[size=0]" + str(i + 2))
-            )
+                self.root.current_screen.ids["payperiod_list"].add_widget(
+                    HistoryItem(text=xyzz + "[size=0]" + str(i + 2))
+                )
 
-        except:
-            self.root.current_screen.ids["payperiod_list"].add_widget(
-                HistoryItem(text="No Pay Stubs found!" + "[size=0]" + str(1))
-            )
+            except:
+                self.root.current_screen.ids["payperiod_list"].add_widget(
+                    HistoryItem(text="No Pay Stubs found!" + "[size=0]" + str(1))
+                )
+        if i == 0:
+            toast("No Paystubs Found")
         # print(moneys, "moneys")
 
     def do_history(self):
@@ -2016,10 +2071,10 @@ class Demo3App(MDApp):
         import glob, os
 
         try:
-            os.chdir(config_file + "/shows")
+            os.chdir(ad + "/shows")
         except:
-            os.mkdir(config_file + "/shows")
-            os.chdir(config_file + "/shows")
+            os.mkdir(ad + "/shows")
+            os.chdir(ad + "/shows")
         x = 0
 
         for file in glob.glob("*.json"):

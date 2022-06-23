@@ -4,6 +4,11 @@
         "object": "HomeScreen()",
         "kv": "libs/uix/kv/home_screen.kv"
     },
+    "newhome": {
+        "import": "from libs.uix.baseclass.newhome_screen import NewHomeScreen",
+        "object": "NewHomeScreen()",
+        "kv": "libs/uix/kv/newhome_screen.kv"
+    },
     "settings": {
         "import": "from libs.uix.baseclass.settings_screen import SettingsScreen",
         "object": "SettingsScreen()",

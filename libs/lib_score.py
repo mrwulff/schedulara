@@ -10,10 +10,20 @@ def submit(name, score, ach, ad):
     # appid = ["d6073280-f7af-4082-8b33-0356d7068f51"]
     # secret = ["073276b2-4940-40f0-87cc-7e4805382cd0"]
     # secret = ["8b1d0ff7-8176-4142-bbfc-06594a61de83"]
+    # f = open(ad + "/ids22.json")
     try:
         f = open(ad + "/ids22.json")
     except:
-        print("failed to get scoretables")
+        print("failed to get scoretables. downloading now")
+
+        import libs.lib_ach
+
+        libs.lib_ach.download_ach(ad)
+        try:
+            f = open(ad + "/ids22.json")
+        except:
+            print("failed to get scoretables(submit)")
+
         return "failed to get json"
     data = json.load(f)
     appid = data["children"][ach]["appid"]
@@ -64,8 +74,15 @@ def dl_score(name, ach, ad):
     try:
         f = open(ad + "/ids22.json")
     except:
-        print("failed to get scoretables")
-        return "failed to get json"
+        print("failed to get scoretables. trying to download")
+        import libs.lib_ach
+
+        libs.lib_ach.download_ach(ad)
+        try:
+            f = open(ad + "/ids22.json")
+        except:
+            print("failed to get scoretables (dlscore)")
+            return "fail"
 
     data = json.load(f)
     appid = data["children"][ach]["appid"]
@@ -91,6 +108,7 @@ def dl_score(name, ach, ad):
     json_object = json.dumps(content, indent=4)
     x = open(ad + "/scores" + str(ach) + ".json", "w")
     x.write(json_object)
+    print("downloaded score table: " + str(ach))
     return "success"
 
 
@@ -122,7 +140,7 @@ def parse_score(name, ach, ad, color):
     color1 = int(color[1] * 255)
     color2 = int(color[2] * 255)
     ip = data["currentPlayerScore"]
-    print(ip, "ipipipip")
+    print(ip, "ipipipip", data)
     newc = "#{0:02x}{1:02x}{2:02x}".format(clamp(color0), clamp(color1), clamp(color2))
     for i in data["topScores"]:
         x = [i["score"], i["playerName"], i["placement"]]
@@ -151,20 +169,26 @@ def parse_score(name, ach, ad, color):
         x = [ip["score"], ip["playerName"], ip["placement"]]
         # print(x)
         # print(x)
-        print(x[2], q)
+        print(x[2], "wtf placement", x)
 
         if x[2] > 10:
             y.append(x)
-        return y, x[2], q
+
+            q.append(str(ip["score"]))
+            q.append("[b][color=" + newc + "]" + ip["playerName"] + "[/b][/color]")
+            q.append(str(ip["placement"]))
+        print(y, "scoremofo")
+        return y, str(x[2]), q
     except:
-        return "fail", "fail", "fail"
+        return y, "fail", q
 
 
 if __name__ == "__main__":
     ad = "C:/Users/kw/AppData/Roaming/demo3"
     # submit("kevin wulff bad", 0, 0)
-    dl_score("kevin wulff", 0, ad)
+    # dl_score("kevin wulff", 0, ad)
     # parse_score(
     #    "kevin wulff bad", 0, "C:/Users/kw/AppData/Roaming/demo3", [50, 127, 250, 1]
     # )
     # submit("kevin wulff", 300, 0, ad)
+    pass

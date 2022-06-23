@@ -26,6 +26,7 @@ def download_ach(ad):
         f.write(webContent)
         f.close
         flag = True
+        print("downloaded score tables")
     except:
 
         print("failed to dl")
@@ -50,7 +51,11 @@ def download_ach(ad):
 def list_ach(ad, select):
     import json
 
-    f = open(ad + "/testtest22.json")
+    try:
+        f = open(ad + "/testtest22.json")
+    except:
+        make_ach(ad)
+        f = open(ad + "/testtest22.json")
     data = json.load(f)
     newdata = []
     xnewdata = []
@@ -184,6 +189,7 @@ def longestrun(myList):
     max_size = 0
     listshows = []
     mshows = []
+    date = ""
     for i in range(len(myList) - 1):
         # print(myList[i][0], myList[i + 1][0], myList[i][1])
 
@@ -236,6 +242,9 @@ def check_hats(self, ad):
     days.sort()
     import itertools
 
+    if len(days) == 0:
+        print("no pay data.  Please download")
+        return
     # print(days)
     xx, date, shows = longestrun(days)
     # print(xx, shows, "whtdcfuck")

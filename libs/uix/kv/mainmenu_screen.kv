@@ -163,3 +163,25 @@
                     FitImage:
                         source: "images/info.png"
                         size_hint: app.menuscale
+
+
+            MyTile:
+                text: "[size=26]Info[/color]"
+                tile_text_color: app.theme_cls.accent_color
+                on_release:
+                    app.newstart('',False)
+                    #app.about()
+                    #app.poppy("NEW LAYOUT TEST")
+                AnchorLayout:
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    canvas.before:
+                        PushMatrix
+                        Rotate:
+                            angle: app.menurotate
+                            origin: self.center
+                    canvas.after:
+                        PopMatrix
+
+                    FitImage:
+                        source: "images/calendar-month.png"
+                        size_hint: app.menuscale

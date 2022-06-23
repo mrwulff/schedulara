@@ -12,7 +12,7 @@ def makeuserdata(App, config_file, ios):
         app = App.get_running_app()
         ad = app.user_data_dir
 
-    x = ' { "username":"test@gmail.com", "password":"", "city":"lasvegas","usecache":"True","pcolor":"Red"  , "scolor":"White","debug":"True" ,     "theme" : "Dark", "not1" : "True", "not2": "True", "not1time": "60.0", "not2time": "120.0", "sound_effects": "Bang", "refreshreload": "False","not": "False","name": "anon"}'
+    x = ' { "username":"test@gmail.com", "password":"", "city":"lasvegas","usecache":"True","pcolor":"Red"  , "scolor":"White","debug":"True" ,     "theme" : "Dark", "not1" : "True", "not2": "True", "not1time": "60.0", "not2time": "120.0", "sound_effects": "Bang", "refreshreload": "False","not": "False","name": "anon","login": "False"}'
     y = json.loads(x)
     with open(ad + "/userdata.json.txt", "w") as outfile:
         json.dump(y, outfile)

@@ -1,0 +1,39 @@
+
+                    
+<NewHomeScreen>:
+    #import ScrollEffect kivy.effects.scroll.ScrollEffect
+    ##:import ScrollEffect  kivy.effects.scroll.ScrollEffect
+    #:import OpacityScrollEffect kivy.effects.opacityscroll.OpacityScrollEffect
+    #:import DampedScrollEffect kivy.effects.opacityscroll.DampedScrollEffect
+    name: "newhome"
+    ScrollView:
+        MDList:
+            id: rlist
+
+
+
+<IngredientDialog>:
+    title: "Ingredients:"
+
+
+<RecipeLine>:
+    adaptive_height: True
+    OneLineListItem:
+        text: root.text
+        on_release: app.showinfo(root.parent.parent.panel_cls.text, self.text)
+    MDIconButton:
+        icon:'plus'
+
+<MenuScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDBottomNavigation:
+            MDBottomNavigationItem:
+                name: 'screen 2'
+                text: 'Recipe'
+                icon: 'food'
+
+                ScrollView:
+                    MDList:
+                        id: rlist

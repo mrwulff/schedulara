@@ -68,8 +68,8 @@
         MDToolbar:
             #title: "History"
             height: app.mheight
-            left_action_items: [['chevron-left', lambda screen: app.change_screen('home','left'),'home']]
-            right_action_items: [["currency-usd", lambda x: app.do_payperiod('paydate',app.rreverse),'pay periods']]
+            left_action_items: [['chevron-left', lambda screen: app.mainmenuf(),'mm']]
+            #right_action_items: [["currency-usd", lambda x: app.do_payperiod('paydate',app.rreverse),'pay periods']]
         
         MDBoxLayout:
             #orientation: 'horizontal'
