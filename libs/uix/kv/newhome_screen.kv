@@ -6,34 +6,48 @@
     #:import OpacityScrollEffect kivy.effects.opacityscroll.OpacityScrollEffect
     #:import DampedScrollEffect kivy.effects.opacityscroll.DampedScrollEffect
     name: "newhome"
-    ScrollView:
-        MDList:
-            id: rlist
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        
+        MDToolbar:
+            #title: "Settings"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('mainmenu','left'),'home']]
+            #right_action_items: [["check-bold", lambda x: app.check_ach(),'check ach'],["refresh", lambda x: app.ach_reset(),'reset ach'],["counter", lambda x: app.ach_top(0),'reset ach']]
+
+
+        ScrollView:
+            MDList:
+                id: rlist
+
+<Content>:
+    adaptive_height: True
+    BoxLayout:
+        adaptive_height: True
+        orientation: 'vertical'
+        size_hint_y: None
+        height:dp(150)
+        TwoLineListItem:
+            id:pos
+            on_release: app.showinfo('wow', self.secondary_text,0)
+        TwoLineListItem:
+            id:pos2
+            on_release: app.showinfo('wow', self.secondary_text,1)
 
 
 
 <IngredientDialog>:
-    title: "Ingredients:"
+    title: "Info:"
 
 
 <RecipeLine>:
-    adaptive_height: True
+    #adaptive_height: True
     OneLineListItem:
         text: root.text
+        text_color: [50,50,50,50]
         on_release: app.showinfo(root.parent.parent.panel_cls.text, self.text)
     MDIconButton:
         icon:'plus'
 
-<MenuScreen>:
-    BoxLayout:
-        orientation: 'vertical'
-
-        MDBottomNavigation:
-            MDBottomNavigationItem:
-                name: 'screen 2'
-                text: 'Recipe'
-                icon: 'food'
-
-                ScrollView:
-                    MDList:
-                        id: rlist

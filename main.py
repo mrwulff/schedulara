@@ -1,6 +1,9 @@
+from ast import Pass
 from asyncio import queues
 import time
 import sys
+
+from pyparsing import ParseExpression
 
 tic = time.perf_counter()
 from libs.uix.root import Root
@@ -37,6 +40,7 @@ from kivymd.uix.list import (
 )
 from kivy.uix.label import Label
 from kivymd.uix.datatables import MDDataTable
+from kivymd.uix.button import MDFlatButton
 
 
 import datetime
@@ -406,12 +410,12 @@ browser = ""
 plus_search = 0
 
 
-class Content(FloatLayout):
-    pass
-
-
 class RecipeLine(MDBoxLayout):
     text = StringProperty()
+
+
+class Content(MDBoxLayout):
+    pass
 
 
 """
@@ -550,71 +554,187 @@ class Demo3App(MDApp):
         # print(x, "lol")
 
         # self.do_login("", useold)
+        if x["refreshreload"] == True and x["usecache"] == False:
+            good_login = lib_think.login(ad, x, ios, App)
+            ##DOWNLOAD NEW SCHEDUE
+
         self.newstart("", useold)
+
+    def open_panel(self, xx, i, l):
+        global i9
+        global xx9
+
+        xx9 = xx
+        i9 = i
+        print("asdfasdf", xx9, "asdfasdf")
+
+        rw = RecipeLine(text=(str("loll")))
+        # rw = IngredientDialog(text=("lol"))
+        # for x in range(10):
+        # self.root.current_screen.ids["rlist"].clear_widgets()
+        self.root.get_screen("newhome").ids.rlist.children[0].content.clear_widgets()
+        self.root.get_screen("newhome").ids.rlist.children[0].content.ids[
+            "pos"
+        ].text = xx9["pos"]
+
+        self.root.get_screen("newhome").ids.rlist.children[0].content.ids[
+            "pos"
+        ].secondary_text = xx9["pos"]
+
+        pp = (
+            self.root.get_screen("newhome")
+            .ids.rlist.children[0]
+            .content.ids["pos"]
+            .text
+        )
+        self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
+            "pos"
+        ].text = (xx9["pos"] + " " + xx9["type"] + " " + xx9["status"])
+        self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
+            "pos"
+        ].secondary_text = (xx9["venue"] + " " + " ")
+
+        self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
+            "pos2"
+        ].text = (xx9["client"] + " \n" + xx9["job"] + " \n")
+
+        self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
+            "pos2"
+        ].secondary_text = xx9["notes"]
+
+        print(pp)
+        # print(x)
+        # App.get_running_app().root.current_screen.ids["rlist"].text = "posss"
+        # print(App.get_running_app().root.current_screen.ids)
+        # zz = dir(self.root.get_screen("newhome").ids.rlist.children[0])
+        pass
+
+    def close_panel(self, what):
+        Pass
+        print(what)
 
     def newstart(self, search, useold):
         self.root.set_current("newhome")
-        from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelTwoLine
+        self.root.current_screen.ids["rlist"].clear_widgets()
+        from kivymd.uix.expansionpanel import (
+            MDExpansionPanel,
+            MDExpansionPanelTwoLine,
+            MDExpansionPanelThreeLine,
+        )
+        import libs.lib_new
 
-        self.card_file = [
-            {
-                "Category": "Chicken",
-                "Recipes": [
-                    {
-                        "title": "Chicken Adobo",
-                        "shopping list": [
-                            "Chicken",
-                            "parchment paper",
-                            "tomatoes",
-                            "spices",
-                        ],
-                    },
-                    {
-                        "title": "Chicken Noodle Soup",
-                        "shopping list": ["Chicken Stock", "egg noodles", "carrots"],
-                    },
-                ],
-            },
-            {
-                "Category": "Pork",
-                "Recipes": [
-                    {
-                        "title": "Pork Adobo",
-                        "shopping list": ["Bacon", "spices", "tomatoes"],
-                    },
-                    {
-                        "title": "Pork Burger",
-                        "shopping list": ["ground pork", "cheese", "buns"],
-                    },
-                ],
-            },
-        ]
+        js = libs.lib_new.get_json_schedule(x, ad)
 
-        for category in self.card_file:
-            print(category)
+        shows = js["shows"]
+        for z in range(len(shows)):
+            # print(shows[z])
+
             panel = MDExpansionPanel(
-                icon="recipe.png",
+                # icon="recipe.png",
                 content=Content(),
-                panel_cls=MDExpansionPanelTwoLine(
-                    text=category["Category"], secondary_text="Tap to view recipes"
+                panel_cls=MDExpansionPanelThreeLine(
+                    text=shows[z]["date"] + "\n" + shows[z]["time"],
+                    # content=Content(),
+                    secondary_text=shows[z]["show"],
+                    tertiary_text=shows[z]["venue"],
+                    on_open=lambda x, y=shows[z], q=z: self.open_panel(y, q),
+                    on_close=self.close_panel,
                 ),
             )
-            self.root.get_screen("newhome").ids.rlist.add_widget(panel)
-            for recipe in category["Recipes"]:
-                print(recipe)
-                rw = RecipeLine(text=recipe["title"])
-                self.root.get_screen("newhome").ids.rlist.children[
-                    0
-                ].content.add_widget(rw)
+            panel.bind(
+                on_open=lambda x, y=shows[z], q=z, l=len(shows): self.open_panel(
+                    y, q, l
+                ),
+                on_close=self.close_panel,
+            )
 
-    def showinfo(self, cat, r):
-        ingredients = self.ingredients_list(cat, r)
+            self.root.get_screen("newhome").ids.rlist.add_widget(panel)
+
+        toast(str(tic - time.perf_counter()))
+
+    def showinfo(self, cat, r, d):
+        ingredients = ["lol", "lol2"]
         print(f"{cat=}, {r=}, {ingredients=}")
-        ingredients_text = ""
-        for ingredient in ingredients:
-            ingredients_text += ingredient + "\n"
-        self.dialog = IngredientDialog(text=ingredients_text)
-        self.dialog.open()
+        ingredients_text = r
+        from kivymd.uix.dialog import MDDialog as md33
+
+        # for ingredient in ingredients:
+        #    ingredients_text += ingredient + "\n"
+        # self.dialog = IngredientDialog(text=ingredients_text)
+        # self.dialog.open()
+        if not self.dialog2[d]:
+            self.dialog2[d] = md33(
+                text=r,
+                type="custom",
+                #
+                # content_cls=Content(),
+                buttons=[
+                    MDFlatButton(
+                        text="Email Times,",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=lambda x, y=(cat, r, d): self.email_time(y),
+                    ),
+                    MDFlatButton(
+                        text="Save Time",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        # on_release=self.email_time,
+                    ),
+                    MDFlatButton(
+                        text="?",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                    ),
+                ],
+            )
+
+        self.dialog2[d].open()
+
+    def email_time(self, x2):
+        print("save_time", xx9, x)
+
+        try:
+            endtime = str(x["endtime"])
+        except:
+            endtime = "??"
+            ##TODO make clock thing
+
+        try:
+            lunches = str(x["lunches"])
+            if lunches > 1:
+                es = "es"
+        except:
+            lunches = "??"
+            ##TODO MAKE LUNCHES
+            es = ""
+
+        # ee = f"Hi,\nI worked {str(xx9["show"])}  {str(xx9["job"])} at {str(xx9["venue"])} on {str(xx9["date"])} from {str(xx9["venue"])} to {str(xx9["endtime"])}\n Thanks,\n{str(x["name"])}"
+        ee = f"Hi,\nI worked {str(xx9['show'])}  ({str(xx9['job'])}) at {str(xx9['venue'])} on {str(xx9['date'])} from {str(xx9['time'])} to {endtime} with {lunches} walkaway lunch{es}\nThanks, {str(x['name'])}"
+        # print(ee)
+        from kivymd.uix.dialog import MDDialog as md33
+        from kivy.core.clipboard import Clipboard
+
+        if not self.dialog3:
+            self.dialog3 = md33(
+                text=ee,
+                type="custom",
+                #
+                # content_cls=Content(),
+                buttons=[
+                    MDFlatButton(
+                        text="Copy",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=lambda x, y=(ee): Clipboard.copy(ee),
+                    ),
+                ],
+            )
+
+        self.dialog3.open()
+
+    def copy_email(self, eee):
+        print("email_times", eee)
 
     def ingredients_list(self, selected_cat, selected_r):
         for category in self.card_file:
@@ -829,6 +949,8 @@ class Demo3App(MDApp):
     ot = ["8", "10", "0", "1", "2", "3", "4", "5", "6", "7", "9"]
     lunch = ["0", "1", "2"]
     dialog = None
+    dialog2 = [None, None]
+    dialog3 = None
 
     snackbar = None
     rreverse = True
@@ -1917,38 +2039,6 @@ class Demo3App(MDApp):
             x["usecache"] = "False"
         btnState2 = StringProperty("false")
         lib_updateuserdata.updateuser(x, ad)
-
-    """
-    def on_start(self):
-        global x
-        global ad
-        app = App.get_running_app()
-        ad = app.user_data_dir
-        if ios == True:
-            config_file = ad
-
-        try:
-            x = lib_readuserdata.readuserdata(App, config_file, ios)
-        except:
-            print("failed to read user data, making shit up now")
-            lib_makeuserdata.makeuserdata(App, config_file, ios)
-            x = lib_readuserdata.readuserdata(App, config_file, ios)
-            print(x, "readuserdata after creating it", type(x), x["username"])
-        self.do_login("", useold)
-        # self.search_menu = SearchPopupMenu()
-        # self.root.ids.usecache.state='down'
-    """
-
-    def lol(self):
-        # x=lib_readuserdata.readuserdata(App,config_file)
-        # xx=(x['usecache'])
-        # if xx=="True":
-        #    xx='Using Cache'
-        # if xx=="False":
-        #    xx='Using Real Data'
-
-        # return str(xx)
-        pass
 
     def removeAll(self):
         self.root.current_screen.ids["users_lst"].clear_widgets()
