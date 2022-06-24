@@ -5,7 +5,7 @@ def make_json_schedule(x, ad):
 
     print("asdfasdf", x["usecache"])
     if x["usecache"] == "True" or x["usecache"] == True or x["usecache"] == "true":
-        conf = "conf.html"
+        conf = "/conf.html"
         cache = True
     if x["usecache"] == "False" or x["usecache"] == False or x["usecache"] == "false":
         conf = "/realdata.html"
@@ -18,9 +18,9 @@ def make_json_schedule(x, ad):
         z = open(ad + conf, "r", encoding="utf8")
     except:
         if cache == True:
-            import lib_createcache
+            import libs.lib_createcache
 
-            lib_createcache.createcache(ad, 15)
+            libs.lib_createcache.createcache(ad, 15)
             z = open(ad + conf, "r", encoding="utf8")
 
         if cache == False:
