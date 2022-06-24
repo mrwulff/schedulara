@@ -614,6 +614,8 @@ class Demo3App(MDApp):
         print(what)
 
     def newstart(self, search, useold):
+        import libs.lib_bonus
+
         self.root.set_current("newhome")
         self.root.current_screen.ids["rlist"].clear_widgets()
         from kivymd.uix.expansionpanel import (
@@ -649,6 +651,7 @@ class Demo3App(MDApp):
             )
 
             self.root.get_screen("newhome").ids.rlist.add_widget(panel)
+            libs.lib_bonus.create_notification(shows[z], x, True)
 
         toast(str(tic - time.perf_counter()))
 

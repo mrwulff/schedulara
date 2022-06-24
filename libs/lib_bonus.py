@@ -45,6 +45,7 @@ def create_notification(x, y, debug):
     #    y['not1time'],junk=str.split(y['not1time'],'.')
     # except:
     #    ''
+    # print(delay1, delay2)
     if platform == "win":
         # logging.info("windows notifications not supported")
         pass
