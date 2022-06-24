@@ -27,7 +27,7 @@
     "mainmenu": {
         "import": "from libs.uix.baseclass.mainmenu_screen import MainMenuScreen",
         "object": "MainMenuScreen()",
-        "kv": "libs/uix/kv/MainMenu_screen.kv"
+        "kv": "libs/uix/kv/mainmenu_screen.kv"
     },
     "history": {
         "import": "from libs.uix.baseclass.history_screen import HistoryScreen",
