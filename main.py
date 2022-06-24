@@ -455,7 +455,7 @@ class Demo3App(MDApp):
     mheight = 40
     cpadding = 20
     sound_effects = ["Ding", "Bang", "Lol"]
-
+    mheight = 80
     locations = [
         "denver",
         "dc",
