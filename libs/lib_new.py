@@ -24,11 +24,11 @@ def make_json_schedule(x, ad):
             z = open(ad + conf, "r", encoding="utf8")
 
         if cache == False:
-            import lib_createcache
+            import libs.lib_createcache
 
             # lib_createcache.createcache(ad, 15)
 
-            good_login = lib_think.login(ad, x, "True", App)
+            good_login = libs.lib_think.login(ad, x, False, False)
             z = open(ad + conf, "r", encoding="utf8")
 
     soup = BeautifulSoup(z, "html.parser")
