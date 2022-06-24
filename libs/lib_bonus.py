@@ -53,7 +53,7 @@ def create_notification(x, y, debug):
         if platform != "win":
             print("IOS BITCHES", x["show"], delay2, d2, now, showdatetime)
 
-            import notification
+            import libs.notification as notification
 
             try:
                 if y["not"] == True and y["not2"] == True:
@@ -103,29 +103,3 @@ def cancel_notification():
 
         logging.debug("IOS BITCHES")
         notification.cancel_all()
-
-
-if __name__ == "__main__":
-    create_notification(
-        {
-            "date": "04/01/2022",
-            "time": "18:30",
-            "job": "25321",
-            "show": "(TMA) BILLIE EILISH",
-            "venue": "T-MOBILE ARENA",
-            "location": "LOADING DOCK",
-            "client": "MGM RESORTS",
-            "type": "SHOW",
-            "pos": "ME",
-            "details": "\xa0",
-            "status": "Confirmed",
-            "notes": "ALL VAX CREW; MASK (no gaiters or bandanas), HARD HAT, SAFETY VEST, GLOVES, & PROTECTIVE TOE BOOTS; BRING PARKING STUB TO VALIDATE// Covid Testing",
-            "timekeep": "\xa0",
-            "plus": "\xa0",
-            "canceled": False,
-            "confirmid": "",
-            "lunches": "",
-            "endtime": "",
-            "is_new": False,
-        }
-    )

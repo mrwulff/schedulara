@@ -2,7 +2,7 @@ from pyobjus import *
 from pyobjus.dylib_manager import *
 from objc_util import *
 
-'''
+"""
 def al2():
 
     from pyobjus import autoclass
@@ -81,59 +81,77 @@ def n2shit():
     from plyer import notification
     notification.notify(title='Title',message='Message')
     pass
-'''
+"""
+
+
 def n22junk():
-    #from plyer.facades import Notification
-    
+    # from plyer.facades import Notification
 
-    #from plyer import uniqueid
+    # from plyer import uniqueid
 
-    #import random, string
+    # import random, string
     from pyobjus import autoclass
 
-
     load_framework(INCLUDE.Foundation)
-    load_framework('/System/Library/Frameworks/UserNotifications.framework')
+    load_framework("/System/Library/Frameworks/UserNotifications.framework")
 
-    UNMutableNotificationContent = autoclass('UNMutableNotificationContent')
-    UNNotificationRequest = autoclass('UNNotificationRequest')
-    UNTimeIntervalNotificationTrigger = autoclass('UNTimeIntervalNotificationTrigger')
-    UNUserNotificationCenter = autoclass('UNUserNotificationCenter')
-    NSString = autoclass('NSString')
+    UNMutableNotificationContent = autoclass("UNMutableNotificationContent")
+    UNNotificationRequest = autoclass("UNNotificationRequest")
+    UNTimeIntervalNotificationTrigger = autoclass("UNTimeIntervalNotificationTrigger")
+    UNUserNotificationCenter = autoclass("UNUserNotificationCenter")
+    NSString = autoclass("NSString")
 
-    #oad_dylib('UniBlocks.dylib')
-    #load_dylib('./Blocks_ios.dylib')
+    # oad_dylib('UniBlocks.dylib')
+    # load_dylib('./Blocks_ios.dylib')
+
+
 def openlinks():
     import ios
-    url = "comgooglecalendar://"
-    url='http://www.google.com/calendar/event?action=TEMPLATE&dates=20220201T010000Z%2F20220202T010000Z&text=asdf&location=&details='
 
-    url="comgooglecalendar://www.google.com/calendar/event?action=TEMPLATE&dates=20220201T010000Z%2F20220202T010000Z&text=asdf&location=&details="
+    url = "comgooglecalendar://"
+    url = "http://www.google.com/calendar/event?action=TEMPLATE&dates=20220201T010000Z%2F20220202T010000Z&text=asdf&location=&details="
+
+    url = "comgooglecalendar://www.google.com/calendar/event?action=TEMPLATE&dates=20220201T010000Z%2F20220202T010000Z&text=asdf&location=&details="
     ios.open_url(url)
+
+
 def n22():
 
     import notification_old
 
-    notification_old.schedule('NOW',delay=15,title='this is a titls',)
-    x=notification_old.get_scheduled()
-    print (x,'omggggg')
-    
+    notification_old.schedule(
+        "NOW",
+        delay=15,
+        title="this is a titls",
+    )
+    x = notification_old.get_scheduled()
+    print(x, "omggggg")
+
+
 def testnot2():
     import notification_old as notification2
-    #import notification
-    #xx=notification2.authorize()
-    #rint (xx,'wow')
-    notification2.schedule('!wow!',delay=10,subtitle='wow')
-    #notification.schedule('!wow!',delay=10,title= "title",subtitle='subtitle')
 
-    x=notification2.get_scheduled()
-    print (x)
+    # import notification
+    # xx=notification2.authorize()
+    # rint (xx,'wow')
+    notification2.schedule("!wow!", delay=10, subtitle="wow")
+    # notification.schedule('!wow!',delay=10,title= "title",subtitle='subtitle')
+
+    x = notification2.get_scheduled()
+    print(x)
+
+
 def testnot():
-    
-    #import notification_old
-    #notification_old.schedule('!wow55!',delay=10,subtitle='wow')
 
+    # import notification_old
+    # notification_old.schedule('!wow55!',delay=10,subtitle='wow')
 
-    import notification
-    notification.schedule('!wo2w!',delay=5,subtitle='subtitle',title='title',attachments=['images/black-rhino.png'])
+    import libs.notification as notification
 
+    notification.schedule(
+        "!wo2w!",
+        delay=5,
+        subtitle="subtitle",
+        title="title",
+        attachments=["images/black-rhino.png"],
+    )
