@@ -560,49 +560,61 @@ class Demo3App(MDApp):
 
         self.newstart("", useold)
 
-    def open_panel(self, xx, i, l):
+    def open_panel(self, xx, i, l, junk):
         global i9
         global xx9
 
         xx9 = xx
         i9 = i
-        print("asdfasdf", xx9, "asdfasdf")
+        print("asdfasdf", xx9, i, l)
 
         rw = RecipeLine(text=(str("loll")))
         # rw = IngredientDialog(text=("lol"))
         # for x in range(10):
         # self.root.current_screen.ids["rlist"].clear_widgets()
-        self.root.get_screen("newhome").ids.rlist.children[0].content.clear_widgets()
-        self.root.get_screen("newhome").ids.rlist.children[0].content.ids[
-            "pos"
-        ].text = xx9["pos"]
+        if junk == False:
+            self.root.get_screen("newhome").ids.rlist.children[
+                0
+            ].content.clear_widgets()
+            self.root.get_screen("newhome").ids.rlist.children[0].content.ids[
+                "pos"
+            ].text = xx9["pos"]
 
-        self.root.get_screen("newhome").ids.rlist.children[0].content.ids[
-            "pos"
-        ].secondary_text = xx9["pos"]
+            self.root.get_screen("newhome").ids.rlist.children[0].content.ids[
+                "pos"
+            ].secondary_text = xx9["pos"]
 
-        pp = (
-            self.root.get_screen("newhome")
-            .ids.rlist.children[0]
-            .content.ids["pos"]
-            .text
-        )
-        self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
-            "pos"
-        ].text = (xx9["pos"] + " " + xx9["type"] + " " + xx9["status"])
-        self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
-            "pos"
-        ].secondary_text = (xx9["venue"] + " " + " ")
+            pp = (
+                self.root.get_screen("newhome")
+                .ids.rlist.children[0]
+                .content.ids["pos"]
+                .text
+            )
 
-        self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
-            "pos2"
-        ].text = (xx9["client"] + " \n" + xx9["job"] + " \n")
+            self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
+                "pos"
+            ].text = (xx9["pos"] + " " + xx9["type"] + " " + xx9["status"])
+            self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
+                "pos"
+            ].secondary_text = (xx9["venue"] + " " + " ")
 
-        self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
-            "pos2"
-        ].secondary_text = xx9["notes"]
+            self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
+                "pos2"
+            ].text = (xx9["client"] + " \n" + xx9["job"] + " \n")
 
-        print(pp)
+            self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
+                "pos2"
+            ].secondary_text = xx9["notes"]
+            print("old stuff")
+
+        if junk == True:
+            self.root.current_screen.ids["rlist"].children[(l)].content.ids[
+                "pos"
+            ].text = (str(i) + " " + str(l))
+            print("newconfirm you nuts")
+            self.new_confirm("all")
+
+        # print(pp)
         # print(x)
         # App.get_running_app().root.current_screen.ids["rlist"].text = "posss"
         # print(App.get_running_app().root.current_screen.ids)
@@ -628,6 +640,33 @@ class Demo3App(MDApp):
         js = libs.lib_new.get_json_schedule(x, ad)
 
         shows = js["shows"]
+        rshows = (len(shows)) - (js["num_shows"])
+        if js["num_shows"] > 0:
+            ttt = str(len(shows)) + "/" + str(rshows) + " shows confirmed"
+        else:
+            ttt = str(len(shows)) + " shows confirmed"
+
+        panel = MDExpansionPanel(
+            # icon="recipe.png",
+            content=Content(),
+            panel_cls=MDExpansionPanelThreeLine(
+                text=ttt,
+                # content=Content(),
+                # secondary_text=shows[z]["show"],
+                # tertiary_text=shows[z]["venue"],
+                on_open=lambda x, y=js, q=0,: self.open_panel(y, q),
+                on_close=self.close_panel,
+            ),
+        )
+        panel.bind(
+            on_open=lambda x, y=js, q="Click to Confirm All", l=js[
+                "num_shows"
+            ], p=True: self.open_panel(y, q, l, p),
+            on_close=self.close_panel,
+        )
+
+        self.root.get_screen("newhome").ids.rlist.add_widget(panel)
+
         for z in range(len(shows)):
             # print(shows[z])
 
@@ -644,9 +683,9 @@ class Demo3App(MDApp):
                 ),
             )
             panel.bind(
-                on_open=lambda x, y=shows[z], q=z, l=len(shows): self.open_panel(
-                    y, q, l
-                ),
+                on_open=lambda x, y=shows[z], q=z, l=len(
+                    shows
+                ), junk=False: self.open_panel(y, q, l, junk),
                 on_close=self.close_panel,
             )
 
@@ -685,14 +724,29 @@ class Demo3App(MDApp):
                         # on_release=self.email_time,
                     ),
                     MDFlatButton(
-                        text="?",
+                        text="Confirm",
                         theme_text_color="Custom",
                         text_color=self.theme_cls.primary_color,
+                        on_release=lambda x, y=(cat, r, d): self.new_confirm(y),
                     ),
                 ],
             )
 
         self.dialog2[d].open()
+
+    def new_confirm(self, asdf):
+        try:
+            print(asdf, str(xx9["confirmables"]), "OMG ITS CONFIRMING ITSELF")
+        except:
+            print("one?")
+        if asdf == "all":
+            for xxx in range(int(xx9["num_shows"])):
+                fail = self.confirm_real(xx9["confirmables"][xxx])
+                print((xx9["confirmables"][xxx]))
+
+        else:
+            print("one", asdf)
+            # fail = self.confirm_real(asdf)
 
     def email_time(self, x2):
         print("save_time", xx9, x)
@@ -1687,8 +1741,16 @@ class Demo3App(MDApp):
         except:
             print("nonconfirm")
             return "fail"
+        dg = what
+        confirmable = False
+        try:
+            if "dg" in dg:
+                confirmable = True
+                print("trying to confirm " + str(xx9["date"]))
+        except:
+            print("nonconfirmable you nerd")
 
-        print(type(browser), xxx[idex][13], what, "OMGWHATISTHISSTUFF")
+        print(type(browser), "OMGWHATISTHISSTUFF", dg)
         if 1 == 1:
             if 1 == 1:
                 try:
@@ -1702,18 +1764,19 @@ class Demo3App(MDApp):
                 # print(browser, 'browser 1')
                 control_t = browser.form.find_control("__EVENTTARGET")
                 control_a = browser.form.find_control("__EVENTARGUMENT")
-                # print(browser, 'browser 2')
+                print(browser, "browser 2")
                 control_t.readonly = False
                 control_a.readonly = False
 
-                control_t.value = str(xxx[idex][13])
+                # control_t.value = str(xxx[idex][13])
+                control_t.value = str(dg)
                 control_a.value = "Confirm"
                 # print(browser, 'browser 3')
 
                 response = browser.submit()
                 # print(browser, 'browser 4')
                 aa = response.get_data()
-                # print(browser, 'browser 5')
+                print(browser, "browser 5")
 
                 aaa = open(ad + "/realdata.html", "wb")
                 aaa.write((aa))

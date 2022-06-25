@@ -45,6 +45,8 @@ def make_json_schedule(x, ad):
 
     fullnj = []
     alldict = []
+    confirmable = []
+    conf_bool = False
     for i in range(1, len(ab) - 1):
         nj = []
         nj2 = {}
@@ -56,6 +58,8 @@ def make_json_schedule(x, ad):
             xx = str(ax[13])
             f = str.split(xx, '"')
             f3 = f[3]
+            confirmable.append(f3)
+            conf_bool = True
         can = ax[13]
         if "Red" in str(can):
             # print ("OMG ITS RED")
@@ -84,7 +88,19 @@ def make_json_schedule(x, ad):
             "confirable": f3,
         }
         alldict.append(thisdict)
-    s = {"name": name, "num_shows": len(alldict), "shows": alldict}
+    s = {
+        "name": name,
+        "num_shows": len(alldict),
+        "shows": alldict,
+        "confirmable": conf_bool,
+        "num_shows": len(confirmable),
+        "confirmables": confirmable,
+    }
+    cconfirmables = {
+        "confirmable": conf_bool,
+        "num_shows": len(confirmable),
+        "shows": confirmable,
+    }
     # print(alldict)
     import json
 
