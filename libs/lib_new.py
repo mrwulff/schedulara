@@ -131,6 +131,7 @@ def get_json_schedule(x, ad):
             or x["refreshreload"] == "true"
         ):
             "using new data"
+            make_json_schedule(x, ad)
             # good_login = lib_think.login(ad, x, "True", App)
 
     try:
@@ -150,6 +151,7 @@ def get_json_schedule(x, ad):
             data = json.load(json_file)
             # print(data)
             print("LOADED JSON FILE SUPER FAST on second try")
+
     return data
 
 

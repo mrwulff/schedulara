@@ -1510,7 +1510,7 @@ class Demo3App(MDApp):
         lib_makegraphs.make_stats_pp(self, "$/Day", dd2, maxd, max_dy)
         dumb = str(f"In ~ Show ~ Out\n" + str(ins) + " " + str(shows) + " " + str(outs))
         dumb = str(f"In ~ Show ~ Out\n" + str(ins) + " " + str(shows) + " " + str(outs))
-        dumb = f"In  ~  Show  ~  Out\n{ins:<4}{outs:>8}{shows:>14}"
+        dumb = f"In  ~  Out  ~  Show\n{ins:<4}{outs:>8}{shows:>14}"
 
         lib_makegraphs.make_stats_pp(
             self,
@@ -2119,7 +2119,7 @@ class Demo3App(MDApp):
         a = self.theme_cls.accent_palette
         import libs.lib_readuserdata as lib_readuserdata
 
-        x = lib_readuserdata.readuserdata(App, config_file, ios)
+        x = lib_readuserdata.readuserdata(App, ad, ios)
         # print(s, p, a, x)
         x["pcolor"] = p
         x["scolor"] = a

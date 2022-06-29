@@ -50,7 +50,8 @@ def create_notification(x, y, debug):
         # logging.info("windows notifications not supported")
         pass
     if platform != "win":
-        if platform != "win":
+        # if platform != "win":
+        if 1 == 2:
             print("IOS BITCHES", x["show"], delay2, d2, now, showdatetime)
 
             import libs.notification as notification
@@ -99,7 +100,7 @@ def cancel_notification():
 
     print(platform, "KIVY PLATFORM")
     if platform == "ios":
-        import notification_old as notification
+        # import notification_old as notification
 
         logging.debug("IOS BITCHES")
-        notification.cancel_all()
+        # notification.cancel_all()
