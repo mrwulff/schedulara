@@ -54,6 +54,7 @@ def make_json_schedule(x, ad):
         # print(ax)
         f3 = "False"
         canceled = False
+        old = False
         if "dgR" in str(ax[13]):
             xx = str(ax[13])
             f = str.split(xx, '"')
@@ -61,9 +62,14 @@ def make_json_schedule(x, ad):
             confirmable.append(f3)
             conf_bool = True
         can = ax[13]
+        can2 = ax[0]
+        print(can2)
         if "Red" in str(can):
             # print ("OMG ITS RED")
             canceled = True
+        if "Gray" in str(can2):
+            print("OMG ITS Gray")
+            old = True
 
         thisdict = {
             "date": ax[0].get_text(),
@@ -86,6 +92,7 @@ def make_json_schedule(x, ad):
             "endtime": "",
             "is_new": False,
             "confirable": f3,
+            "old": old,
         }
         alldict.append(thisdict)
     s = {

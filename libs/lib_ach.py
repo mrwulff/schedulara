@@ -152,8 +152,21 @@ def make_ach(ad):
         "ach_icon": "clock-time-four",
         "ach_graph_disc": ["Hours:", "Show", "Date:"],
     }
-
-    ach = [hats, grind, hourly]
+    scroll = {
+        "name": "Scrollbar!",
+        "disc": "Have over 30 gigs listed in schedule",
+        "achieved": achieved,
+        "date_achieved": date_achieved,
+        "ach_level": 0,
+        "ach_color": "Who's green, gets no overtime pay and snaps easily?",
+        "ach_shows": ach_shows,
+        "ach_extra": "Most Gigs:",
+        "ach_hidden": ach_hidden,
+        "ach_progress": ach_progress,
+        "ach_icon": "clock-time-four",
+        "ach_graph_disc": ["", "", ""],
+    }
+    ach = [hats, grind, hourly, scroll]
 
     for iii in range(len(ach)):
         children.append(ach[iii])
@@ -213,6 +226,30 @@ def longestrun(myList):
     return max_size, date, mshows
 
 
+def check_scroll(self, ad, x):
+    import libs.lib_new
+    import json
+    import datetime
+
+    dataxx = libs.lib_new.get_json_schedule(x, ad)
+    print(len(dataxx["shows"]), "asdfasdfasdf")
+
+    f = open(ad + "/testtest22.json")
+    data = json.load(f)
+
+    if (len(dataxx["shows"])) > 30:
+        print("scroll ach unlocked!!!")
+        if data["children"][3]["achieved"] == "False":
+            data["children"][3]["date_achieved"] = str(datetime.date.today())
+        data["children"][3]["achieved"] = "True"
+        data["children"][3]["ach_level"] = 10
+        data["children"][3]["ach_shows"] = str(len(dataxx["shows"]))
+        data["children"][2]["ach_progress"] = str(len(dataxx["shows"]))
+    json_object = json.dumps(data, indent=4)
+    x = open(ad + "/testtest22.json", "w")
+    x.write(json_object)
+
+
 def check_hats(self, ad):
     print("checking hats")
     points = 0
@@ -266,7 +303,7 @@ def check_hats(self, ad):
         data["children"][0]["ach_level"] = 10
 
     ###hustle
-    if len(shows) > 14:
+    if len(shows) >= 14:
         if data["children"][1]["achieved"] == "False":
             data["children"][1]["date_achieved"] = str(datetime.date.today())
 

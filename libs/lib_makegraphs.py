@@ -161,8 +161,11 @@ def parsepp(self, ad, type, finish, start):
             max_t = shows
 
         #    return dd2,5000
-        for x in range(len(positions)):
-            all_pos.append(positions[x])
+        try:
+            for x in range(len(positions)):
+                all_pos.append(positions[x])
+        except:
+            print("no poss")
     print(len(days_ach_list), "DAYSACHLIST")
     if type != "hats":
         return (

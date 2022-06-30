@@ -146,7 +146,7 @@ def parse_score(name, ach, ad, color):
         x = [i["score"], i["playerName"], i["placement"]]
         # q = str(i["score"]) + "," + str(i["playerName"]), +"," + str(i["placement"])
         q.append(i["score"])
-        if i["playerName"] == name:
+        if i["playerName"].lower() == name.lower():
             print("wtf" + i["playerName"], name + "wtf")
 
             q.append("[b][color=" + newc + "]" + i["playerName"] + "[/b][/color]")

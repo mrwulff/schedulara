@@ -590,22 +590,28 @@ class Demo3App(MDApp):
                 .content.ids["pos"]
                 .text
             )
+            try:
+                self.root.current_screen.ids["rlist"].children[
+                    (l - i9) - 1
+                ].content.ids["pos"].text = (
+                    xx9["pos"] + " " + xx9["type"] + " " + xx9["status"]
+                )
+                self.root.current_screen.ids["rlist"].children[
+                    (l - i9) - 1
+                ].content.ids["pos"].secondary_text = (xx9["venue"] + " " + " ")
 
-            self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
-                "pos"
-            ].text = (xx9["pos"] + " " + xx9["type"] + " " + xx9["status"])
-            self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
-                "pos"
-            ].secondary_text = (xx9["venue"] + " " + " ")
+                self.root.current_screen.ids["rlist"].children[
+                    (l - i9) - 1
+                ].content.ids["pos2"].text = (
+                    xx9["client"] + " \n" + xx9["job"] + " \n"
+                )
 
-            self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
-                "pos2"
-            ].text = (xx9["client"] + " \n" + xx9["job"] + " \n")
-
-            self.root.current_screen.ids["rlist"].children[(l - i9) - 1].content.ids[
-                "pos2"
-            ].secondary_text = xx9["notes"]
-            print("old stuff")
+                self.root.current_screen.ids["rlist"].children[
+                    (l - i9) - 1
+                ].content.ids["pos2"].secondary_text = xx9["notes"]
+                print("old stuff,", l, i9)
+            except:
+                print(l, i9, "failed to open")
 
         if junk == True:
             self.root.current_screen.ids["rlist"].children[(l)].content.ids[
@@ -654,6 +660,7 @@ class Demo3App(MDApp):
                 # content=Content(),
                 # secondary_text=shows[z]["show"],
                 # tertiary_text=shows[z]["venue"],
+                text_color=(1, 0, 1, 0),
                 on_open=lambda x, y=js, q=0,: self.open_panel(y, q),
                 on_close=self.close_panel,
             ),
@@ -666,30 +673,47 @@ class Demo3App(MDApp):
         )
 
         self.root.get_screen("newhome").ids.rlist.add_widget(panel)
+        canned = -1
 
         for z in range(len(shows)):
+            color = ""
             # print(shows[z])
+            # if shows[z]["canceled"] == True:
+            if 1 == 1:
+                canned = canned + 1
+            if shows[z]["status"] != "Confirmed":
+                color = "[color=#00ff00]"
+            if shows[z]["canceled"] == True:
+                color = "[color=#ff0000]"
+            if shows[z]["old"] == True:
+                color = color + "[size=3sp]"
+                color = "[color=#555555]"
+            if shows[z]["old"] == True and shows[z]["canceled"] == True:
+                color = color + "[size=3sp]"
+                color = "[color=#550000]"
 
             panel = MDExpansionPanel(
                 # icon="recipe.png",
                 content=Content(),
                 panel_cls=MDExpansionPanelThreeLine(
-                    text=shows[z]["date"] + "\n" + shows[z]["time"],
+                    text=color + shows[z]["date"] + "\n" + shows[z]["time"],
                     # content=Content(),
-                    secondary_text=shows[z]["show"],
-                    tertiary_text=shows[z]["venue"],
-                    on_open=lambda x, y=shows[z], q=z: self.open_panel(y, q),
+                    text_color=(1, 0, 1, 0),
+                    secondary_text=color + shows[z]["show"],
+                    tertiary_text=color + shows[z]["venue"],
+                    on_open=lambda x, y=shows[z], q=canned: self.open_panel(y, q),
                     on_close=self.close_panel,
                 ),
             )
             panel.bind(
-                on_open=lambda x, y=shows[z], q=z, l=len(
+                on_open=lambda x, y=shows[z], q=canned, l=len(
                     shows
                 ), junk=False: self.open_panel(y, q, l, junk),
                 on_close=self.close_panel,
             )
-
-            self.root.get_screen("newhome").ids.rlist.add_widget(panel)
+            # if shows[z]["canceled"] == True:
+            if 1 == 1:
+                self.root.get_screen("newhome").ids.rlist.add_widget(panel)
             libs.lib_bonus.create_notification(shows[z], x, True)
 
         toast(str(tic - time.perf_counter()))
@@ -1293,19 +1317,24 @@ class Demo3App(MDApp):
                         valuesm = data["ach_graph_disc"][2]
                     except:
                         valuesm = ""
-            while len(keysm) < first:
-                keysm = keysm + " "
-            while len(valuesm) < 20:
-                valuesm = valuesm + " "
-            while len(perc) < third:
-                perc = perc + " "
+            try:
+                while len(keysm) < first:
+                    keysm = keysm + " "
+                while len(valuesm) < 20:
+                    valuesm = valuesm + " "
+                while len(perc) < third:
+                    perc = perc + " "
 
-            if len(valuesm) > 15:
-                valuesm = valuesm[0:15]
-            if len(perc) > 15:
-                perc = perc[0:15]
-
-            shows = f"[font=Roboto-Regular]{keysm} {str(valuesm)} {str(perc)}[/font]\n"
+                if len(valuesm) > 15:
+                    valuesm = valuesm[0:15]
+                if len(perc) > 15:
+                    perc = perc[0:15]
+                shows = (
+                    f"[font=Roboto-Regular]{keysm} {str(valuesm)} {str(perc)}[/font]\n"
+                )
+            except:
+                print(keys)
+                shows = str(keys)
 
             items = SmoothLabel(
                 text=(shows),
@@ -1336,7 +1365,9 @@ class Demo3App(MDApp):
         import libs.lib_score
 
         # dicts = self.load_paychecks()
+        libs.lib_ach.check_scroll(self, ad, x)
         libs.lib_ach.check_hats(self, ad)
+
         points = App.get_running_app().root.current_screen.ids["ach_points"].text
 
         junk, points = str.split(points, " ")
@@ -2148,7 +2179,9 @@ class Demo3App(MDApp):
             # print (file)
             import libs.lib_parse as lib_parse
 
-            dd, junk, junk, junk, junk = lib_parse.parsepayperiod(ad + "/pp/" + file)
+            dd, junk, junk, junk, junk, junk = lib_parse.parsepayperiod(
+                ad + "/pp/" + file
+            )
             listofdicks.append(dd)
             x = x + 1
         return listofdicks
