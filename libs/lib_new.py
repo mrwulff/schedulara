@@ -15,12 +15,12 @@ def make_json_schedule(x, ad):
     encoding = "utf8"
 
     try:
-        z = open(ad + conf, "r", encoding="utf8")
+        z = open(ad + c2onf, "r", encoding="utf8")
     except:
         if cache == True:
             import libs.lib_createcache
 
-            libs.lib_createcache.createcache(ad, 15)
+            libs.lib_createcache.createcache(ad, 25)
             z = open(ad + conf, "r", encoding="utf8")
 
         if cache == False:
@@ -34,19 +34,23 @@ def make_json_schedule(x, ad):
     soup = BeautifulSoup(z, "html.parser")
     try:
         name = soup.find("span", id="lblEmpName")
+        # print(name)
     except:
         print("emp not found")
         return
     name = str.split(name.get_text(), ", ")
-    # print(name, "wtfname")
+    print(name, "wtfname")
     name = name[1] + " " + name[0]
 
     ab = soup.find_all("tr")
 
     fullnj = []
     alldict = []
+    olddict = []
     confirmable = []
     conf_bool = False
+    from datetime import datetime
+
     for i in range(1, len(ab) - 1):
         nj = []
         nj2 = {}
@@ -63,12 +67,15 @@ def make_json_schedule(x, ad):
             conf_bool = True
         can = ax[13]
         can2 = ax[0]
-        print(can2)
+        # print(can2)
         if "Red" in str(can):
             # print ("OMG ITS RED")
             canceled = True
-        if "Gray" in str(can2):
-            print("OMG ITS Gray")
+
+        print()
+        show_date = datetime.strptime(ax[0].get_text(), "%m/%d/%Y")
+        now = datetime.now()
+        if show_date.date() <= now.date():
             old = True
 
         thisdict = {
@@ -94,20 +101,35 @@ def make_json_schedule(x, ad):
             "confirable": f3,
             "old": old,
         }
-        alldict.append(thisdict)
-    s = {
-        "name": name,
-        "num_shows": len(alldict),
-        "shows": alldict,
-        "confirmable": conf_bool,
-        "num_shows": len(confirmable),
-        "confirmables": confirmable,
-    }
+        if old == False:
+            alldict.append(thisdict)
+            print(old, "OLD")
+        if old == True:
+            olddict.append(thisdict)
+            print(old, "OLD")
+
     cconfirmables = {
         "confirmable": conf_bool,
         "num_shows": len(confirmable),
         "shows": confirmable,
     }
+
+    from datetime import datetime
+
+    now = datetime.now()
+    s = {
+        "name": name,
+        "num_shows": len(alldict),
+        "old_shows": olddict,
+        "shows": alldict,
+        "confirmable": conf_bool,
+        "num_shows": len(confirmable),
+        "confirmables": confirmable,
+        "confirmables2": cconfirmables,
+        "updated": str(now),
+    }
+    # print(olddict)
+
     # print(alldict)
     import json
 
@@ -126,11 +148,11 @@ def get_json_schedule(x, ad):
 
     print(x["usecache"], "usecache!!!")
     if x["usecache"] == "True" or x["usecache"] == True or x["usecache"] == "true":
-        print(x, "USING CACHE DATA OK?")
+        print("USING CACHE DATA OK?")
         show = "jason_show_cache_fake.json"
 
     if x["usecache"] == "False" or x["usecache"] == False or x["usecache"] == "false":
-        print(x, "USING Real DATA OK?")
+        print("USING Real DATA OK?")
         show = "jason_show_cache_real.json"
         if (
             x["refreshreload"] == "True"
@@ -147,7 +169,7 @@ def get_json_schedule(x, ad):
 
         nf = os.path.join(ad, show)
         with open(nf) as json_file:
-            data = json.load(json_file)
+            data = json.loa2d(json_file)
             # print(data)
             print("LOADED JSON FILE SUPER FAST")
     except:

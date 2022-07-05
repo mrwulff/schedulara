@@ -508,7 +508,11 @@ class Demo3App(MDApp):
             # print(ad, "adadadad33")
             libs.lib_updateuserdata.updateuser(x, ad)
         # print(x, "XSUBB")
-        return x[b]
+        try:
+            return x[b]
+        except:
+            x[b] = "False"
+            return x[b]
 
     def check_pull_refresh(self, view, grid):
         pass
@@ -554,11 +558,83 @@ class Demo3App(MDApp):
         # print(x, "lol")
 
         # self.do_login("", useold)
-        if x["refreshreload"] == True and x["usecache"] == False:
-            good_login = lib_think.login(ad, x, ios, App)
-            ##DOWNLOAD NEW SCHEDUE
 
-        self.newstart("", useold)
+        if x["today_start"] == False:
+            self.newstart("", useold)
+
+        if x["today_start"] == True:
+            self.today()
+
+    def today(self):
+        import humanize
+        from datetime import datetime
+
+        self.root.set_current("today")
+        import libs.lib_new
+
+        js = libs.lib_new.get_json_schedule(x, ad)
+        shows = js["shows"]
+        li = ["first", "second", "third"]
+        ns = 3
+        if len(shows) < 3:
+            ns = len(shows)
+        for i in range(ns):
+            show_date = datetime.strptime(shows[i]["date"], "%m/%d/%Y")
+            show_date = show_date.strftime("%A, %m/%d")
+            z = shows[i]["time"]
+            h, m = str.split(z, ":")
+            h = int(h)
+            if h > 12:
+                h = h - 12
+                ntime = str(h) + ":" + m + " PM"
+
+            if h < 13:
+
+                ntime = str(h) + ":" + m + " AM"
+
+            self.root.get_screen("today").ids[li[i]].text = show_date + " " + ntime
+            self.root.get_screen("today").ids[li[i]].secondary_text = shows[i]["show"]
+            self.root.get_screen("today").ids[li[i]].tertiary_text = shows[i]["venue"]
+
+        numshows = len(shows)
+        numconf = js["num_shows"]
+        confirmable = numshows - numconf
+
+        update = js["updated"]
+
+        old_update = datetime.strptime(update, "%Y-%m-%d %H:%M:%S.%f")
+        now = datetime.now()
+        diff2 = humanize.naturaltime(now - old_update)
+        # print(diff2)
+
+        next_show = shows[0]["date"] + " " + shows[0]["time"]
+        next_show = datetime.strptime(next_show, "%m/%d/%Y %H:%M")
+        diff3 = humanize.naturaltime(now - next_show)
+
+        if numconf == 0:
+            stat_text = str(numshows) + " Confirmed"
+        if numconf == 1:
+            stat_text = str(numconf) + " Show Confirmable"
+        if numconf > 1:
+            stat_text = str(numconf) + " Shows Confirmable"
+        stat_text2 = "Next show in " + diff3
+        stat_text3 = "Last updated " + diff2
+
+        self.root.get_screen("today").ids["stats"].text = stat_text
+
+        self.root.get_screen("today").ids["stats"].secondary_text = stat_text2
+        self.root.get_screen("today").ids["stats"].tertiary_text = stat_text3
+
+    def make_toast(self, b):
+        print(x, b)
+
+    def update(self):
+        print("only updating schedule")
+        import libs.lib_new
+
+        libs.lib_new.make_json_schedule(x, ad)
+        print("updated schedule")
+        self.today()
 
     def open_panel(self, xx, i, l, junk):
         global i9
@@ -613,7 +689,7 @@ class Demo3App(MDApp):
             except:
                 print(l, i9, "failed to open")
 
-        if junk == True:
+        if junk == True and x["usecache"] == False:
             self.root.current_screen.ids["rlist"].children[(l)].content.ids[
                 "pos"
             ].text = (str(i) + " " + str(l))
@@ -644,8 +720,10 @@ class Demo3App(MDApp):
         import libs.lib_new
 
         js = libs.lib_new.get_json_schedule(x, ad)
-
-        shows = js["shows"]
+        if useold == False:
+            shows = js["shows"]
+        if useold == True:
+            shows = js["old_shows"]
         rshows = (len(shows)) - (js["num_shows"])
         if js["num_shows"] > 0:
             ttt = str(len(shows)) + "/" + str(rshows) + " shows confirmed"
@@ -1968,7 +2046,7 @@ class Demo3App(MDApp):
                 "scurrent"
             ].md_bg_color = self.theme_cls.primary_dark
             App.get_running_app().root.current_screen.ids[
-                "s'last'"
+                "slast"
             ].md_bg_color = self.theme_cls.primary_light
             App.get_running_app().root.current_screen.ids[
                 "sall"

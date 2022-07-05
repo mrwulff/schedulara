@@ -1,0 +1,133 @@
+<TwoLineAvatarListItem>
+    IconLeftWidget:
+#        icon: root.icon
+
+
+
+
+
+<TodayScreen>
+    name: "today"
+    Image:
+        source: 'images/rh.jpg'
+        size: self.width,self.height
+    MDBoxLayout:
+        id: graphs2
+        orientation: "vertical"
+        
+        MDToolbar:
+            #title: "Settings"
+            height: app.mheight
+        #    type: "bottom"
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('mainmenu','left'),'home']]
+            #right_action_items: [["refresh", lambda x: app.ach_reset(),'reset ach'],["counter", lambda x: app.ach_top(0),'reset ach']]
+        ScrollView:
+            MDGridLayout:
+                cols: 1
+                adaptive_height: True
+                padding: dp(10), dp(10)
+                #spacing: dp(10)
+                #border_radius: 15
+                #radius: 10
+                TwoLineListItem:
+                    text: 'Hi Kevin!' 
+                    id: name
+                    #IconLeftWidget:
+                        #icon:"table-account"
+
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .8, None
+                    height: stats.height 
+                    focus_behavior: True
+                    ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    ThreeLineListItem:
+                        id:stats
+
+
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .8, None
+                    height: first.height+15
+                    focus_behavior: True
+                    ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    on_release: app.make_toast(1)
+                    TwoLineListItem:
+                        id:first
+                        text: "First Show"
+                        secondary_text: "Secondary text here"
+                        
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .8, None
+                    height: first.height +15
+                    focus_behavior: True
+                    ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    ThreeLineListItem:
+                        id:second
+                        text: "First Show"
+                        secondary_text: "Secondary text here"
+
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .8, None
+                    height: first.height +15
+                    focus_behavior: True
+                    ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    ThreeLineListItem:
+                        id:third
+                        text: "First Show"
+                        secondary_text: "Secondary text here"
+
+
+
+
+
+
+                MDCard:
+                    #orientation: "vertical"
+                    size_hint: None,None
+                    height: butt.height
+                    width: butt.width+butt2.width
+                    focus_behavior: True
+                    ripple_behavior: False
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    MDRaisedButton:
+                        id:butt
+                        text: "Show All"
+                        secondary_text: "Secondary text here"
+                        on_release: app.newstart("",False)
+                    MDRaisedButton:
+                        id:butt2
+                        text: "Past"
+                        secondary_text: "Secondary text here"
+                        on_release: app.newstart("",True)
+                    MDRaisedButton:
+                        id:butt2
+                        text: "Update"
+                        secondary_text: "Secondary text here"
+                        on_release: app.update()
+
+
+                TwoLineListItem:   
+                    text: 'Paycheck Info:' 
+
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: .8, None
+                    height: first.height 
+                    focus_behavior: True
+                    ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    ThreeLineAvatarListItem:
+                        id:pay
+                        text: "Next Paycheck"
+                        secondary_text: "Secondary text here"
+
+                Label:
+
+            

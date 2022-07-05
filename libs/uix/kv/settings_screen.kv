@@ -157,3 +157,56 @@
                         id: container
                     IconLeftWidget:
                         icon: "cloud-download"
+
+
+                OneLineAvatarIconListItem:
+                    text: "Show Canceled Shows"
+                    #on_release:app.makenots("1")
+                    YourContainer:
+                        id: container
+                        MDSwitch:
+                            #on_active: app.enable_nots()
+                            widget_style: "ios"
+                            id:hide_canceled
+                            active: app.check_att('hide_canceled')
+                            on_active:
+                                #app.on_checkbox_active(*args)
+                                app.updatetext("hide_canceled")
+
+                    IconLeftWidget:
+                        icon: "close-circle-outline"
+
+                OneLineAvatarIconListItem:
+                    text: "Today Screen at Start"
+                    #on_release:app.makenots("1")
+                    YourContainer:
+                        id: container
+                        MDSwitch:
+                            #on_active: app.enable_nots()
+                            widget_style: "ios"
+                            active: app.check_att('today_start')
+                            id: today_start
+                            on_active:
+                                #app.on_checkbox_active(*args)
+                                app.updatetext("today_start")
+
+                    IconLeftWidget:
+                        icon: "home-floor-1"
+                OneLineAvatarIconListItem:
+                    text: "24 Hour Time"
+                    #on_release:app.makenots("1")
+                    YourContainer:
+                        id: container
+                        MDSwitch:
+                            #on_active: app.enable_nots()
+                            widget_style: "ios"
+                            active: app.check_att('twenty')
+                            id: twenty
+                            on_active:
+                                #app.on_checkbox_active(*args)
+                                app.updatetext("twenty")
+
+                    IconLeftWidget:
+                        icon: "hours-24"
+                
+

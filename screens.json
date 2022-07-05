@@ -59,6 +59,11 @@
         "object": "AchScreen()",
         "kv": "libs/uix/kv/ach_screen.kv"
     },
+    "today": {
+        "import": "from libs.uix.baseclass.today_screen import TodayScreen",
+        "object": "TodayScreen()",
+        "kv": "libs/uix/kv/today_screen.kv"
+    },
     "achinfo": {
         "import": "from libs.uix.baseclass.achinfoscreen import AchInfoScreen",
         "object": "AchInfoScreen()",
