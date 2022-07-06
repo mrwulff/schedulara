@@ -418,6 +418,10 @@ class Content(MDBoxLayout):
     pass
 
 
+class Content2(MDBoxLayout):
+    pass
+
+
 """
 class CountDownLbl(Label):
     angle = NumericProperty(0)
@@ -565,6 +569,17 @@ class Demo3App(MDApp):
         if x["today_start"] == True:
             self.today()
 
+    def pop_new(self, z):
+
+        import libs.lib_new
+        import libs.lib_makeuserdata
+
+        js = libs.lib_new.get_json_schedule(x, ad)
+        gg = js["shows"][0]
+        print(gg)
+
+        libs.lib_makeuserdata.makeshowfile(App, gg, ad, False)
+
     def today(self):
         import humanize
         from datetime import datetime
@@ -635,6 +650,16 @@ class Demo3App(MDApp):
         libs.lib_new.make_json_schedule(x, ad)
         print("updated schedule")
         self.today()
+
+    def open_panel2(self, xx, i, l, junk):
+
+        print("adf", xx, i, l)
+
+        global i9
+        global xx9
+
+        xx9 = xx
+        i9 = i
 
     def open_panel(self, xx, i, l, junk):
         global i9
@@ -725,75 +750,116 @@ class Demo3App(MDApp):
         if useold == True:
             shows = js["old_shows"]
         rshows = (len(shows)) - (js["num_shows"])
-        if js["num_shows"] > 0:
-            ttt = str(len(shows)) + "/" + str(rshows) + " shows confirmed"
-        else:
-            ttt = str(len(shows)) + " shows confirmed"
-
-        panel = MDExpansionPanel(
-            # icon="recipe.png",
-            content=Content(),
-            panel_cls=MDExpansionPanelThreeLine(
-                text=ttt,
-                # content=Content(),
-                # secondary_text=shows[z]["show"],
-                # tertiary_text=shows[z]["venue"],
-                text_color=(1, 0, 1, 0),
-                on_open=lambda x, y=js, q=0,: self.open_panel(y, q),
-                on_close=self.close_panel,
-            ),
-        )
-        panel.bind(
-            on_open=lambda x, y=js, q="Click to Confirm All", l=js[
-                "num_shows"
-            ], p=True: self.open_panel(y, q, l, p),
-            on_close=self.close_panel,
-        )
-
-        self.root.get_screen("newhome").ids.rlist.add_widget(panel)
-        canned = -1
-
-        for z in range(len(shows)):
-            color = ""
-            # print(shows[z])
-            # if shows[z]["canceled"] == True:
-            if 1 == 1:
-                canned = canned + 1
-            if shows[z]["status"] != "Confirmed":
-                color = "[color=#00ff00]"
-            if shows[z]["canceled"] == True:
-                color = "[color=#ff0000]"
-            if shows[z]["old"] == True:
-                color = color + "[size=3sp]"
-                color = "[color=#555555]"
-            if shows[z]["old"] == True and shows[z]["canceled"] == True:
-                color = color + "[size=3sp]"
-                color = "[color=#550000]"
+        if useold == False:
+            if js["num_shows"] > 0:
+                ttt = str(len(shows)) + "/" + str(rshows) + " shows confirmed"
+            else:
+                ttt = str(len(shows)) + " shows confirmed"
 
             panel = MDExpansionPanel(
                 # icon="recipe.png",
                 content=Content(),
                 panel_cls=MDExpansionPanelThreeLine(
-                    text=color + shows[z]["date"] + "\n" + shows[z]["time"],
+                    text=ttt,
                     # content=Content(),
+                    # secondary_text=shows[z]["show"],
+                    # tertiary_text=shows[z]["venue"],
                     text_color=(1, 0, 1, 0),
-                    secondary_text=color + shows[z]["show"],
-                    tertiary_text=color + shows[z]["venue"],
-                    on_open=lambda x, y=shows[z], q=canned: self.open_panel(y, q),
+                    on_open=lambda x, y=js, q=0,: self.open_panel(y, q),
                     on_close=self.close_panel,
                 ),
             )
             panel.bind(
-                on_open=lambda x, y=shows[z], q=canned, l=len(
-                    shows
-                ), junk=False: self.open_panel(y, q, l, junk),
+                on_open=lambda x, y=js, q="Click to Confirm All", l=js[
+                    "num_shows"
+                ], p=True: self.open_panel(y, q, l, p),
                 on_close=self.close_panel,
             )
-            # if shows[z]["canceled"] == True:
-            if 1 == 1:
-                self.root.get_screen("newhome").ids.rlist.add_widget(panel)
-            libs.lib_bonus.create_notification(shows[z], x, True)
 
+            self.root.get_screen("newhome").ids.rlist.add_widget(panel)
+            canned = -1
+
+            for z in range(len(shows)):
+                color = ""
+                # print(shows[z])
+                # if shows[z]["canceled"] == True:
+                if 1 == 1:
+                    canned = canned + 1
+                if shows[z]["status"] != "Confirmed":
+                    color = "[color=#00ff00]"
+                if shows[z]["canceled"] == True:
+                    color = "[color=#ff0000]"
+                if shows[z]["old"] == True:
+                    color = color + "[size=3sp]"
+                    color = "[color=#555555]"
+                if shows[z]["old"] == True and shows[z]["canceled"] == True:
+                    color = color + "[size=3sp]"
+                    color = "[color=#550000]"
+
+                panel = MDExpansionPanel(
+                    # icon="recipe.png",
+                    content=Content(),
+                    panel_cls=MDExpansionPanelThreeLine(
+                        text=color + shows[z]["date"] + "\n" + shows[z]["time"],
+                        # content=Content(),
+                        text_color=(1, 0, 1, 0),
+                        secondary_text=color + shows[z]["show"],
+                        tertiary_text=color + shows[z]["venue"],
+                        on_open=lambda x, y=shows[z], q=canned: self.open_panel(y, q),
+                        on_close=self.close_panel,
+                    ),
+                )
+                panel.bind(
+                    on_open=lambda x, y=shows[z], q=canned, l=len(
+                        shows
+                    ), junk=False: self.open_panel(y, q, l, junk),
+                    on_close=self.close_panel,
+                )
+                # if shows[z]["canceled"] == True:
+                if 1 == 1:
+                    self.root.get_screen("newhome").ids.rlist.add_widget(panel)
+                libs.lib_bonus.create_notification(shows[z], x, True)
+        if useold == True:
+            canned = -1
+            for z in range(len(shows)):
+                color = ""
+                # print(shows[z])
+                # if shows[z]["canceled"] == True:
+                if 1 == 1:
+                    canned = canned + 1
+                if shows[z]["status"] != "Confirmed":
+                    color = "[color=#00ff00]"
+                if shows[z]["canceled"] == True:
+                    color = "[color=#ff0000]"
+                if shows[z]["old"] == True:
+                    color = color + "[size=3sp]"
+                    color = "[color=#555555]"
+                if shows[z]["old"] == True and shows[z]["canceled"] == True:
+                    color = color + "[size=3sp]"
+                    color = "[color=#550000]"
+
+                panel = MDExpansionPanel(
+                    # icon="recipe.png",
+                    content=Content2(),
+                    panel_cls=MDExpansionPanelThreeLine(
+                        text=color + shows[z]["date"] + "\n" + shows[z]["time"],
+                        # content=Content(),
+                        text_color=(1, 0, 1, 0),
+                        secondary_text=color + shows[z]["show"],
+                        tertiary_text=color + shows[z]["venue"],
+                        on_open=lambda x, y=shows[z], q=canned: self.open_panel2(y, q),
+                        on_close=self.close_panel,
+                    ),
+                )
+                panel.bind(
+                    on_open=lambda x, y=shows[z], q=canned, l=len(
+                        shows
+                    ), junk=False: self.open_panel2(y, q, l, junk),
+                    on_close=self.close_panel,
+                )
+                # if shows[z]["canceled"] == True:
+                if 1 == 1:
+                    self.root.get_screen("newhome").ids.rlist.add_widget(panel)
         toast(str(tic - time.perf_counter()))
 
     def showinfo(self, cat, r, d):
@@ -826,10 +892,10 @@ class Demo3App(MDApp):
                         # on_release=self.email_time,
                     ),
                     MDFlatButton(
-                        text="Confirm",
+                        text="$$$",
                         theme_text_color="Custom",
                         text_color=self.theme_cls.primary_color,
-                        on_release=lambda x, y=(cat, r, d): self.new_confirm(y),
+                        on_release=lambda x, y=(cat, r, d): self.animate_money_new(y),
                     ),
                 ],
             )
@@ -1704,6 +1770,48 @@ class Demo3App(MDApp):
         )
         self.snackbar.open()
 
+    def dialog_close(self, *args):
+        for z in range(len(self.dialog2)):
+            try:
+                self.dialog2[z].dismiss(force=True)
+            except:
+                print(z)
+
+    def animate_money_new(self, y):
+        self.dialog_close()
+        from kivy.clock import Clock
+
+        self.root.set_current("animate")
+        print(y, xx9)
+
+        pos = xx9["pos"]
+
+        App.get_running_app().root.current_screen.ids["top"].text = str("call start")
+        App.get_running_app().root.current_screen.ids["moneyinfo"].secondary_text = str(
+            pos + " rate"
+        )
+        # zzz = self.root.get_screen("info").ids["lunches"].text
+        hours_text = "Rounded Hours"
+        self.root.get_screen("animate").ids["moneya"].secondary_text = "Actual Hours"
+        self.root.get_screen("animate").ids["moneyb"].secondary_text = "Earned"
+        self.root.get_screen("animate").ids[
+            "money_pay"
+        ].secondary_text = "Earned (Actual)"
+        try:
+            if int(zzz) == 1:
+                hours_text = hours_text + " (-1 Hour Lunch)"
+            if int(zzz) == 2:
+                hours_text = hours_text + " (-2 Hour Lunches)"
+        except:
+            pass
+
+        self.root.get_screen("animate").ids["money_r"].secondary_text = hours_text
+
+        # print(dir(self.root.get_screen("info").ids["lunches"]))
+        # print(zzz, "zzz")
+
+        Clock.schedule_interval(self.update_label_new, 0.1)
+
     def animate_money(self):
         from kivy.clock import Clock
 
@@ -1735,7 +1843,70 @@ class Demo3App(MDApp):
 
         Clock.schedule_interval(self.update_label, 0.1)
 
-    def update_label(self, dt):
+    def update_label_new(self, dt):
+        from datetime import datetime
+        import libs.lib_extractjson as lib_extractjson
+
+        start_time = xx9["date"] + "." + xx9["time"]
+        start_time = datetime.strptime(start_time, "%m/%d/%Y.%H:%M")
+        pos = xx9["pos"]
+        rate = lib_extractjson.extract_pos(App, ad, pos)
+        now = datetime.now()
+        difff = now - start_time
+        difff = int(difff.total_seconds())
+        diffs = difff / 3600
+        earn = difff * float(rate)
+        earn = earn / 3600
+        earn = round(earn, 2)
+
+        hours = int(diffs)
+        minutes = (diffs * 60) % 60
+        seconds = (diffs * 3600) % 60
+
+        newh = "%d:%02d.%02d" % (hours, minutes, seconds)
+        rhours = hours
+        if minutes < 5:
+            rminutes = 0
+        if minutes >= 5 and minutes < 35:
+            rminutes = 30
+        if minutes >= 35:
+            rminutes = 0
+            rhours = rhours + 1
+        # zzz = self.root.get_screen("info").ids["lunches"].text
+        # ot_after = float(self.root.get_screen("info").ids["ot_spin"].text)
+        ot_after = 8
+        try:
+            if int(zzz) > 0:
+                rhours = rhours - int(zzz)
+        except:
+            pass
+        r_hours = "%d:%02d" % (rhours, rminutes)
+
+        dec_hours = rhours
+        if rminutes == 30:
+            dec_hours = dec_hours + 0.5
+        r_pay = dec_hours * float(rate)
+        if dec_hours > ot_after:
+            r_pay = ot_after * float(rate)
+            ot_hours = dec_hours - ot_after
+            r_pay = r_pay + (ot_hours * float(rate) * 1.5)
+
+        # r_pay = dec_hours * float(rate)
+
+        # new_text = datetime.datetime.now().strftime("%H:%M:%S")
+
+        # label.text = new_text
+        # print(new_text)
+        self.root.get_screen("animate").ids["top"].text = str(start_time)
+        self.root.get_screen("animate").ids["moneyinfo"].text = str(
+            "%.2f" % float(rate)
+        )
+        self.root.get_screen("animate").ids["moneya"].text = str(newh)
+        self.root.get_screen("animate").ids["moneyb"].text = str(earn)
+        self.root.get_screen("animate").ids["money_r"].text = str(r_hours)
+        self.root.get_screen("animate").ids["money_pay"].text = str("%.2f" % r_pay)
+
+    def update_label66(self, dt):
         from datetime import datetime
         import libs.lib_extractjson as lib_extractjson
 
