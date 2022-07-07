@@ -572,11 +572,14 @@ class Demo3App(MDApp):
 
         import subprocess
 
-        asdf = (
-            subprocess.check_output(["git", "rev-parse", "--short", "HEAD"])
-            .decode("ascii")
-            .strip()
-        )
+        try:
+            asdf = (
+                subprocess.check_output(["git", "rev-parse", "--short", "HEAD"])
+                .decode("ascii")
+                .strip()
+            )
+        except:
+            asdf = "1.1"
         print(asdf)
         try:
             if x["today_start"] == False:
