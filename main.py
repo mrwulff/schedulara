@@ -533,6 +533,13 @@ class Demo3App(MDApp):
         self.root = Root()
         self.root.set_current("home")
 
+    def get_git_revision_short_hash() -> str:
+        return (
+            subprocess.check_output(["git", "rev-parse", "--short", "HEAD"])
+            .decode("ascii")
+            .strip()
+        )
+
     def on_start(self):
         toast(str(tic - time.perf_counter()))
         global x
@@ -563,19 +570,21 @@ class Demo3App(MDApp):
 
         # self.do_login("", useold)
 
-        import git
+        import subprocess
 
-        repo = git.Repo(search_parent_directories=True)
-        sha = repo.head.object.hexsha
-        print(repo, sha, "GITPYTHON")
-        toast(sha[:5])
+        asdf = (
+            subprocess.check_output(["git", "rev-parse", "--short", "HEAD"])
+            .decode("ascii")
+            .strip()
+        )
+        print(asdf)
         try:
             if x["today_start"] == False:
 
                 self.newstart("", useold)
 
             if x["today_start"] == True:
-                toast("Success " + sha[:5])
+                toast("Success " + asdf)
                 self.today()
         except:
             toast("Failed to make config")
