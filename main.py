@@ -568,14 +568,14 @@ class Demo3App(MDApp):
         repo = git.Repo(search_parent_directories=True)
         sha = repo.head.object.hexsha
         print(repo, sha, "GITPYTHON")
-
+        toast(sha[:5])
         try:
             if x["today_start"] == False:
-                toast("Success")
+
                 self.newstart("", useold)
 
             if x["today_start"] == True:
-                toast("Success")
+                toast("Success " + sha[:5])
                 self.today()
         except:
             toast("Failed to make config")
