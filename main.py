@@ -562,12 +562,16 @@ class Demo3App(MDApp):
         # print(x, "lol")
 
         # self.do_login("", useold)
+        try:
+            if x["today_start"] == False:
+                toast("Success")
+                self.newstart("", useold)
 
-        if x["today_start"] == False:
-            self.newstart("", useold)
-
-        if x["today_start"] == True:
-            self.today()
+            if x["today_start"] == True:
+                toast("Success")
+                self.today()
+        except:
+            toast("Failed to make config")
 
     def pop_new(self, z):
 
