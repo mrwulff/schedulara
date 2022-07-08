@@ -72,7 +72,6 @@ def make_json_schedule(x, ad):
             # print ("OMG ITS RED")
             canceled = True
 
-        print()
         show_date = datetime.strptime(ax[0].get_text(), "%m/%d/%Y")
         now = datetime.now()
         if show_date.date() <= now.date():
@@ -103,10 +102,10 @@ def make_json_schedule(x, ad):
         }
         if old == False:
             alldict.append(thisdict)
-            print(old, "OLD")
+            # print(old, "OLD")
         if old == True:
             olddict.append(thisdict)
-            print(old, "OLD")
+            # print(old, "OLD")
 
     cconfirmables = {
         "confirmable": conf_bool,
@@ -159,7 +158,7 @@ def get_json_schedule(x, ad):
             or x["refreshreload"] == True
             or x["refreshreload"] == "true"
         ):
-            "using new data"
+            print("forcing new data", type(x["refreshreload"]))
             make_json_schedule(x, ad)
             # good_login = lib_think.login(ad, x, "True", App)
 
@@ -174,7 +173,9 @@ def get_json_schedule(x, ad):
             print("LOADED JSON FILE SUPER FAST")
     except:
         print("no " + show + "  Createing now")
-        make_json_schedule(x, ad)
+        print("forcing new data", type(x["refreshreload"]))
+        if x["refreshreload"] == True:
+            make_json_schedule(x, ad)
         nf = os.path.join(ad, show)
         with open(nf) as json_file:
             data = json.load(json_file)

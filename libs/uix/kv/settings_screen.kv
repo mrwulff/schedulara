@@ -93,7 +93,8 @@
                     id: bud
                     on_release:
                         #app.backup()
-                        Clipboard.copy(app.backup())
+                        #Clipboard.copy(app.backup())
+                        app.backup_new()
                         #app.backup_tofiles()
                         Snackbar(text="Backup Copied to Clipboard!",bg_color=app.theme_cls.primary_color).open()
                         pos_hint: {"center_x": .5, "center_y": .5}

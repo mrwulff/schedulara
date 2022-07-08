@@ -422,6 +422,8 @@ class Content2(MDBoxLayout):
     pass
 
 
+from plyer import filechooser
+
 """
 class CountDownLbl(Label):
     angle = NumericProperty(0)
@@ -489,6 +491,12 @@ class Demo3App(MDApp):
         "wisconsin",
     ]
 
+    data = {
+        "Python": "language-python",
+        "PHP": "language-php",
+        "C++": "language-cpp",
+    }
+
     def check_att(self, b):
         global x
         global ad
@@ -533,13 +541,6 @@ class Demo3App(MDApp):
         self.root = Root()
         self.root.set_current("home")
 
-    def get_git_revision_short_hash() -> str:
-        return (
-            subprocess.check_output(["git", "rev-parse", "--short", "HEAD"])
-            .decode("ascii")
-            .strip()
-        )
-
     def on_start(self):
         toast(str(tic - time.perf_counter()))
         global x
@@ -581,7 +582,8 @@ class Demo3App(MDApp):
         except:
             asdf = "1.1"
         print(asdf)
-        try:
+        if 1 == 1:
+            # try:
             if x["today_start"] == False:
 
                 self.newstart("", useold)
@@ -589,8 +591,8 @@ class Demo3App(MDApp):
             if x["today_start"] == True:
                 toast("Success " + asdf)
                 self.today()
-        except:
-            toast("Failed to make config")
+        # except:
+        #    toast("Failed to make config")
 
     def pop_new(self, z):
 
@@ -622,13 +624,20 @@ class Demo3App(MDApp):
             z = shows[i]["time"]
             h, m = str.split(z, ":")
             h = int(h)
+            print(h)
+            ppp = " AM"
+            h2 = h
+            if h == 12 and m == "00":
+                ppp = " Noon"
+
+            if h == 24 and m == "00":
+                ppp = " Midnight"
+
             if h > 12:
-                h = h - 12
-                ntime = str(h) + ":" + m + " PM"
+                h2 = h2 - 12
+                ppp = " PM"
 
-            if h < 13:
-
-                ntime = str(h) + ":" + m + " AM"
+            ntime = str(h2) + ":" + m + "[sup]" + ppp
 
             self.root.get_screen("today").ids[li[i]].text = show_date + " " + ntime
             self.root.get_screen("today").ids[li[i]].secondary_text = shows[i]["show"]
@@ -2121,6 +2130,23 @@ class Demo3App(MDApp):
                 ],
             )
         self.dialog.open()
+
+    def handle_selection(self, selection):
+        """
+        Callback function for handling the selection response from Activity.
+        """
+        self.selection = selection
+
+    def on_selection(self, *a, **k):
+        """
+        Update TextInput.text after FileChoose.selection is changed
+        via FileChoose.handle_selection.
+        """
+        App.get_running_app().root.ids.result.text = str(self.selection)
+
+    def backup_new(self):
+        print("backup_omg")
+        filechooser.open_file(on_selection=self.handle_selection)
 
     def backup(self):
         import os
