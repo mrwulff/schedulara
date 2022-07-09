@@ -41,6 +41,10 @@ def make_json_schedule(x, ad):
     name = str.split(name.get_text(), ", ")
     print(name, "wtfname")
     name = name[1] + " " + name[0]
+    x["name"] = name
+    import libs.lib_updateuserdata
+
+    libs.lib_updateuserdata.updateuser(x, ad)
 
     ab = soup.find_all("tr")
 
@@ -141,7 +145,6 @@ def make_json_schedule(x, ad):
 
 
 def get_json_schedule(x, ad):
-    import json, os
 
     # import libs.lib_think
 
@@ -161,6 +164,36 @@ def get_json_schedule(x, ad):
             print("forcing new data", type(x["refreshreload"]))
             make_json_schedule(x, ad)
             # good_login = lib_think.login(ad, x, "True", App)
+    data = get_json_schedule_2(x, ad, show)
+    return data
+
+
+def get_json_schedule_1(x, ad):
+
+    # import libs.lib_think
+
+    print(x["usecache"], "usecache!!!")
+    if x["usecache"] == "True" or x["usecache"] == True or x["usecache"] == "true":
+        print("USING CACHE DATA OK?")
+        show = "jason_show_cache_fake.json"
+
+    if x["usecache"] == "False" or x["usecache"] == False or x["usecache"] == "false":
+        print("USING Real DATA OK?")
+        show = "jason_show_cache_real.json"
+        if (
+            x["refreshreload"] == "True"
+            or x["refreshreload"] == True
+            or x["refreshreload"] == "true"
+        ):
+            print("forcing new data", type(x["refreshreload"]))
+            # make_json_schedule(x, ad)
+            # good_login = lib_think.login(ad, x, "True", App)
+    data = get_json_schedule_2(x, ad, show)
+    return data
+
+
+def get_json_schedule_2(x, ad, show):
+    import json, os
 
     try:
 
@@ -183,6 +216,24 @@ def get_json_schedule(x, ad):
             print("LOADED JSON FILE SUPER FAST on second try")
 
     return data
+
+
+def just_get_json_schedule(ad):
+    import json
+
+    if x["usecache"] == "True" or x["usecache"] == True or x["usecache"] == "true":
+        print("USING CACHE DATA OK?")
+        show = "/jason_show_cache_fake.json"
+
+    if x["usecache"] == "False" or x["usecache"] == False or x["usecache"] == "false":
+        print("USING Real DATA OK?")
+        show = "/jason_show_cache_real.json"
+
+    nf = os.path.join(ad, show)
+
+    with open(nf) as json_file:
+        data = json.loa2d(json_file)
+    return data()
 
 
 if __name__ == "__main__":

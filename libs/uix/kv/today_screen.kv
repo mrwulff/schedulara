@@ -8,9 +8,12 @@
 
 <TodayScreen>
     name: "today"
+
     Image:
         source: 'images/rh.jpg'
         size: self.width,self.height
+
+    
 
 
 
@@ -32,9 +35,11 @@
                 #spacing: dp(10)
                 #border_radius: 15
                 #radius: 10
+                text_color:app.theme_cls.primary_color
                 TwoLineListItem:
-                    text: 'Hi Kevin!' 
+
                     id: name
+                    opposite_colors: True
                     #IconLeftWidget:
                         #icon:"table-account"
 
@@ -135,4 +140,7 @@
 
     MDFloatingActionButtonSpeedDial:
         data: app.data
-        root_button_anim: True        
+        callback: app.call
+        #on_touch_up: self.state = 'close'
+        
+        #root_button_anim: True        

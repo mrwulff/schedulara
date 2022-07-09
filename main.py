@@ -1,5 +1,6 @@
 from ast import Pass
 from asyncio import queues
+import profile
 import time
 import sys
 
@@ -37,6 +38,8 @@ from kivymd.uix.list import (
     IRightBodyTouch,
     OneLineAvatarIconListItem,
     TwoLineAvatarListItem,
+    TwoLineListItem,
+    ThreeLineListItem,
 )
 from kivy.uix.label import Label
 from kivymd.uix.datatables import MDDataTable
@@ -150,6 +153,21 @@ from functools import partial
 """
 toc1 = time.perf_counter()
 print(tic - toc1, "firsttimer")
+from kivy.utils import platform
+
+# import storagepath
+
+# storagepath.get_downloads_dir()
+
+if platform == "ios":
+
+    app = App.get_running_app()
+    import ios
+    from pyobjus import autoclass
+
+    NSURL = autoclass("NSURL")
+    UIApplication = autoclass("UIApplication")
+    sharedApplication = UIApplication.sharedApplication()
 
 """
 class SpinnerOptions(SpinnerOption):
@@ -263,6 +281,38 @@ class DialogContent(MDBoxLayout):
 
 class SwipeToDeleteItem2(Screen):
     text = StringProperty()
+
+
+from kivy.uix.recycleview import RecycleView
+from kivy.properties import StringProperty, ListProperty
+
+
+class RV(RecycleView):
+    rv_data_list = (
+        ListProperty()
+    )  # A list property is used to hold the data for the recycleview, see the kv code
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.rv_data_list = [
+            {"left_text": f"Left {i}", "right_text": f"Right {i}"} for i in range(2)
+        ]
+        # This list comprehension is used to create the data list for this simple example.
+        # The data created looks like:
+        # [{'left_text': 'Left 0', 'right_text': 'Right 0'}, {'left_text': 'Left 1', 'right_text': 'Right 1'},
+        # {'left_text': 'Left 2', 'right_text': 'Right 2'}, {'left_text': 'Left 3'},...
+        # notice the keys in the dictionary correspond to the kivy properties in the TwoButtons class.
+        # The data needs to be in this kind of list of dictionary formats.  The RecycleView instances the
+        # widgets, and populates them with data from this list.
+
+    def add(self):
+        l = len(self.rv_data_list)
+        self.rv_data_list.extend(
+            [
+                {"left_text": f"Added Left {i}", "right_text": f"Added Right {i}"}
+                for i in range(l, l + 1)
+            ]
+        )
 
 
 class SwipeToDeleteItem(Screen):
@@ -462,6 +512,13 @@ class Demo3App(MDApp):
     cpadding = 20
     sound_effects = ["Ding", "Bang", "Lol"]
     mheight = 80
+    pictures = [
+        "light",
+        "hammer",
+        "speaker",
+        "bossman",
+        "default",
+    ]
     locations = [
         "denver",
         "dc",
@@ -490,12 +547,120 @@ class Demo3App(MDApp):
         "tucson",
         "wisconsin",
     ]
-
+    profile = 0
+    profile_data = []
     data = {
-        "Python": "language-python",
-        "PHP": "language-php",
-        "C++": "language-cpp",
+        "Settings": "cog-outline",
+        "History": "calendar-star",
+        "Paystubs": "cash-100",
+        "Stats": "chart-areaspline",
+        "Trophys": "trophy-award",
+        "Old_Schedule": "book-clock",
+        "About": "information",
+        "firedb": "database",
+        "Profile": "account-circle",
+        "Chat": "message-outline",
     }
+
+    def call(self, lol):
+        print("call", (lol), lol.icon)
+        if lol.icon == "cog-outline":
+            self.do_settings()
+        if lol.icon == "database":
+            self.do_db()
+        if lol.icon == "account-circle":
+            self.do_profile()
+
+        if lol.icon == "message-outline":
+            self.do_chat(0)
+
+    def add_message_to_chat(self, message):
+        import libs.lib_firefriend
+
+        import libs.lib_new
+
+        js = libs.lib_new.get_json_schedule_1(x, ad)
+        gg = js["shows"][0]
+        import libs.lib_firefriend
+
+        print(message, "sending message")
+
+        libs.lib_firefriend.try_add_chat(self, gg, x, message)
+        toast("Success!")
+
+    def do_chat(self, show):
+        print(show)
+
+        self.root.set_current("chat")
+        self.root.current_screen.ids["history_list"].clear_widgets()
+        test_message = "hello world with a super long random string and stuff attached to it to make it seem longer"
+
+        import libs.lib_new
+        from kivymd.uix.dialog import MDDialog as md33
+
+        js = libs.lib_new.get_json_schedule_1(x, ad)
+        gg = js["shows"][0]
+        import libs.lib_firefriend
+
+        z = libs.lib_firefriend.view_chat(self, gg, x)
+        print(z)
+
+        # print(gg)
+
+        for i in range(len(z)):
+            try:
+                # t = z[i]["name"] + " " + z[i]["message"] + "[size=1 sp]***" + str(i)
+                self.root.current_screen.ids["history_list"].add_widget(
+                    ThreeLineListItem(
+                        text=z[i]["message"],
+                        secondary_text=z[i]["name"],
+                        tertiary_text=z[i]["date"],
+                    )
+                )
+            except:
+                print(z[i], "failure")
+
+    def update_profile(self):
+        bio = App.get_running_app().root.current_screen.ids["bio"].text
+        phone = App.get_running_app().root.current_screen.ids["phone"].text
+        nick = App.get_running_app().root.current_screen.ids["nick"].text
+        button4 = App.get_running_app().root.current_screen.ids["button4"].text
+        # print(bio, phone, nick, pic)
+        x["bio"] = bio
+        x["phone"] = phone
+        x["nick"] = nick
+        x["button4"] = button4
+        import libs.lib_updateuserdata
+
+        libs.lib_updateuserdata.updateuser(x, ad)
+
+        import libs.lib_firefriend
+
+        t = libs.lib_firefriend.update_user_profile(x)
+        toast(t)
+
+    def do_profile(self):
+        print("profile")
+        l = ["bio", "phone", "nick", "button4", "name"]
+        self.root.set_current("profile")
+        for i in range(len(l)):
+
+            try:
+                App.get_running_app().root.current_screen.ids[l[i]].text = x[l[i]]
+            except:
+                print(x[l[i]])
+        # App.get_running_app().root.current_screen.ids["phone"].text = x["phone"]
+        # App.get_running_app().root.current_screen.ids["nnmae"].text = x["nname"]
+        # App.get_running_app().root.current_screen.ids["button4"].text = x["button4"]
+        # App.get_running_app().root.current_screen.ids["name"].text = x["name"]
+
+    def do_db(self):
+        print(
+            "db",
+        )
+        import libs.lib_fire
+
+        libs.lib_fire.idk(App, ad, x)
 
     def check_att(self, b):
         global x
@@ -539,6 +704,9 @@ class Demo3App(MDApp):
 
     def build(self):
         self.root = Root()
+        # rv = self.root.ids.rv
+        # self.data = [self.create_random_input(rv, index) for index in range(20)]
+
         self.root.set_current("home")
 
     def on_start(self):
@@ -594,16 +762,213 @@ class Demo3App(MDApp):
         # except:
         #    toast("Failed to make config")
 
-    def pop_new(self, z):
+    def soon(self, b):
+        toast("Coming Soon!")
+        print(b)
+
+    def show_profile(self, name, d, zzl, i):
+        from kivymd.uix.dialog import MDDialog as md33
+        import libs.lib_firefriend
+
+        cat = "nothing"
+        r = "what is r"
+
+        # gg=str(name)
+
+        self.dialog_name = [0] * (int(zzl) + 1)
+        # for q in range(len(profile)):
+        #    print(profile[q]["name"], q)
+        # print(profile[i]["name"], name, i, "why")
+        # print(profile[i], "what emails bitch")
+        pro = libs.lib_firefriend.get_profile(profile[i]["Email"])
+        # print(pro)
+        # pro.value
+        # (name2) = pro.items()
+        # print(
+        #    name2,
+        # )
+        for key, value in pro.items():
+            print(key, value)
+        prof = (
+            "[size=30]"
+            + key
+            + "\n[/size]"
+            + value["City"]
+            + "\n"
+            + value["NickName"]
+            + "\n"
+            + value["Phone"]
+            + "\n"
+            + value["bio"]
+        )
+        # print(i, zzl, self.dialog_name, "WHATTTTT")
+        if not self.dialog_name[i]:
+            self.dialog_name[i] = md33(
+                text=str(prof),
+                type="custom",
+                #
+                # content_cls=Content(),
+                buttons=[
+                    MDFlatButton(
+                        text="Add Friend",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=self.soon,
+                    ),
+                    MDFlatButton(
+                        text="Hide",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=self.soon,
+                    ),
+                    MDFlatButton(
+                        text="Block",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=self.soon,
+                    ),
+                ],
+            )
+
+        self.dialog_name[i].open()
+
+    def print_id(
+        self,
+        a,
+        b,
+    ):
+
+        # print("bla", type(a), type(b), "\nblabla")
+        # print(a, b.index)
+
+        # print("bla222", (data), (b), "\nblabla222")
+        name = a.row_data
+        name = name[0]
+        # print(name)
+        # print(dir(b))
+        # print("OMG")
+        zz = int(b.index) / 5
+        zzl = zz * 5
+        zz = str(zz)
+        # print(zz, "zzzzzz")
+        i, r = str.split(zz, ".")
+        i = int(i)
+        name = name[i * 5]
+        self.show_profile(name, 1, zzl, i)
+
+    def check_in(self, gg):
+        global profile
+        global profile_data
+        # print(gg, x)
+        self.dialog_close()
+        #
+        self.root.set_current("checkin")
+        self.root.current_screen.ids["check_id"].clear_widgets()
+
+        import libs.lib_firefriend
+        from kivy.metrics import dp
+
+        names, t, d = libs.lib_firefriend.try_add_show(App, gg, x)
+        toast(t)
+        profile = d
+        # print(profile, "WHY YOU SUCK)")
+        """
+        names = libs.lib_firefriend.add_show(App, gg, x)
+        names = libs.lib_firefriend.add_show(App, gg, x)
+        names = libs.lib_firefriend.add_show(App, gg, x)
+        names = libs.lib_firefriend.add_show(App, gg, x)
+        names = libs.lib_firefriend.add_show(App, gg, x)
+        names = libs.lib_firefriend.add_show(App, gg, x)
+        """
+        # print(names)
+
+        tables = MDDataTable(
+            # size_hint=(0.9, 0.6),
+            #
+            # background_color_selected_cell=self.theme_cls.primary_light,
+            column_data=[
+                ("Name", dp(20)),
+                ("Pos", dp(20)),
+                ("Time", dp(20)),
+                ("Stamp", dp(10)),
+                ("Type", dp(20)),
+            ],
+            row_data=[
+                names
+                # "a","b","c"
+                # The number of elements must match the length
+                # of the `column_data` list.
+            ],
+        )
+        tables.bind(on_row_press=self.print_id)
+        # tables.bind(lambda x, y=d,: self.print_id(y))
+        # tables.bind(
+        #    on_row_press=(
+        #        lambda x, y=(
+        #            "x",
+        #            "x",
+        #            d,
+        #        ): self.print_id(names, tables, d)
+        #    )
+        # )
+
+        # (lambda x, y=d,: self.print_id(y))
+        self.root.current_screen.ids["check_id"].add_widget(tables)
+
+    def pop_new(self, d):
 
         import libs.lib_new
         import libs.lib_makeuserdata
+        from kivymd.uix.dialog import MDDialog as md33
 
-        js = libs.lib_new.get_json_schedule(x, ad)
+        js = libs.lib_new.get_json_schedule_1(x, ad)
         gg = js["shows"][0]
-        print(gg)
-
+        # print(gg)
+        ngg = (
+            gg["show"]
+            + "\n"
+            + gg["date"]
+            + " "
+            + gg["time"]
+            + "\n"
+            + gg["venue"]
+            + ""
+            + gg["location"]
+            + "\n"
+            + gg["client"]
+        )
         libs.lib_makeuserdata.makeshowfile(App, gg, ad, False)
+        cat = "nothing"
+        r = "what is r"
+        if not self.dialog2[d]:
+            self.dialog2[d] = md33(
+                text=str(ngg),
+                type="custom",
+                #
+                # content_cls=Content(),
+                buttons=[
+                    MDFlatButton(
+                        text="Save Time",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        # on_release=self.email_time,
+                    ),
+                    MDFlatButton(
+                        text="Check In",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=lambda x, y=(gg): self.check_in(y),
+                    ),
+                    MDFlatButton(
+                        text="$",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=lambda x, y=(cat, r, d): self.animate_money_new(y),
+                    ),
+                ],
+            )
+
+        self.dialog2[d].open()
 
     def today(self):
         import humanize
@@ -1207,6 +1572,7 @@ class Demo3App(MDApp):
     lunch = ["0", "1", "2"]
     dialog = None
     dialog2 = [None, None]
+    dialog_name = None
     dialog3 = None
 
     snackbar = None
@@ -2135,7 +2501,8 @@ class Demo3App(MDApp):
         """
         Callback function for handling the selection response from Activity.
         """
-        self.selection = selection
+        # self.selection = selection
+        print(selection)
 
     def on_selection(self, *a, **k):
         """
@@ -2145,8 +2512,34 @@ class Demo3App(MDApp):
         App.get_running_app().root.ids.result.text = str(self.selection)
 
     def backup_new(self):
+        results = "blablabla"
+        self.results = "asdfasdfasdf"
         print("backup_omg")
-        filechooser.open_file(on_selection=self.handle_selection)
+        # filechooser.open_file(on_selection=self.handle_selection)
+
+        out_file = ad + "/result.json"
+        with open(out_file, "w") as ofile:
+            import json
+
+            json.dump(self.results, ofile, indent=4)
+
+        if platform == "ios":
+            self.do_share_ios(out_file, "Some title")
+        if platform != "ios":
+            filechooser.open_file(on_selection=self.handle_selection)
+
+    def do_share_ios(self, data, title):
+        URL = NSURL.fileURLWithPath_(data)
+        UIActivityViewController = autoclass("UIActivityViewController")
+        UIcontroller = sharedApplication.keyWindow.rootViewController()
+        UIActivityViewController_instance = UIActivityViewController.alloc().init()
+        # print(dir(UIActivityViewController_instance))
+        activityViewController = UIActivityViewController_instance.initWithActivityItems_applicationActivities_(
+            [URL], None
+        )
+        UIcontroller.presentViewController_animated_completion_(
+            activityViewController, True, None
+        )
 
     def backup(self):
         import os
@@ -2581,7 +2974,7 @@ class Demo3App(MDApp):
                 import libs.lib_extractjson
 
                 data, pay2, ot2, hours2, tot2, date = libs.lib_extractjson.extract_show(
-                    App, file, config_file
+                    App, file, ad
                 )
                 print(data, pay2, ot2, hours2, tot2, date, "HOLY CRAP")
                 show_date = datetime.datetime.strptime(date, "%m/%d/%Y")

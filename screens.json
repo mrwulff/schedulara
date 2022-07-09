@@ -54,10 +54,25 @@
         "object": "AboutScreen()",
         "kv": "libs/uix/kv/about_screen.kv"
     },
+    "checkin": {
+        "import": "from libs.uix.baseclass.checkin_screen import CheckinScreen",
+        "object": "CheckinScreen()",
+        "kv": "libs/uix/kv/checkin_screen.kv"
+    },
     "ach": {
         "import": "from libs.uix.baseclass.ach_screen import AchScreen",
         "object": "AchScreen()",
         "kv": "libs/uix/kv/ach_screen.kv"
+    },
+    "chat": {
+        "import": "from libs.uix.baseclass.chat_screen import ChatScreen",
+        "object": "ChatScreen()",
+        "kv": "libs/uix/kv/chat_screen.kv"
+    },
+    "profile": {
+        "import": "from libs.uix.baseclass.profile_screen import ProfileScreen",
+        "object": "ProfileScreen()",
+        "kv": "libs/uix/kv/profile_screen.kv"
     },
     "today": {
         "import": "from libs.uix.baseclass.today_screen import TodayScreen",
