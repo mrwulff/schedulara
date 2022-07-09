@@ -44,6 +44,7 @@ from kivymd.uix.list import (
 from kivy.uix.label import Label
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.button import MDFlatButton
+from kivy.metrics import dp
 
 
 import datetime
@@ -509,10 +510,9 @@ class Demo3App(MDApp):
     mtype = "top"
     bradius = 10 * scale
     radius = 10 * scale
-    mheight = 40
     cpadding = 20
     sound_effects = ["Ding", "Bang", "Lol"]
-    mheight = 80
+    mheight = dp(100)
     pictures = [
         "light",
         "hammer",
@@ -620,8 +620,8 @@ class Demo3App(MDApp):
                 self.root.current_screen.ids["history_list"].add_widget(
                     ThreeLineListItem(
                         text=z[i]["message"],
-                        secondary_text="[size=10]" + z[i]["name"],
-                        tertiary_text="[size=10]" + z[i]["date"],
+                        secondary_text="[size=15dp]" + z[i]["name"],
+                        tertiary_text="[size=15dp]" + z[i]["date"],
                     )
                 )
             except:
@@ -873,7 +873,6 @@ class Demo3App(MDApp):
         self.root.current_screen.ids["check_id"].clear_widgets()
 
         import libs.lib_firefriend
-        from kivy.metrics import dp
 
         names, t, d = libs.lib_firefriend.try_add_show(App, gg, x)
         toast(t)
@@ -1554,11 +1553,7 @@ class Demo3App(MDApp):
         newercolor = newcolor
         xxxx = xxx + "wtf" + str(idex)
         
-        
-        if notch == True:
-            mheight = 120
-        else:
-            mheight = 45
+
         cpadding = 20
         cspacing = 10
         mtype = "top"
@@ -1581,7 +1576,7 @@ class Demo3App(MDApp):
     ot = ["8", "10", "0", "1", "2", "3", "4", "5", "6", "7", "9"]
     lunch = ["0", "1", "2"]
     dialog = None
-    dialog2 = [None, None]
+    dialog2 = [None, None, None]
     dialog_name = None
     dialog3 = None
 
