@@ -92,27 +92,31 @@
         BoxLayout:
             id: history_list2
             orientation: "vertical"
+            #height: sv.height
 
             MDCard:
                 orientation: "vertical"
-                size_hint: .8, None
-                height: stats.height 
+                size_hint: .95, .5
+                height: show_info.height
                 focus_behavior: True
                 ripple_behavior: True
                 pos_hint: {"center_x": .5, "center_y": .5}
                 ThreeLineListItem:
-                    id:stats
+                    id:show_info
             MDCard:
                 orientation: "vertical"
-                size_hint: .8, None
-                height: history_list2.height-toolbar.height-textfield.height
-                focus_behavior: True
-                ripple_behavior: True
+                size_hint: .95, None
+                height: history_list2.height-toolbar.height-textfield.height-(show_info.height/2)
+                #focus_behavior: True
+                #ripple_behavior: True
                 pos_hint: {"center_x": .5, "center_y": .5}
                 on_release: app.pop_new(0)
 
                 ScrollView:
-                    #id: history_view
+                    id: sv
+                    scroll_y:0
+                    scroll_x:0
+                    spacing: app.cspacing
 
                     
                     MDList:
@@ -122,8 +126,8 @@
                         id: history_list
             MDCard:
                 orientation: "vertical"
-                size_hint: .8, None
-                height: stats.height 
+                size_hint: .95, None
+                height: show_info.height 
                 focus_behavior: True
                 ripple_behavior: True
                 pos_hint: {"center_x": .5, "center_y": .5}

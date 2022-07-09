@@ -26,7 +26,7 @@
             height: app.mheight
         #    type: "bottom"
             left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
-            #right_action_items: [["refresh", lambda x: app.ach_reset(),'reset ach'],["counter", lambda x: app.ach_top(0),'reset ach']]
+            right_action_items: [["message-outline", lambda x: app.do_chat(0),'chat']]
         BoxLayout:
             id: check_id
             orientation: "vertical"

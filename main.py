@@ -458,6 +458,7 @@ xxx = ""
 idex = 1
 browser = ""
 plus_search = 0
+today_index = 0
 
 
 class RecipeLine(MDBoxLayout):
@@ -564,6 +565,7 @@ class Demo3App(MDApp):
 
     def call(self, lol):
         print("call", (lol), lol.icon)
+        self.root.current_screen.ids.menub.close_stack()
         if lol.icon == "cog-outline":
             self.do_settings()
         if lol.icon == "database":
@@ -580,30 +582,35 @@ class Demo3App(MDApp):
         import libs.lib_new
 
         js = libs.lib_new.get_json_schedule_1(x, ad)
-        gg = js["shows"][0]
+        gg = js["shows"][today_index]
         import libs.lib_firefriend
 
         print(message, "sending message")
 
         libs.lib_firefriend.try_add_chat(self, gg, x, message)
         toast("Success!")
+        self.do_chat(0)
 
     def do_chat(self, show):
-        print(show)
+        # print(show)
 
         self.root.set_current("chat")
         self.root.current_screen.ids["history_list"].clear_widgets()
-        test_message = "hello w2orld with a super long random string and stuff attached to it to make it seem longer"
+        # test_message = "hello w2orld with a super long random string and stuff attached to it to make it seem longer"
 
         import libs.lib_new
         from kivymd.uix.dialog import MDDialog as md33
 
         js = libs.lib_new.get_json_schedule_1(x, ad)
-        gg = js["shows"][0]
+        gg = js["shows"][today_index]
         import libs.lib_firefriend
 
+        App.get_running_app().root.current_screen.ids["show_info"].text = gg["show"]
+        App.get_running_app().root.current_screen.ids["show_info"].secondary_text = gg[
+            "date"
+        ]
         z = libs.lib_firefriend.view_chat(self, gg, x)
-        print(z)
+        # print(z)
 
         # print(gg)
 
@@ -613,8 +620,8 @@ class Demo3App(MDApp):
                 self.root.current_screen.ids["history_list"].add_widget(
                     ThreeLineListItem(
                         text=z[i]["message"],
-                        secondary_text=z[i]["name"],
-                        tertiary_text=z[i]["date"],
+                        secondary_text="[size=10]" + z[i]["name"],
+                        tertiary_text="[size=10]" + z[i]["date"],
                     )
                 )
             except:
@@ -917,12 +924,15 @@ class Demo3App(MDApp):
 
     def pop_new(self, d):
 
+        global today_index
+        today_index = d
+
         import libs.lib_new
         import libs.lib_makeuserdata
         from kivymd.uix.dialog import MDDialog as md33
 
         js = libs.lib_new.get_json_schedule_1(x, ad)
-        gg = js["shows"][0]
+        gg = js["shows"][d]
         # print(gg)
         ngg = (
             gg["show"]

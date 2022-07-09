@@ -1,5 +1,5 @@
 def view_chat(App, gg, x):
-    print(App, gg, x)
+    # print(App, gg, x)
     from datetime import datetime
 
     now = datetime.now()
@@ -35,8 +35,9 @@ def view_chat(App, gg, x):
 
         # print(key, value)
         for key2, value2 in value.items():
-            print(key2, value2)
-            q = {"name": key2, "date": value2["Time"], "message": value2["Message"]}
+            nt, junk = str.split(value2["Time"], ".")
+            # print(key2, value2)
+            q = {"name": key2, "date": nt, "message": value2["Message"]}
             logs.append(q)
             # print(len(logs),wtf)
     # print(logs)
@@ -44,7 +45,7 @@ def view_chat(App, gg, x):
 
 
 def try_add_chat(App, gg, x, test_message):
-    print(App, gg, x)
+    # print(App, gg, x)
     from datetime import datetime
 
     now = datetime.now()
@@ -69,7 +70,7 @@ def try_add_chat(App, gg, x, test_message):
 
     z = ref.get()
     try:
-        print(len(z))
+        # print(len(z))
         chat_exists_flag = True
     except:
         "no chat file"
@@ -127,7 +128,7 @@ def try_add_show(App, gg, x):
         for key, value in z.items():
             # print(key, value)
             for key, value2 in value.items():
-                print(key, value2)
+                # print(key, value2)
                 old_update = datetime.strptime(value2["Init"], "%Y-%m-%d %H:%M:%S.%f")
                 newtime = old_update.strftime("%m/%d %H:%M")
                 data = {
@@ -161,7 +162,7 @@ def try_add_show(App, gg, x):
 
     if flag_checkedin == True:
         t = "Already Checked In"
-        print("Already Checked In")
+        # print("Already Checked In")
         return junk, t, name_list
     if flag_checkedin == False:
         print("Trying to check in")

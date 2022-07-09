@@ -78,7 +78,7 @@ def make_json_schedule(x, ad):
 
         show_date = datetime.strptime(ax[0].get_text(), "%m/%d/%Y")
         now = datetime.now()
-        if show_date.date() <= now.date():
+        if show_date.date() < now.date():
             old = True
 
         thisdict = {

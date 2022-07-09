@@ -25,7 +25,7 @@
             #title: "Settings"
             height: app.mheight
         #    type: "bottom"
-            left_action_items: [['chevron-left', lambda screen: app.change_screen('mainmenu','left'),'home']]
+            #left_action_items: [['chevron-left', lambda screen: app.change_screen('mainmenu','left'),'home']]
             #right_action_items: [["refresh", lambda x: app.ach_reset(),'reset ach'],["counter", lambda x: app.ach_top(0),'reset ach']]
         ScrollView:
             MDGridLayout:
@@ -74,6 +74,7 @@
                     focus_behavior: True
                     ripple_behavior: True
                     pos_hint: {"center_x": .5, "center_y": .5}
+                    on_release: app.pop_new(1)
                     ThreeLineListItem:
                         id:second
                         text: "First Show"
@@ -86,6 +87,7 @@
                     focus_behavior: True
                     ripple_behavior: True
                     pos_hint: {"center_x": .5, "center_y": .5}
+                    on_release: app.pop_new(2)
                     ThreeLineListItem:
                         id:third
                         text: "First Show"
@@ -141,6 +143,7 @@
     MDFloatingActionButtonSpeedDial:
         data: app.data
         callback: app.call
+        id:menub
         #on_touch_up: self.state = 'close'
         
         #root_button_anim: True        
