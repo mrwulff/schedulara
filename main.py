@@ -593,7 +593,7 @@ class Demo3App(MDApp):
 
         self.root.set_current("chat")
         self.root.current_screen.ids["history_list"].clear_widgets()
-        test_message = "hello world with a super long random string and stuff attached to it to make it seem longer"
+        test_message = "hello w2orld with a super long random string and stuff attached to it to make it seem longer"
 
         import libs.lib_new
         from kivymd.uix.dialog import MDDialog as md33
