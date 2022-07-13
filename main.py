@@ -1065,7 +1065,7 @@ class Demo3App(MDApp):
         # print("check confirm", xx9)
         if xx9["num_shows"] > 0:
             print(xx9["num_shows"])
-            # self.new_confirm("all")
+            self.new_confirm("all")
             toast("Success")
             self.update()
 
@@ -1339,23 +1339,23 @@ class Demo3App(MDApp):
         self.dialog2[d].open()
 
     def new_confirm(self, asdf):
-        print("save_time", xx9, x)
-        import ssl
+        import libs.lib_new
 
-        ssl.verify = False
-        ssl._create_default_https_context = ssl._create_unverified_context
+        xx9 = libs.lib_new.get_json_schedule(x, ad)
+        print("save_time", xx9, x)
+
         try:
             print(asdf, str(xx9["confirmables"]), "OMG ITS CONFIRMING ITSELF")
         except:
             print("one?", asdf)
         if asdf == "all":
             for xxx in range(int(xx9["num_shows"])):
-                fail = self.confirm_real(xx9["confirmables"][xxx])
+                # fail = self.confirm_real(xx9["confirmables"][xxx])
                 print((xx9["confirmables"][xxx]))
         if asdf != "all":
             if xx9.get("confirable"):
                 print(xx9["confirable"], "DO CONFIRM THIS")
-                fail = self.confirm_real(asdf)
+                # fail = self.confirm_real(asdf)
                 print(fail)
                 toast("Confirmed")
                 self.update()
@@ -2448,6 +2448,10 @@ class Demo3App(MDApp):
 
     def confirm_real(self, what):
         global browser
+        import ssl
+
+        ssl.verify = False
+        ssl._create_default_https_context = ssl._create_unverified_context
         # print (what)
         # print(len(xxx[idex]))
         try:
