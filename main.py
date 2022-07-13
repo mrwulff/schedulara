@@ -1188,7 +1188,7 @@ class Demo3App(MDApp):
         rshows = (len(shows)) - (js["num_shows"])
         if useold == False:
             if js["num_shows"] > 0:
-                ttt = str(len(shows)) + "/" + str(rshows) + " shows confirmed"
+                ttt = str(rshows) + "/" + str(len(shows)) + " shows confirmed"
             else:
                 ttt = str(len(shows)) + " shows confirmed"
 
