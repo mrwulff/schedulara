@@ -512,7 +512,7 @@ class Demo3App(MDApp):
     radius = 10 * scale
     cpadding = 20
     sound_effects = ["Ding", "Bang", "Lol"]
-    mheight = dp(100)
+    mheight = dp(70)
     pictures = [
         "light",
         "hammer",
@@ -1026,12 +1026,14 @@ class Demo3App(MDApp):
         numshows = len(shows)
         numconf = js["num_shows"]
         confirmable = numshows - numconf
+        try:
+            update = js["updated"]
 
-        update = js["updated"]
-
-        old_update = datetime.strptime(update, "%Y-%m-%d %H:%M:%S.%f")
-        now = datetime.now()
-        diff2 = humanize.naturaltime(now - old_update)
+            old_update = datetime.strptime(update, "%Y-%m-%d %H:%M:%S.%f")
+            now = datetime.now()
+            diff2 = humanize.naturaltime(now - old_update)
+        except:
+            diff2 = ""
         # print(diff2)
 
         next_show = shows[0]["date"] + " " + shows[0]["time"]
