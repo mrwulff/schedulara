@@ -21,7 +21,7 @@ def updateuser(data, ad):
     # data=str(data)
     data = json.dumps(data, indent=4)
 
-    print(data, ad, "gaga")
+    # print(data, ad, "gaga")
     x = open(ad + "/userdata.json.txt", "w")
     x.write(data)
     x.close()

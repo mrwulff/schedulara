@@ -39,7 +39,7 @@ def make_json_schedule(x, ad):
         print("emp not found")
         return
     name = str.split(name.get_text(), ", ")
-    print(name, "wtfname")
+    # print(name, "wtfname")
     name = name[1] + " " + name[0]
     x["name"] = name
     import libs.lib_updateuserdata
@@ -148,7 +148,7 @@ def get_json_schedule(x, ad):
 
     # import libs.lib_think
 
-    print(x["usecache"], "usecache!!!")
+    # print(x["usecache"], "usecache!!!")
     if x["usecache"] == "True" or x["usecache"] == True or x["usecache"] == "true":
         print("USING CACHE DATA OK?")
         show = "jason_show_cache_fake.json"
@@ -161,7 +161,7 @@ def get_json_schedule(x, ad):
             or x["refreshreload"] == True
             or x["refreshreload"] == "true"
         ):
-            print("forcing new data", type(x["refreshreload"]))
+            # print("forcing new data", type(x["refreshreload"]))
             make_json_schedule(x, ad)
             # good_login = lib_think.login(ad, x, "True", App)
     data = get_json_schedule_2(x, ad, show)
@@ -172,7 +172,7 @@ def get_json_schedule_1(x, ad):
 
     # import libs.lib_think
 
-    print(x["usecache"], "usecache!!!")
+    # print(x["usecache"], "usecache!!!")
     if x["usecache"] == "True" or x["usecache"] == True or x["usecache"] == "true":
         print("USING CACHE DATA OK?")
         show = "jason_show_cache_fake.json"
@@ -218,8 +218,8 @@ def get_json_schedule_2(x, ad, show):
     return data
 
 
-def just_get_json_schedule(ad):
-    import json
+def just_get_json_schedule(x, ad):
+    import json, os
 
     if x["usecache"] == "True" or x["usecache"] == True or x["usecache"] == "true":
         print("USING CACHE DATA OK?")
@@ -231,9 +231,13 @@ def just_get_json_schedule(ad):
 
     nf = os.path.join(ad, show)
 
+    nf = ad + "/" + show
+
+    # print(nf, ad, "WTF MAN")
+
     with open(nf) as json_file:
-        data = json.loa2d(json_file)
-    return data()
+        data = json.load(json_file)
+    return data
 
 
 if __name__ == "__main__":

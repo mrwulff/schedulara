@@ -16,7 +16,7 @@ def makeuserdata(App, config_file, ios):
     y = json.loads(x)
     with open(ad + "/userdata.json.txt", "w") as outfile:
         json.dump(y, outfile)
-    print("writedata")
+    # print("writedata")
 
 
 def format_textt(name):
@@ -36,7 +36,7 @@ def makeshowfile(App, x, config_file, ios):
         ad = config_file
         app = App.get_running_app()
         ad = app.user_data_dir
-    print(x, "whathwat")
+    # print(x, "whathwat")
     try:
         fdate = format_textt(x[0])
         ftime = format_textt(x[1])
@@ -48,7 +48,7 @@ def makeshowfile(App, x, config_file, ios):
     try:
         newhours = App.get_running_app().root.current_screen.ids["newhours"].text
     except:
-        print("newhours not found")
+        # print("newhours not found")
         newhours = "0"
     try:
         lunch = App.get_running_app().root.current_screen.ids["lunches"].text

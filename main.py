@@ -1043,9 +1043,9 @@ class Demo3App(MDApp):
         if numconf == 0:
             stat_text = str(numshows) + " Confirmed"
         if numconf == 1:
-            stat_text = str(numconf) + " Show Confirmable"
+            stat_text = str(numconf) + " Show Confirmable.  Click To Confrim"
         if numconf > 1:
-            stat_text = str(numconf) + " Shows Confirmable"
+            stat_text = str(numconf) + " Shows Confirmable.  Click To Confrim All"
         stat_text2 = "Next show in " + diff3
         stat_text3 = "Last updated " + diff2
 
@@ -1053,6 +1053,20 @@ class Demo3App(MDApp):
 
         self.root.get_screen("today").ids["stats"].secondary_text = stat_text2
         self.root.get_screen("today").ids["stats"].tertiary_text = stat_text3
+
+    def check_confirm(self):
+        import libs.lib_new
+
+        app = App.get_running_app()
+        ad = app.user_data_dir
+        # print(x, "BLABLABLA", ad)
+        xx9 = libs.lib_new.just_get_json_schedule(x, ad)
+        # print("check confirm", xx9)
+        if xx9["num_shows"] > 0:
+            print(xx9["num_shows"])
+            # self.new_confirm("all")
+            toast("Success")
+            self.update()
 
     def make_toast(self, b):
         print(x, b)
