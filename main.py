@@ -460,6 +460,7 @@ idex = 1
 browser = ""
 plus_search = 0
 today_index = 0
+s_index = 0
 
 
 class RecipeLine(MDBoxLayout):
@@ -1079,7 +1080,7 @@ class Demo3App(MDApp):
         print("updated schedule")
         self.today()
 
-    def open_panel2(self, xx, i, l, junk):
+    def open_panel2(self, xx, i, l, junk, z):
 
         print("adf", xx, i, l)
 
@@ -1089,72 +1090,79 @@ class Demo3App(MDApp):
         xx9 = xx
         i9 = i
 
-    def open_panel(self, xx, i, l, junk):
-        global i9
-        global xx9
+    def open_panel(self, xx, i, l, junk, z):
+        try:
+            global i9
+            global xx9
+            global s_index
 
-        xx9 = xx
-        i9 = i
-        print("asdfasdf", xx9, i, l)
+            s_index = z
 
-        rw = RecipeLine(text=(str("loll")))
-        # rw = IngredientDialog(text=("lol"))
-        # for x in range(10):
-        # self.root.current_screen.ids["rlist"].clear_widgets()
-        if junk == False:
-            self.root.get_screen("newhome").ids.rlist.children[
-                0
-            ].content.clear_widgets()
-            self.root.get_screen("newhome").ids.rlist.children[0].content.ids[
-                "pos"
-            ].text = xx9["pos"]
+            xx9 = xx
+            i9 = i
+            print("asdfasdf", xx9, i, l, z)
 
-            self.root.get_screen("newhome").ids.rlist.children[0].content.ids[
-                "pos"
-            ].secondary_text = xx9["pos"]
+            rw = RecipeLine(text=(str("loll")))
+            # rw = IngredientDialog(text=("lol"))
+            # for x in range(10):
+            # self.root.current_screen.ids["rlist"].clear_widgets()
+            if junk == False:
+                self.root.get_screen("newhome").ids.rlist.children[
+                    0
+                ].content.clear_widgets()
+                self.root.get_screen("newhome").ids.rlist.children[0].content.ids[
+                    "pos"
+                ].text = xx9["pos"]
 
-            pp = (
-                self.root.get_screen("newhome")
-                .ids.rlist.children[0]
-                .content.ids["pos"]
-                .text
-            )
-            try:
-                self.root.current_screen.ids["rlist"].children[
-                    (l - i9) - 1
-                ].content.ids["pos"].text = (
-                    xx9["pos"] + " " + xx9["type"] + " " + xx9["status"]
+                self.root.get_screen("newhome").ids.rlist.children[0].content.ids[
+                    "pos"
+                ].secondary_text = xx9["pos"] + str(z)
+
+                pp = (
+                    self.root.get_screen("newhome")
+                    .ids.rlist.children[0]
+                    .content.ids["pos"]
+                    .text
                 )
-                self.root.current_screen.ids["rlist"].children[
-                    (l - i9) - 1
-                ].content.ids["pos"].secondary_text = (xx9["venue"] + " " + " ")
+                try:
+                    self.root.current_screen.ids["rlist"].children[
+                        (l - i9) - 1
+                    ].content.ids["pos"].text = (
+                        xx9["pos"] + " " + xx9["type"] + " " + xx9["status"]
+                    )
+                    self.root.current_screen.ids["rlist"].children[
+                        (l - i9) - 1
+                    ].content.ids["pos"].secondary_text = (xx9["venue"] + " " + " ")
 
-                self.root.current_screen.ids["rlist"].children[
-                    (l - i9) - 1
-                ].content.ids["pos2"].text = (
-                    xx9["client"] + " \n" + xx9["job"] + " \n"
-                )
+                    self.root.current_screen.ids["rlist"].children[
+                        (l - i9) - 1
+                    ].content.ids["pos2"].text = (
+                        xx9["client"] + " \n" + xx9["job"] + " \n"
+                    )
 
-                self.root.current_screen.ids["rlist"].children[
-                    (l - i9) - 1
-                ].content.ids["pos2"].secondary_text = xx9["notes"]
-                print("old stuff,", l, i9)
-            except:
-                print(l, i9, "failed to open")
+                    self.root.current_screen.ids["rlist"].children[
+                        (l - i9) - 1
+                    ].content.ids["pos2"].secondary_text = xx9["notes"]
+                    print("old stuff,", l, i9)
+                except:
+                    print(l, i9, "failed to open")
 
-        if junk == True and x["usecache"] == False:
-            self.root.current_screen.ids["rlist"].children[(l)].content.ids[
-                "pos"
-            ].text = (str(i) + " " + str(l))
-            print("newconfirm you nuts")
-            self.new_confirm("all")
+            if junk == True and x["usecache"] == False:
+                self.root.current_screen.ids["rlist"].children[(l)].content.ids[
+                    "pos"
+                ].text = (str(i) + " " + str(l))
+                print("newconfirm you nuts")
+                self.new_confirm("all")
 
-        # print(pp)
-        # print(x)
-        # App.get_running_app().root.current_screen.ids["rlist"].text = "posss"
-        # print(App.get_running_app().root.current_screen.ids)
-        # zz = dir(self.root.get_screen("newhome").ids.rlist.children[0])
-        pass
+            # print(pp)
+            # print(x)
+            # App.get_running_app().root.current_screen.ids["rlist"].text = "posss"
+            # print(App.get_running_app().root.current_screen.ids)
+            # zz = dir(self.root.get_screen("newhome").ids.rlist.children[0])
+            pass
+        except:
+            toast("failed to make list")
+            self.newstart("", False)
 
     def close_panel(self, what):
         Pass
@@ -1240,7 +1248,7 @@ class Demo3App(MDApp):
                 panel.bind(
                     on_open=lambda x, y=shows[z], q=canned, l=len(
                         shows
-                    ), junk=False: self.open_panel(y, q, l, junk),
+                    ), junk=False, bb=z: self.open_panel(y, q, l, junk, z),
                     on_close=self.close_panel,
                 )
                 # if shows[z]["canceled"] == True:
@@ -1282,7 +1290,7 @@ class Demo3App(MDApp):
                 panel.bind(
                     on_open=lambda x, y=shows[z], q=canned, l=len(
                         shows
-                    ), junk=False: self.open_panel2(y, q, l, junk),
+                    ), junk=False, z=z: self.open_panel2(y, q, l, junk, z),
                     on_close=self.close_panel,
                 )
                 # if shows[z]["canceled"] == True:
@@ -1291,15 +1299,15 @@ class Demo3App(MDApp):
         toast(str(tic - time.perf_counter()))
 
     def showinfo(self, cat, r, d):
-        ingredients = ["lol", "lol2"]
-        print(f"{cat=}, {r=}, {ingredients=}")
-        ingredients_text = r
+
         from kivymd.uix.dialog import MDDialog as md33
 
         # for ingredient in ingredients:
         #    ingredients_text += ingredient + "\n"
         # self.dialog = IngredientDialog(text=ingredients_text)
         # self.dialog.open()
+        print(cat, r, d)
+        # r = ""
         if not self.dialog2[d]:
             self.dialog2[d] = md33(
                 text=r,
@@ -1320,10 +1328,10 @@ class Demo3App(MDApp):
                         # on_release=self.email_time,
                     ),
                     MDFlatButton(
-                        text="$$$",
+                        text="Confirm",
                         theme_text_color="Custom",
                         text_color=self.theme_cls.primary_color,
-                        on_release=lambda x, y=(cat, r, d): self.animate_money_new(y),
+                        on_release=lambda x, y=(cat, r, d): self.new_confirm(y),
                     ),
                 ],
             )
@@ -1331,17 +1339,35 @@ class Demo3App(MDApp):
         self.dialog2[d].open()
 
     def new_confirm(self, asdf):
+        print("save_time", xx9, x)
         try:
             print(asdf, str(xx9["confirmables"]), "OMG ITS CONFIRMING ITSELF")
         except:
-            print("one?")
+            print("one?", asdf)
         if asdf == "all":
             for xxx in range(int(xx9["num_shows"])):
                 fail = self.confirm_real(xx9["confirmables"][xxx])
                 print((xx9["confirmables"][xxx]))
+        if asdf != "all":
+            if xx9.get("confirable"):
+                print(xx9["confirable"], "DO CONFIRM THIS")
+                fail = self.confirm_real(asdf)
+                print(fail)
+                toast("Confirmed")
+                self.update()
+                self.newstart("", False)
+                for u in range(len(self.dialog2)):
+                    try:
+
+                        self.dialog2[u].dismiss(force=True)
+                    except:
+                        print(u)
 
         else:
-            print("one", asdf)
+            print(
+                "one",
+                profile,
+            )
             # fail = self.confirm_real(asdf)
 
     def email_time(self, x2):
@@ -1502,7 +1528,6 @@ class Demo3App(MDApp):
             self.root.current_screen.ids["users_lst"].add_widget(
                 SwipeToDeleteItem(text=texta)
             )
-        # App.get_running_app().root.current_screen.ids['istoday'].text='wow'
 
         plus_search = 0
         for i in range(len(mjds)):
@@ -2120,29 +2145,10 @@ class Demo3App(MDApp):
             3,
         )
 
-        # lib_makegraphs.make_stats_pp(self, "1", dd2, maxd, max_dy)
-        # self.root.current_screen.ids["graphs"].add_widget(HistoryItem(text="wow"))
-        # self.root.current_screen.ids["graphs"].add_wixdget(self.graph)
         self.root.current_screen.ids["graphs"].add_widget(
             SwipeToDeleteItem2(text="wow+0")
         )
-        """
-        self.root.current_screen.ids["graphs"].add_widget(MD3Card(text="wow"))
-        stats = [
-            "stat1: 5667",
-            "stat2: 1567",
-            "stat3: 5671",
-            "stat4: 5o67",
-        ]
-        self.root.current_screen.ids["graphs"].add_widget(
-            BlankMDCard(text="Current YTD", text2="coming soon")
-        )
-        self.root.current_screen.ids["graphs"].add_widget(
-            BlankMDCard(text="Current Year", text2="soming soon!")
-        )
 
-        self.root.current_screen.ids["graphs"].add_widget(self.graph)
-    """
         self.root.set_current("stats")
 
     def maketransp(self):
