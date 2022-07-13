@@ -757,15 +757,15 @@ class Demo3App(MDApp):
         except:
             asdf = "1.1"
         print(asdf)
-        if 1 == 1:
-            # try:
+        try:
             if x["today_start"] == False:
-
                 self.newstart("", useold)
 
             if x["today_start"] == True:
                 toast("Success " + asdf)
                 self.today()
+        except:
+            self.today()
         # except:
         #    toast("Failed to make config")
 
@@ -794,20 +794,26 @@ class Demo3App(MDApp):
         # print(
         #    name2,
         # )
-        for key, value in pro.items():
-            print(key, value)
-        prof = (
-            "[size=30]"
-            + key
-            + "\n[/size]"
-            + value["City"]
-            + "\n"
-            + value["NickName"]
-            + "\n"
-            + value["Phone"]
-            + "\n"
-            + value["bio"]
-        )
+        try:
+            for key, value in pro.items():
+                print(key, value)
+            prof = (
+                "[size=30]"
+                + key
+                + "\n[/size]"
+                + value["City"]
+                + "\n"
+                + value["NickName"]
+                + "\n"
+                + value["Phone"]
+                + "\n"
+                + value["bio"]
+            )
+        except:
+            print(profile[i])
+            prof = profile[i]["name"]
+            toast("profile not found :(")
+
         # print(i, zzl, self.dialog_name, "WHATTTTT")
         if not self.dialog_name[i]:
             self.dialog_name[i] = md33(

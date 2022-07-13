@@ -1,0 +1,68 @@
+XcodeDistPipeline.~~~0SV07s												com.apple.fileprovider.ArchiveService
+XcodeDistPipeline.~~~13t41p												com.apple.fileproviderd
+XcodeDistPipeline.~~~1nXQs6												com.apple.geod
+XcodeDistPipeline.~~~2bQBVi												com.apple.helpviewer
+XcodeDistPipeline.~~~89rh8t												com.apple.icloud.searchpartyd
+XcodeDistPipeline.~~~8GTXs3												com.apple.identityservicesd
+XcodeDistPipeline.~~~ApAbVj												com.apple.imagent
+XcodeDistPipeline.~~~G5DmCJ												com.apple.imdpersistence.IMDPersistenceAgent
+XcodeDistPipeline.~~~IdxaNs												com.apple.imtransferservices.IMTransferAgent
+XcodeDistPipeline.~~~NjEn0z												com.apple.mapspushd
+XcodeDistPipeline.~~~OprnUf												com.apple.mediaanalysisd
+XcodeDistPipeline.~~~S0uV2J												com.apple.mobiletimer.WorldClockWidget
+XcodeDistPipeline.~~~VhRxl7												com.apple.news.widget
+XcodeDistPipeline.~~~bZeXJH												com.apple.notificationcenterui
+XcodeDistPipeline.~~~fW3cK7												com.apple.nsurlsessiond
+XcodeDistPipeline.~~~hjnFPn												com.apple.parsec-fbf
+XcodeDistPipeline.~~~lZubbC												com.apple.parsecd
+XcodeDistPipeline.~~~lsUpjI												com.apple.passd
+XcodeDistPipeline.~~~nXe3pc												com.apple.photoanalysisd
+XcodeDistPipeline.~~~plzMDb												com.apple.photolibraryd
+XcodeDistPipeline.~~~usIVrO
+
+
+https://kevinwulff.com/x.ipa
+https://kevinwulff.com/a.png
+https://kevinwulff.com/b.png
+
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~fW3cK7/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~bZeXJH/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~2bQBVi/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~hjnFPn/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~lZubbC/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~NjEn0z/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~IdxaNs/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~0SV07s/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~13t41p/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~1nXQs6/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~2bQBVi/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~89rh8t/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~8GTXs3/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~G5DmCJ/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~IdxaNs/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~NjEn0z/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~OprnUf/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~S0uV2J/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~bZeXJH/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~fW3cK7/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~hjnFPn/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~lZubbC/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~lsUpjI/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~nXe3pc/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~plzMDb/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~usIVrO/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+rm /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~bZdrlr/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/_message.cpython-39-darwin.so
+
+cd /var/folders/pk/ptm425493pv2bll70vx63jr80000gn/T/XcodeDistPipeline.~~~bZdrlr/Root/Payload/schedulara.app/lib/python3.9/site-packages/google/protobuf/pyext/
+/Users/kevinwulff/Library/Mobile Documents/com~apple~CloudDocs/Documents/dist/root/python3/lib/python3.9/site-packages/google/protobuf
+/Users/kevinwulff/dist/root/python3/lib/python3.9/site-packages/google/protobuf/pyext
+
+_ARC4.abi3.so
+_ARC4.abi3.so
