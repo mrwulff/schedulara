@@ -1340,6 +1340,10 @@ class Demo3App(MDApp):
 
     def new_confirm(self, asdf):
         print("save_time", xx9, x)
+        import ssl
+
+        ssl.verify = False
+        ssl._create_default_https_context = ssl._create_unverified_context
         try:
             print(asdf, str(xx9["confirmables"]), "OMG ITS CONFIRMING ITSELF")
         except:
