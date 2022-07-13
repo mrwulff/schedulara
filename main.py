@@ -1032,13 +1032,13 @@ class Demo3App(MDApp):
             old_update = datetime.strptime(update, "%Y-%m-%d %H:%M:%S.%f")
             now = datetime.now()
             diff2 = humanize.naturaltime(now - old_update)
+            next_show = shows[0]["date"] + " " + shows[0]["time"]
+            next_show = datetime.strptime(next_show, "%m/%d/%Y %H:%M")
+            diff3 = humanize.naturaltime(now - next_show)
         except:
             diff2 = ""
+            diff3 = ""
         # print(diff2)
-
-        next_show = shows[0]["date"] + " " + shows[0]["time"]
-        next_show = datetime.strptime(next_show, "%m/%d/%Y %H:%M")
-        diff3 = humanize.naturaltime(now - next_show)
 
         if numconf == 0:
             stat_text = str(numshows) + " Confirmed"
