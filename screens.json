@@ -49,6 +49,11 @@
         "object": "StatsScreen()",
         "kv": "libs/uix/kv/stats_screen.kv"
     },
+    "newstats": {
+        "import": "from libs.uix.baseclass.newstats_screen import NewStatsScreen",
+        "object": "NewStatsScreen()",
+        "kv": "libs/uix/kv/newstats_screen.kv"
+    },
     "about": {
         "import": "from libs.uix.baseclass.about_screen import AboutScreen",
         "object": "AboutScreen()",

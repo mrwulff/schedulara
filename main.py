@@ -577,6 +577,44 @@ class Demo3App(MDApp):
         if lol.icon == "message-outline":
             self.do_chat(0)
 
+        if lol.icon == "chart-areaspline":
+            self.do_new_stats()
+
+    def do_new_stats(self):
+        import kivymd_extensions.akivymd
+
+        print("omg")
+        self.root.set_current("newstats")
+        import libs.lib_makegraphs
+        import libs.lib_parse2
+
+        ##makes a json file with all shows from /pp
+        libs.lib_makegraphs.make_full_json_pp(ad)
+
+        ##loads all shows from /pp ###POS
+        pos_k2, pos_v2 = libs.lib_parse2.load_full_pp(ad, "json_pps.json", "POS")
+        chart1 = App.get_running_app().root.current_screen.ids["c1"]
+        chart1.x_values = pos_v2
+        chart1.y_values = pos_v2
+        chart1.x_labels = pos_k2
+        chart1.update()
+
+        ##loads all shows from /pp   ###SHOW/in/Out
+        pos_k2, pos_v2 = libs.lib_parse2.load_full_pp(ad, "json_pps.json", "TYPE")
+        chart2 = App.get_running_app().root.current_screen.ids["c2"]
+        chart2.x_values = pos_v2
+        chart2.y_values = pos_v2
+        chart2.x_labels = pos_k2
+        chart2.update()
+
+        ##loads all shows from /pp   ###PAYCHECK DOLLAR AMOUNT
+        pos_k2, pos_v2 = libs.lib_parse2.load_full_pp(ad, "json_pps.json", "PCDA")
+        chart3 = App.get_running_app().root.current_screen.ids["c3"]
+        chart3.x_values = pos_v2
+        chart3.y_values = pos_v2
+        chart3.x_labels = pos_k2
+        chart3.update()
+
     def add_message_to_chat(self, message):
         import libs.lib_firefriend
 

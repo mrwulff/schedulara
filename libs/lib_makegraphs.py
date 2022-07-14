@@ -1,5 +1,5 @@
-from kivy_garden.graph import Graph, BarPlot
-from datetime import datetime
+# from kivy_garden.graph import Graph, BarPlot
+# from datetime import datetime
 
 
 def make_matplot():
@@ -58,6 +58,35 @@ def make_stats_pp(self, clabel, dd, newmax, y):
 def update_plot(self, dd):
 
     self.plot.points = [(dd[x][0], dd[x][1]) for x in range(len(dd))]
+    pp_date = datetime.strptime(file2, "%m-%d-%Y.html")
+
+
+def make_full_json_pp(ad):
+    ###
+    ### NEW ONE
+    ###
+    all_pp = []
+    try:
+        import libs.lib_parse2 as lib_parse
+    except:
+        import lib_parse2 as lib_parse
+    import os, glob, json
+
+    try:
+        os.chdir(ad + "/pp")
+    except:
+        os.mkdir(ad + "/pp")
+        os.chdir(ad + "/pp")
+
+    for file in glob.glob("*.html"):
+        print(file)
+        pp = lib_parse.parsepayperiod(ad + "/pp/" + file)
+        all_pp.append(pp)
+    full_pp = {"shows": all_pp}
+
+    ddj = json.dumps(full_pp, indent=4, default=str)
+    mm = open(ad + "/json_pps.json", "w")
+    mm.write(ddj)
 
 
 def parsepp(self, ad, type, finish, start):
@@ -185,3 +214,10 @@ def parsepp(self, ad, type, finish, start):
         hats = list(set(all_pos))
         print(hats, len(hats))
         return hats, all_pos, days_ach_list, all_hours
+
+
+if __name__ == "__main__":
+    # from kivy.app import App
+
+    ad = "C:/Users/kw/AppData/Roaming/demo3/"
+    make_full_json_pp(ad)
