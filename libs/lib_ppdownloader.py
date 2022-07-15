@@ -99,6 +99,10 @@ def find_paychecks(a, ad):
 def thinkpp(x, ad):
     print("thinkpp", x)
     # USERNAME
+    import ssl
+
+    ssl.verify = False
+    ssl._create_default_https_context = ssl._create_unverified_context
     ssl._DEFAULT_CIPHERS = "DES-CBC3-SHA"
 
     # PE_LOGIN = 'http://www.thinkrhino.com/employee/lasvegas/'
