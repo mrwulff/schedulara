@@ -1,15 +1,15 @@
 <MyAKBarChart@AKBarChart>
     size_hint_y: None
     height: dp(180)
-    #x_values: [0, 5, 8, 15]
-    #y_values: [0, 10, 6, 8]
+    x_values: [0, 5, 8, 15]
+    y_values: [0, 10, 6, 8]
     label_size: dp(12)
 
 <NewStatsScreen>
     name: "newstats"
-    #Image:
-    #    source: 'images/rh.jpg'
-    #    size: self.width,self.height
+    Image:
+        source: 'images/rh.jpg'
+        size: self.width,self.height
     BoxLayout:
         id: graphs2
         orientation: "vertical"
@@ -99,4 +99,13 @@
                 MyAKBarChart:
                             
                     id: c3
+                    labels: True
+                MyAKBarChart:
+                            
+                    id: c4
+                    labels: True
+
+                MyAKBarChart:
+                            
+                    id: c5
                     labels: True

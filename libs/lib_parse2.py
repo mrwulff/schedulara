@@ -5,49 +5,84 @@ def load_full_pp(ad, fil, idex):
     with open(ad + "/" + fil) as json_file:
         data = json.load(json_file)
     if idex == "POS":
-        pos_k, pos_v = count_pos(data, "pos")
+        pos_k, pos_v, pos_l = count_pos(data, "pos")
     if idex == "TYPE":
-        pos_k, pos_v = count_pos(data, "class")
+        pos_k, pos_v, pos_l = count_pos(data, "class")
     if idex == "PCDA":
-        pos_k, pos_v = count_pc(data, "whole")
+        pos_k, pos_v, pos_l = count_pc(data, "whole")
+    if idex == "CLIENT":
+        pos_k, pos_v, pos_l = count_pos(data, "client")
+    if idex == "TOTAL":
+        pos_k, pos_v, pos_l = count_gig(data, "Total")
 
-    return pos_k, pos_v
+    return pos_k, pos_v, pos_l
 
 
-def count_pc(data, uu):
+def round_money(x):
+    return round(x / 1000, 1)
+
+
+def count_gig(data, uu):
     import collections
 
     # print(len(data))
     # data = NestedDict(data)
     pos = []
+    v22 = []
+    k22 = []
+    for k, v in data.items():
+        for z in range(len(v)):
+            # print(v[z], z)
+            for k2, v2 in v[z].items():
+                # print(k2, v2)
+                if k2 == "gigs":
+                    num_of_shows_per_pp = len(v2)
+                    # print(v2)
+                    for m in range(len(v2)):
+                        pos.append({"money": v2[m][uu], "date": v2[m]["timeIn"]})
+    pos = sorted(pos, reverse=True, key=lambda i: i["date"])
+    print(pos)
+
+    for x in range(len(pos)):
+        v22.append(pos[x]["money"])
+        k22.append(pos[x]["date"])
+
+    return v22, k22, k22
+
+
+def count_pc(data, uu):
+    import collections
+
+    pos = []
     pos2 = []
     pos3 = []
+    k2 = []
+    v2 = []
+    l3 = []
     for k, v in data.items():
         # print(v)
         for z in range(len(v)):
             pc = v[z]
 
-            gg = {"gt": pc["grandtotal"], "pd": pc["paydate"]}
+            gg = {"gt": pc["grandtotal"], "pd": pc["paydate"], "pds": pc["paydate"]}
             # print(gg)
             pos.append(gg)
-            pos2.append(pc["grandtotal"])
-            pos3.append(pc["paydate"])
-
-    k2 = []
-    v2 = []
+            # pos4.append(pc["grandtotal"])
     # print(pos)
-    # for z in range()
-    # z2 = dict(
-    #    sorted(z.items(), reverse=True, key=lambda item: item[1]),
-    # )
-    """
-    
-    for k, v in pos.items():
-        print(k, v)
-        k2.append(k)
-        v2.append(v)
-    """
-    return (pos3, pos2)
+    pos = sorted(pos, reverse=True, key=lambda i: i["pd"])
+
+    for x in range(len(pos)):
+        k2.append(round_money(pos[x]["gt"]))
+        v2.append(pos[x]["pd"])
+        temp = " "
+        if (x == 0) or x == (len(pos) - 1):
+            temp = pos[x]["pds"]
+
+        l3.append(temp)
+
+    pos_r = []
+
+    return (k2, v2, v2)
 
 
 def count_pos(data, uu):
@@ -76,13 +111,13 @@ def count_pos(data, uu):
         sorted(z.items(), reverse=True, key=lambda item: item[1]),
     )
     for k, v in z2.items():
-        print(k, v)
+        # print(k, v)
         k2.append(k)
         v2.append(v)
     zz = (k2, v2)
-    print(zz)
+    # print(zz)
     # print(zz[0][0])
-    return k2, v2
+    return k2, v2, v2
 
 
 def moneyconvert(z):
@@ -618,4 +653,5 @@ if __name__ == "__main__":
     # parse("sch", "ad", False)
     ad = "C:/Users/kw/AppData/Roaming/demo3/"
     # parsepayperiod("C:/Users/kw/AppData/Roaming/demo3/pp/04-05-2022.html")
+    # load_full_pp(ad, "json_pps.json", "TOTAL")
     load_full_pp(ad, "json_pps.json", "PCDA")

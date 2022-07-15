@@ -589,10 +589,10 @@ class Demo3App(MDApp):
         import libs.lib_parse2
 
         ##makes a json file with all shows from /pp
-        libs.lib_makegraphs.make_full_json_pp(ad)
+        # libs.lib_makegraphs.make_full_json_pp(ad)
 
         ##loads all shows from /pp ###POS
-        pos_k2, pos_v2 = libs.lib_parse2.load_full_pp(ad, "json_pps.json", "POS")
+        pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(ad, "json_pps.json", "POS")
         chart1 = App.get_running_app().root.current_screen.ids["c1"]
         chart1.x_values = pos_v2
         chart1.y_values = pos_v2
@@ -600,7 +600,9 @@ class Demo3App(MDApp):
         chart1.update()
 
         ##loads all shows from /pp   ###SHOW/in/Out
-        pos_k2, pos_v2 = libs.lib_parse2.load_full_pp(ad, "json_pps.json", "TYPE")
+        pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(
+            ad, "json_pps.json", "TYPE"
+        )
         chart2 = App.get_running_app().root.current_screen.ids["c2"]
         chart2.x_values = pos_v2
         chart2.y_values = pos_v2
@@ -608,12 +610,36 @@ class Demo3App(MDApp):
         chart2.update()
 
         ##loads all shows from /pp   ###PAYCHECK DOLLAR AMOUNT
-        pos_k2, pos_v2 = libs.lib_parse2.load_full_pp(ad, "json_pps.json", "PCDA")
+        pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(
+            ad, "json_pps.json", "PCDA"
+        )
         chart3 = App.get_running_app().root.current_screen.ids["c3"]
         chart3.x_values = pos_v2
         chart3.y_values = pos_v2
-        chart3.x_labels = pos_k2
+        chart3.x_labels = pos_l
         chart3.update()
+        """
+        ##loads all shows from /pp   ###SHOW/in/Out
+        pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(
+            ad, "json_pps.json", "CLIENT"
+        )
+        chart4 = App.get_running_app().root.current_screen.ids["c4"]
+        # chart4.x_values = pos_v2
+        # chart4.y_values = pos_v2
+        # chart4.x_labels = pos_k2
+        # chart4.update()
+
+        ##loads all shows from /pp   ###SHOW/in/Out
+        pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(
+            ad, "json_pps.json", "TOTAL"
+        )
+        print(pos_k2, "POSK2")
+        chart5 = App.get_running_app().root.current_screen.ids["c5"]
+        chart5.x_values = pos_k2
+        chart5.y_values = pos_k2
+        # chart5.x_labels = pos_v2
+        chart5.update()
+        """
 
     def add_message_to_chat(self, message):
         import libs.lib_firefriend
