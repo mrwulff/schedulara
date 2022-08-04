@@ -14,4 +14,4 @@ toolchain update schedulara24
 
 ##hints for when i forget
 
-toolchain pip install appdirs kivymd pillow humanize mechanize bs4 emoji webcolors pyperclip kivy-garden kivy-garden.graph faker pyparsing kivymd_extensions.akivymd
+toolchain pip install appdirs kivymd pillow humanize mechanize bs4 emoji webcolors pyperclip kivy-garden kivy-garden.graph faker pyparsing kivymd_extensions.akivymd ndicts
