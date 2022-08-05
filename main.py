@@ -733,7 +733,7 @@ class Demo3App(MDApp):
         check.tertiary_text = "total: " + str(tot)
         check.text = "Paychecks: " + str(len(pos_k2))
         if 100 * len(pos_v2) > dp(300):
-            App.get_running_app().root.current_screen.ids["c3"].width = dp(150) * len(
+            App.get_running_app().root.current_screen.ids["c3"].width = dp(100) * len(
                 pos_v2
             )
         else:
@@ -756,7 +756,7 @@ class Demo3App(MDApp):
         chart4.y_values = pos_v2
         chart4.x_labels = pos_k2
         if 100 * len(pos_v2) > dp(300):
-            App.get_running_app().root.current_screen.ids["c4"].width = dp(150) * len(
+            App.get_running_app().root.current_screen.ids["c4"].width = dp(170) * len(
                 pos_v2
             )
         else:
