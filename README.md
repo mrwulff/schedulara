@@ -18,5 +18,11 @@ toolchain pip install appdirs kivymd pillow humanize mechanize bs4 emoji webcolo
 
 
 [Website](https://kevinwulff.com/schedulara)
+
 [subreddit](https://reddit.com/r/schedulara)
+
 [twitter](https://twitter.com/schedulara_app)
+
+[IOS](https://twitter.com/schedulara_app)
+
+[Android](https://twitter.com/schedulara_app)
