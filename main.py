@@ -687,10 +687,12 @@ class Demo3App(MDApp):
         chart1.x_values = pos_v2
         chart1.y_values = pos_v2
         chart1.x_labels = pos_k2
-        if 100 * len(pos_v2) > 400:
-            App.get_running_app().root.current_screen.ids["c4"].width = 50 * len(pos_v2)
+        if 100 * len(pos_v2) > dp(400):
+            App.get_running_app().root.current_screen.ids["c4"].width = dp(50) * len(
+                pos_v2
+            )
         else:
-            App.get_running_app().root.current_screen.ids["c4"].width = 350
+            App.get_running_app().root.current_screen.ids["c4"].width = dp(400)
         chart1.update()
 
         ##loads all shows from /pp   ###SHOW/in/Out
@@ -705,12 +707,12 @@ class Demo3App(MDApp):
         chart2.y_values = pos_v2
         chart2.x_labels = pos_k2
         App.get_running_app().root.current_screen.ids["c2d"].width = 1 * len(pos_v2)
-        if 100 * len(pos_v2) > 400:
-            App.get_running_app().root.current_screen.ids["c2"].width = 130 * len(
+        if 100 * len(pos_v2) > dp(400):
+            App.get_running_app().root.current_screen.ids["c2"].width = dp(130) * len(
                 pos_v2
             )
         else:
-            App.get_running_app().root.current_screen.ids["c2"].width = 350
+            App.get_running_app().root.current_screen.ids["c2"].width = dp(400)
         chart2.update()
 
         ##loads all shows from /pp   ###PAYCHECK DOLLAR AMOUNT
@@ -730,12 +732,12 @@ class Demo3App(MDApp):
         check.secondary_text = "average: " + str(ave)
         check.tertiary_text = "total: " + str(tot)
         check.text = "Paychecks: " + str(len(pos_k2))
-        if 100 * len(pos_v2) > 400:
-            App.get_running_app().root.current_screen.ids["c3"].width = 100 * len(
+        if 100 * len(pos_v2) > dp(400):
+            App.get_running_app().root.current_screen.ids["c3"].width = dp(100) * len(
                 pos_v2
             )
         else:
-            App.get_running_app().root.current_screen.ids["c3"].width = 350
+            App.get_running_app().root.current_screen.ids["c3"].width = dp(400)
         try:
             chart3.update()
         except:
@@ -753,12 +755,12 @@ class Demo3App(MDApp):
         chart4.x_values = pos_v2
         chart4.y_values = pos_v2
         chart4.x_labels = pos_k2
-        if 100 * len(pos_v2) > 400:
-            App.get_running_app().root.current_screen.ids["c4"].width = 100 * len(
+        if 100 * len(pos_v2) > dp(400):
+            App.get_running_app().root.current_screen.ids["c4"].width = dp(100) * len(
                 pos_v2
             )
         else:
-            App.get_running_app().root.current_screen.ids["c4"].width = 350
+            App.get_running_app().root.current_screen.ids["c4"].width = dp(400)
         try:
             chart4.update()
         except:
