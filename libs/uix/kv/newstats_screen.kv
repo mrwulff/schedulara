@@ -24,7 +24,7 @@
             #orientation: 'horizontal'
             size_hint: 1,None
             #height: app.mheight+10
-            width: 1000
+            width: dp(100)
             height:dp(42)
             
 
@@ -81,9 +81,9 @@
             do_scroll_x:True
             do_scroll_y:True
             #size_hint: None,None
-            width: 3000
+            #width: dp(3000)
             #adaptive_height: True
-            height:full_stats.height+1000
+            height:full_stats.height+dp(1000)
             
             MDBoxLayout:
                 orientation: "vertical"
@@ -91,8 +91,8 @@
                 padding: dp(5)
                 #adaptive_height: True
                 size_hint: None,None
-                width: 900
-                height:1200
+                width: dp(900)
+                height:dp(1200)
                 id:full_stats
 
 
@@ -106,7 +106,7 @@
                         id: c1
                         labels: True
                         size_hint: None,None
-                        width: 350
+                        width: dp(350)
                 
                     OneLineListItem:
                         text: "Position"
@@ -124,7 +124,7 @@
                         id: c2
                         labels: True
                         size_hint: None,None
-                        width: 350
+                        width: dp(350)
                         
                 
                     OneLineListItem:
@@ -141,7 +141,7 @@
                         id: c3
                         labels: True
                         size_hint: None,None
-                        width: 900
+                        width: dp(900)
                 
                     ThreeLineListItem:
                         text: "Check Amount"
@@ -156,7 +156,7 @@
                         id: c4
                         labels: True
                         size_hint: None,None
-                        width: 950
+                        width: dp(950)
                 
                     OneLineListItem:
                         text: "Client"
