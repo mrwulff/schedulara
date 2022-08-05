@@ -61,11 +61,14 @@ def update_plot(self, dd):
     pp_date = datetime.strptime(file2, "%m-%d-%Y.html")
 
 
-def make_full_json_pp(ad):
+def make_full_json_pp(ad, s, e):
     ###
     ### NEW ONE
     ###
+    from datetime import datetime
+
     all_pp = []
+    print(s, e, "START AND END")
     try:
         import libs.lib_parse2 as lib_parse
     except:
@@ -79,9 +82,15 @@ def make_full_json_pp(ad):
         os.chdir(ad + "/pp")
 
     for file in glob.glob("*.html"):
-        print(file)
-        pp = lib_parse.parsepayperiod(ad + "/pp/" + file)
-        all_pp.append(pp)
+        # print(file)
+        # f1, f2 = str.split(file, ".")
+        f1 = datetime.strptime(file, "%m-%d-%Y.html")
+
+        if s < f1 and f1 < e:
+            print(type(s), type(f1), e, "DATES OF PPPPS")
+
+            pp = lib_parse.parsepayperiod(ad + "/pp/" + file)
+            all_pp.append(pp)
     full_pp = {"shows": all_pp}
 
     ddj = json.dumps(full_pp, indent=4, default=str)

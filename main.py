@@ -1,5 +1,6 @@
 from ast import Pass
 from asyncio import queues
+from audioop import reverse
 import profile
 import time
 import sys
@@ -41,6 +42,14 @@ from kivymd.uix.list import (
     TwoLineListItem,
     ThreeLineListItem,
 )
+
+from kivymd.uix.expansionpanel import (
+    MDExpansionPanel,
+    MDExpansionPanelTwoLine,
+    MDExpansionPanelThreeLine,
+)
+
+
 from kivy.uix.label import Label
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.button import MDFlatButton
@@ -503,7 +512,13 @@ x = []
 
 
 class Demo3App(MDApp):
+    fday = ""
+    lday = ""
+    date_range_pp = "All"
+    sort_pp = "paydate"
     scale = 1
+    reverse = True
+
     i = 0
     # print("omg")
     print(tic - time.perf_counter(), "supershort")
@@ -564,6 +579,30 @@ class Demo3App(MDApp):
         "Chat": "message-outline",
     }
 
+    def get_dates(self, t):
+        from datetime import datetime
+        from dateutil.relativedelta import relativedelta
+
+        now = datetime.now()
+        # print(now, type(now))
+        if t == "All":
+            date_string = "1 January, 2000"
+            d = datetime.strptime(date_string, "%d %B, %Y")
+
+            date_string = "1 January, 2099"
+            now = datetime.strptime(date_string, "%d %B, %Y")
+        if t == "Year":
+            d = datetime.now() - relativedelta(years=1)
+        if t == "YTD":
+            d = datetime.now().date().replace(month=1, day=1)
+            d = datetime.combine(d, datetime.min.time())
+            now = datetime.now().date().replace(month=12, day=31)
+            now = datetime.combine(now, datetime.min.time())
+
+        print(d, type(d))
+
+        return d, now
+
     def call(self, lol):
         print("call", (lol), lol.icon)
         self.root.current_screen.ids.menub.close_stack()
@@ -578,9 +617,36 @@ class Demo3App(MDApp):
             self.do_chat(0)
 
         if lol.icon == "chart-areaspline":
-            self.do_new_stats()
+            fdate, ldate = self.get_dates("All")
+            self.do_new_stats(fdate, ldate, "All")
+        if lol.icon == "cash-100":
+            self.do_payperiod("paydate", self.rreverse)
 
-    def do_new_stats(self):
+    def format_date(self, d, year):
+        from datetime import datetime
+
+        if year == "short":
+            d = d.strftime("%m/%d")
+        if year == "full":
+            d = d.strftime("%m/%d/%Y")
+
+        return str(d)
+
+    def do_new_stats_format(self, f):
+
+        fdate, ldate = self.get_dates(f)
+        try:
+            self.do_new_stats(fdate, ldate, f)
+        except:
+            print("div by 0")
+
+    def check_stats(self, li):
+        print(li, "LIST OF CHECKS")
+        sum2 = sum(li)
+        ave = sum2 / (len(li))
+        return round(sum2, 2), round(ave, 2)
+
+    def do_new_stats(self, fdate, ldate, rng):
         import kivymd_extensions.akivymd
 
         print("omg")
@@ -588,58 +654,115 @@ class Demo3App(MDApp):
         import libs.lib_makegraphs
         import libs.lib_parse2
 
-        ##makes a json file with all shows from /pp
-        # libs.lib_makegraphs.make_full_json_pp(ad)
+        bu = ["YTD", "Year", "All", "Custom"]
+
+        App.get_running_app().root.current_screen.ids["dstart"].text = (
+            self.format_date(fdate, "full") + "     to"
+        )
+
+        App.get_running_app().root.current_screen.ids["dend"].text = self.format_date(
+            ldate, "full"
+        )
+        for i in range(len(bu)):
+            if rng == bu[i]:
+                App.get_running_app().root.current_screen.ids[
+                    bu[i]
+                ].md_bg_color = self.theme_cls.primary_dark
+            else:
+                App.get_running_app().root.current_screen.ids[
+                    bu[i]
+                ].md_bg_color = self.theme_cls.primary_light
+
+        # s = App.get_running_app().root.current_screen.ids["dstart"].text
+        # e = App.get_running_app().root.current_screen.ids["dend"].text
+        libs.lib_makegraphs.make_full_json_pp(ad, fdate, ldate)
 
         ##loads all shows from /pp ###POS
         pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(ad, "json_pps.json", "POS")
+        if len(pos_k2) < 1:
+            pos_k2 = [0]
+            pos_v2 = [0]
+
         chart1 = App.get_running_app().root.current_screen.ids["c1"]
         chart1.x_values = pos_v2
         chart1.y_values = pos_v2
         chart1.x_labels = pos_k2
+        if 100 * len(pos_v2) > 400:
+            App.get_running_app().root.current_screen.ids["c4"].width = 50 * len(pos_v2)
+        else:
+            App.get_running_app().root.current_screen.ids["c4"].width = 350
         chart1.update()
 
         ##loads all shows from /pp   ###SHOW/in/Out
         pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(
             ad, "json_pps.json", "TYPE"
         )
+        if len(pos_k2) < 1:
+            pos_k2 = [0]
+            pos_v2 = [0]
         chart2 = App.get_running_app().root.current_screen.ids["c2"]
         chart2.x_values = pos_v2
         chart2.y_values = pos_v2
         chart2.x_labels = pos_k2
+        App.get_running_app().root.current_screen.ids["c2d"].width = 1 * len(pos_v2)
+        if 100 * len(pos_v2) > 400:
+            App.get_running_app().root.current_screen.ids["c2"].width = 130 * len(
+                pos_v2
+            )
+        else:
+            App.get_running_app().root.current_screen.ids["c2"].width = 350
         chart2.update()
 
         ##loads all shows from /pp   ###PAYCHECK DOLLAR AMOUNT
-        pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(
+        pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
             ad, "json_pps.json", "PCDA"
         )
+        if len(pos_k2) < 1:
+            pos_k2 = [0]
+            pos_v2 = [0]
+            toast("No PP data Found")
         chart3 = App.get_running_app().root.current_screen.ids["c3"]
-        chart3.x_values = pos_v2
-        chart3.y_values = pos_v2
-        chart3.x_labels = pos_l
-        chart3.update()
-        """
-        ##loads all shows from /pp   ###SHOW/in/Out
+        chart3.x_values = pos_k2
+        chart3.y_values = pos_k2
+        chart3.x_labels = pos_v2
+        check = App.get_running_app().root.current_screen.ids["c3d"]
+        ave, tot = self.check_stats(pos_k2)
+        check.secondary_text = "average: " + str(ave)
+        check.tertiary_text = "total: " + str(tot)
+        check.text = "Paychecks: " + str(len(pos_k2))
+        if 100 * len(pos_v2) > 400:
+            App.get_running_app().root.current_screen.ids["c3"].width = 100 * len(
+                pos_v2
+            )
+        else:
+            App.get_running_app().root.current_screen.ids["c3"].width = 350
+        try:
+            chart3.update()
+        except:
+            print("chart3 fail")
+            # chart3.update()
+
+        ##loads all shows from /pp   ###Client!!!
         pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(
             ad, "json_pps.json", "CLIENT"
         )
+        if len(pos_k2) < 1:
+            pos_k2 = [0]
+            pos_v2 = [0]
         chart4 = App.get_running_app().root.current_screen.ids["c4"]
-        # chart4.x_values = pos_v2
-        # chart4.y_values = pos_v2
-        # chart4.x_labels = pos_k2
-        # chart4.update()
-
-        ##loads all shows from /pp   ###SHOW/in/Out
-        pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(
-            ad, "json_pps.json", "TOTAL"
-        )
-        print(pos_k2, "POSK2")
-        chart5 = App.get_running_app().root.current_screen.ids["c5"]
-        chart5.x_values = pos_k2
-        chart5.y_values = pos_k2
-        # chart5.x_labels = pos_v2
-        chart5.update()
-        """
+        chart4.x_values = pos_v2
+        chart4.y_values = pos_v2
+        chart4.x_labels = pos_k2
+        if 100 * len(pos_v2) > 400:
+            App.get_running_app().root.current_screen.ids["c4"].width = 100 * len(
+                pos_v2
+            )
+        else:
+            App.get_running_app().root.current_screen.ids["c4"].width = 350
+        try:
+            chart4.update()
+        except:
+            print("chart4 fail")
 
     def add_message_to_chat(self, message):
         import libs.lib_firefriend
@@ -1119,6 +1242,43 @@ class Demo3App(MDApp):
         self.root.get_screen("today").ids["stats"].secondary_text = stat_text2
         self.root.get_screen("today").ids["stats"].tertiary_text = stat_text3
 
+        paydate, payperiod = self.find_pay_date()
+
+        paylist = self.root.get_screen("today").ids["pay"]
+        paylist.text = "Next Payday:  " + paydate
+        paylist.secondary_text = "Current Payperiod: " + payperiod
+        # paylist.tertiary_text = "third" + payperiod
+
+    def find_pay_date(self):
+
+        firstdate = datetime.date(2022, 6, 28)
+        #:
+        now = datetime.datetime.now()
+        now = datetime.date.today()
+        flag = False
+        z = 0
+        # while flag == False or z < 50:
+        # while z < 50:
+        while flag == False:
+
+            nextdate = firstdate + datetime.timedelta(days=14)
+            print(nextdate)
+            lastdate = nextdate + datetime.timedelta(days=13)
+            # print(type(nextdate), type(now), lastdate, flag, z)
+            # print(nextdate - now)
+            if nextdate >= now:
+                flag = True
+                print("omg", flag)
+            firstdate = nextdate
+            z = z + 1
+        lastdate = nextdate - datetime.timedelta(days=7)
+        lastdate1 = lastdate - datetime.timedelta(days=14)
+        l = self.format_date(lastdate, "short")
+        l2 = self.format_date(lastdate1, "short")
+        a = self.format_date(firstdate, "full")
+
+        return a, l2 + " - " + l
+
     def check_confirm(self):
         import libs.lib_new
 
@@ -1237,11 +1397,7 @@ class Demo3App(MDApp):
 
         self.root.set_current("newhome")
         self.root.current_screen.ids["rlist"].clear_widgets()
-        from kivymd.uix.expansionpanel import (
-            MDExpansionPanel,
-            MDExpansionPanelTwoLine,
-            MDExpansionPanelThreeLine,
-        )
+
         import libs.lib_new
 
         js = libs.lib_new.get_json_schedule(x, ad)
@@ -2853,6 +3009,9 @@ class Demo3App(MDApp):
         pass
 
     def on_save(self, instance, value, date_range):
+        from datetime import datetime
+
+        print(self.root.current, "CURRENT SCREEEEEEN")
         # self.root.ids.date_label.text = str(value)
         # self.root.ids.date_label.text = f'{str(date_range[0])} - {str(date_range[-1])}'
         try:
@@ -2871,6 +3030,16 @@ class Demo3App(MDApp):
             self.make_stats("custom", date_range[-1], date_range[0])
         if self.root.current == "history":
             self.do_history()
+        if self.root.current == "newstats":
+
+            d0 = datetime.combine(date_range[-1], datetime.min.time())
+            d1 = datetime.combine(date_range[0], datetime.min.time())
+
+            self.do_new_stats(d1, d0, "Custom")
+        if self.root.current == "pay":
+            self.lday = datetime.combine(date_range[-1], datetime.min.time())
+            self.fday = datetime.combine(date_range[0], datetime.min.time())
+            self.do_payperiod()
 
     def updatetext(self, box):
         app = App.get_running_app()
@@ -2963,6 +3132,7 @@ class Demo3App(MDApp):
 
     def load_paychecks(self):
         import glob, os
+        from datetime import datetime
 
         try:
             os.chdir(ad + "/pp")
@@ -2971,18 +3141,114 @@ class Demo3App(MDApp):
             os.chdir(ad + "/pp")
         x = 0
         listofdicks = []
+        # now = datetime.now()
+        # print(self.fday, now, self.lday)
         for file in glob.glob("*.html"):
             # print (file)
             import libs.lib_parse as lib_parse
 
+            f1 = datetime.strptime(file, "%m-%d-%Y.html")
             dd, junk, junk, junk, junk, junk = lib_parse.parsepayperiod(
                 ad + "/pp/" + file
             )
-            listofdicks.append(dd)
-            x = x + 1
+            if self.fday <= f1 and f1 <= self.lday:
+                listofdicks.append(dd)
+                x = x + 1
+            print(x)
         return listofdicks
 
-    def do_payperiod(self, ssort, rreverse):
+    def check_var(self, x):
+        if x == True:
+            return "^^"
+        else:
+            return "vv"
+
+    def do_payperiod_trim(self, sort):
+        if self.sort_pp == sort:
+            # print("omg its equal")
+            self.rreverse = not self.rreverse
+            # print(self.rreverse)
+        self.sort_pp = sort
+        self.do_payperiod()
+
+    def do_payperiod_f(self, date_rng):
+
+        ssort = self.sort_pp
+        fdate, ldate = self.get_dates(date_rng)
+        print(fdate, ldate, self.rreverse, ssort)
+        self.lday = ldate
+        self.fday = fdate
+        self.date_range_pp = date_rng
+
+        self.do_payperiod()
+
+    def do_payperiod(self):
+        from kivymd.uix.list import ThreeLineListItem
+
+        ssort = self.sort_pp
+        rreverse = self.rreverse
+
+        self.root.set_current("pay")
+        self.root.current_screen.ids["payperiod_list"].clear_widgets()
+        listofdicks = self.load_paychecks()
+        listofdicks = sorted(listofdicks, key=lambda i: i[ssort], reverse=rreverse)
+
+        bu = ["YTD", "Year", "All", "Custom"]
+        bu2 = ["paydate", "moneytotal", "totalhours"]
+        for i in range(len(bu)):
+            if self.date_range_pp == bu[i]:
+                App.get_running_app().root.current_screen.ids[
+                    bu[i]
+                ].md_bg_color = self.theme_cls.primary_dark
+            else:
+                App.get_running_app().root.current_screen.ids[
+                    bu[i]
+                ].md_bg_color = self.theme_cls.primary_light
+
+        for i in range(len(bu2)):
+            if ssort == bu2[i]:
+                App.get_running_app().root.current_screen.ids[
+                    bu2[i]
+                ].md_bg_color = self.theme_cls.primary_dark
+            else:
+                App.get_running_app().root.current_screen.ids[
+                    bu2[i]
+                ].md_bg_color = self.theme_cls.primary_light
+        if rreverse == False:
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].icon = "sort-descending"
+        else:
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].icon = "sort-ascending"
+
+        App.get_running_app().root.current_screen.ids["dstart"].text = (
+            self.format_date(self.fday, "full") + "     to"
+        )
+
+        App.get_running_app().root.current_screen.ids["dend"].text = self.format_date(
+            self.lday, "full"
+        )
+
+        for z in range(len(listofdicks)):
+            # print(listofdicks[z])
+
+            panel = ThreeLineListItem(
+                text="Paydate: "
+                + str(self.format_date(listofdicks[z]["paydate"], "full")),
+                secondary_text="Shows: "
+                + str(listofdicks[z]["shows"])
+                + " Hours: "
+                + str(listofdicks[z]["totalhours"])
+                + " Overtime: "
+                + str(listofdicks[z]["othours"]),
+                tertiary_text="$" + str(listofdicks[z]["moneytotal"]),
+            )
+
+            self.root.get_screen("pay").ids.payperiod_list.add_widget(panel)
+
+    def do_payperiod2(self, ssort, rreverse):
         self.root.set_current("pay")
         self.root.current_screen.ids["payperiod_list"].clear_widgets()
         listofdicks = self.load_paychecks()

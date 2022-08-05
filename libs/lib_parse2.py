@@ -5,13 +5,16 @@ def load_full_pp(ad, fil, idex):
     with open(ad + "/" + fil) as json_file:
         data = json.load(json_file)
     if idex == "POS":
-        pos_k, pos_v, pos_l = count_pos(data, "pos")
+        pos_k, pos_v, pos_l = count_pos(data, "pos", False)
     if idex == "TYPE":
-        pos_k, pos_v, pos_l = count_pos(data, "class")
+        pos_k, pos_v, pos_l = count_pos(data, "class", False)
     if idex == "PCDA":
         pos_k, pos_v, pos_l = count_pc(data, "whole")
     if idex == "CLIENT":
-        pos_k, pos_v, pos_l = count_pos(data, "client")
+        pos_k, pos_v, pos_l = count_pos(data, "client", True)
+        print(pos_k, pos_v, pos_l)
+        # a, b, c = shrink2(pos_k, pos_v, pos_l, 5)
+
     if idex == "TOTAL":
         pos_k, pos_v, pos_l = count_gig(data, "Total")
 
@@ -19,7 +22,12 @@ def load_full_pp(ad, fil, idex):
 
 
 def round_money(x):
-    return round(x / 1000, 1)
+    # return round(x / 1000, 1)
+    return x
+
+
+def shrink2(a, b, c, l):
+    print(a, b, c, l)
 
 
 def count_gig(data, uu):
@@ -82,10 +90,10 @@ def count_pc(data, uu):
 
     pos_r = []
 
-    return (k2, v2, v2)
+    return (k2, v2, l3)
 
 
-def count_pos(data, uu):
+def count_pos(data, uu, shrink):
     import collections
 
     # print(len(data))
@@ -107,17 +115,23 @@ def count_pos(data, uu):
     # print(dir(z))
     k2 = []
     v2 = []
+    v3 = []
     z2 = dict(
         sorted(z.items(), reverse=True, key=lambda item: item[1]),
     )
     for k, v in z2.items():
         # print(k, v)
-        k2.append(k)
+
+        if shrink == True:
+            print(k)
+            if len(k) > 10:
+                k = k[0:10]
         v2.append(v)
+        k2.append(k)
     zz = (k2, v2)
     # print(zz)
     # print(zz[0][0])
-    return k2, v2, v2
+    return k2, v2, v3
 
 
 def moneyconvert(z):
@@ -653,5 +667,7 @@ if __name__ == "__main__":
     # parse("sch", "ad", False)
     ad = "C:/Users/kw/AppData/Roaming/demo3/"
     # parsepayperiod("C:/Users/kw/AppData/Roaming/demo3/pp/04-05-2022.html")
-    # load_full_pp(ad, "json_pps.json", "TOTAL")
-    load_full_pp(ad, "json_pps.json", "PCDA")
+    # a, b, c = load_full_pp(ad, "json_pps.json", "TOTAL")
+    # a, b, c = load_full_pp(ad, "json_pps.json", "PCDA")
+    a, b, c = load_full_pp(ad, "json_pps.json", "CLIENT")
+    print(a, b, c)

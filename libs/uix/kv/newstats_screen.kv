@@ -1,6 +1,7 @@
 <MyAKBarChart@AKBarChart>
     size_hint_y: None
-    height: dp(180)
+    height: dp(200)
+    width:1000
     x_values: [0, 5, 8, 15]
     y_values: [0, 10, 6, 8]
     label_size: dp(12)
@@ -13,6 +14,8 @@
     BoxLayout:
         id: graphs2
         orientation: "vertical"
+        width:900
+        padding:0
         MDToolbar:
             #title: "Settings"
             height: app.mheight
@@ -20,45 +23,39 @@
         MDBoxLayout:
             #orientation: 'horizontal'
             size_hint: 1,None
-            height: app.mheight
+            #height: app.mheight+10
+            width: 1000
+            height:dp(42)
+            
+
             MDRaisedButton:
                 text: 'YTD'
-                id: sytd
-                #size_hint: .3,None
-                #height: app.mheight
-                #md_bg_color: app.theme_cls.primary_light
-                #padding:10
-                on_press:(app.make_stats('ytd',0,0))
+                id: YTD
+
+                on_press:(app.do_new_stats_format('YTD'))
             MDRaisedButton:
                 text: 'Year'
-                id: syear
-                #size_hint: .3,None
-                #height: app.mheight
-                #md_bg_color: app.theme_cls.primary_light
-                #padding:10
-                on_press:(app.make_stats('year',0,0))
+                id: Year
+
+                on_press:(app.do_new_stats_format('Year'))
             MDRaisedButton:
                 text: 'All'
-                id: sall
-                #size_hint: .3,None
-                #height: app.mheight
-                #md_bg_color: app.theme_cls.primary_light
-                #padding:10
-                on_press:(app.make_stats('all',0,0))
+                id: All
+
+                on_press:(app.do_new_stats_format('All'))
             MDRaisedButton:
                 text: 'Custom'
-                id: scustom
-                #size_hint: .3,None
-                #height: app.mheight
-                #md_bg_color: app.theme_cls.primary_light
-                #padding:10
+                id: Custom
+
                 on_press:
                    # (app.make_stats('custom','custom'))
                     (app.show_date_picker())
         MDBoxLayout:
+        
             orientation: 'horizontal'
             size_hint: 1,None
-            height: app.mheight
+            #height: app.mheight
+            height: dp(42)
             MDRaisedButton:
                 text: 'All'
                 id: dstart
@@ -80,32 +77,88 @@
 
 
         ScrollView:
+            size_hint_min: None,None
+            do_scroll_x:True
+            do_scroll_y:True
+            #size_hint: None,None
+            width: 3000
+            #adaptive_height: True
+            height:full_stats.height+1000
             
             MDBoxLayout:
                 orientation: "vertical"
-                spacing: dp(25)
-                padding: dp(25)
-                adaptive_height: True
-                MyAKBarChart:
-                            
-                    id: c1
-                    labels: True
-                    #anim: False
-                MyAKBarChart:
-                            
-                    id: c2
-                    labels: True
+                spacing: dp(15)
+                padding: dp(5)
+                #adaptive_height: True
+                size_hint: None,None
+                width: 900
+                height:1200
+                id:full_stats
 
-                MyAKBarChart:
-                            
-                    id: c3
-                    labels: True
-                MyAKBarChart:
-                            
-                    id: c4
-                    labels: True
 
-                MyAKBarChart:
-                            
-                    id: c5
-                    labels: True
+                MDCard:
+                    orientation: "vertical"
+                    id:c1c
+                    bg_color: app.theme_cls.primary_light
+                    height:app.mheight
+                    MyAKBarChart:
+                                
+                        id: c1
+                        labels: True
+                        size_hint: None,None
+                        width: 350
+                
+                    OneLineListItem:
+                        text: "Position"
+                        id:c1d
+                        bg_color: app.theme_cls.primary_light
+                MDCard:
+                    orientation: "vertical"
+                    bg_color: app.theme_cls.primary_light
+                    id:c2c
+                    width: 350
+                    #size_hint: 1.1,None
+                    height:app.mheight
+                    MyAKBarChart:
+                                
+                        id: c2
+                        labels: True
+                        size_hint: None,None
+                        width: 350
+                        
+                
+                    OneLineListItem:
+                        text: "Type"
+                        id:c2d
+                        bg_color: app.theme_cls.primary_light
+
+                MDCard:
+                    orientation: "vertical"
+                    bg_color: app.theme_cls.primary_light
+                    height:app.mheight+500
+                    MyAKBarChart:
+                                
+                        id: c3
+                        labels: True
+                        size_hint: None,None
+                        width: 900
+                
+                    ThreeLineListItem:
+                        text: "Check Amount"
+                        id: c3d
+                        bg_color: app.theme_cls.primary_light
+                MDCard:
+                    orientation: "vertical"
+                    bg_color: app.theme_cls.primary_light
+                    height:app.mheight
+                    MyAKBarChart:
+                                
+                        id: c4
+                        labels: True
+                        size_hint: None,None
+                        width: 950
+                
+                    OneLineListItem:
+                        text: "Client"
+                        bg_color: app.theme_cls.primary_light
+

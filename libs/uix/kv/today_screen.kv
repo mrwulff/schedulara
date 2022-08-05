@@ -130,11 +130,13 @@
                 MDCard:
                     orientation: "vertical"
                     size_hint: .8, None
-                    height: first.height 
+                    height: first.height +dp(5)
                     focus_behavior: True
                     ripple_behavior: True
                     pos_hint: {"center_x": .5, "center_y": .5}
-                    ThreeLineAvatarListItem:
+                    on_release:
+                        on_press:(app.do_payperiod_f('YTD'))
+                    TwoLineListItem:
                         id:pay
                         text: "Next Paycheck"
                         secondary_text: "Secondary text here"
