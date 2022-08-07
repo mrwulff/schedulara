@@ -91,3 +91,5 @@ g_main.py
 libs/__pycache__/lib_think.cpython-39.pyc
 .gitignore
 sc.json
+credentials_g.json
+libs/__pycache__/lib_google.cpython-39.pyc

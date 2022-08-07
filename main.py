@@ -577,6 +577,7 @@ class Demo3App(MDApp):
         "firedb": "database",
         "Profile": "account-circle",
         "Chat": "message-outline",
+        "Google": "google-downasaur",
     }
 
     def get_dates(self, t):
@@ -621,6 +622,13 @@ class Demo3App(MDApp):
             self.do_new_stats(fdate, ldate, "All")
         if lol.icon == "cash-100":
             self.do_payperiod("paydate", self.rreverse)
+        if lol.icon == "google-downasaur":
+            self.do_google_cal()
+
+    def do_google_cal(self):
+        import libs.lib_google
+
+        libs.lib_google.create(ad)
 
     def format_date(self, d, year):
         from datetime import datetime
