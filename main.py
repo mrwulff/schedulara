@@ -640,6 +640,15 @@ class Demo3App(MDApp):
             lib_google.google_calendar_add(ad, y, x["cal_id"])
             # lib_google.get_calendar_service(ad)
 
+    def remove_google_token(self, z):
+        import os
+
+        try:
+            os.remove(ad + "/" + z)
+            self.snackbarx("success")
+        except:
+            self.snackbarx("failed to remove")
+
     def do_google_cal(self):
         import libs.lib_readuserdata
         import json
@@ -674,6 +683,10 @@ class Demo3App(MDApp):
                         )
                         print("FOUND FILE")
                     except:
+                        try:
+                            os.mkdir(ad + "/future_shows")
+                        except:
+                            "ok"
                         zz = lib_google.google_calendar_add(ad, gg[show], x["cal_id"])
                         gg[show]["google_id"] = zz
                         x2 = open(
