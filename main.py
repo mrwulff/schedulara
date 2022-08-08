@@ -628,7 +628,7 @@ class Demo3App(MDApp):
     def do_google_cal(self):
         import libs.lib_google2 as lib_google
 
-        lib_google.create()
+        lib_google.create(ad)
 
     def format_date(self, d, year):
         from datetime import datetime

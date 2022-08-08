@@ -13,7 +13,7 @@ from googleapiclient.errors import HttpError
 SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
 
 
-def create():
+def create(ad):
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
@@ -21,7 +21,7 @@ def create():
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists("token2.json"):
+    if os.path.exists(ad + "/token2.json"):
         creds = Credentials.from_authorized_user_file("token.json", SCOPES)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
@@ -33,7 +33,7 @@ def create():
             )
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open("token.json2", "w") as token:
+        with open(ad + "/token2.json", "w") as token:
             token.write(creds.to_json())
 
     try:
