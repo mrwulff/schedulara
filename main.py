@@ -625,10 +625,76 @@ class Demo3App(MDApp):
         if lol.icon == "google-downasaur":
             self.do_google_cal()
 
-    def do_google_cal(self):
+    def snackbarx(self, text1):
+        self.snackbar = Snackbar(
+            text=text1,
+            bg_color=self.theme_cls.primary_color,
+        )
+        self.snackbar.open()
+
+    def add_google_calendar(self, y):
         import libs.lib_google2 as lib_google
 
-        lib_google.create(ad)
+        print(y)
+        if x.get("cal_id") != None:
+            lib_google.google_calendar_add(ad, y, x["cal_id"])
+            # lib_google.get_calendar_service(ad)
+
+    def do_google_cal(self):
+        import libs.lib_readuserdata
+        import json
+
+        x = libs.lib_readuserdata.readuserdata(App, ad, ios)
+        import libs.lib_google2 as lib_google
+        import libs.lib_new
+
+        # lib_google.create(ad)
+        if x.get("cal_id") == None:
+            print("has name")
+            x["cal_id"] = lib_google.make_user_cals(ad)
+            import libs.lib_updateuserdata
+
+            libs.lib_updateuserdata.updateuser(x, ad)
+
+        js = libs.lib_new.get_json_schedule_1(x, ad)
+        gg = js["shows"]
+        added = 0
+        if x.get("cal_id") != None:
+            for show in range(len(gg)):
+                # print(gg[show])
+                # self.snackbarx(gg[show]["show"])
+                # print(gg[show], "goddamn")
+                if gg[show].get("google_id") == None:
+                    # lib_google.google_calendar_add(ad, gg[show], x["cal_id"])
+
+                    try:
+                        x2 = open(
+                            ad + "/future_shows/" + self.filename(gg[show]) + ".json",
+                            "r",
+                        )
+                        print("FOUND FILE")
+                    except:
+                        zz = lib_google.google_calendar_add(ad, gg[show], x["cal_id"])
+                        gg[show]["google_id"] = zz
+                        x2 = open(
+                            ad + "/future_shows/" + self.filename(gg[show]) + ".json",
+                            "w",
+                        )
+
+                        json_object = json.dumps(gg[show], indent=4)
+                        self.snackbarx("Added " + str(added))
+
+                        x2.write(json_object)
+                        +added
+        self.snackbarx("Added " + str(added))
+
+    def filename(self, x):
+        f = str.replace(x["show"], "/", "")
+        f = str.replace(f, ":", "")
+        f1 = str.replace(x["date"], "/", "")
+        f2 = str.replace(x["time"], ":", "")
+        f3 = x["job"]
+        return f1 + "_" + f2 + f3 + f
 
     def format_date(self, d, year):
         from datetime import datetime
@@ -1164,7 +1230,7 @@ class Demo3App(MDApp):
                         text="Save Time",
                         theme_text_color="Custom",
                         text_color=self.theme_cls.primary_color,
-                        # on_release=self.email_time,
+                        on_release=lambda x, y=(gg): self.add_google_calendar(y),
                     ),
                     MDFlatButton(
                         text="Check In",
