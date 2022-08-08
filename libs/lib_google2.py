@@ -42,7 +42,11 @@ def make_user_cals(ad):
 def get_tz():
     from tzlocal import get_localzone
 
-    tz = get_localzone()
+    try:
+        tz = get_localzone()
+    except:
+        tz = "America/Los_Angeles"
+        print("timezone dumb")
     # print(type(tz))
     return str(tz)
 
