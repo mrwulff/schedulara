@@ -100,8 +100,8 @@
         "kv": "libs/uix/kv/animate_screen.kv"
     },
     "onboarding": {
-        "import": "from libs.uix.baseclass.onboarding_screen import onboardingscreen",
-        "object": "onboardingscreen()",
+        "import": "from libs.uix.baseclass.onboarding_screen import onboardingScreen",
+        "object": "onboardingScreen()",
         "kv": "libs/uix/kv/onboarding_screen.kv"
     }
 }

@@ -1,13 +1,12 @@
 <AboutScreen>
     name: "about"
-    #Image:
-    #    source: 'images/rh.jpg'
-    #    size: self.width,self.height
+    Image:
+       source: 'images/rh.jpg'
+       size: self.width,self.height
     BoxLayout:
         id: graphs2
         orientation: "vertical"
         MDToolbar:
-            #title: "Settings"
             height: app.mheight
             left_action_items: [['chevron-left', lambda screen: app.change_screen('mainmenu','left'),'home']]
 

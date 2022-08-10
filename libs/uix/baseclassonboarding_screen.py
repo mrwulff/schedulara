@@ -1,6 +1,3 @@
 from kivy.uix.screenmanager import Screen
-
-
-class AboutScreen(Screen):
-
-    pass
+class onboardingscreen(Screen):
+  pass

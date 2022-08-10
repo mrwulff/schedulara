@@ -567,7 +567,6 @@ class Demo3App(MDApp):
     profile = 0
     profile_data = []
     data = {
-        "Settings": "cog-outline",
         "History": "calendar-star",
         "Paystubs": "cash-100",
         "Stats": "chart-areaspline",
@@ -578,6 +577,8 @@ class Demo3App(MDApp):
         "Profile": "account-circle",
         "Chat": "message-outline",
         "Google": "google-downasaur",
+        "Settings": "cog-outline",
+        "Open_test": "test-tube",
     }
 
     def get_dates(self, t):
@@ -624,6 +625,11 @@ class Demo3App(MDApp):
             self.do_payperiod("paydate", self.rreverse)
         if lol.icon == "google-downasaur":
             self.do_google_cal()
+        if lol.icon == "test-tube":
+            self.do_test_open()
+
+    def do_test_open(self):
+        print("test")
 
     def snackbarx(self, text1):
         self.snackbar = Snackbar(
@@ -991,7 +997,7 @@ class Demo3App(MDApp):
         # rv = self.root.ids.rv
         # self.data = [self.create_random_input(rv, index) for index in range(20)]
 
-        self.root.set_current("home")
+        # self.root.set_current("home")
 
     def on_start(self):
         toast(str(tic - time.perf_counter()))
@@ -1034,6 +1040,7 @@ class Demo3App(MDApp):
         except:
             asdf = "1.1"
         print(asdf)
+
         try:
             if x["today_start"] == False:
                 self.newstart("", useold)
@@ -1043,8 +1050,47 @@ class Demo3App(MDApp):
                 self.today()
         except:
             self.today()
-        # except:
-        #    toast("Failed to make config")
+
+    def callback(self, instance_button):
+        print(
+            self.alert,
+        )
+        b = instance_button.text
+        nb = int(b[-1])
+        self.alert.dismiss()
+        if nb < 2:
+
+            self.do_onboarding(nb + 1)
+        if nb == 9:
+            self.alert.dismiss()
+
+    def do_onboarding(self, i):
+
+        title = ["Hello", "First Step:", "Extras:"]
+        text = [
+            "Welcome to Schedulara",
+            "1. Click the MENU button\n2. Click Settings\n3. Click Login",
+            "Notifications\nGoogle Calendar Export\n",
+        ]
+        b_b = "Next", "Next", ""
+        b_b2 = "Skip", "Skip", "Close"
+
+        from kivymd_extensions.sweetalert import SweetAlert
+
+        button_ok = MDRaisedButton(
+            text=b_b[i] + "[size=0]" + str(i),
+            font_size=16,
+            on_release=self.callback,
+        )
+        button_cancel = MDFlatButton(
+            text=b_b2[i] + "[size=0]" + "9",
+            font_size=16,
+            on_release=self.callback,
+        )
+        bb = [button_ok, button_cancel], [button_ok, button_cancel], [button_cancel]
+        self.alert = SweetAlert()
+        self.alert.fire(title[i], text[i], buttons=bb[i])
+        return True
 
     def soon(self, b):
         toast("Coming Soon!")
@@ -1337,6 +1383,12 @@ class Demo3App(MDApp):
         paylist.text = "Next Payday:  " + paydate
         paylist.secondary_text = "Current Payperiod: " + payperiod
         # paylist.tertiary_text = "third" + payperiod
+        if x.get("onboarding") == None:
+            b = self.do_onboarding(0)
+            x["onboarding"] = True
+            import libs.lib_updateuserdata
+
+            libs.lib_updateuserdata.updateuser(x, ad)
 
     def find_pay_date(self):
 
