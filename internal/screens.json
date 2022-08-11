@@ -100,8 +100,13 @@
         "kv": "libs/uix/kv/animate_screen.kv"
     },
     "onboarding": {
-        "import": "from libs.uix.baseclass.onboarding_screen import onboardingScreen",
-        "object": "onboardingScreen()",
+        "import": "from libs.uix.baseclass.onboarding_screen import onboardingscreen",
+        "object": "onboardingscreen()",
         "kv": "libs/uix/kv/onboarding_screen.kv"
+    },
+    "backupgoogle": {
+        "import": "from libs.uix.baseclass.backupgoogle_screen import backupgoogleScreen",
+        "object": "backupgoogleScreen()",
+        "kv": "libs/uix/kv/backupgoogle_screen.kv"
     }
 }

@@ -1,0 +1,34 @@
+<backupgooglescreen>
+    #:import Clipboard kivy.core.clipboard.Clipboard
+    #:import Snackbar kivymd.uix.snackbar.Snackbar
+    name: "backupgoogle"
+    Image:
+        source: 'images/rh.jpg'
+        size: self.width,self.height
+    BoxLayout:
+        orientation: "vertical"
+        MDTopAppBar:
+            #title: "Settings"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
+        ScrollView:
+
+
+            MDList:
+
+                OneLineAvatarIconListItem:
+                    text: 'Initalize Google'
+                    YourContainer2:
+                        MDSwitch:
+                            widget_style: "ios"
+                            id: usegoogle
+                            active: app.check_att("usegoogle")
+                            on_active: app.updatetext("usegoogle")
+                    IconLeftWidget:
+                        icon: "google-cloud"
+                TwoLineAvatarIconListItem:
+                    text: 'BackupNow'
+                    secondary_text: 'Last Backup:'
+                    IconLeftWidget:
+                        icon: "cloud-upload"
+

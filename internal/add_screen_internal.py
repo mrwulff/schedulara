@@ -44,8 +44,8 @@ if exists == False:
     f = open("screens.json")
     data = json.load(f)
     print(data)
-    i = "from libs.uix.baseclass." + sn + "_screen import " + sn + "Screen"
-    o = sn + "Screen()"
+    i = "from libs.uix.baseclass." + sn + "_screen import " + sn + "screen"
+    o = sn + "screen()"
     k = "libs/uix/kv/" + sn + "_screen.kv"
     dd = {"import": i, "object": o, "kv": k}
     data[sn] = dd

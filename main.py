@@ -18,7 +18,7 @@ useold = False
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.properties import StringProperty, Property
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.list import IRightBodyTouch
+from kivymd.uix.list import IRightBodyTouch, ILeftBodyTouch
 from kivy.properties import ObjectProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivymd.app import MDApp
@@ -238,7 +238,7 @@ class YourContainer(IRightBodyTouch, MDBoxLayout):
 
 class YourContainer2(IRightBodyTouch, MDBoxLayout):
     adaptive_width = False
-    size_hint = (0.9, 0.9)
+    # size_hint = (0.9, 0.9)
 
 
 class HistoryItem(Screen):
@@ -626,7 +626,10 @@ class Demo3App(MDApp):
         if lol.icon == "google-downasaur":
             self.do_google_cal()
         if lol.icon == "test-tube":
-            self.do_test_open()
+            self.do_gbackup()
+
+    def do_gbackup(self):
+        self.root.set_current("backupgoogle")
 
     def file_selection(self, selection):
         import os
@@ -652,21 +655,19 @@ class Demo3App(MDApp):
             path = ""
 
     def do_test_open(self):
+
+        import libs.lib_google2 as lib_google
+        import libs.lib_new
+
         print("test")
-        import plyer
+        if x.get("drive_id") == None:
+            x["drive_id"] = lib_google.search_files(ad, "Schedulara_Backups")
 
-        x2 = plyer.filechooser
-        print(x2, dir(x2), "filechooser")
-        # z = x2.open_file(on_selection=self.file_selection)
-        # print(z)
-        app = App.get_running_app()
+            print(x["drive_id"])
+            import libs.lib_updateuserdata
 
-        ad = app
-        print(dir(app))
-        print(app.directory)
-        nd = plyer.storagepath.get_application_dir()
-        print(nd)
-        temp = open(nd + "/what.txt", "w")
+            libs.lib_updateuserdata.updateuser(x, ad)
+        print(x)
 
     def snackbarx(self, text1):
         self.snackbar = Snackbar(
@@ -3228,7 +3229,7 @@ class Demo3App(MDApp):
             config_file = ad
         debugbox = App.get_running_app().root.current_screen.ids[box].active
         x[box] = debugbox
-        # print(x[box], "xbox")
+        print(x[box], box, " SETTINGS TOGGLE")
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)

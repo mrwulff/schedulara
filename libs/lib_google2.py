@@ -3,18 +3,23 @@ from __future__ import print_function
 from datetime import datetime, timedelta
 
 import os.path
+import os
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-import pickle
+from googleapiclient.http import MediaFileUpload
+
 import time
 
 
 # If modifying these scopes, delete the file token.json.
-SCOPES = ["https://www.googleapis.com/auth/calendar"]
+SCOPES = [
+    "https://www.googleapis.com/auth/calendar",
+    "https://www.googleapis.com/auth/drive",
+]
 
 
 def make_user_cals(ad):
@@ -164,6 +169,118 @@ def google_calendar_add(ad, x, y):
     return event_result["id"]
 
 
+def create_google_folder(ad, name):
+    creds = get_creds(ad)
+    # The file token.json stores the user's access and refresh tokens, and is
+    # created automatically when the authorization flow completes for the first
+    # time.
+
+    try:
+        # create drive api client
+        service = build("drive", "v3", credentials=creds)
+        file_metadata = {
+            "name": name,
+            "mimeType": "application/vnd.google-apps.folder",
+        }
+
+        # pylint: disable=maybe-no-member
+        file = service.files().create(body=file_metadata, fields="id").execute()
+        print(f'Folder has created with ID: "{file.get("id")}".')
+
+    except HttpError as error:
+        print(f"An error occurred creating folder: {error}")
+        file = None
+
+    return file.get("id")
+
+
+def get_creds(ad):
+    creds = None
+
+    if os.path.exists(ad + "/token2.json"):
+        creds = Credentials.from_authorized_user_file(ad + "/token2.json", SCOPES)
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                "credentials_g.json", SCOPES
+            )
+            creds = flow.run_local_server(port=0)
+        # Save the credentials for the next run
+        with open(ad + "/token2.json", "w") as token:
+            token.write(creds.to_json())
+    return creds
+
+
+def google_files(ad):
+
+    creds = get_creds(ad)
+    print(creds)
+    now = datetime.now()
+    d = datetime.strftime(now, "%d.%m.%Y")
+
+    try:
+        service = build("drive", "v3", credentials=creds)
+
+        file_metadata = {
+            "name": "show_backup--" + d + ".zip",
+            "parents": ["1-cU7omjnPTAnv9CpyKDRubRrNN2-km04"],
+        }
+        media = MediaFileUpload(ad + "/show2.zip", mimetype="application/zip=")
+        file = (
+            service.files()
+            .create(body=file_metadata, media_body=media, fields="id")
+            .execute()
+        )
+        print("File ID: %s" % file.get("id"))
+    except HttpError as error:
+
+        print(f"An error occurred: {error}")
+
+
+def search_files(ad, name):
+    creds = get_creds(ad)
+    print(creds)
+    path = "Schedulara"
+    try:
+        # create drive api client
+        service = build("drive", "v3", credentials=creds)
+        files = []
+        page_token = None
+        while True:
+            # pylint: disable=maybe-no-member
+            response = (
+                service.files()
+                .list(
+                    q="name='" + name + "'",
+                    spaces="drive",
+                    fields="nextPageToken, " "files(id, name)",
+                    pageToken=page_token,
+                )
+                .execute()
+            )
+            for file in response.get("files", []):
+                # Process change
+                print(f'Found file: {file.get("name")}, {file.get("id")}')
+            files.extend(response.get("files", []))
+            page_token = response.get("nextPageToken", None)
+            if page_token is None:
+                break
+
+    except HttpError as error:
+        print(f"An error occurred searching for folder: {error}")
+        files = None
+        return "FAILED TO MAKE/FIND CALENDAR"
+    try:
+        zzz = file.get("id")
+        print(zzz, type(zzz))
+        return zzz
+    except:
+        create_google_folder(ad, name)
+        search_files(ad, name)
+
+
 if __name__ == "__main__":
     ad = "C:/Users/kw/AppData/Roaming/demo3/"
     x = {
@@ -194,30 +311,15 @@ if __name__ == "__main__":
     #
     # make_new_calendar("C:/Users/kw/AppData/Roaming/demo3/")
     # make_google_event(ad)
-    os.chdir("../")
+    # os.chdir("../")
+    zz = os.getcwd()
+    print(zz)
 
     # get_user_cals(ad)
     # make_user_cals(ad)
     # get_tz()
     # make_google_event(ad, x, y)
-    google_calendar_add(ad, x, y)
-
-
-"""body={
-                "summary": x["show"],
-                "description": +"\n"  # +str(x["venue"])
-                + x["location"]
-                + "\n"
-                + x["pos"]
-                + "\n"
-                + x["type"]
-                + "\n"
-                + x["client"]
-                + x["job"]
-                + "\n"
-                + x["notes"]
-                + "\n",
-                "start": {"dateTime": start, "timeZone": get_tz()},
-                "end": {"dateTime": end, "timeZone": get_tz()},
-            },
-            """
+    # google_calendar_add(ad, x, y)
+    # create_google_folder(ad)
+    # google_files(ad)
+    search_files(ad, "bobbobob")

@@ -103,5 +103,10 @@
         "import": "from libs.uix.baseclass.onboarding_screen import onboardingscreen",
         "object": "onboardingscreen()",
         "kv": "libs/uix/kv/onboarding_screen.kv"
+    },
+    "backupgoogle": {
+        "import": "from libs.uix.baseclass.backupgoogle_screen import backupgooglescreen",
+        "object": "backupgooglescreen()",
+        "kv": "libs/uix/kv/backupgoogle_screen.kv"
     }
 }
