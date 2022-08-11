@@ -630,6 +630,12 @@ class Demo3App(MDApp):
 
     def do_test_open(self):
         print("test")
+        import plyer
+
+        x2 = plyer.filechooser
+        print(x2, dir(x2), "filechooser")
+        z = x2.open_file()
+        print(z)
 
     def snackbarx(self, text1):
         self.snackbar = Snackbar(
@@ -1428,6 +1434,7 @@ class Demo3App(MDApp):
         # print(x, "BLABLABLA", ad)
         xx9 = libs.lib_new.just_get_json_schedule(x, ad)
         # print("check confirm", xx9)
+        print(xx9["num_shows"], "NUMSHOWS")
         if xx9["num_shows"] > 0:
             print(xx9["num_shows"])
             self.new_confirm("all")
@@ -1703,7 +1710,7 @@ class Demo3App(MDApp):
         import libs.lib_new
 
         xx9 = libs.lib_new.get_json_schedule(x, ad)
-        print("save_time", xx9, x)
+        # print("save_time", xx9, x)
 
         try:
             print(asdf, str(xx9["confirmables"]), "OMG ITS CONFIRMING ITSELF")
@@ -1711,12 +1718,12 @@ class Demo3App(MDApp):
             print("one?", asdf)
         if asdf == "all":
             for xxx in range(int(xx9["num_shows"])):
-                # fail = self.confirm_real(xx9["confirmables"][xxx])
-                print((xx9["confirmables"][xxx]))
+                fail = self.confirm_real(xx9["confirmables"][xxx])
+                print((xx9["confirmables"][xxx]), "whattttttttt")
         if asdf != "all":
             if xx9.get("confirable"):
                 print(xx9["confirable"], "DO CONFIRM THIS")
-                # fail = self.confirm_real(asdf)
+                fail = self.confirm_real(asdf)
                 print(fail)
                 toast("Confirmed")
                 self.update()
@@ -2826,11 +2833,11 @@ class Demo3App(MDApp):
         try:
             if "dg" in dg:
                 confirmable = True
-                print("trying to confirm " + str(xx9["date"]))
+                # print("trying to confirm " + str(xx9["date"]))
         except:
             print("nonconfirmable you nerd")
 
-        print(type(browser), "OMGWHATISTHISSTUFF", dg)
+        # print(type(browser), "OMGWHATISTHISSTUFF", dg)
         if 1 == 1:
             if 1 == 1:
                 try:
@@ -2844,7 +2851,7 @@ class Demo3App(MDApp):
                 # print(browser, 'browser 1')
                 control_t = browser.form.find_control("__EVENTTARGET")
                 control_a = browser.form.find_control("__EVENTARGUMENT")
-                print(browser, "browser 2")
+                # print(browser, "browser 2")
                 control_t.readonly = False
                 control_a.readonly = False
 
@@ -2856,7 +2863,7 @@ class Demo3App(MDApp):
                 response = browser.submit()
                 # print(browser, 'browser 4')
                 aa = response.get_data()
-                print(browser, "browser 5")
+                # print(browser, "browser 5")
 
                 aaa = open(ad + "/realdata.html", "wb")
                 aaa.write((aa))
