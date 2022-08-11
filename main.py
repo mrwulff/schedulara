@@ -628,13 +628,36 @@ class Demo3App(MDApp):
         if lol.icon == "test-tube":
             self.do_test_open()
 
+    def file_selection(self, selection):
+        import os
+        import logging as Logger
+
+        tmp_images_path = ad
+        if selection:
+            path = str(selection[0])
+            if not os.path.exists(tmp_images_path):
+                os.makedirs(tmp_images_path)
+
+            filename = os.path.basename(path)
+
+            tmp_file = os.path.join(tmp_images_path, filename)
+            # copyfile(path, tmp_file)
+
+            Logger.debug(f"Image copied to tmp folder: {tmp_file}")
+            Logger.debug(f"Image selected: {path}")
+
+            print(f"Temp: {tmp_file}\nReal: {path}")
+            print("on_image_selected", path)
+        else:
+            path = ""
+
     def do_test_open(self):
         print("test")
         import plyer
 
         x2 = plyer.filechooser
         print(x2, dir(x2), "filechooser")
-        z = x2.open_file()
+        z = x2.open_file(on_selection=self.file_selection)
         print(z)
 
     def snackbarx(self, text1):
