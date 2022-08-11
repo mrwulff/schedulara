@@ -657,8 +657,16 @@ class Demo3App(MDApp):
 
         x2 = plyer.filechooser
         print(x2, dir(x2), "filechooser")
-        z = x2.open_file(on_selection=self.file_selection)
-        print(z)
+        # z = x2.open_file(on_selection=self.file_selection)
+        # print(z)
+        app = App.get_running_app()
+
+        ad = app
+        print(dir(app))
+        print(app.directory)
+        nd = plyer.storagepath.get_application_dir()
+        print(nd)
+        temp = open(nd + "/what.txt", "w")
 
     def snackbarx(self, text1):
         self.snackbar = Snackbar(
