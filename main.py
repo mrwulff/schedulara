@@ -31,9 +31,9 @@ from kivy.utils import platform
 from kivymd.uix.snackbar import Snackbar
 from kivymd.toast import toast
 
-from kivymd.uix.picker import MDThemePicker
-from kivymd.uix.picker import MDTimePicker
-from kivymd.uix.picker import MDDatePicker
+# from kivymd.uix.picker import MDThemePicker
+# from kivymd.uix.picker import MDTimePicker
+# from kivymd.uix.picker import MDDatePicker
 from kivy.uix.popup import Popup
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.list import (
