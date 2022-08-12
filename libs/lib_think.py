@@ -1,6 +1,7 @@
 def login(ad, x, ios, App):
     import mechanize
     import ssl
+    import libs.lib_google2
 
     if ios == True:
         app = App.get_running_app()
@@ -34,7 +35,9 @@ def login(ad, x, ios, App):
     # print (x['username'],x['password'])
     # print (type(x['username']),type(x['password']))
     browser["emailaddress"] = x["username"]
-    browser["mypassword"] = x["password"]
+    browser["mypassword"] = browser["mypassword"] = libs.lib_google2.r_password(
+        x["password"]
+    )
 
     res = browser.submit()
 
@@ -58,6 +61,7 @@ def openbrowser(ad, x, ios, App):
     import ssl
     import os
     import mechanize
+    import libs.lib_google2
 
     ssl.verify = False
 
@@ -77,7 +81,7 @@ def openbrowser(ad, x, ios, App):
     browser.open(PE_LOGIN)
     browser.select_form(name="ctl00")
     browser["emailaddress"] = x["username"]
-    browser["mypassword"] = x["password"]
+    browser["mypassword"] = libs.lib_google2.r_password(x["password"])
 
     res = browser.submit()
 

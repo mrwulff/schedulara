@@ -213,7 +213,7 @@ def get_creds(ad):
     return creds
 
 
-def google_files(ad):
+def google_files(ad, f):
 
     creds = get_creds(ad)
     print(creds)
@@ -233,15 +233,14 @@ def google_files(ad):
             .create(body=file_metadata, media_body=media, fields="id")
             .execute()
         )
-        print("File ID: %s" % file.get("id"))
+        return "File ID: %s" % file.get("id")
     except HttpError as error:
 
-        print(f"An error occurred: {error}")
+        return f"An error occurred: {error}"
 
 
 def search_files(ad, name):
     creds = get_creds(ad)
-    print(creds)
     path = "Schedulara"
     try:
         # create drive api client
@@ -262,7 +261,7 @@ def search_files(ad, name):
             )
             for file in response.get("files", []):
                 # Process change
-                print(f'Found file: {file.get("name")}, {file.get("id")}')
+                (f'Found file: {file.get("name")}, {file.get("id")}')
             files.extend(response.get("files", []))
             page_token = response.get("nextPageToken", None)
             if page_token is None:
@@ -274,11 +273,29 @@ def search_files(ad, name):
         return "FAILED TO MAKE/FIND CALENDAR"
     try:
         zzz = file.get("id")
-        print(zzz, type(zzz))
+        # print(zzz, type(zzz))
         return zzz
     except:
         create_google_folder(ad, name)
         search_files(ad, name)
+
+
+def make_password(p):
+    import base64
+    import ast
+
+    p2 = base64.b64encode(p.encode("utf-8"))
+    p2 = str(p2)
+
+    return p2
+
+
+def r_password(p):
+    import ast
+    import base64
+
+    p3 = ast.literal_eval(p)
+    return str(base64.b64decode(p3).decode("utf-8"))
 
 
 if __name__ == "__main__":
@@ -322,4 +339,6 @@ if __name__ == "__main__":
     # google_calendar_add(ad, x, y)
     # create_google_folder(ad)
     # google_files(ad)
-    search_files(ad, "bobbobob")
+    # search_files(ad, "bobbobob")
+    pw = make_password("testtest")
+    r_password(pw)

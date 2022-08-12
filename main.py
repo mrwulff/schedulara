@@ -37,11 +37,11 @@ from kivymd.toast import toast
 from kivy.uix.popup import Popup
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.list import (
-    IRightBodyTouch,
     OneLineAvatarIconListItem,
     TwoLineAvatarListItem,
     TwoLineListItem,
     ThreeLineListItem,
+    ThreeLineAvatarListItem,
 )
 
 from kivymd.uix.expansionpanel import (
@@ -235,11 +235,6 @@ class PayScreen(Screen):
 
 class YourContainer(IRightBodyTouch, MDBoxLayout):
     adaptive_width = True
-
-
-class YourContainer2(IRightBodyTouch, MDBoxLayout):
-    adaptive_width = False
-    # size_hint = (0.9, 0.9)
 
 
 class HistoryItem(Screen):
@@ -632,6 +627,94 @@ class Demo3App(MDApp):
     def do_gbackup(self):
         self.root.set_current("backupgoogle")
 
+        import libs.lib_google2 as lib_google
+        import libs.lib_new
+        import datetime
+        import libs.lib_readuserdata
+        import humanize
+
+        x = libs.lib_readuserdata.readuserdata(App, ad, ios)
+
+        # print("test00")
+        if x.get("drive_id") == None:
+            x["drive_id"] = lib_google.search_files(ad, "Schedulara_Backups")
+
+            print(x["drive_id"])
+            import libs.lib_updateuserdata
+
+            libs.lib_updateuserdata.updateuser(x, ad)
+        # print(x["drive_id"], "this is do_gbackup")
+        l_backup = App.get_running_app().root.current_screen.ids["last_backup"]
+        # l_backup.text=
+        if x.get("last_backup") == None:
+            l_backup.secondary_text = "Last Backup: Never"
+        else:
+            old_update = datetime.datetime.strptime(
+                x["last_backup"], "%Y-%m-%d %H:%M:%S.%f"
+            )
+            now = datetime.datetime.now()
+            diff2 = humanize.naturaltime(now - old_update)
+            print("why no update", diff2)
+            l_backup.secondary_text = "Last Backup: " + diff2
+        # print(x.get("last_backup"), "LAST BACKUP")
+
+    def do_backups(self):
+        import os
+        import shutil
+        import datetime
+
+        global x
+
+        bu = ["backup_checks", "backup_config", "backup_shows"]
+        dest = ad + "/backup2"
+        for i in range(len(bu)):
+            if x[bu[i]]:
+
+                if bu[i] == "backup_checks":
+                    # print(bu[i])
+                    src = os.path.join(ad, "pp")
+                    dest = os.path.join(ad, "backup/pp")
+                    try:
+                        shutil.rmtree(dest)
+                    except:
+                        pass
+                    destination = shutil.copytree(src, dest)
+                if bu[i] == "backup_shows":
+                    # print(bu[i])
+                    src = os.path.join(ad, "future_shows")
+                    dest = os.path.join(ad, "backup/future_shows")
+
+                    try:
+                        shutil.rmtree(dest)
+                    except:
+                        pass
+                    destination = shutil.copytree(src, dest)
+                if bu[i] == "backup_config":
+                    # print(bu[i])
+                    src = os.path.join(ad, "userdata.json.txt")
+                    dest = os.path.join(ad, "backup/userdata.json")
+                    destination = shutil.copy2(src, dest)
+
+        zsrc = os.path.join(ad, "backup")
+        zdest = os.path.join(ad, "backup")
+        shutil.make_archive(zsrc, "zip", zdest)
+        import libs.lib_google2
+
+        tt = libs.lib_google2.google_files(ad, "backup.zip")
+        toast(tt)
+        # nf = os.path.join(ad, "shows2.zip")
+        # nf='C:/Users/kw/AppData/Roaming/demo3/shows2.zip'
+        # shutil.make_archive(ad + "/show3", "zip", ad + "/shows")
+        now = datetime.datetime.now()
+        # now = humanize.naturaltime(now)
+        import libs.lib_updateuserdata
+
+        x["last_backup"] = str(now)
+
+        libs.lib_updateuserdata.updateuser(x, ad)
+        # print(x)
+        self.do_gbackup()
+
     def file_selection(self, selection):
         import os
         import logging as Logger
@@ -660,7 +743,7 @@ class Demo3App(MDApp):
         import libs.lib_google2 as lib_google
         import libs.lib_new
 
-        print("test")
+        print("test00")
         if x.get("drive_id") == None:
             x["drive_id"] = lib_google.search_files(ad, "Schedulara_Backups")
 
@@ -999,25 +1082,24 @@ class Demo3App(MDApp):
         ad = app.user_data_dir
         # config_file=ad
 
-        if ios == True:
-            import libs.lib_readuserdata
+        import libs.lib_readuserdata
 
-            x = libs.lib_readuserdata.readuserdata(App, ad, ios)
+        x = libs.lib_readuserdata.readuserdata(App, ad, ios)
+
+        # x[b] = False
+        app = App.get_running_app()
+        ad = app.user_data_dir
+        import libs.lib_updateuserdata
+
         try:
-            # print(x[b], "checkingx[b]")
-            pass
-        except:
-            # print("cant do that")
-            x[b] = False
-            app = App.get_running_app()
-            ad = app.user_data_dir
-            # print(ad, "adadadad33")
-            libs.lib_updateuserdata.updateuser(x, ad)
-        # print(x, "XSUBB")
-        try:
+            print("already set")
             return x[b]
+
         except:
+            print("not set yet")
+
             x[b] = "False"
+            libs.lib_updateuserdata.updateuser(x, ad)
             return x[b]
 
     def check_pull_refresh(self, view, grid):
@@ -1104,15 +1186,15 @@ class Demo3App(MDApp):
             self.alert.dismiss()
 
     def do_onboarding(self, i):
-
+        s = "[size=20dp]"
         title = ["Hello", "First Step:", "Extras:"]
         text = [
-            "Welcome to Schedulara",
-            "1. Click the MENU button\n2. Click Settings\n3. Click Login",
-            "Notifications\nGoogle Calendar Export\n",
+            s + "Welcome to Schedulara",
+            s + "1. Click the MENU button\n2. Click Settings\n3. Click Login",
+            s + "Notifications\nGoogle Calendar Export\n",
         ]
-        b_b = "Next", "Next", ""
-        b_b2 = "Skip", "Skip", "Close"
+        b_b = s + "Next", s + "Next", ""
+        b_b2 = s + "Skip", s + "Skip", s + "Close"
 
         from kivymd_extensions.sweetalert import SweetAlert
 
@@ -2380,7 +2462,6 @@ class Demo3App(MDApp):
         # import lib_test
         # lib_test.n22()
         from kivymd.icon_definitions import md_icons
-        from kivymd.uix.list import TwoLineAvatarListItem
 
         self.root.set_current("ach")
         self.root.current_screen.ids["ach_id"].clear_widgets()
@@ -3225,9 +3306,6 @@ class Demo3App(MDApp):
     def updatetext(self, box):
         app = App.get_running_app()
         ad = app.user_data_dir
-        # print(ad)
-        if ios == False:
-            config_file = ad
         debugbox = App.get_running_app().root.current_screen.ids[box].active
         x[box] = debugbox
         print(x[box], box, " SETTINGS TOGGLE")
@@ -3692,9 +3770,15 @@ class Demo3App(MDApp):
     # self.root.current = "home"
 
     def save_login(self):
+        import libs.lib_google2
+
         self.root.current = "login"
         x["username"] = App.get_running_app().root.current_screen.ids["temail"].text
-        x["password"] = App.get_running_app().root.current_screen.ids["tpassword"].text
+        x["password"] = str(
+            libs.lib_google2.make_password(
+                App.get_running_app().root.current_screen.ids["tpassword"].text
+            )
+        )
         x["city"] = App.get_running_app().root.current_screen.ids["button4"].text
         import libs.lib_updateuserdata as lib_updateuserdata
 

@@ -2,9 +2,9 @@
     #:import Clipboard kivy.core.clipboard.Clipboard
     #:import Snackbar kivymd.uix.snackbar.Snackbar
     name: "backupgoogle"
-    Image:
-        source: 'images/rh.jpg'
-        size: self.width,self.height
+    #Image:
+    #    source: 'images/rh.jpg'
+    #    size: self.width,self.height
     BoxLayout:
         orientation: "vertical"
         MDTopAppBar:
@@ -17,8 +17,8 @@
             MDList:
 
                 OneLineAvatarIconListItem:
-                    text: 'Initalize Google'
-                    YourContainer2:
+                    text: 'Auto Backup'
+                    YourContainer:
                         MDSwitch:
                             widget_style: "ios"
                             id: usegoogle
@@ -26,9 +26,40 @@
                             on_active: app.updatetext("usegoogle")
                     IconLeftWidget:
                         icon: "google-cloud"
-                TwoLineAvatarIconListItem:
-                    text: 'BackupNow'
+                ThreeLineAvatarIconListItem:
+                    text: 'Backup'
+                    id:last_backup
                     secondary_text: 'Last Backup:'
+                    on_release: app.do_backups()
                     IconLeftWidget:
                         icon: "cloud-upload"
-
+                OneLineAvatarIconListItem:
+                    text: 'Backup Shows'
+                    YourContainer:
+                        MDSwitch:
+                            widget_style: "ios"
+                            id: backup_shows
+                            active: app.check_att("backup_shows")
+                            on_active: app.updatetext("backup_shows")
+                    IconLeftWidget:
+                        icon: "google-cloud"
+                OneLineAvatarIconListItem:
+                    text: 'Backup Config'
+                    YourContainer:
+                        MDSwitch:
+                            widget_style: "ios"
+                            id: backup_config
+                            active: app.check_att("backup_config")
+                            on_active: app.updatetext("backup_config")
+                    IconLeftWidget:
+                        icon: "google-cloud"
+                OneLineAvatarIconListItem:
+                    text: 'Backup Paychecks'
+                    YourContainer:
+                        MDSwitch:
+                            widget_style: "ios"
+                            id: backup_checks
+                            active: app.check_att("backup_checks")
+                            on_active: app.updatetext("backup_checks")
+                    IconLeftWidget:
+                        icon: "google-cloud"

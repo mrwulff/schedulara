@@ -98,6 +98,8 @@ def find_paychecks(a, ad):
 
 def thinkpp(x, ad):
     print("thinkpp", x)
+    import libs.lib_google2
+
     # USERNAME
     import ssl
 
@@ -128,7 +130,7 @@ def thinkpp(x, ad):
 
     browser.select_form(name="ctl00")
     browser["emailaddress"] = x["username"]
-    browser["mypassword"] = x["password"]
+    browser["mypassword"] = libs.lib_google2.r_password(x["password"])
     # print (browser)
     # print browser.title
 
