@@ -59,6 +59,7 @@ from kivy.metrics import dp
 
 import datetime
 import libs.lib_think as lib_think
+import libs.lib_google2 as lib_google
 
 
 """
@@ -624,10 +625,21 @@ class Demo3App(MDApp):
         if lol.icon == "test-tube":
             self.do_gbackup()
 
+    def do_restore(self, f):
+        import shutil
+
+        print(f)
+        f2 = lib_google.search_files(ad, f)
+        print(f2)
+        f3 = lib_google.download_google_drive(ad, f2)
+        fw = open(ad + "/temp.zip", "wb")
+        fw.write(f3)
+        fw.close()
+        shutil.unpack_archive(ad + "/temp.zip", ad)
+
     def do_gbackup(self):
         self.root.set_current("backupgoogle")
 
-        import libs.lib_google2 as lib_google
         import libs.lib_new
         import datetime
         import libs.lib_readuserdata
@@ -666,7 +678,6 @@ class Demo3App(MDApp):
         global x
 
         bu = ["backup_checks", "backup_config", "backup_shows"]
-        dest = ad + "/backup2"
         for i in range(len(bu)):
             if x[bu[i]]:
 
@@ -700,7 +711,8 @@ class Demo3App(MDApp):
         shutil.make_archive(zsrc, "zip", zdest)
         import libs.lib_google2
 
-        tt = libs.lib_google2.google_files(ad, "backup.zip")
+        self.do_test_open()
+        tt = libs.lib_google2.google_files(ad, "backup.zip", x["drive_id"])
         toast(tt)
         # nf = os.path.join(ad, "shows2.zip")
         # nf='C:/Users/kw/AppData/Roaming/demo3/shows2.zip'
@@ -738,9 +750,14 @@ class Demo3App(MDApp):
         else:
             path = ""
 
+    def find_gbackups(self):
+
+        z = lib_google.find_backup(ad, [x["drive_id"]])
+        # print(z, "this is the list of backups")
+        return z
+
     def do_test_open(self):
 
-        import libs.lib_google2 as lib_google
         import libs.lib_new
 
         print("test00")
@@ -752,6 +769,7 @@ class Demo3App(MDApp):
 
             libs.lib_updateuserdata.updateuser(x, ad)
         print(x)
+        return x
 
     def snackbarx(self, text1):
         self.snackbar = Snackbar(
@@ -1191,7 +1209,7 @@ class Demo3App(MDApp):
         text = [
             s + "Welcome to Schedulara",
             s + "1. Click the MENU button\n2. Click Settings\n3. Click Login",
-            s + "Notifications\nGoogle Calendar Export\n",
+            s + "Notifications\nGoogle Calendar Export\n\Cloud Backups",
         ]
         b_b = s + "Next", s + "Next", ""
         b_b2 = s + "Skip", s + "Skip", s + "Close"
@@ -2151,7 +2169,15 @@ class Demo3App(MDApp):
         # print(location[text_item])
         # print (text_item,type(text_item))
         # print(v[text_item], "v[text")
-        App.get_running_app().root.current_screen.ids["button4"].text = v[text_item]
+        if v2 == "name":
+            toast(str(v[text_item][v2]))
+            App.get_running_app().root.current_screen.ids[
+                "last_restore"
+            ].secondary_text = str(v[text_item][v2])
+        if v2 == "city":
+            App.get_running_app().root.current_screen.ids["button4"].text = str(
+                v[text_item]
+            )
         # self.root.get_screen("notification").ids['button4'].text=v[text_item]
         global x
         x[v2] = v[text_item]
@@ -2162,17 +2188,31 @@ class Demo3App(MDApp):
 
     def choose_drop(self, v, v2):
         "oll"
+        # print(v, "THISISTHETHING")
 
-        menu_items = [
-            {
-                "text": f"{v[i]}",
-                # "scroll_type": ['bars'],
-                # "effect_cls": "ScrollEffect",
-                "viewclass": "OneLineListItem",
-                "on_release": lambda x=i: self.menu_callback(x, v, v2),
-            }
-            for i in range(len(v) - 1)
-        ]
+        if v2 == "city":
+            menu_items = [
+                {
+                    "text": f"{v[i]}",
+                    # "scroll_type": ['bars'],
+                    # "effect_cls": "ScrollEffect",
+                    "viewclass": "OneLineListItem",
+                    "on_release": lambda x=i: self.menu_callback(x, v, v2),
+                }
+                for i in range(len(v) - 1)
+            ]
+        if v2 == "name":
+            menu_items = [
+                {
+                    "text": f"{v[i][v2]}",
+                    # "scroll_type": ['bars'],
+                    # "effect_cls": "ScrollEffect",
+                    "viewclass": "OneLineListItem",
+                    "on_release": lambda x=i: self.menu_callback(x, v, v2),
+                }
+                for i in range(len(v) - 1)
+            ]
+
         # print(self.root.get_screen("notification").ids)
         self.menu = MDDropdownMenu(
             # caller=self.root.get_screen("notification").ids["button4"],

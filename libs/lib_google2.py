@@ -11,6 +11,8 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
+from googleapiclient.http import MediaIoBaseDownload
+
 
 import time
 
@@ -213,26 +215,82 @@ def get_creds(ad):
     return creds
 
 
-def google_files(ad, f):
+def find_backup(ad, id):
 
     creds = get_creds(ad)
-    print(creds)
-    now = datetime.now()
-    d = datetime.strftime(now, "%d.%m.%Y")
+    service = build("drive", "v3", credentials=creds)
+    items = []
+    pageToken = ""
+    while pageToken is not None:
+        response = (
+            service.files()
+            .list(
+                q="'" + id[0] + "' in parents",
+                pageSize=1000,
+                pageToken=pageToken,
+                fields="nextPageToken, files(id, name)",
+            )
+            .execute()
+        )
+        items.extend(response.get("files", []))
+        pageToken = response.get("nextPageToken")
+    d = items
+    # print(d)
+    # dn = sorted(d, key=lambda d: d["name"])
+    # print(dn)
+    return d
 
+
+def download_google_drive(ad, f):
+    creds = get_creds(ad)
+    import io
+
+    try:
+        # create drive api client
+        service = build("drive", "v3", credentials=creds)
+
+        file_id = f
+
+        # pylint: disable=maybe-no-member
+        request = service.files().get_media(fileId=file_id)
+        file = io.BytesIO()
+        downloader = MediaIoBaseDownload(file, request)
+        done = False
+        while done is False:
+            status, done = downloader.next_chunk()
+            print(f"Download {int(status.progress() * 100)}.")
+
+    except HttpError as error:
+        print(f"An error occurred: {error}")
+        file = None
+
+    return file.getvalue()
+
+
+def google_files(ad, f, id):
+
+    creds = get_creds(ad)
+    # print(creds)
+    now = datetime.now()
+    id = [id]
+    d = datetime.strftime(now, "%Y.%m.%d-%H:%M:%S")
+    # print(id, "this is the id")
+    # parents = ["1IOFfiU0V4qySMyU3cEK32ypGczXRWz-q"]
     try:
         service = build("drive", "v3", credentials=creds)
 
         file_metadata = {
-            "name": "show_backup--" + d + ".zip",
-            "parents": ["1-cU7omjnPTAnv9CpyKDRubRrNN2-km04"],
+            "name": d + ".zip",
+            "parents": id
+            # "parents":1IOFfiU0V4qySMyU3cEK32ypGczXRWz-q
         }
-        media = MediaFileUpload(ad + "/show2.zip", mimetype="application/zip=")
+        media = MediaFileUpload(ad + "/backup.zip", mimetype="application/zip=")
         file = (
             service.files()
             .create(body=file_metadata, media_body=media, fields="id")
             .execute()
         )
+        # print(file_metadata)
         return "File ID: %s" % file.get("id")
     except HttpError as error:
 
@@ -340,5 +398,5 @@ if __name__ == "__main__":
     # create_google_folder(ad)
     # google_files(ad)
     # search_files(ad, "bobbobob")
-    pw = make_password("testtest")
-    r_password(pw)
+    id = ["1IOFfiU0V4qySMyU3cEK32ypGczXRWz-q"]
+    find_backup(ad, id)
