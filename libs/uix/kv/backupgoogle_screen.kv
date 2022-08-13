@@ -19,7 +19,9 @@
                     text: 'Cloud Backup'
                     id:last_backup
                     secondary_text: 'Last Backup:'
-                    on_release: app.do_backups()
+                    on_release: 
+                        #toast('starting backup')
+                        app.do_backups()
                     IconLeftWidget:
                         icon: "cloud-upload"
 

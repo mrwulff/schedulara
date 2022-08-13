@@ -647,7 +647,7 @@ class Demo3App(MDApp):
 
         x = libs.lib_readuserdata.readuserdata(App, ad, ios)
 
-        # print("test00")
+        print("test00")
         if x.get("drive_id") == None:
             x["drive_id"] = lib_google.search_files(ad, "Schedulara_Backups")
 
@@ -655,7 +655,7 @@ class Demo3App(MDApp):
             import libs.lib_updateuserdata
 
             libs.lib_updateuserdata.updateuser(x, ad)
-        # print(x["drive_id"], "this is do_gbackup")
+        print(x["drive_id"], "this is do_gbackup")
         l_backup = App.get_running_app().root.current_screen.ids["last_backup"]
         # l_backup.text=
         if x.get("last_backup") == None:
@@ -671,6 +671,7 @@ class Demo3App(MDApp):
         # print(x.get("last_backup"), "LAST BACKUP")
 
     def do_backups(self):
+        toast("starting backup")
         import os
         import shutil
         import datetime
@@ -751,6 +752,18 @@ class Demo3App(MDApp):
             path = ""
 
     def find_gbackups(self):
+        import libs.lib_readuserdata
+
+        x = libs.lib_readuserdata.readuserdata(App, ad, ios)
+
+        print("test00")
+        if x.get("drive_id") == None:
+            x["drive_id"] = lib_google.search_files(ad, "Schedulara_Backups")
+
+            print(x["drive_id"], "drive.id find_gbackups")
+            import libs.lib_updateuserdata
+
+            libs.lib_updateuserdata.updateuser(x, ad)
 
         z = lib_google.find_backup(ad, [x["drive_id"]])
         # print(z, "this is the list of backups")

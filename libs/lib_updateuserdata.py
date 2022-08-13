@@ -12,7 +12,7 @@ def updateuser(data, ad):
     (data["usecache"]) = data["usecache"]
     (data["pcolor"]) = data["pcolor"]
     (data["scolor"]) = data["scolor"]
-    (data["name"]) = data["name"]
+    # (data["name"]) = data["name"]
     try:
         (data["theme"]) = data["theme"]
     except:
