@@ -104,6 +104,8 @@ def make_json_schedule(x, ad):
             "confirable": f3,
             "old": old,
         }
+        if "Turned Down" in thisdict["status"]:
+            thisdict["canceled"] = True
         if old == False:
             alldict.append(thisdict)
             # print(old, "OLD")

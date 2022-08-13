@@ -15,6 +15,11 @@ def load_full_pp(ad, fil, idex):
         print(pos_k, pos_v, pos_l)
         # a, b, c = shrink2(pos_k, pos_v, pos_l, 5)
 
+    if idex == "VENUE":
+        pos_k, pos_v, pos_l = count_pos(data, idex, True)
+        print(pos_k, pos_v, pos_l)
+        # a, b, c = shrink2(pos_k, pos_v, pos_l, 5)
+
     if idex == "TOTAL":
         pos_k, pos_v, pos_l = count_gig(data, "Total")
 
@@ -98,8 +103,11 @@ def count_pos(data, uu, shrink):
 
     # print(len(data))
     # data = NestedDict(data)
+    # if uu=='VENUE':
+
     pos = []
     for k, v in data.items():
+        added = False
         for z in range(len(v)):
             # print(v[z], z)
             for k2, v2 in v[z].items():
@@ -108,7 +116,26 @@ def count_pos(data, uu, shrink):
                     num_of_shows_per_pp = len(v2)
                     # print(v2)
                     for m in range(len(v2)):
-                        pos.append(v2[m][uu])
+                        if uu == "VENUE":
+                            s = v2[m]["show"]
+                            # print(s)
+                            if s[0] == "(":
+                                s2 = str.split(s, ")")
+                                s2 = str.split(s2[0], "(")
+                                # print(s[1])
+                                if s2[1] == "TM":
+                                    s2[1] = "TMA"
+                                pos.append(s2[1])
+                                added = True
+                            if "vgk" in s.lower() and added == False:
+                                pos.append("TMA")
+                                added = True
+                            if s[0] != "(" and added == False:
+                                print(s, "BLARRRRR")
+
+                                pos.append("?")
+                        else:
+                            pos.append(v2[m][uu])
 
     # print(len(pos))
     z = collections.Counter(pos)
@@ -669,5 +696,5 @@ if __name__ == "__main__":
     # parsepayperiod("C:/Users/kw/AppData/Roaming/demo3/pp/04-05-2022.html")
     # a, b, c = load_full_pp(ad, "json_pps.json", "TOTAL")
     # a, b, c = load_full_pp(ad, "json_pps.json", "PCDA")
-    a, b, c = load_full_pp(ad, "json_pps.json", "CLIENT")
+    a, b, c = load_full_pp(ad, "json_pps.json", "VENUE")
     print(a, b, c)

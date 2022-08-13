@@ -60,6 +60,7 @@ from kivy.metrics import dp
 import datetime
 import libs.lib_think as lib_think
 import libs.lib_google2 as lib_google
+import libs.lib_readuserdata as lib_readuserdata
 
 
 """
@@ -628,6 +629,8 @@ class Demo3App(MDApp):
     def do_restore(self, f):
         import shutil
 
+        global x
+
         print(f)
         f2 = lib_google.search_files(ad, f)
         print(f2)
@@ -636,13 +639,14 @@ class Demo3App(MDApp):
         fw.write(f3)
         fw.close()
         shutil.unpack_archive(ad + "/temp.zip", ad)
+        x = lib_readuserdata.readuserdata(App, ad, ios)
 
     def do_gbackup(self):
         self.root.set_current("backupgoogle")
 
         import libs.lib_new
         import datetime
-        import libs.lib_readuserdata
+
         import humanize
 
         x = libs.lib_readuserdata.readuserdata(App, ad, ios)
@@ -979,7 +983,7 @@ class Demo3App(MDApp):
         check.tertiary_text = "total: " + str(tot)
         check.text = "Paychecks: " + str(len(pos_k2))
         if 100 * len(pos_v2) > dp(300):
-            App.get_running_app().root.current_screen.ids["c3"].width = dp(100) * len(
+            App.get_running_app().root.current_screen.ids["c3"].width = dp(50) * len(
                 pos_v2
             )
         else:
@@ -1002,7 +1006,7 @@ class Demo3App(MDApp):
         chart4.y_values = pos_v2
         chart4.x_labels = pos_k2
         if 100 * len(pos_v2) > dp(300):
-            App.get_running_app().root.current_screen.ids["c4"].width = dp(170) * len(
+            App.get_running_app().root.current_screen.ids["c4"].width = dp(80) * len(
                 pos_v2
             )
         else:
@@ -1011,6 +1015,26 @@ class Demo3App(MDApp):
             chart4.update()
         except:
             print("chart4 fail")
+
+        "LOAD BUILDING AUTOMATIC"
+        pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
+            ad, "json_pps.json", "VENUE"
+        )
+        chart5 = App.get_running_app().root.current_screen.ids["c5"]
+        chart5.x_values = pos_v2
+        chart5.y_values = pos_v2
+        chart5.x_labels = pos_k2
+        if 100 * len(pos_v2) > dp(300):
+            App.get_running_app().root.current_screen.ids["c5"].width = dp(70) * len(
+                pos_v2
+            )
+        else:
+            App.get_running_app().root.current_screen.ids["c5"].width = dp(400)
+
+        try:
+            chart5.update()
+        except:
+            print("chart5 fail")
 
     def add_message_to_chat(self, message):
         import libs.lib_firefriend
@@ -1420,12 +1444,16 @@ class Demo3App(MDApp):
             + gg["date"]
             + " "
             + gg["time"]
+            + " "
+            + gg["pos"]
             + "\n"
             + gg["venue"]
             + ""
             + gg["location"]
             + "\n"
             + gg["client"]
+            + "\n"
+            + gg["status"]
         )
         libs.lib_makeuserdata.makeshowfile(App, gg, ad, False)
         cat = "nothing"
@@ -1493,10 +1521,19 @@ class Demo3App(MDApp):
                 ppp = " PM"
 
             ntime = str(h2) + ":" + m + "[sup]" + ppp
+            color = ""
+            if shows[i]["canceled"] == True:
+                color = "[color=#ff0000]"
 
-            self.root.get_screen("today").ids[li[i]].text = show_date + " " + ntime
-            self.root.get_screen("today").ids[li[i]].secondary_text = shows[i]["show"]
-            self.root.get_screen("today").ids[li[i]].tertiary_text = shows[i]["venue"]
+            self.root.get_screen("today").ids[li[i]].text = (
+                color + show_date + " " + ntime
+            )
+            self.root.get_screen("today").ids[li[i]].secondary_text = (
+                color + shows[i]["show"]
+            )
+            self.root.get_screen("today").ids[li[i]].tertiary_text = (
+                color + shows[i]["venue"]
+            )
 
         numshows = len(shows)
         numconf = js["num_shows"]
@@ -2141,7 +2178,7 @@ class Demo3App(MDApp):
     ot = ["8", "10", "0", "1", "2", "3", "4", "5", "6", "7", "9"]
     lunch = ["0", "1", "2"]
     dialog = None
-    dialog2 = [None, None, None]
+    dialog2 = [None, None, None, None, None, None]
     dialog_name = None
     dialog3 = None
 
