@@ -83,7 +83,9 @@
             #size_hint: None,None
             #width: dp(3000)
             #adaptive_height: True
-            height:full_stats.height+dp(10000)
+            id:svh
+            #height:full_stats.height+dp(10000)
+            #id:svh*3
             
             MDBoxLayout:
                 orientation: "vertical"
@@ -92,7 +94,7 @@
                 adaptive_height: True
                 size_hint: None,2.2
                 width: dp(475)
-                #height:dp(12000)
+                height:svh.height*2
                 id:full_stats
 
 
@@ -100,12 +102,13 @@
                     orientation: "vertical"
                     id:c1c
                     bg_color: app.theme_cls.primary_light
-                    height:app.mheight
+                    height:c1c.height
                     MyAKBarChart:
                                 
                         id: c1
                         labels: True
-                        size_hint: None,None
+                        size_hint: 1,None
+                        height:app.mheight*2
                         width: dp(350)
                 
                     OneLineListItem:
@@ -117,12 +120,13 @@
                     bg_color: app.theme_cls.primary_light
                     id:c2c
                     #size_hint: 1.1,None
-                    height:app.mheight
+                    height:c2c.height
                     MyAKBarChart:
                                 
                         id: c2
                         labels: True
-                        size_hint: None,None
+                        size_hint: 1,None
+                        height:app.mheight*2
                         width: dp(350)
                         
                 
@@ -134,17 +138,23 @@
                 MDCard:
                     orientation: "vertical"
                     bg_color: app.theme_cls.primary_light
-                    height:app.mheight+500
+                    #height:app.mheight+500
+                    id:c3c
+                    size_hint: 1,None
+                    height:c3c.height
                     MyAKBarChart:
                                 
                         id: c3
                         labels: True
-                        size_hint: None,None
+                        size_hint: 1,None
+                        height:app.mheight*3
                         width: dp(1400)
                 
                     ThreeLineListItem:
                         text: "Check Amount"
                         id: c3d
+                        size_hint: 1,None
+                        height:app.mheight*1.5
                         bg_color: app.theme_cls.primary_light
                 MDCard:
                     orientation: "vertical"
@@ -154,7 +164,8 @@
                                 
                         id: c4
                         labels: True
-                        size_hint: None,None
+                        size_hint: 1,None
+                        height:app.mheight*2
                         width: dp(950)
                 
                     OneLineListItem:
@@ -169,10 +180,58 @@
                                 
                         id: c5
                         labels: True
-                        size_hint: None,None
+                        size_hint: 1,None
+                        height:app.mheight*2
                         width: dp(950)
                 
                     OneLineListItem:
                         text: "Venue"
+                        bg_color: app.theme_cls.primary_light
+
+                MDCard:
+                    orientation: "vertical"
+                    bg_color: app.theme_cls.primary_light
+                    height:app.mheight
+                    MyAKBarChart:
+                                
+                        id: c6
+                        labels: True
+                        size_hint: 1,None
+                        height:app.mheight*2
+                        width: dp(950)
+                
+                    OneLineListItem:
+                        text: app.future_pos['name']
+                        bg_color: app.theme_cls.primary_light
+
+                MDCard:
+                    orientation: "vertical"
+                    bg_color: app.theme_cls.primary_light
+                    height:app.mheight
+                    MyAKBarChart:
+                                
+                        id: c7
+                        labels: True
+                        size_hint: 1,None
+                        height:app.mheight*2
+                        width: dp(950)
+                
+                    OneLineListItem:
+                        text: app.future_venue['name']
+                        bg_color: app.theme_cls.primary_light
+                MDCard:
+                    orientation: "vertical"
+                    bg_color: app.theme_cls.primary_light
+                    height:app.mheight
+                    MyAKBarChart:
+                                
+                        id: c8
+                        labels: True
+                        size_hint: 1,None
+                        height:app.mheight*2
+                        width: dp(950)
+                
+                    OneLineListItem:
+                        text: app.future_venue['name']
                         bg_color: app.theme_cls.primary_light
 

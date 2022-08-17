@@ -33,7 +33,10 @@ from kivymd.toast import toast
 
 # from kivymd.uix.picker import MDThemePicker
 # from kivymd.uix.picker import MDTimePicker
-# from kivymd.uix.picker import MDDatePicker
+try:
+    from kivymd.uix.picker import MDDatePicker
+except:
+    print("cant do mddatepicker")
 from kivy.uix.popup import Popup
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.list import (
@@ -896,6 +899,27 @@ class Demo3App(MDApp):
         ave = sum2 / (len(li))
         return round(sum2, 2), round(ave, 2)
 
+    future_pos = {
+        "name": "Future Position",
+        "file": "jason_show_cache_real.json",
+        "filter": "pos",
+        "id": "c6",
+    }
+
+    future_venue = {
+        "name": "Future Venue",
+        "file": "jason_show_cache_real.json",
+        "filter": "venue",
+        "id": "c7",
+    }
+
+    future_type = {
+        "name": "Future Show Type",
+        "file": "jason_show_cache_real.json",
+        "filter": "type",
+        "id": "c8",
+    }
+
     def do_new_stats(self, fdate, ldate, rng):
         import kivymd_extensions.akivymd
 
@@ -1035,6 +1059,37 @@ class Demo3App(MDApp):
             chart5.update()
         except:
             print("chart5 fail")
+        chart_list = []
+
+        chart_list.append(self.future_pos)
+        chart_list.append(self.future_venue)
+        chart_list.append(self.future_type)
+
+        for i in range(len(chart_list)):
+            chart = [0, 0, 0]
+            "LOAD BUILDING AUTOMATIC"
+            pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
+                ad, chart_list[i]["file"], chart_list[i]["filter"]
+            )
+            chart[i] = App.get_running_app().root.current_screen.ids[
+                chart_list[i]["id"]
+            ]
+            chart[i].x_values = pos_v2
+            chart[i].y_values = pos_v2
+            chart[i].x_labels = pos_k2
+            if 100 * len(pos_v2) > dp(400):
+                App.get_running_app().root.current_screen.ids[
+                    chart_list[i]["id"]
+                ].width = dp(80) * len(pos_v2)
+            else:
+                App.get_running_app().root.current_screen.ids[
+                    chart_list[i]["id"]
+                ].width = dp(400)
+
+            try:
+                chart[i].update()
+            except:
+                print("chart5 fail")
 
     def add_message_to_chat(self, message):
         import libs.lib_firefriend

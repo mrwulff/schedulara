@@ -4,6 +4,9 @@ def load_full_pp(ad, fil, idex):
 
     with open(ad + "/" + fil) as json_file:
         data = json.load(json_file)
+    # print(data, "wtfdata,", type(data), len(data["shows"]))
+
+    # print(fil, idex, "LOADFULLPP")
     if idex == "POS":
         pos_k, pos_v, pos_l = count_pos(data, "pos", False)
     if idex == "TYPE":
@@ -23,6 +26,13 @@ def load_full_pp(ad, fil, idex):
     if idex == "TOTAL":
         pos_k, pos_v, pos_l = count_gig(data, "Total")
 
+    if idex == "pos":
+        pos_k, pos_v, pos_l = count_pos_future(data, "pos", False)
+    if idex == "venue":
+        pos_k, pos_v, pos_l = count_pos_future(data, "venue", False)
+
+    if fil == "jason_show_cache_real.json":
+        pos_k, pos_v, pos_l = count_pos_future(data, idex, False)
     return pos_k, pos_v, pos_l
 
 
@@ -96,6 +106,46 @@ def count_pc(data, uu):
     pos_r = []
 
     return (k2, v2, l3)
+
+
+def count_pos_future(data, uu, shrink):
+    import collections
+
+    # print(data, uu, shrink, "THIS IS THE NEW THINGGY")
+    print(len(data))
+    cc = []
+    for z in range(len(data["shows"])):
+        a = data["shows"][z][uu]
+        if "MOBILE" in a and "ARENA" in a:
+            a = "TMA"
+        if "MGM" in a and "ARENA" in a:
+            a = "MGM"
+        if len(a) > 8:
+            a = a[0:6]
+        cc.append(a)
+    z = collections.Counter(cc)
+    print(z)
+
+    k2 = []
+    v2 = []
+    v3 = []
+    z2 = dict(
+        sorted(z.items(), reverse=True, key=lambda item: item[1]),
+    )
+    for k, v in z2.items():
+        # print(k, v)
+
+        if shrink == True:
+            print(k)
+            if len(k) > 10:
+                k = k[0:10]
+        v2.append(v)
+        k2.append(k)
+    zz = (k2, v2)
+    # print(zz)
+    # print(zz[0][0])
+    return k2, v2, v3
+    return ("x", "x", "x")
 
 
 def count_pos(data, uu, shrink):
@@ -696,5 +746,8 @@ if __name__ == "__main__":
     # parsepayperiod("C:/Users/kw/AppData/Roaming/demo3/pp/04-05-2022.html")
     # a, b, c = load_full_pp(ad, "json_pps.json", "TOTAL")
     # a, b, c = load_full_pp(ad, "json_pps.json", "PCDA")
-    a, b, c = load_full_pp(ad, "json_pps.json", "VENUE")
+    # a, b, c = load_full_pp(ad, "json_pps.json", "VENUE")
+
+    f = "jason_show_cache_real.json"
+    a, b, c = load_full_pp(ad, f, "pos")
     print(a, b, c)
