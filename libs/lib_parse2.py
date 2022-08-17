@@ -75,6 +75,7 @@ def count_gig(data, uu):
 
 def count_pc(data, uu):
     import collections
+    from datetime import datetime
 
     pos = []
     pos2 = []
@@ -86,13 +87,16 @@ def count_pc(data, uu):
         # print(v)
         for z in range(len(v)):
             pc = v[z]
-
-            gg = {"gt": pc["grandtotal"], "pd": pc["paydate"], "pds": pc["paydate"]}
+            z = pc["paydate"]
+            z = datetime.strptime(z, "%m/%d/%Y")
+            gg = {"gt": pc["grandtotal"], "pd": z, "pds": z}
             # print(gg)
             pos.append(gg)
             # pos4.append(pc["grandtotal"])
     # print(pos)
+
     pos = sorted(pos, reverse=True, key=lambda i: i["pd"])
+    print(pos, "nonsortedyear")
 
     for x in range(len(pos)):
         k2.append(round_money(pos[x]["gt"]))
@@ -100,10 +104,13 @@ def count_pc(data, uu):
         temp = " "
         if (x == 0) or x == (len(pos) - 1):
             temp = pos[x]["pds"]
+            print(temp, type(temp), "temp2222")
+            temp = temp.strftime("%m/%d/%y")
 
         l3.append(temp)
 
     pos_r = []
+    print(l3, "LLLLL3333")
 
     return (k2, l3, l3)
 
@@ -750,9 +757,9 @@ if __name__ == "__main__":
     ad = "C:/Users/kw/AppData/Roaming/demo3/"
     # parsepayperiod("C:/Users/kw/AppData/Roaming/demo3/pp/04-05-2022.html")
     # a, b, c = load_full_pp(ad, "json_pps.json", "TOTAL")
-    # a, b, c = load_full_pp(ad, "json_pps.json", "PCDA")
+    a, b, c = load_full_pp(ad, "json_pps.json", "PCDA")
     # a, b, c = load_full_pp(ad, "json_pps.json", "VENUE")
 
     f = "jason_show_cache_real.json"
-    a, b, c = load_full_pp(ad, f, "pos")
+    # a, b, c = load_full_pp(ad, f, "pos")
     print(a, b, c)

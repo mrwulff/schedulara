@@ -81,7 +81,7 @@
             do_scroll_x:True
             do_scroll_y:True
             size_hint: None,2
-            width: dp(400)
+            width: graphs2.width
             #adaptive_height: True
             id:svh
             #height:full_stats.height+dp(10000)
@@ -93,7 +93,7 @@
                 padding: dp(5)
                 adaptive_height: True
                 size_hint: 1.1,None
-                width: dp(675)
+                width: dp(975)
                 
                 id:full_stats
                 height:c1c.height+c2c.height+c3c.height+c4c.height
@@ -144,8 +144,9 @@
                     orientation: "vertical"
                     bg_color: app.theme_cls.primary_light
                     id:c3c
-                    size_hint: 1.0,None
+                    size_hint: 1.4,None
                     height:c3.height+c3d.height
+                    width:c3.width
                     MyAKBarChart:
                                 
                         id: c3
@@ -155,21 +156,42 @@
                         width: dp(50)
                         
                 
-                    OneLineListItem:
+                    ThreeLineListItem:
                         text: "pc"
                         id:c3d
                         bg_color: app.theme_cls.primary_light
-                        height:app.mheight/4
+                        height:app.mheight/2
 
                 MDCard:
                     orientation: "vertical"
                     bg_color: app.theme_cls.primary_light
                     id:c4c
-                    size_hint: 1,None
+                    size_hint: 1.5,None
                     height:c4.height+c4d.height
+                    width: c4.width
                     MyAKBarChart:
                                 
                         id: c4
+                        labels: True
+                        size_hint: 1,None
+                        height:app.mheight
+                        width: dp(50)
+                        
+                
+                    OneLineListItem:
+                        text: "Type"
+                        id:c4d
+                        bg_color: app.theme_cls.primary_light
+                        height:app.mheight/4
+                MDCard:
+                    orientation: "vertical"
+                    bg_color: app.theme_cls.primary_light
+                    id:c5c
+                    size_hint: 1,None
+                    height:c5.height+c4d.height
+                    MyAKBarChart:
+                                
+                        id: c5
                         labels: True
                         size_hint: 1,None
                         height:app.mheight
@@ -178,7 +200,68 @@
                 
                     OneLineListItem:
                         text: "Type"
-                        id:c4d
+                        id:c5d
+                        bg_color: app.theme_cls.primary_light
+                        height:app.mheight/4
+                MDCard:
+                    orientation: "vertical"
+                    bg_color: app.theme_cls.primary_light
+                    id:c6c
+                    size_hint: 1,None
+                    height:c6.height+c4d.height
+                    MyAKBarChart:
+                                
+                        id: c6
+                        labels: True
+                        size_hint: 1,None
+                        height:app.mheight
+                        width: dp(350)
+                        
+                
+                    OneLineListItem:
+                        text: "Type"
+                        id:c6d
+                        bg_color: app.theme_cls.primary_light
+                        height:app.mheight/4
+                MDCard:
+                    orientation: "vertical"
+                    bg_color: app.theme_cls.primary_light
+                    id:c7c
+                    size_hint: 1,None
+                    height:c7.height+c4d.height
+                    MyAKBarChart:
+                                
+                        id: c7
+                        labels: True
+                        size_hint: 1,None
+                        height:app.mheight
+                        width: dp(350)
+                        
+                
+                    OneLineListItem:
+                        text: "Type"
+                        id:c7d
+                        bg_color: app.theme_cls.primary_light
+                        height:app.mheight/4
+
+                MDCard:
+                    orientation: "vertical"
+                    bg_color: app.theme_cls.primary_light
+                    id:c8c
+                    size_hint: 1,None
+                    height:c8.height+c4d.height
+                    MyAKBarChart:
+                                
+                        id: c8
+                        labels: True
+                        size_hint: 1,None
+                        height:app.mheight
+                        width: dp(350)
+                        
+                
+                    OneLineListItem:
+                        text: "Type"
+                        id:c8d
                         bg_color: app.theme_cls.primary_light
                         height:app.mheight/4
 

@@ -622,8 +622,8 @@ class Demo3App(MDApp):
             self.do_chat(0)
 
         if lol.icon == "chart-areaspline":
-            fdate, ldate = self.get_dates("All")
-            self.do_new_stats(fdate, ldate, "All")
+            fdate, ldate = self.get_dates("YTD")
+            self.do_new_stats(fdate, ldate, "YTD")
         if lol.icon == "cash-100":
             self.do_payperiod("paydate", self.rreverse)
         if lol.icon == "google-downasaur":
@@ -1100,10 +1100,10 @@ class Demo3App(MDApp):
         chart_list.append(self.paycheck_amount_chart)
         chart_list.append(self.client_chart)
 
-        # chart_list.append(self.future_pos)
-        # chart_list.append(self.future_venue)
-        # chart_list.append(self.future_type)
-        # chart_list.append(self.venue_chart)
+        chart_list.append(self.future_pos)
+        chart_list.append(self.future_venue)
+        chart_list.append(self.future_type)
+        chart_list.append(self.venue_chart)
 
         for i in range(len(chart_list)):
             chart = [0] * len(chart_list)
@@ -1117,14 +1117,20 @@ class Demo3App(MDApp):
             chart[i].x_values = pos_v2
             chart[i].y_values = pos_v2
             chart[i].x_labels = pos_k2
-            if 100 * len(pos_v2) > dp(400):
-                App.get_running_app().root.current_screen.ids[
-                    chart_list[i]["id"]
-                ].width = dp(80) * len(pos_v2)
-            else:
-                App.get_running_app().root.current_screen.ids[
-                    chart_list[i]["id"]
-                ].width = dp(400)
+            App.get_running_app().root.current_screen.ids[
+                chart_list[i]["id"]
+            ].width = dp(80) * len(pos_v2)
+
+            #        chart_list[i]["id"]
+            #    ].width = dp(80) * len(pos_v2)
+            # if 100 * len(pos_v2) > dp(300):
+            ##    App.get_running_app().root.current_screen.ids[
+            #        chart_list[i]["id"]
+            #    ].width = dp(80) * len(pos_v2)
+            # else:
+            #    App.get_running_app().root.current_screen.ids[
+            #        chart_list[i]["id"]
+            #    ].width = dp(40)
             App.get_running_app().root.current_screen.ids[
                 chart_list[i]["id"] + "d"
             ].text = chart_list[i]["name"]
