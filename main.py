@@ -30,12 +30,13 @@ from kivy.config import Config
 from kivy.utils import platform
 from kivymd.uix.snackbar import Snackbar
 from kivymd.toast import toast
+from kivymd.uix.pickers import MDColorPicker
 
-from kivymd.uix.picker import MDThemePicker
-from kivymd.uix.pickers import MDTimePicker
+# from kivymd.uix.pickers import MDThemePicker
+from kivymd.uix.picker import MDTimePicker
 
 
-from kivymd.uix.pickers import MDDatePicker
+from kivymd.uix.picker import MDDatePicker
 
 # print("cant do mddatepicker")
 from kivy.uix.popup import Popup
@@ -530,7 +531,7 @@ class Demo3App(MDApp):
     radius = 10 * scale
     cpadding = 20
     sound_effects = ["Ding", "Bang", "Lol"]
-    mheight = dp(70)
+    mheight = dp(170)
     pictures = [
         "light",
         "hammer",
@@ -920,6 +921,36 @@ class Demo3App(MDApp):
         "filter": "type",
         "id": "c8",
     }
+    venue_chart = {
+        "name": "Venue",
+        "file": "json_pps.json",
+        "filter": "VENUE",
+        "id": "c5",
+    }
+    client_chart = {
+        "name": "Client",
+        "file": "json_pps.json",
+        "filter": "CLIENT",
+        "id": "c4",
+    }
+    paycheck_amount_chart = {
+        "name": "Paycheck Amount",
+        "file": "json_pps.json",
+        "filter": "PCDA",
+        "id": "c3",
+    }
+    type_chart = {
+        "name": "Type",
+        "file": "json_pps.json",
+        "filter": "TYPE",
+        "id": "c2",
+    }
+    pos_chart = {
+        "name": "Positions",
+        "file": "json_pps.json",
+        "filter": "POS",
+        "id": "c1",
+    }
 
     def do_new_stats(self, fdate, ldate, rng):
         import kivymd_extensions.akivymd
@@ -951,7 +982,7 @@ class Demo3App(MDApp):
         # s = App.get_running_app().root.current_screen.ids["dstart"].text
         # e = App.get_running_app().root.current_screen.ids["dend"].text
         libs.lib_makegraphs.make_full_json_pp(ad, fdate, ldate)
-
+        """"
         ##loads all shows from /pp ###POS
         pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(ad, "json_pps.json", "POS")
         if len(pos_k2) < 1:
@@ -989,7 +1020,7 @@ class Demo3App(MDApp):
         else:
             App.get_running_app().root.current_screen.ids["c2"].width = dp(400)
         chart2.update()
-
+        
         ##loads all shows from /pp   ###PAYCHECK DOLLAR AMOUNT
         pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
             ad, "json_pps.json", "PCDA"
@@ -1018,7 +1049,7 @@ class Demo3App(MDApp):
         except:
             print("chart3 fail")
             # chart3.update()
-
+        
         ##loads all shows from /pp   ###Client!!!
         pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(
             ad, "json_pps.json", "CLIENT"
@@ -1042,6 +1073,7 @@ class Demo3App(MDApp):
             print("chart4 fail")
 
         "LOAD BUILDING AUTOMATIC"
+        
         pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
             ad, "json_pps.json", "VENUE"
         )
@@ -1060,14 +1092,21 @@ class Demo3App(MDApp):
             chart5.update()
         except:
             print("chart5 fail")
+        
+        """
         chart_list = []
+        chart_list.append(self.pos_chart)
+        chart_list.append(self.type_chart)
+        chart_list.append(self.paycheck_amount_chart)
+        chart_list.append(self.client_chart)
 
-        chart_list.append(self.future_pos)
-        chart_list.append(self.future_venue)
-        chart_list.append(self.future_type)
+        # chart_list.append(self.future_pos)
+        # chart_list.append(self.future_venue)
+        # chart_list.append(self.future_type)
+        # chart_list.append(self.venue_chart)
 
         for i in range(len(chart_list)):
-            chart = [0, 0, 0]
+            chart = [0] * len(chart_list)
             "LOAD BUILDING AUTOMATIC"
             pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
                 ad, chart_list[i]["file"], chart_list[i]["filter"]
@@ -1086,11 +1125,22 @@ class Demo3App(MDApp):
                 App.get_running_app().root.current_screen.ids[
                     chart_list[i]["id"]
                 ].width = dp(400)
-
+            App.get_running_app().root.current_screen.ids[
+                chart_list[i]["id"] + "d"
+            ].text = chart_list[i]["name"]
             try:
                 chart[i].update()
             except:
                 print("chart5 fail")
+            if chart_list[i]["name"] == "Paycheck Amount":
+                check = App.get_running_app().root.current_screen.ids["c3d"]
+                ave, tot = self.check_stats(pos_v2)
+                check.secondary_text = "Total: $" + str(ave)
+                check.tertiary_text = "Average:  $" + str(tot)
+                check.text = "Paychecks: " + str(len(pos_v2))
+                # App.get_running_app().root.current_screen.ids[
+                #    chart_list[i]["id"]
+                # ].height = (self.mheight * 2)
 
     def add_message_to_chat(self, message):
         import libs.lib_firefriend
@@ -3510,9 +3560,65 @@ class Demo3App(MDApp):
     def removeAll(self):
         self.root.current_screen.ids["users_lst"].clear_widgets()
 
-    def show_theme_picker(self):
-        theme_dialog = MDThemePicker()
-        theme_dialog.open()
+    from typing import Union
+
+    def do_theme(self):
+        specific_text_color = ""
+        self.root.set_current("theme")
+        self.save_theme_picker()
+
+    theme_settings = ""
+
+    def do_old_theme(self):
+        self.root.set_current("theme_picker")
+        self.save_theme_picker()
+
+    def show_theme_picker(self, t):
+        global theme_setting
+        theme_setting = t
+
+        # theme_dialog = MDThemePicker()
+        color_picker = MDColorPicker(size_hint=(0.45, 0.45))
+        color_picker.open()
+        color_picker.bind(
+            on_select_color=self.on_select_color,
+            # on_select_color=self.on_select_color,
+            on_release=self.get_selected_color,
+        )
+
+    # on_release=(lambda a: self.grabText(ttt)),
+    def update_color(self, color: list) -> None:
+        # self.root.ids.toolbar.md_bg_color = color
+        print(color)
+
+    def get_selected_color(
+        self,
+        instance_color_picker: MDColorPicker,
+        type_color: str,
+        selected_color: Union[list, str],
+    ):
+        """Return selected color."""
+
+        print(f"Selected color is {selected_color}")
+        print(theme_setting)
+        self.update_color(selected_color[:-1] + [1])
+
+        if theme_setting == "p":
+            self.theme_cls.primary_palette = selected_color
+
+        if theme_setting == "s":
+            self.theme_cls.accent_palette = selected_color
+
+        if theme_setting == "d":
+            self.theme_cls.theme_style = selected_color
+        # s = self.theme_cls.theme_style
+        # p = self.theme_cls.primary_palette
+        # a = self.theme_cls.accent_palette
+
+        self.save_theme_picker()
+
+    def on_select_color(self, instance_gradient_tab, color: list) -> None:
+        """Called when a gradient image is clicked."""
 
     def save_theme_picker(self):
         s = self.theme_cls.theme_style
@@ -3524,11 +3630,21 @@ class Demo3App(MDApp):
         # print(s, p, a, x)
         x["pcolor"] = p
         x["scolor"] = a
-        x["theme"] = s
+
+        try:
+            if x["theme2"] == True:
+                x["theme"] = "Dark"
+            else:
+                x["theme"] = "Light"
+        except:
+            x["theme"] = "Dark"
+        self.theme_cls.theme_style = x["theme"]
+
         # print(s, p, a, x)
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
+        print(x)
 
     def change_screen(self, screen, direction):
         self.root.transition.direction = direction

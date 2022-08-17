@@ -1,0 +1,49 @@
+<themescreen>
+    #:import Clipboard kivy.core.clipboard.Clipboard
+    #:import Snackbar kivymd.uix.snackbar.Snackbar
+    name: "theme"
+    #Image:
+    #    source: 'images/rh.jpg'
+    #    size: self.width,self.height
+    BoxLayout:
+        orientation: "vertical"
+        MDTopAppBar:
+            #title: "Settings"
+            height: app.mheight
+            #left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
+            left_action_items: [['chevron-left', lambda screen: app.today(),'home']]
+        ScrollView:
+
+
+            MDList:
+                OneLineAvatarIconListItem:
+                    icon: 'palette'
+                    text: "Primary Color"
+                    #on_press: app.show_theme_picker('p')
+                    on_press: app.do_old_theme()
+                    icon_left_color: [1, 0, .5, 1]
+
+                    IconLeftWidget:
+                        icon: "account"             
+                OneLineAvatarIconListItem:
+                    text: "DarkMode"
+                    on_press: 
+                        #app.show_theme_picker()
+                        #app.do_theme()
+                        
+                    
+                    YourContainer:
+                        id: container
+                        MDSwitch:
+                            widget_style: "ios"
+                            icon: "plus"
+                            id: theme2
+                            #active: app.lol()
+                            active: app.check_att('theme2')
+                            on_active:
+                                #app.on_checkbox_active(*args)
+                                app.updatetext("theme2")
+                                app.save_theme_picker()
+
+                    IconLeftWidget:
+                        icon: "palette"

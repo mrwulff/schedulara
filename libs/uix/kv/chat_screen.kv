@@ -84,7 +84,7 @@
         
         MDTopAppBar:
             #title: "Settings"
-            id:toolbar
+            id:toolbar2
             height: app.mheight
         #    type: "bottom"
             left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
@@ -106,7 +106,7 @@
             MDCard:
                 orientation: "vertical"
                 size_hint: .95, None
-                height: history_list2.height-toolbar.height-textfield.height-(show_info.height/2)
+                height: history_list2.height-toolbar2.height-textfield.height-(show_info.height/2)
                 #focus_behavior: True
                 #ripple_behavior: True
                 pos_hint: {"center_x": .5, "center_y": .5}

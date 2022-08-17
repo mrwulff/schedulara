@@ -108,5 +108,15 @@
         "import": "from libs.uix.baseclass.backupgoogle_screen import backupgooglescreen",
         "object": "backupgooglescreen()",
         "kv": "libs/uix/kv/backupgoogle_screen.kv"
+    },
+    "theme": {
+        "import": "from libs.uix.baseclass.theme_screen import themescreen",
+        "object": "themescreen()",
+        "kv": "libs/uix/kv/theme_screen.kv"
+    },
+    "theme_picker": {
+        "import": "from libs.uix.baseclass.theme_picker_screen import theme_pickerscreen",
+        "object": "theme_pickerscreen()",
+        "kv": "libs/uix/kv/theme_picker_screen.kv"
     }
 }

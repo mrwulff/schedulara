@@ -7,10 +7,10 @@
     #    size: self.width,self.height
     BoxLayout:
         orientation: "vertical"
-        #MDTopAppBar:
+        MDTopAppBar:
             #title: "Settings"
         #    height: app.mheight
-        #    left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
         ScrollView:
 
 
@@ -27,7 +27,8 @@
                 OneLineAvatarIconListItem:
                     text: "Theme"
                     on_press: 
-                        app.show_theme_picker()
+                        #app.show_theme_picker()
+                        app.do_theme()
                         
                     
                     YourContainer:

@@ -12,7 +12,7 @@ def load_full_pp(ad, fil, idex):
     if idex == "TYPE":
         pos_k, pos_v, pos_l = count_pos(data, "class", False)
     if idex == "PCDA":
-        pos_k, pos_v, pos_l = count_pc(data, "whole")
+        pos_v, pos_k, pos_l = count_pc(data, "whole")
     if idex == "CLIENT":
         pos_k, pos_v, pos_l = count_pos(data, "client", True)
         print(pos_k, pos_v, pos_l)
@@ -201,8 +201,13 @@ def count_pos(data, uu, shrink):
 
         if shrink == True:
             print(k)
-            if len(k) > 10:
-                k = k[0:10]
+            if len(k) > 6:
+                k = k[0:6]
+            try:
+                k = str.split(k, " ")
+                k = k[0]
+            except:
+                """"""
         v2.append(v)
         k2.append(k)
     zz = (k2, v2)
