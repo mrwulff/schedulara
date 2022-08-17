@@ -31,12 +31,13 @@ from kivy.utils import platform
 from kivymd.uix.snackbar import Snackbar
 from kivymd.toast import toast
 
-# from kivymd.uix.picker import MDThemePicker
-# from kivymd.uix.picker import MDTimePicker
-try:
-    from kivymd.uix.picker import MDDatePicker
-except:
-    print("cant do mddatepicker")
+from kivymd.uix.picker import MDThemePicker
+from kivymd.uix.pickers import MDTimePicker
+
+
+from kivymd.uix.pickers import MDDatePicker
+
+# print("cant do mddatepicker")
 from kivy.uix.popup import Popup
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.list import (

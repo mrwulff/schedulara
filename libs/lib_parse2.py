@@ -105,7 +105,7 @@ def count_pc(data, uu):
 
     pos_r = []
 
-    return (k2, v2, l3)
+    return (k2, l3, l3)
 
 
 def count_pos_future(data, uu, shrink):
