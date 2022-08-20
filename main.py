@@ -34,10 +34,11 @@ from kivymd.toast import toast
 from kivymd.uix.pickers import MDColorPicker
 
 # from kivymd.uix.pickers import MDThemePicker
-from kivymd.uix.picker import MDTimePicker
+# from kivymd.uix.picker import MDTimePicker
 
 
-from kivymd.uix.picker import MDDatePicker
+# from kivymd.uix.picker import MDDatePicker
+# from kivymd.uix.pickers import MDTimePicker
 
 # print("cant do mddatepicker")
 from kivy.uix.popup import Popup
@@ -1367,8 +1368,8 @@ class Demo3App(MDApp):
             s + "1. Click the MENU button\n2. Click Settings\n3. Click Login",
             s + "Notifications\nGoogle Calendar Export\n\Cloud Backups",
         ]
-        b_b = s + "Next", s + "Next", ""
-        b_b2 = s + "Skip", s + "Skip", s + "Close"
+        b_b = s + "Next", s + "Next", "Demo"
+        b_b2 = s + "Skip", s + "Skip", s + "Login"
 
         from kivymd_extensions.sweetalert import SweetAlert
 

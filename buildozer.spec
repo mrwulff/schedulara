@@ -1,18 +1,7 @@
 [app]
 
 
-#####/mnt/c/Users/kw/Documents/s4a/asdf
 
-
-###keytool -genkey -v -keystore ~/keystores/schedulara.keystore -alias schedulara -keyalg RSA -keysize 2048 -validity 10000
-###keytool -importkeystore -srckeystore ~/keystores/schedulara.keystore -destkeystore ~/keystores/schedulara.keystore -deststoretype pkcs12
-
-###export P4A_RELEASE_KEYSTORE=~/keystores/schedulara.keystore
-###export P4A_RELEASE_KEYSTORE_PASSWD="<your-keystore-password>"
-###export P4A_RELEASE_KEYALIAS_PASSWD="<your-key-alias-password>"
-###export P4A_RELEASE_KEYALIAS="<your-key-alias>"
-###
-###
 # (str) Title of your application
 title = Schedulara
 
@@ -49,8 +38,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements =webencodings,html5lib,beautifulsoup4,soupsieve, python3,kivy,appdirs, kivymd, pillow, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker, kivy-garden kivy-garden.graph, kivymd_extensions.akivymd, ndicts, kivymd_extensions.sweetalert, google-auth-oauthlib, pyparsing
-
+requirements =webencodings,html5lib,beautifulsoup4,soupsieve, python3,kivy,appdirs, kivymd, pillow, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker, kivy-garden kivy-garden.graph, kivymd_extensions.akivymd, ndicts, kivymd_extensions.sweetalert,google-api-python-client, google-auth-oauthlib, pyparsing,google-auth-httplib2 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
@@ -232,8 +220,9 @@ android.permissions = INTERNET
 #android.copy_libs = 1
 
 # (str) The Android arch to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
-android.arch = armeabi-v7a
+#android.archs = arm64-v8a, armeabi-v7a
 #android.arch = x86_64
+android.arch = armeabi-v7a
 
 # (int) overrides automatic versionCode computation (used in build.gradle)
 # this is not the same as app version and should only be edited if you know what you're doing
