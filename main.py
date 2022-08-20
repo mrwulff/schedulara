@@ -1388,14 +1388,14 @@ class Demo3App(MDApp):
             on_release=self.callback,
         )
         button_login = MDFlatButton(
-            text=b_b2[i] + "[size=0]" + "8",
+            text=b_b[i] + "[size=0]" + "8",
             font_size=16,
             on_release=self.callback,
         )
         bb = (
             [button_ok, button_cancel],
             [button_ok, button_cancel],
-            [button_cancel, button_login],
+            [button_login, button_cancel],
         )
         self.alert = SweetAlert()
         self.alert.fire(title[i], text[i], buttons=bb[i])
