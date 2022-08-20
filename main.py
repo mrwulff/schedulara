@@ -1372,8 +1372,8 @@ class Demo3App(MDApp):
             s + "1. Click the MENU button\n2. Click Settings\n3. Click Login",
             s + "Notifications\nGoogle Calendar Export\n\Cloud Backups",
         ]
-        b_b = s + "Next", s + "Next", "Demo"
-        b_b2 = s + "Skip", s + "Skip", s + "Login"
+        b_b = s + "Next", s + "Next", s + "Login"
+        b_b2 = s + "Skip", s + "Skip", s + "Demo"
 
         from kivymd_extensions.sweetalert import SweetAlert
 
