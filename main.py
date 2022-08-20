@@ -66,7 +66,11 @@ from kivy.metrics import dp
 
 import datetime
 import libs.lib_think as lib_think
-import libs.lib_google2 as lib_google
+
+try:
+    import libs.lib_google2 as lib_google
+except:
+    print("fail google")
 import libs.lib_readuserdata as lib_readuserdata
 
 
@@ -4055,7 +4059,7 @@ class Demo3App(MDApp):
     # self.root.current = "home"
 
     def save_login(self):
-        import libs.lib_google2
+        import libs.lib_enc
 
         self.root.current = "login"
         x["username"] = App.get_running_app().root.current_screen.ids["temail"].text
