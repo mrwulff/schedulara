@@ -4065,7 +4065,7 @@ class Demo3App(MDApp):
         x["username"] = App.get_running_app().root.current_screen.ids["temail"].text
         x["usecache"] = False
         x["password"] = str(
-            libs.lib_google2.make_password(
+            libs.lib_enc.make_password(
                 App.get_running_app().root.current_screen.ids["tpassword"].text
             )
         )
