@@ -6,7 +6,8 @@ import time
 import sys
 
 #
-from pyparsing import ParseExpression
+#
+
 
 tic = time.perf_counter()
 from libs.uix.root import Root
@@ -129,6 +130,8 @@ from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 
 import os
 """
+from pyparsing import ParseExpression
+
 w = 1125 / 3
 h = 2436 / 3
 if platform == "win":
@@ -4055,6 +4058,7 @@ class Demo3App(MDApp):
 
         self.root.current = "login"
         x["username"] = App.get_running_app().root.current_screen.ids["temail"].text
+        x["usecache"] = False
         x["password"] = str(
             libs.lib_google2.make_password(
                 App.get_running_app().root.current_screen.ids["tpassword"].text

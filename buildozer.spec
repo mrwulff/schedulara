@@ -1,5 +1,18 @@
 [app]
 
+
+#####/mnt/c/Users/kw/Documents/s4a/asdf
+
+
+###keytool -genkey -v -keystore ~/keystores/schedulara.keystore -alias schedulara -keyalg RSA -keysize 2048 -validity 10000
+###keytool -importkeystore -srckeystore ~/keystores/schedulara.keystore -destkeystore ~/keystores/schedulara.keystore -deststoretype pkcs12
+
+###export P4A_RELEASE_KEYSTORE=~/keystores/schedulara.keystore
+###export P4A_RELEASE_KEYSTORE_PASSWD="<your-keystore-password>"
+###export P4A_RELEASE_KEYALIAS_PASSWD="<your-key-alias-password>"
+###export P4A_RELEASE_KEYALIAS="<your-key-alias>"
+###
+###
 # (str) Title of your application
 title = Schedulara
 
@@ -36,7 +49,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements =webencodings,html5lib,beautifulsoup4,soupsieve, python3,kivy,appdirs, kivymd, pillow, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker, kivy-garden kivy-garden.graph faker pyparsing kivymd_extensions.akivymd ndicts kivymd_extensions.sweetalert google-auth-oauthlib
+requirements =webencodings,html5lib,beautifulsoup4,soupsieve, python3,kivy,appdirs, kivymd, pillow, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker, kivy-garden kivy-garden.graph, kivymd_extensions.akivymd, ndicts, kivymd_extensions.sweetalert, google-auth-oauthlib, pyparsing
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
