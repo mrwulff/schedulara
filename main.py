@@ -1628,7 +1628,12 @@ class Demo3App(MDApp):
         self.root.set_current("today")
         import libs.lib_new
 
-        js = libs.lib_new.get_json_schedule(x, ad)
+        #####hustle error checks
+        try:
+            js = libs.lib_new.get_json_schedule(x, ad)
+        except:
+            toast("login failed")
+            return "fail"
         shows = js["shows"]
         li = ["first", "second", "third"]
         ns = 3
