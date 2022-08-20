@@ -1351,6 +1351,10 @@ class Demo3App(MDApp):
             self.do_onboarding(nb + 1)
         if nb == 9:
             self.alert.dismiss()
+        if nb == 8:
+
+            self.alert.dismiss()
+            self.root.set_current("login")
 
     def do_onboarding(self, i):
         s = "[size=20dp]"
@@ -1375,7 +1379,16 @@ class Demo3App(MDApp):
             font_size=16,
             on_release=self.callback,
         )
-        bb = [button_ok, button_cancel], [button_ok, button_cancel], [button_cancel]
+        button_login = MDFlatButton(
+            text=b_b2[i] + "[size=0]" + "8",
+            font_size=16,
+            on_release=self.callback,
+        )
+        bb = (
+            [button_ok, button_cancel],
+            [button_ok, button_cancel],
+            [button_cancel, button_login],
+        )
         self.alert = SweetAlert()
         self.alert.fire(title[i], text[i], buttons=bb[i])
         return True

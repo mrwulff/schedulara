@@ -36,7 +36,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements =webencodings,html5lib,beautifulsoup4,soupsieve, python3,kivy,appdirs, kivymd, pillow, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker, kivy-garden kivy-garden.graph faker pyparsing kivymd_extensions.akivymd ndicts kivymd_extensions.sweetalert google-auth-oauthlib
+requirements =webencodings,html5lib,beautifulsoup4,soupsieve, python3,kivy,appdirs, kivymd, pillow, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
