@@ -1,3 +1,6 @@
+###cp \schedulara\.buildozer\android\platform\build-arm64-v8a_armeabi-v7a\dists\kw.schedulara\build\outputs\apk\debug\kw.schedulara-0.1-arm64-v8a_armeabi-v7a-debug.apk /mnt/c/Users/kw/Desktop/app.apk
+
+
 from ast import Pass
 from asyncio import queues
 from audioop import reverse
@@ -67,6 +70,7 @@ from kivy.metrics import dp
 import datetime
 import libs.lib_think as lib_think
 import libs.lib_google2 as lib_google
+
 try:
     import libs.lib_google2 as lib_google
 except:
