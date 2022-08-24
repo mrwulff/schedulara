@@ -97,3 +97,4 @@ token.json
 libs/__pycache__/lib_google2.cpython-39.pyc
 libs/__pycache__/lib_parse2.cpython-39.pyc
 secret.txt
+libs/__pycache__/lib_bonus.cpython-39.pyc

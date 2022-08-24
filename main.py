@@ -66,7 +66,7 @@ from kivy.metrics import dp
 
 import datetime
 import libs.lib_think as lib_think
-
+import libs.lib_google2 as lib_google
 try:
     import libs.lib_google2 as lib_google
 except:
