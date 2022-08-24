@@ -634,6 +634,7 @@ class Demo3App(MDApp):
             self.do_new_stats(fdate, ldate, "YTD")
         if lol.icon == "cash-100":
             self.do_payperiod("paydate", self.rreverse)
+            # self.do_payperiod()
         if lol.icon == "google-downasaur":
             self.do_google_cal()
         if lol.icon == "test-tube":
@@ -1943,7 +1944,7 @@ class Demo3App(MDApp):
                 # if shows[z]["canceled"] == True:
                 if 1 == 1:
                     self.root.get_screen("newhome").ids.rlist.add_widget(panel)
-                libs.lib_bonus.create_notification(shows[z], x, True)
+                libs.lib_bonus.create_notification(shows[z], x, True, ad)
         if useold == True:
             canned = -1
             for z in range(len(shows)):
@@ -2875,7 +2876,18 @@ class Demo3App(MDApp):
         self.do_login("", useold)
 
     def test_not(self):
+        print(x)
         toast("Success")
+
+        sh = {
+            "date": "10/07/2022",
+            "time": "07:00",
+            "show": "(TMA) MY CHEMICAL ROMANCE - PLACEHOLDER",
+        }
+        import libs.lib_bonus
+
+        print(x, "dothis)")
+        libs.lib_bonus.create_notification(sh, x, False, ad)
 
     def mainmenuf(self):
         self.root.set_current("mainmenu")

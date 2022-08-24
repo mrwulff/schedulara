@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements =plyer,pyparsing,webencodings,html5lib,beautifulsoup4,soupsieve, python3,kivy,appdirs, kivymd, pillow,dateutil, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker, kivy-garden, kivy-garden.graph, kivymd_extensions.akivymd, ndicts, kivymd_extensions.sweetalert,google-api-python-client, google-auth-oauthlib,google-auth-httplib2,google-auth 
+requirements =plye,jnius,pyparsing,webencodings,html5lib,beautifulsoup4,soupsieve, python3,kivy,appdirs, kivymd, pillow,dateutil, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker, kivy-garden, kivy-garden.graph, kivymd_extensions.akivymd, ndicts, kivymd_extensions.sweetalert,google-api-python-client, google-auth-oauthlib,google-auth-httplib2,google-auth 
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -175,7 +175,7 @@ android.api = 31
 
 # (list) List of Java files to add to the android project (can be java or a
 # directory containing the files)
-#android.add_src =
+android.add_src = java_src
 
 # (list) Android AAR archives to add
 #android.add_aars =

@@ -1,10 +1,13 @@
-def create_notification(x, y, debug):
-    # print(x, "XDXXX", "y", y)
+def create_notification(x, y, debug, ad):
     import logging
     import datetime
+    import os
 
     now = datetime.datetime.now()
     from kivy.utils import platform
+
+    new_text = datetime.datetime.now().strftime("%H:%M:%S")
+    print(new_text)
 
     # print(platform, "KIVY PLATFORM")
     if platform == "linux":
@@ -15,7 +18,7 @@ def create_notification(x, y, debug):
     d1 = d1 * 60
     d2 = d2 * 60
 
-    # print (d1,d2,'omgwtfitsday1')
+    print(d1, d2, "omgwtfitsday1", x, y)
 
     showdatetime = x["date"] + " " + x["time"]
 
@@ -32,24 +35,29 @@ def create_notification(x, y, debug):
     # print (delay1,'delay1')
 
     delay1 = delay1 - d1
-    # print (delay1,'delay2-d1')
+    print(delay1, "delay1")
+    if debug == True:
+        delay1 = 30
 
-    # if debug==56:
-    #    delay1=5
-    #    delay2=10
-    # logging.info(pf,delay2)
-    # print(delay1, delay2, "DELAY!@")
-    # pf='W'
-    # try:
-    #    y['not2time'],junk=str.split(y['not2time'],'.')
-    #    y['not1time'],junk=str.split(y['not1time'],'.')
-    # except:
-    #    ''
-    # print(delay1, delay2)
-    if platform == "win":
-        # logging.info("windows notifications not supported")
-        pass
-    if platform != "win":
+    if platform in ("android", "win"):
+        import json
+        from datetime import datetime
+        import time
+
+        task_time = delay1 * 1000
+        print(task_time, "tasktime")
+        from jnius import autoclass
+
+        PythonActivity = autoclass("org.kivy.android.PythonActivity")
+        TaskScheduler = autoclass("org.test.myapp.TaskScheduler")
+
+        task_details = {"title": title, "message": message}
+        python_activity = PythonActivity.mActivity
+
+        task_scheduler = TaskScheduler(python_activity)
+        task_scheduler.scheduleTask(task_time, json.dumps(task_details))
+
+    if platform == "ios":
         # if platform != "win":
         if 1 == 2:
             print("IOS BITCHES", x["show"], delay2, d2, now, showdatetime)
@@ -104,3 +112,66 @@ def cancel_notification():
 
         logging.debug("IOS BITCHES")
         # notification.cancel_all()
+
+
+x = {
+    "date": "08/24/2022",
+    "time": "07:00",
+    "job": "26678",
+    "show": "(TMA) MY CHEMICAL ROMANCE - PLACEHOLDER",
+    "venue": "T- MOBILE ARENA",
+    "location": "LOADING DOCK",
+    "client": "MGM RESORTS",
+    "type": "IN",
+    "pos": "ME",
+    "details": "\xa0",
+    "status": "Confirmed",
+    "notes": "HARD HAT, SAFETY VEST, GLOVES & PROTECTIVE TOE BOOTS; BRING PARKING STUB TO VALIDATE// FACE MASK REQ'D",
+    "timekeep": "\xa0",
+    "plus": "\xa0",
+    "canceled": False,
+    "confirmid": "",
+    "lunches": "",
+    "endtime": "",
+    "is_new": False,
+    "confirable": "False",
+    "old": False,
+}
+y = {
+    "username": "kevincwulff@gmail.com",
+    "password": "b'YmxpbmsxODI='",
+    "city": "lasvegas",
+    "usecache": False,
+    "pcolor": "DeepPurple",
+    "scolor": "Amber",
+    "debug": "True",
+    "theme": "Light",
+    "not1": False,
+    "not2": False,
+    "not1time": 0,
+    "not2time": 0,
+    "sound_effects": "Bang",
+    "refreshreload": False,
+    "not": False,
+    "login": "False",
+    "hide_canceled": True,
+    "today_start": True,
+    "twenty": False,
+    "bio": False,
+    "nick": True,
+    "phone": False,
+    "button4": False,
+    "onboarding": True,
+    "backup_checks": "False",
+    "backup_config": "False",
+    "backup_shows": "False",
+    "usegoogle": "False",
+    "last_backup": "2022-08-17 09:52:56.665309",
+    "name": "Kevin Wulff",
+    "drive_id": "1IOFfiU0V4qySMyU3cEK32ypGczXRWz-q",
+    "cal_id": "n60m9dk1tv6eg17v6o71vbn4o4@group.calendar.google.com",
+    "theme2": False,
+}
+ad = "C:/Users/kw/AppData/Roaming/demo3/"
+if __name__ == "__main__":
+    create_notification(x, y, True, ad)
