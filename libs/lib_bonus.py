@@ -38,7 +38,14 @@ def create_notification(x, y, debug, ad):
     print(delay1, "delay1")
     if debug == True:
         delay1 = 30
+    if 1 == 1:
+        from plyer import notification
 
+        title = "test"
+        message = "test2"
+        ticker = "test3"
+        kwargs = {"title": title, "message": message, "ticker": ticker}
+        notification.notify(**kwargs)
     if platform in ("android", "win"):
         import json
         from datetime import datetime
