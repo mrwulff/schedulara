@@ -6,11 +6,15 @@
 
 
 
+
+
 <TodayScreen>
     name: "today"
 
-    Image:
-        source: 'images/rh.jpg'
+    FitImage:
+        #source: 'images/rh.jpg'
+        id: pic
+        source: app.get_wall("today")
         size: self.width,self.height
 
     

@@ -2,9 +2,10 @@
     #:import Clipboard kivy.core.clipboard.Clipboard
     #:import Snackbar kivymd.uix.snackbar.Snackbar
     name: "theme"
-    #Image:
-    #    source: 'images/rh.jpg'
-    #    size: self.width,self.height
+    FitImage:
+        id:pic
+        source: app.get_wall('theme')
+        size: self.width,self.height
     BoxLayout:
         orientation: "vertical"
         MDTopAppBar:
@@ -16,15 +17,26 @@
 
 
             MDList:
-                OneLineAvatarIconListItem:
-                    icon: 'palette'
-                    text: "Primary Color"
-                    #on_press: app.show_theme_picker('p')
-                    on_press: app.do_old_theme()
-                    icon_left_color: [1, 0, .5, 1]
+                OneLineAvatarIconListItem: 
+                    id: button
+                    text: "Wallpapepr"
 
                     IconLeftWidget:
-                        icon: "account"             
+                        id: button2
+                        icon: "bullhorn"
+                    YourContainer:
+                        id: button3
+                        MDRaisedButton:
+                            id: button5
+                            padding: [0, 0]
+
+                            width: 15
+                            text: 'Select'
+                            pos_hint: {'center_x': .7, 'center_y': .5}
+                            values: app.wall
+                            items: app.wall
+                            #id: noise
+                            on_release: app.choose_drop(app.wall,'wall')          
                 OneLineAvatarIconListItem:
                     text: "DarkMode"
                     on_press: 
@@ -47,3 +59,23 @@
 
                     IconLeftWidget:
                         icon: "palette"
+                OneLineAvatarIconListItem: 
+                    id: button
+                    text: "Colors"
+
+                    IconLeftWidget:
+                        id: button2
+                        icon: "bullhorn"
+                    YourContainer:
+                        id: button3
+                        MDRaisedButton:
+                            id: button4
+                            padding: [0, 0]
+
+                            width: 15
+                            text: self.theme_cls.primary_palette
+                            pos_hint: {'center_x': .7, 'center_y': .5}
+                            values: app.pcolor
+                            items: app.pcolor
+                            #id: noise
+                            on_release: app.choose_drop(app.pcolor,'pcolor')

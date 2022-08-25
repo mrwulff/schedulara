@@ -11,7 +11,13 @@
             #title: "History"
             height: app.mheight
             left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
-        
+
+        MDSpinner:
+            id: spinner
+            size_hint: .2, .2
+            size: dp(46), dp(46)
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            active: True 
         MDBoxLayout:
             #orientation: 'horizontal'
             size_hint: 1,None
@@ -31,7 +37,9 @@
 
                 id: totalhours
                 on_press:
+                    app.spinner_toggle()
                     app.do_payperiod_trim('totalhours')
+                    app.spinner_toggle()
                     #(app.set_pp('custom'))
             MDIconButton:
                 text: app.check_var(app.rreverse)
@@ -44,6 +52,7 @@
             #height: app.mheight+10
             width: 1000
             height:dp(42)
+
             
 
             MDRaisedButton:

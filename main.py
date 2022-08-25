@@ -140,6 +140,7 @@ from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 import os
 """
 from pyparsing import ParseExpression
+import webcolors
 
 w = 1125 / 3
 h = 2436 / 3
@@ -579,6 +580,29 @@ class Demo3App(MDApp):
         "tucson",
         "wisconsin",
     ]
+
+    pcolor = [
+        "Red",
+        "Pink",
+        "Purple",
+        # "DeepPurple",
+        "Indigo",
+        "Blue",
+        "LightBlue",
+        "Cyan",
+        "Teal",
+        "Green",
+        "LightGreen",
+        "Lime",
+        "Yellow",
+        # "Amber",
+        "Orange",
+        # "DeepOrange",
+        "Brown",
+        "Gray",
+        "BlueGray",
+    ]
+    wall = ["Rhino", "Dark", "Light", "Stage", "Sing", "schedulara"]
     profile = 0
     profile_data = []
     data = {
@@ -586,14 +610,15 @@ class Demo3App(MDApp):
         "Paystubs": "cash-100",
         "Stats": "chart-areaspline",
         "Trophys": "trophy-award",
-        "Old_Schedule": "book-clock",
+        # "Old_Schedule": "book-clock",
         "About": "information",
         "firedb": "database",
-        "Profile": "account-circle",
-        "Chat": "message-outline",
-        "Google": "google-downasaur",
+        # "Profile": "account-circle",
+        # "Chat": "message-outline",
+        "Google Cal Backup": "google-downasaur",
         "Settings": "cog-outline",
-        "Open_test": "test-tube",
+        "Backup": "test-tube",
+        "animate": "test-tube-empty",
     }
 
     def get_dates(self, t):
@@ -637,12 +662,20 @@ class Demo3App(MDApp):
             fdate, ldate = self.get_dates("YTD")
             self.do_new_stats(fdate, ldate, "YTD")
         if lol.icon == "cash-100":
-            self.do_payperiod("paydate", self.rreverse)
-            # self.do_payperiod()
+            # self.do_payperiod("paydate", self.rreverse)
+            self.do_payperiod_f("YTD")
         if lol.icon == "google-downasaur":
             self.do_google_cal()
         if lol.icon == "test-tube":
             self.do_gbackup()
+        if lol.icon == "information":
+            self.poppy("about")
+
+        if lol.icon == "test-tube-empty":
+            self.test_animate()
+
+    def test_animate(self):
+        print("test animate")
 
     def do_restore(self, f):
         import shutil
@@ -1631,6 +1664,7 @@ class Demo3App(MDApp):
         from datetime import datetime
 
         self.root.set_current("today")
+        self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
         import libs.lib_new
 
         #####hustle error checks
@@ -2358,10 +2392,27 @@ class Demo3App(MDApp):
         self.menu.dismiss()
         toast(text)
 
+    def get_wall(self, page):
+        # self.root.set_current(page)
+
+        print(x, "assert")
+        b = "images/walls/" + x["wall"] + ".jpg"
+        try:
+            self.root.get_screen(page).ids["pic"].source = b
+            print("success set image")
+        except:
+            print("fail to set image")
+            pass
+
+        return b
+
+        # self.root.current = "settings"
+
     def menu_callback(self, text_item, v, v2):
         # print(location[text_item])
         # print (text_item,type(text_item))
         # print(v[text_item], "v[text")
+        # print(text_item, v2, v, "dumbass")
         if v2 == "name":
             toast(str(v[text_item][v2]))
             App.get_running_app().root.current_screen.ids[
@@ -2371,17 +2422,30 @@ class Demo3App(MDApp):
             App.get_running_app().root.current_screen.ids["button4"].text = str(
                 v[text_item]
             )
-        # self.root.get_screen("notification").ids['button4'].text=v[text_item]
+        if v2 == "pcolor":
+            App.get_running_app().root.current_screen.ids["button4"].text = str(
+                v[text_item]
+            )
+            self.theme_cls.primary_palette = v[text_item]
+
+        if v2 == "wall":
+            App.get_running_app().root.current_screen.ids["button5"].text = str(
+                v[text_item]
+            )
+            self.root.set_current("theme")
+            self.root.get_screen("theme").ids["pic"].source = self.get_wall("theme")
+
+        # self.root.get_screen(v2).ids["button4"].text = v[text_item]
         global x
         x[v2] = v[text_item]
-        # print(x)
+        print(x)
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
 
     def choose_drop(self, v, v2):
         "oll"
-        # print(v, "THISISTHETHING")
+        print(v2, v, "THISISTHETHING2")
 
         if v2 == "city":
             menu_items = [
@@ -2405,6 +2469,30 @@ class Demo3App(MDApp):
                 }
                 for i in range(len(v) - 1)
             ]
+        if v2 == "pcolor":
+            menu_items = [
+                {
+                    "text": "[color=" + webcolors.name_to_hex(v[i]) + "]" + v[i],
+                    # "scroll_type": ['bars'],
+                    # "effect_cls": "ScrollEffect",
+                    "viewclass": "OneLineListItem",
+                    "on_release": lambda x=i: self.menu_callback(x, v, v2),
+                }
+                for i in range(len(v) - 1)
+            ]
+        if v2 == "wall":
+            menu_items = [
+                {
+                    "text": v[i],
+                    # "scroll_type": ['bars'],
+                    # "effect_cls": "ScrollEffect",
+                    "viewclass": "OneLineListItem",
+                    "on_release": lambda x=i: self.menu_callback(x, v, v2),
+                }
+                for i in range(len(v) - 1)
+            ]
+
+            # self.root.
 
         # print(self.root.get_screen("notification").ids)
         self.menu = MDDropdownMenu(
@@ -3611,13 +3699,15 @@ class Demo3App(MDApp):
     from typing import Union
 
     def do_theme(self):
+
         specific_text_color = ""
         self.root.set_current("theme")
+        self.root.get_screen("theme").ids["pic"].source = self.get_wall("theme")
         self.save_theme_picker()
 
     theme_settings = ""
 
-    def do_old_theme(self):
+    def do_old_theme2(self):
         self.root.set_current("theme_picker")
         self.save_theme_picker()
 
@@ -3711,7 +3801,9 @@ class Demo3App(MDApp):
         x = 0
         listofdicks = []
         # now = datetime.now()
-        # print(self.fday, now, self.lday)
+        # print(self.fday, "now", self.lday)
+        from kivy.clock import Clock
+
         for file in glob.glob("*.html"):
             # print (file)
             import libs.lib_parse as lib_parse
@@ -3723,8 +3815,14 @@ class Demo3App(MDApp):
             if self.fday <= f1 and f1 <= self.lday:
                 listofdicks.append(dd)
                 x = x + 1
-            print(x)
+            # print(x)
+            # toast("loaded:" + str(x))
+            # Clock.schedule_once(self.dumb(x))
+
         return listofdicks
+
+    def dumb(self, z):
+        print(z)
 
     def check_var(self, x):
         if x == True:
@@ -3732,32 +3830,52 @@ class Demo3App(MDApp):
         else:
             return "vv"
 
+    def spinner_toggle(self):
+        print("Spinner Toggle")
+        app = self.get_running_app()
+
+        sp = self.root.current_screen.ids["spinner"]
+        if sp == False:
+            sp = True
+        else:
+            sp = False
+
     def do_payperiod_trim(self, sort):
         if self.sort_pp == sort:
             # print("omg its equal")
             self.rreverse = not self.rreverse
             # print(self.rreverse)
         self.sort_pp = sort
-        self.do_payperiod()
+        # Clock.schedule_once()
+        self.do_payperiod("x")
+        ## Clock.schedule_once(self.do_payperiod())
 
     def do_payperiod_f(self, date_rng):
+        from kivy.clock import Clock
+
+        # Clock.schedule_once(self.root.set_current)
+
+        # Clock.schedule_once()
 
         ssort = self.sort_pp
         fdate, ldate = self.get_dates(date_rng)
-        print(fdate, ldate, self.rreverse, ssort)
+        # print(fdate, ldate, self.rreverse, ssort)
         self.lday = ldate
         self.fday = fdate
         self.date_range_pp = date_rng
 
-        self.do_payperiod()
+        Clock.schedule_once(self.do_payperiod)
 
-    def do_payperiod(self):
+        # self.do_payperiod()
+
+    def do_payperiod(self, zz):
+        self.root.set_current("pay")
         from kivymd.uix.list import ThreeLineListItem
+        from kivy.uix.progressbar import ProgressBar
 
         ssort = self.sort_pp
         rreverse = self.rreverse
 
-        self.root.set_current("pay")
         self.root.current_screen.ids["payperiod_list"].clear_widgets()
         listofdicks = self.load_paychecks()
         listofdicks = sorted(listofdicks, key=lambda i: i[ssort], reverse=rreverse)
@@ -3799,7 +3917,7 @@ class Demo3App(MDApp):
         App.get_running_app().root.current_screen.ids["dend"].text = self.format_date(
             self.lday, "full"
         )
-
+        self.root.get_screen("pay").ids.spinner.active == True
         for z in range(len(listofdicks)):
             # print(listofdicks[z])
 
@@ -3816,6 +3934,7 @@ class Demo3App(MDApp):
             )
 
             self.root.get_screen("pay").ids.payperiod_list.add_widget(panel)
+        self.root.get_screen("pay").ids.spinner.active == False
 
     def do_payperiod2(self, ssort, rreverse):
         self.root.set_current("pay")
@@ -4104,3 +4223,7 @@ Demo3App().run()
 # Your appId:	d6073280-f7af-4082-8b33-0356d7068f51
 # Your appSecret:	073276b2-4940-40f0-87cc-7e4805382cd0
 # https://www.highscores.ovh/
+
+##Photo by <a href="https://unsplash.com/@sebastiaanstam?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">sebastiaan stam</a> on <a href="https://unsplash.com/s/photos/concert?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+##Photo by <a href="https://unsplash.com/@fkaregan?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Samuel Regan-Asante</a> on <a href="https://unsplash.com/s/photos/concert?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+##Photo by <a href="https://unsplash.com/@nickleejeffries?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Nicholas Jeffries</a> on <a href="https://unsplash.com/s/photos/concert?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
