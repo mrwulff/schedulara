@@ -3934,9 +3934,9 @@ class Demo3App(MDApp):
 
     def do_pay_ind(self, b):
         import libs.lib_parse2
-        from kivymd.uix.list import FourLineListItem
+        #from kivymd.uix.list import ThreeLineListItem
 
-        print(dir(FourLineListItem), "testtest")
+        #print(dir(FourLineListItem), "testtest")
 
         print(
             "ind",
@@ -3953,7 +3953,7 @@ class Demo3App(MDApp):
         #    print(line)
         self.root.set_current("pay_breakdown")
 
-        panel = FourLineListItem(
+        panel = ThreeLineListItem(
             text="Paydate: " + str(z["paydate"]),
             secondary_text="Shows: "
             + str(z["days"])
