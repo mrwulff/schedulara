@@ -46,7 +46,7 @@ version = 0.1
 # requirements.source.kivy = ../../kivy
 
 # (str) Presplash of the application
-presplash.filename = %(source.dir)s/images/schedulara.png
+presplash.filename = %(source.dir)s/images/walls/schedulara.png
 
 # (str) Icon of the application
 icon.filename = %(source.dir)s/images/launcher.png
