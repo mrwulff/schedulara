@@ -3962,7 +3962,7 @@ class Demo3App(MDApp):
             + " Overtime: "
             + str(z["othours"]),
             tertiary_text="$" + str(z["grandtotal"]),
-            fourth_text="test",
+            #fourth_text="test",
             bg_color=self.theme_cls.bg_darkest,
             radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
             # on_release=self.do_pay_ind,
