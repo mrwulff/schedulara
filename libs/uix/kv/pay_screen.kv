@@ -1,27 +1,22 @@
 <PayScreen>
     name: "Pay"
-    #Image:
-    #    source: 'images/rh.jpg'
-    #    size: self.width,self.height
+    FitImage:
+        #source: 'images/rh.jpg'
+        id: pic
+        source: app.get_wall("today")
+        size: self.width,self.height
     
 
     BoxLayout:
+
         orientation: "vertical"
         MDTopAppBar:
-            #title: "History"
             height: app.mheight
             left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
-
-        MDSpinner:
-            id: spinner
-            size_hint: .2, .2
-            size: dp(46), dp(46)
-            pos_hint: {'center_x': .5, 'center_y': .5}
-            active: True 
         MDBoxLayout:
             #orientation: 'horizontal'
             size_hint: 1,None
-            height: app.mheight
+            height:dp(42)
             MDRaisedButton:
                 text: 'Date'
                 id: paydate
@@ -80,7 +75,7 @@
         MDBoxLayout:
             orientation: 'horizontal'
             size_hint: 1,None
-            height: app.mheight
+            height:dp(42)
             MDRaisedButton:
                 text: 'All'
                 id: dstart
@@ -105,8 +100,9 @@
 
             
             MDList:
+            
                 
-                spacing: app.cspacing
-                padding: app.cpadding,app.cpadding
+                spacing: app.cspacing/2
+                padding: app.cpadding/2,app.cpadding/2
                 bg_color:app.theme_cls.primary_light
                 id: payperiod_list

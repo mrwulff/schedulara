@@ -620,6 +620,7 @@ class Demo3App(MDApp):
         "Backup": "test-tube",
         "animate": "test-tube-empty",
     }
+    c_radius = dp(3)
 
     def get_dates(self, t):
         from datetime import datetime
@@ -3851,11 +3852,6 @@ class Demo3App(MDApp):
         ## Clock.schedule_once(self.do_payperiod())
 
     def do_payperiod_f(self, date_rng):
-        from kivy.clock import Clock
-
-        # Clock.schedule_once(self.root.set_current)
-
-        # Clock.schedule_once()
 
         ssort = self.sort_pp
         fdate, ldate = self.get_dates(date_rng)
@@ -3864,12 +3860,11 @@ class Demo3App(MDApp):
         self.fday = fdate
         self.date_range_pp = date_rng
 
-        Clock.schedule_once(self.do_payperiod)
-
-        # self.do_payperiod()
+        self.do_payperiod("None")
 
     def do_payperiod(self, zz):
         self.root.set_current("pay")
+        self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
         from kivymd.uix.list import ThreeLineListItem
         from kivy.uix.progressbar import ProgressBar
 
@@ -3917,7 +3912,6 @@ class Demo3App(MDApp):
         App.get_running_app().root.current_screen.ids["dend"].text = self.format_date(
             self.lday, "full"
         )
-        self.root.get_screen("pay").ids.spinner.active == True
         for z in range(len(listofdicks)):
             # print(listofdicks[z])
 
@@ -3931,10 +3925,86 @@ class Demo3App(MDApp):
                 + " Overtime: "
                 + str(listofdicks[z]["othours"]),
                 tertiary_text="$" + str(listofdicks[z]["moneytotal"]),
+                bg_color=self.theme_cls.bg_dark,
+                radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
+                on_release=self.do_pay_ind,
             )
 
-            self.root.get_screen("pay").ids.payperiod_list.add_widget(panel)
-        self.root.get_screen("pay").ids.spinner.active == False
+            self.root.get_screen("pay").ids.payperiod_list.add_widget(panel, z)
+
+    def do_pay_ind(self, b):
+        import libs.lib_parse2
+        from kivymd.uix.list import FourLineListItem
+
+        print(dir(FourLineListItem), "testtest")
+
+        print(
+            "ind",
+            b.text,
+        )
+
+        i = str.split(b.text, " ")
+        d, m, y = str.split(i[1], "/")
+        z = libs.lib_parse2.parsepayperiod(
+            d + "-" + m + "-" + y + ".html",
+        )
+        # print(z, "gigigig")
+        # for line in o.readlines():
+        #    print(line)
+        self.root.set_current("pay_breakdown")
+
+        panel = FourLineListItem(
+            text="Paydate: " + str(z["paydate"]),
+            secondary_text="Shows: "
+            + str(z["days"])
+            + " RegHours: "
+            + str(z["reghours"])
+            + " Overtime: "
+            + str(z["othours"]),
+            tertiary_text="$" + str(z["grandtotal"]),
+            fourth_text="test",
+            bg_color=self.theme_cls.bg_darkest,
+            radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
+            # on_release=self.do_pay_ind,
+        )
+
+        self.root.get_screen("pay_breakdown").ids.pay_gigs.add_widget(panel)
+
+        for i in range(len(z["gigs"])):
+            d = z["gigs"][i]
+            din, tin = str.split(d["timeIn"], " ")
+            junk, monthi, datei = str.split(din, "-")
+            h_i, min_i, junk = str.split(tin, ":")
+
+            dout, tout = str.split(d["timeOut"], " ")
+            h_o, min_o, junk = str.split(tout, ":")
+            junk, montho, dateo = str.split(din, "-")
+            time = (
+                monthi
+                + "-"
+                + datei
+                + " "
+                + h_i
+                + ":"
+                + min_i
+                + " -- "
+                + h_o
+                + ":"
+                + min_o
+            )
+            hours_nice = "Hours:" + str(d["tot_hours"])
+            if float((d["otH"])) > 0:
+                hours_nice = hours_nice + " Overtime: " + str(d["otH"])
+            panel = ThreeLineListItem(
+                secondary_text=time,
+                text=d["show"],
+                tertiary_text=hours_nice,
+                bg_color=self.theme_cls.bg_dark,
+                radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
+                # on_release=self.do_pay_ind,
+            )
+
+            self.root.get_screen("pay_breakdown").ids.pay_gigs.add_widget(panel)
 
     def do_payperiod2(self, ssort, rreverse):
         self.root.set_current("pay")

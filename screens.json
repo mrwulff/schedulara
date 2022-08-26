@@ -118,5 +118,10 @@
         "import": "from libs.uix.baseclass.theme_picker_screen import theme_pickerscreen",
         "object": "theme_pickerscreen()",
         "kv": "libs/uix/kv/theme_picker_screen.kv"
+    },
+    "pay_breakdown": {
+        "import": "from libs.uix.baseclass.pay_breakdown_screen import pay_breakdownscreen",
+        "object": "pay_breakdownscreen()",
+        "kv": "libs/uix/kv/pay_breakdown_screen.kv"
     }
 }
