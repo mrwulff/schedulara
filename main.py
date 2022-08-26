@@ -2400,7 +2400,7 @@ class Demo3App(MDApp):
         try:
             b = "images/walls/" + x["wall"] + ".jpg"
         except:
-            b = "images/walls/" + 'rhino' + ".jpg"
+            b = "images/walls/" + "rhino" + ".jpg"
         try:
             self.root.get_screen(page).ids["pic"].source = b
             print("success set image")
@@ -3957,6 +3957,10 @@ class Demo3App(MDApp):
         # print(z, "gigigig")
         # for line in o.readlines():
         #    print(line)
+        import os
+
+        print(os.getcwd(), "CWDDDDD")
+        os.chdir("../")
         self.root.set_current("pay_breakdown")
 
         panel = ThreeLineListItem(
