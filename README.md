@@ -14,7 +14,8 @@ toolchain update schedulara24
 
 ##hints for when i forget
 
-toolchain pip install appdirs kivymd pillow humanize mechanize bs4 emoji webcolors pyperclip kivy-garden kivy-garden.graph faker pyparsing kivymd_extensions.akivymd ndicts kivymd_extensions.sweetalert google-auth-oauthlib
+toolchain pip install appdirs kivymd pillow humanize mechanize bs4 emoji webcolors pyperclip kivy-garden kivy-garden.graph faker pyparsing kivymd_extensions.akivymd ndicts kivymd_extensions.sweetalert google-auth-oauthlib google-api-python-client plyer
+
 
 
 #/Users/<name>/dist/root/python3/lib/python3.9/site-packages

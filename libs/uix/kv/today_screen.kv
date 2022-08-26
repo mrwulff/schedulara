@@ -126,10 +126,19 @@
                         text: "Update"
                         secondary_text: "Secondary text here"
                         on_release: app.update()
-
-
-                TwoLineListItem:   
-                    text: 'Paycheck Info:' 
+                TwoLineListItem: 
+                MDCard:
+                    orientation: "vertical"
+                    #size_hint:.5,.8
+                    #width: 50
+                    height:app.mheight/3
+                    spacing: app.mheight
+                    TwoLineListItem: 
+                        #size_hint:1,.8
+                        height: app.mheight/3
+                        #width:560
+                        bg_color:self.theme_cls.primary_light
+                        text: 'Paycheck Info:' 
 
                 MDCard:
                     orientation: "vertical"

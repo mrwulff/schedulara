@@ -2397,7 +2397,10 @@ class Demo3App(MDApp):
         # self.root.set_current(page)
 
         print(x, "assert")
-        b = "images/walls/" + x["wall"] + ".jpg"
+        try:
+            b = "images/walls/" + x["wall"] + ".jpg"
+        except:
+            b = "images/walls/" + 'rhino' + ".jpg"
         try:
             self.root.get_screen(page).ids["pic"].source = b
             print("success set image")
@@ -3826,6 +3829,7 @@ class Demo3App(MDApp):
         print(z)
 
     def check_var(self, x):
+        print(x)
         if x == True:
             return "^^"
         else:
@@ -3870,6 +3874,7 @@ class Demo3App(MDApp):
 
         ssort = self.sort_pp
         rreverse = self.rreverse
+        print(rreverse, "REVERSE")
 
         self.root.current_screen.ids["payperiod_list"].clear_widgets()
         listofdicks = self.load_paychecks()
@@ -3934,9 +3939,10 @@ class Demo3App(MDApp):
 
     def do_pay_ind(self, b):
         import libs.lib_parse2
-        #from kivymd.uix.list import ThreeLineListItem
 
-        #print(dir(FourLineListItem), "testtest")
+        # from kivymd.uix.list import ThreeLineListItem
+
+        # print(dir(FourLineListItem), "testtest")
 
         print(
             "ind",
@@ -3962,7 +3968,7 @@ class Demo3App(MDApp):
             + " Overtime: "
             + str(z["othours"]),
             tertiary_text="$" + str(z["grandtotal"]),
-            #fourth_text="test",
+            # fourth_text="test",
             bg_color=self.theme_cls.bg_darkest,
             radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
             # on_release=self.do_pay_ind,

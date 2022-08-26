@@ -39,7 +39,8 @@
             MDIconButton:
                 text: app.check_var(app.rreverse)
                 id: sall
-                #on_press:(app.setreverse)
+                on_press:
+                    app.do_payperiod_trim(app.sort_pp)
 
         MDBoxLayout:
             #orientation: 'horizontal'
