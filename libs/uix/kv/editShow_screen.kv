@@ -1,0 +1,119 @@
+<editShowscreen>
+    #:import Clipboard kivy.core.clipboard.Clipboard
+    #:import Snackbar kivymd.uix.snackbar.Snackbar
+    name: "editShow"
+    Image:
+        source: 'images/rh.jpg'
+        size: self.width,self.height
+    BoxLayout:
+        orientation: "vertical"
+        MDTopAppBar:
+            #title: "Settings"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
+
+
+
+
+
+        ScrollView:
+            #id: history_view
+
+            
+            MDList:
+                spacing: app.cspacing/2
+                padding: app.cpadding/2,app.cpadding/2
+                bg_color:app.theme_cls.bg_dark
+                id: archive
+                ThreeLineAvatarIconListItem:
+                    bg_color: app.theme_cls.bg_dark
+                    id:show
+                    text:'bla'
+                    IconLeftWidget:
+                        icon:"calendar-star"
+                OneLineAvatarIconListItem:
+                    bg_color: app.theme_cls.bg_dark
+                    text: "Hour Unpaid Lunches"
+                    id: button2
+                    YourContainer:
+                        id: button3
+                        MDRaisedButton:
+                            id: button4
+                            padding: [15, 15]
+
+                            width: 5
+                            text: "0"
+                            pos_hint: {'center_x': .5, 'center_y': .5}
+                            values: app.lunches
+                            items: app.lunches
+                            id: button4
+                            on_release: app.choose_drop(app.lunches,'lunches')
+                    IconLeftWidget:
+                        icon: "food"
+
+                OneLineAvatarIconListItem:
+                    bg_color: app.theme_cls.bg_dark
+                    text: "OverTime After"
+                    id: button2
+                    YourContainer:
+                        id: button3
+                        MDRaisedButton:
+                            padding: [15, 15]
+
+                            width: 5
+                            text: "0"
+                            pos_hint: {'center_x': .5, 'center_y': .5}
+                            values: app.oth
+                            items: app.oth
+                            id: button5
+                            on_release: app.choose_drop(app.oth,'oth')
+                    IconLeftWidget:
+                        icon: "one-up"
+
+                OneLineAvatarIconListItem:
+                    bg_color: app.theme_cls.bg_dark
+                    text: "Time Out"
+                    IconLeftWidget:
+                        icon: "stop-circle"
+                    YourContainer:
+                        id: container
+
+                        MDRaisedButton:
+                            text:"Time"
+                            id:newhours
+                            padding: [15, 15]
+                            pos_hint: {'center_x': .5, 'center_y': .5}
+                            on_release: app.show_time_picker()
+
+                OneLineAvatarIconListItem:
+                    bg_color: app.theme_cls.bg_dark
+                    text: "Rate"
+                    IconLeftWidget:
+                        icon: "cash"
+                    YourContainer:
+                        id: container
+
+                        MDRaisedButton:
+                            text:"28.5"
+                            padding: [15, 15]
+                            pos_hint: {'center_x': .5, 'center_y': .5}
+                            id:rate
+                            #id:newhours
+                            #on_release: app.show_time_picker()
+
+                TextInput:
+
+                    id: notes
+                    valign: 'middle'
+                    hint_text:'Notes'
+                    halign: 'left'
+                    font_size: 16
+                    multiline: True
+                    size_hint: 1, None
+                    #height: scrlv.height
+                    background_color: app.theme_cls.bg_dark
+
+
+                MDRaisedButton:
+                    text:"Update"
+                    on_release: app.update_show()

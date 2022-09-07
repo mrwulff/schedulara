@@ -27,7 +27,7 @@ def make_json_schedule(x, ad):
             import libs.lib_createcache
 
             # lib_createcache.createcache(ad, 15)
-
+            good_login = True
             good_login = libs.lib_think.login(ad, x, False, False)
             if good_login == False:
                 return False
@@ -114,6 +114,8 @@ def make_json_schedule(x, ad):
         if old == True:
             olddict.append(thisdict)
             # print(old, "OLD")
+        # print(thisdict, "thisdict")
+        update_history(thisdict, ad)
 
     cconfirmables = {
         "confirmable": conf_bool,
@@ -146,6 +148,91 @@ def make_json_schedule(x, ad):
     if cache == False:
         x = open(ad + "/jason_show_cache_real.json", "w")
     x.write(json_object)
+
+
+def format_textt(name):
+    name = str.replace(name, "/", "")
+    name = str.replace(name, ":", "")
+    return name
+def update_archive_json(ad,thisdict):
+    import json
+    fname = (
+        format_textt(thisdict["date"])
+        + " "
+        + format_textt(thisdict["time"])
+        + " "
+        + thisdict["job"]
+        + " "
+        + format_textt(thisdict["show"])
+    )
+
+    with open(ad + "/future_shows/" + fname + ".json", "w") as outfile:
+                json.dump(thisdict, outfile, indent=4)
+
+
+
+def load_archive_json(ad,x):
+    import json
+    import os
+
+    print (x)
+    junk,date,time,job,show=str.split(x,'%%%')
+    fname = (
+        format_textt(date)
+        + " "
+        + format_textt(time)
+        + " "
+        + job
+        + " "
+        + format_textt(show)
+    )
+    nf = os.path.join(ad, "future_shows", fname) + ".json"
+    with open(nf) as json_file:
+        data = json.load(json_file)
+    return data
+
+
+def update_history(thisdict, ad):
+    import hashlib
+    import json
+    import os
+
+    print("omg its history")
+
+    # hash_object = hashlib.md5(show.encode())
+    # fname = hash_object.hexdigest()
+
+    # thisdict['is_new']=False
+    # print(show, '"SHOW"')
+    fname = (
+        format_textt(thisdict["date"])
+        + " "
+        + format_textt(thisdict["time"])
+        + " "
+        + thisdict["job"]
+        + " "
+        + format_textt(thisdict["show"])
+    )
+    try:
+        nf = os.path.join(ad, "future_shows", fname) + ".json"
+        x = open(nf, "r")
+
+        thisdict["is_new"] = False
+    except:
+        thisdict["is_new"] = True
+        flag_new = True
+        mystring = str(thisdict)
+        hash_object = hashlib.md5(mystring.encode())
+        fname2 = hash_object.hexdigest()
+
+        try:
+            with open(ad + "/future_shows/" + fname + ".json", "w") as outfile:
+                json.dump(thisdict, outfile, indent=4)
+                # json.dump(self.results, ofile, indent=4)
+        except:
+            os.mkdir(ad + "/future_shows")
+            with open(ad + "/future_shows/" + fname + ".json", "w") as outfile:
+                json.dump(thisdict, outfile, indent=4)
 
 
 def get_json_schedule(x, ad):

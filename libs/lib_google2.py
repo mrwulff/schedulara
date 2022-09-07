@@ -199,7 +199,9 @@ def create_google_folder(ad, name):
 
 def get_creds(ad):
     creds = None
+    import os
 
+    print(os.getcwd(), "CWDOFO")
     if os.path.exists(ad + "/token2.json"):
         creds = Credentials.from_authorized_user_file(ad + "/token2.json", SCOPES)
     if not creds or not creds.valid:

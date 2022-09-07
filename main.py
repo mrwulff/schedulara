@@ -3,7 +3,8 @@
 
 from ast import Pass
 from asyncio import queues
-from audioop import reverse
+#from audioop import reverse
+#from curses import A_REVERSE
 import profile
 import time
 import sys
@@ -37,8 +38,7 @@ from kivymd.toast import toast
 from kivymd.uix.pickers import MDColorPicker
 
 # from kivymd.uix.pickers import MDThemePicker
-# from kivymd.uix.picker import MDTimePicker
-
+from kivymd.uix.pickers import MDTimePicker
 
 # from kivymd.uix.picker import MDDatePicker
 # from kivymd.uix.pickers import MDTimePicker
@@ -139,6 +139,9 @@ from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 
 import os
 """
+import os
+
+cwd = os.getcwd()
 from pyparsing import ParseExpression
 import webcolors
 
@@ -544,6 +547,8 @@ class Demo3App(MDApp):
     radius = 10 * scale
     cpadding = 20
     sound_effects = ["Ding", "Bang", "Lol"]
+    lunches = ["0", "1", "2",'3']
+    oth=["0", "1", "2",'3',"4", "5", "6",'7',"8", "9", "10",'11']
     mheight = dp(170)
     pictures = [
         "light",
@@ -694,6 +699,7 @@ class Demo3App(MDApp):
         x = lib_readuserdata.readuserdata(App, ad, ios)
 
     def do_gbackup(self):
+        os.chdir(cwd)
         self.root.set_current("backupgoogle")
 
         import libs.lib_new
@@ -1744,7 +1750,7 @@ class Demo3App(MDApp):
         self.root.get_screen("today").ids["stats"].secondary_text = stat_text2
         self.root.get_screen("today").ids["stats"].tertiary_text = stat_text3
 
-        paydate, payperiod = self.find_pay_date()
+        paydate, payperiod = self.find_pay_date(0)
 
         paylist = self.root.get_screen("today").ids["pay"]
         paylist.text = "Next Payday:  " + paydate
@@ -1757,7 +1763,9 @@ class Demo3App(MDApp):
 
             libs.lib_updateuserdata.updateuser(x, ad)
 
-    def find_pay_date(self):
+    def find_pay_date(self,c):
+
+
 
         firstdate = datetime.date(2022, 6, 28)
         #:
@@ -1770,20 +1778,35 @@ class Demo3App(MDApp):
         while flag == False:
 
             nextdate = firstdate + datetime.timedelta(days=14)
-            print(nextdate)
+            #print(nextdate)
             lastdate = nextdate + datetime.timedelta(days=13)
             # print(type(nextdate), type(now), lastdate, flag, z)
             # print(nextdate - now)
             if nextdate >= now:
                 flag = True
-                print("omg", flag)
+                #print("omg", flag)
             firstdate = nextdate
             z = z + 1
         lastdate = nextdate - datetime.timedelta(days=7)
-        lastdate1 = lastdate - datetime.timedelta(days=14)
+        lastdate1 = lastdate - datetime.timedelta(days=13)
+        if c=='Last':
+            lastdate = lastdate - datetime.timedelta(days=14)
+            lastdate1 = lastdate1 - datetime.timedelta(days=14)
+            firstdate=firstdate-datetime.timedelta(days=14)
+        if c=='Next':
+            lastdate = lastdate + datetime.timedelta(days=14)
+            lastdate1 = lastdate1 + datetime.timedelta(days=14)
+            firstdate=firstdate+datetime.timedelta(days=14)
         l = self.format_date(lastdate, "short")
         l2 = self.format_date(lastdate1, "short")
         a = self.format_date(firstdate, "full")
+        #print (c,'TRIM')
+        if c=="All":
+            return ("All","","","")
+        if c!=0:
+            return l2,l,lastdate,lastdate1
+        
+        
 
         return a, l2 + " - " + l
 
@@ -2289,6 +2312,8 @@ class Demo3App(MDApp):
     def do_settings(self):
         global x
         # print(x)
+        os.chdir(cwd)
+        print(os.getcwd(), "PRINT OMGOMG")
         self.root.set_current("settings")
         # sm.set_current("settings")
         try:
@@ -2362,6 +2387,10 @@ class Demo3App(MDApp):
 
     snackbar = None
     rreverse = True
+
+    archive_reverse=True
+    archive_sort='date'
+    archive_trim='Next'
     menurotate = 10
     menuscale = 0.5, 0.5
 
@@ -2439,6 +2468,18 @@ class Demo3App(MDApp):
             self.root.set_current("theme")
             self.root.get_screen("theme").ids["pic"].source = self.get_wall("theme")
 
+        if v2 == "lunches":
+            App.get_running_app().root.current_screen.ids["button4"].text = str(
+                v[text_item]
+            )
+        if v2 == "oth":
+            App.get_running_app().root.current_screen.ids["button5"].text = str(
+                v[text_item]
+            )
+            #self.edit_show_details(App.get_running_app().root.current_screen.ids["button2"])
+            #self.root.set_current("theme")
+            #self.root.get_screen("editShow").ids["lnch"].text=str(v)
+
         # self.root.get_screen(v2).ids["button4"].text = v[text_item]
         global x
         x[v2] = v[text_item]
@@ -2495,7 +2536,28 @@ class Demo3App(MDApp):
                 }
                 for i in range(len(v) - 1)
             ]
-
+        if v2 == "lunches":
+            menu_items = [
+                {
+                    "text": f"{v[i]}",
+                    # "scroll_type": ['bars'],
+                    # "effect_cls": "ScrollEffect",
+                    "viewclass": "OneLineListItem",
+                    "on_release": lambda x=i: self.menu_callback(x, v, v2),
+                }
+                for i in range(len(v) - 1)
+            ]
+        if v2 == "oth":
+            menu_items = [
+                {
+                    "text": f"{v[i]}",
+                    # "scroll_type": ['bars'],
+                    # "effect_cls": "ScrollEffect",
+                    "viewclass": "OneLineListItem",
+                    "on_release": lambda x=i: self.menu_callback(x, v, v2),
+                }
+                for i in range(len(v) - 1)
+            ]
             # self.root.
 
         # print(self.root.get_screen("notification").ids)
@@ -3370,6 +3432,118 @@ class Demo3App(MDApp):
         """
         App.get_running_app().root.ids.result.text = str(self.selection)
 
+    def show_archive(self):
+        import libs.lib_archive
+
+        print("archive")
+        self.root.set_current("archive")
+        #self.archive_sort=1
+
+        print (self.archive_sort,self.archive_reverse,self.archive_trim,'archive details')
+
+        z,z1,f1,f2=self.find_pay_date(self.archive_trim)
+        App.get_running_app().root.current_screen.ids["dend"].text=str(z1)
+        App.get_running_app().root.current_screen.ids["dstart"].text=str(z)
+        
+
+        self.root.current_screen.ids["archive"].clear_widgets()
+        listofdicks = libs.lib_archive.load("/future_shows",ad,f1,f2)
+        listofdicks = sorted(listofdicks, key=lambda i: i[self.archive_sort], reverse=self.archive_reverse)
+        print (len(listofdicks),'lenlistofdicts')
+
+        bu = ["Current","Next", "Last", "All", "Custom"]
+        bu2 = ["date", "time", "job"]
+        for i in range(len(bu)):
+            if self.archive_trim == bu[i]:
+                App.get_running_app().root.current_screen.ids[
+                    bu[i]
+                ].md_bg_color = self.theme_cls.primary_dark
+            else:
+                App.get_running_app().root.current_screen.ids[
+                    bu[i]
+                ].md_bg_color = self.theme_cls.primary_light
+
+        for i in range(len(bu2)):
+            if self.archive_sort == bu2[i]:
+                App.get_running_app().root.current_screen.ids[
+                    bu2[i]
+                ].md_bg_color = self.theme_cls.primary_dark
+            else:
+                App.get_running_app().root.current_screen.ids[
+                    bu2[i]
+                ].md_bg_color = self.theme_cls.primary_light
+        if self.archive_reverse == False:
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].icon = "sort-descending"
+            print ('acend')
+        else:
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].icon = "sort-ascending"
+            print ('decend')
+
+
+        for z in range(len(listofdicks)):
+            three='Lunches!'
+            if listofdicks[z].get('lunches')==None:
+
+                three='No Lunches'
+            else:
+                three=listofdicks[z]["lunches"]
+                three='test'
+            three=three+"[size=-50]"+'%%%'+listofdicks[z]["date"]+'%%%'+listofdicks[z]["time"]+'%%%'+listofdicks[z]["job"]+'%%%'+listofdicks[z]["show"]
+            panel = ThreeLineListItem(
+                text="Date: "
+                + str((listofdicks[z]["date"])),
+                secondary_text="Show: "
+                + str(listofdicks[z]["show"]),
+                #+ " Hours: "
+                #+ str(listofdicks[z]["totalhours"])
+                #+ " Overtime: "
+                #+ str(listofdicks[z]["othours"]),
+                tertiary_text=three,
+                bg_color=self.theme_cls.bg_dark,
+                radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
+                on_release=self.edit_show_details,
+            )
+
+            self.root.get_screen("archive").ids.archive.add_widget(panel, z)
+    def edit_show_details(self,b):
+        import libs.lib_new
+        show=libs.lib_new.load_archive_json(ad,b.tertiary_text)
+        print (show,'SHOW DATA')
+        self.root.set_current("editShow")
+        z=App.get_running_app().root.current_screen.ids[
+                "show"
+            ]
+        z.text=str(show['show'])
+        z.secondary_text=(show['date'])
+        three=show['time']
+        try:
+            three=three+show['endtime']
+        except:
+            pass
+        z.tertiary_text=three+"[size=-0]"+'%%%'+show["date"]+'%%%'+show["time"]+'%%%'+show["job"]+'%%%'+show["show"]
+
+        print (z,'button4')
+
+    def update_show(self):
+        z=App.get_running_app().root.current_screen
+        import libs.lib_new
+        show=libs.lib_new.load_archive_json(ad,z.ids['show'].tertiary_text)
+        timeout=z.ids['newhours'].text
+        show['lunches']=z.ids['button4'].text
+        show['ota']=z.ids['button5'].text
+        show['rate']=z.ids['rate'].text
+        show['notes']=z.ids['notes'].text
+        #print (timeout,lunches,ota,rate,notes,show,'THISISTHEINFO')
+
+        libs.lib_new.update_archive_json(ad,show)
+
+
+
+
     def backup_new(self):
         results = "blablabla"
         self.results = "asdfasdfasdf"
@@ -3668,12 +3842,15 @@ class Demo3App(MDApp):
 
         libs.lib_makeuserdata.makeshowfile(App, xxx[idex], config_file, ios)
 
-    def show_time_picker1(self):
-        # if App.get_running_app().root.current_screen.ids['newhours'].text=='Set Worked Hours':
-        if 1 == 1:
-            y = time_dialog1 = MDTimePicker()
-            x = time_dialog1.bind(time=self.get_time)
-            z = time_dialog1.open()
+    def show_time_picker(self):
+        b= App.get_running_app().root.current_screen.name
+        print (b,dir(b),"BBBBBBBBB")
+        #if App.get_running_app().root.current_screen.ids['newhours'].text=='Set Worked Hours':
+
+        y = time_dialog1 = MDTimePicker()
+            #if b=='editShow':
+        x = time_dialog1.bind(time=self.get_time)
+        z = time_dialog1.open()
 
     def get_time(self, instance, time):
 
@@ -3839,7 +4016,7 @@ class Demo3App(MDApp):
         print("Spinner Toggle")
         app = self.get_running_app()
 
-        sp = self.root.current_screen.ids["spinner"]
+        #sp = self.root.current_screen.ids["spinner"]
         if sp == False:
             sp = True
         else:
@@ -3854,6 +4031,23 @@ class Demo3App(MDApp):
         # Clock.schedule_once()
         self.do_payperiod("x")
         ## Clock.schedule_once(self.do_payperiod())
+    def do_reverse_all(self,sort,screen):
+        #print (sort,screen,'SORT AND SCREEN')
+        if self.archive_reverse == self.archive_reverse:
+            # print("omg its equal")
+            self.archive_reverse = not self.archive_reverse
+        self.show_archive()
+    def do_sort_all(self,date_rng,screen):
+        
+        self.archive_sort=date_rng
+
+        self.show_archive()
+    
+    def do_trim_all(self,trim,screen):
+        #print (sort,'trimall',self.archive_sort)
+        self.archive_trim=trim
+
+        self.show_archive()
 
     def do_payperiod_f(self, date_rng):
 
@@ -3870,7 +4064,6 @@ class Demo3App(MDApp):
         self.root.set_current("pay")
         self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
         from kivymd.uix.list import ThreeLineListItem
-        from kivy.uix.progressbar import ProgressBar
 
         ssort = self.sort_pp
         rreverse = self.rreverse
@@ -3960,7 +4153,8 @@ class Demo3App(MDApp):
         import os
 
         print(os.getcwd(), "CWDDDDD")
-        os.chdir("../")
+        os.chdir(cwd)
+        print(os.getcwd(), "CWDDDDD")
         self.root.set_current("pay_breakdown")
 
         panel = ThreeLineListItem(

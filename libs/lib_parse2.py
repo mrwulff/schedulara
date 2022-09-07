@@ -719,7 +719,7 @@ def parse(sch, ad, usecache, x5):
     if flag_new == True:
         import libs.lib_bonus
 
-        libs.lib_bonus.cancel_notification()
+        # libs.lib_bonus.cancel_notification()
         for i in range(len(mjds)):
             pass
             libs.lib_bonus.create_notification(mjds[i], x5, False)

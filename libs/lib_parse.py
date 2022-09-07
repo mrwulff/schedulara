@@ -254,6 +254,7 @@ def parse(sch, ad, usecache, x5):
 
     fullnj = []
     for i in range(1, len(ab) - 1):
+        print("testtest")
         nj = []
         nj2 = {}
         ax = ab[i].find_all("td")
@@ -356,6 +357,7 @@ def parse(sch, ad, usecache, x5):
             x = open(nf, "r")
 
             thisdict["is_new"] = False
+            print("show exists gagagaag")
         except:
             thisdict["is_new"] = True
             flag_new = True
