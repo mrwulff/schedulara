@@ -175,7 +175,7 @@ def load_archive_json(ad,x):
     import json
     import os
 
-    print (x)
+    #print (x)
     junk,date,time,job,show=str.split(x,'%%%')
     fname = (
         format_textt(date)

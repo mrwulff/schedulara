@@ -25,16 +25,16 @@
 
                 on_press:(app.do_sort_all('date','archive'))
             MDRaisedButton:
-                text: '$$$'
+                text: 'hours'
 
-                id: time
-                on_press:app.do_sort_all('time','archive')
+                id: hours
+                on_press:app.do_sort_all('hours','archive')
             MDRaisedButton:
-                text: 'Hours'
+                text: 'pay'
 
-                id: job
+                id: pay
                 on_press:
-                    app.do_sort_all('job','archive')
+                    app.do_sort_all('pay','archive')
             MDIconButton:
                 text: app.check_var(app.archive_reverse)
                 id: sall

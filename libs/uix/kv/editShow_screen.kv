@@ -34,45 +34,51 @@
                 OneLineAvatarIconListItem:
                     bg_color: app.theme_cls.bg_dark
                     text: "Hour Unpaid Lunches"
-                    id: button2
+                    id: lunches
                     YourContainer:
                         id: button3
                         MDRaisedButton:
                             id: button4
                             padding: [15, 15]
 
-                            width: 5
+                            #width: 5
                             text: "0"
                             pos_hint: {'center_x': .5, 'center_y': .5}
                             values: app.lunches
                             items: app.lunches
                             id: button4
                             on_release: app.choose_drop(app.lunches,'lunches')
+                            size_hint:app.right_hint
+                            width:app.right_width
                     IconLeftWidget:
                         icon: "food"
 
                 OneLineAvatarIconListItem:
                     bg_color: app.theme_cls.bg_dark
                     text: "OverTime After"
-                    id: button2
+                    id: ota
                     YourContainer:
                         id: button3
                         MDRaisedButton:
                             padding: [15, 15]
+                            size_hint:app.right_hint
+                            width:app.right_width
 
-                            width: 5
-                            text: "0"
+                            #width: 5
+                            text: "8"
                             pos_hint: {'center_x': .5, 'center_y': .5}
                             values: app.oth
                             items: app.oth
                             id: button5
                             on_release: app.choose_drop(app.oth,'oth')
+                            
                     IconLeftWidget:
                         icon: "one-up"
 
                 OneLineAvatarIconListItem:
                     bg_color: app.theme_cls.bg_dark
                     text: "Time Out"
+                    id: endtime
                     IconLeftWidget:
                         icon: "stop-circle"
                     YourContainer:
@@ -83,27 +89,33 @@
                             id:newhours
                             padding: [15, 15]
                             pos_hint: {'center_x': .5, 'center_y': .5}
+                            size_hint:app.right_hint
+                            width:app.right_width
                             on_release: app.show_time_picker()
 
                 OneLineAvatarIconListItem:
                     bg_color: app.theme_cls.bg_dark
                     text: "Rate"
+                    id: rate1
                     IconLeftWidget:
                         icon: "cash"
                     YourContainer:
                         id: container
 
-                        MDRaisedButton:
-                            text:"28.5"
+                        TextInput:
+                            #text:"28.5"
                             padding: [15, 15]
                             pos_hint: {'center_x': .5, 'center_y': .5}
+                            
                             id:rate
+                            size_hint:app.right_hint
+                            width:app.right_width
                             #id:newhours
                             #on_release: app.show_time_picker()
 
                 TextInput:
 
-                    id: notes
+                    id: user_notes
                     valign: 'middle'
                     hint_text:'Notes'
                     halign: 'left'

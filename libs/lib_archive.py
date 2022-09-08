@@ -4,7 +4,7 @@ def load(cd, ad,last,first):
     import json
     from datetime import datetime
     all_shows=[]
-    z=(glob.glob(ad  + cd+"/*"))
+    z=(glob.glob(ad  + cd+"/*.json"))
     #print (z)
     for i in range(len(z)):
         with open(z[i]) as d:

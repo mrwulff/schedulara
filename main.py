@@ -607,6 +607,8 @@ class Demo3App(MDApp):
         "Gray",
         "BlueGray",
     ]
+    right_hint=None,.9
+    right_width=dp(70)
     wall = ["Rhino", "Dark", "Light", "Stage", "Sing", "schedulara"]
     profile = 0
     profile_data = []
@@ -3448,12 +3450,25 @@ class Demo3App(MDApp):
 
         self.root.current_screen.ids["archive"].clear_widgets()
         listofdicks = libs.lib_archive.load("/future_shows",ad,f1,f2)
-        listofdicks = sorted(listofdicks, key=lambda i: i[self.archive_sort], reverse=self.archive_reverse)
+        for nan in range(len(listofdicks)):
+            print(listofdicks[nan].get(self.archive_sort))
+            if listofdicks[nan].get(self.archive_sort)==None:
+                listofdicks[nan][self.archive_sort]=0.0
+            if listofdicks[nan][self.archive_sort]=='-':
+                listofdicks[nan][self.archive_sort]=0.0
+        if self.archive_sort=='date':
+            listofdicks = sorted(listofdicks, key=lambda i: i[self.archive_sort], reverse=self.archive_reverse)
+        else:
+            listofdicks = sorted(listofdicks, key=lambda i: i[self.archive_sort], reverse= not self.archive_reverse)
         print (len(listofdicks),'lenlistofdicts')
-
+        tot_hours=0
+        ot_hours=0
+        reg_hours=0
+        tot_money=0
         bu = ["Current","Next", "Last", "All", "Custom"]
-        bu2 = ["date", "time", "job"]
+        bu2 = ["date", "hours", "pay"]
         for i in range(len(bu)):
+
             if self.archive_trim == bu[i]:
                 App.get_running_app().root.current_screen.ids[
                     bu[i]
@@ -3483,7 +3498,22 @@ class Demo3App(MDApp):
             ].icon = "sort-ascending"
             print ('decend')
 
+        panel = ThreeLineListItem(
+                text="Shows ",
+                #+ str((listofdicks[z]["date"])),
+                secondary_text="Hours: ",
+                #+ str(listofdicks[z]["show"]),
+                #+ " Hours: "
+                #+ str(listofdicks[z]["totalhours"])
+                #+ " Overtime: "
+                #+ str(listofdicks[z]["othours"]),
+                tertiary_text="Other Stuff",
+                bg_color=self.theme_cls.bg_dark,
+                radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
+                on_release=self.edit_show_details,
+            )
 
+        self.root.get_screen("archive").ids.archive.add_widget(panel)
         for z in range(len(listofdicks)):
             three='Lunches!'
             if listofdicks[z].get('lunches')==None:
@@ -3491,13 +3521,59 @@ class Demo3App(MDApp):
                 three='No Lunches'
             else:
                 three=listofdicks[z]["lunches"]
-                three='test'
+                three=''
+            #try:
+            if listofdicks[z].get('pay')==None:
+                allhours,reg,over=self.calc_time(listofdicks[z])
+                #print (listofdicks[z]["show"],reg,allhours,over,'OMG')
+                money=self.calc_money(listofdicks[z],reg,over)
+                listofdicks[z]['hours']=allhours
+                listofdicks[z]['reghours']=reg
+                listofdicks[z]['ot']=over
+                listofdicks[z]['pay']=money
+
+                self.update_show_single(listofdicks[z])
+            else:
+                allhours=listofdicks[z]['hours']
+                reg=listofdicks[z]['reghours']
+                over=listofdicks[z]['ot']
+                money=listofdicks[z]['pay']
+            try:
+                tot_hours=float(tot_hours)+float(allhours)
+            except:
+                ''
+            try:
+                ot_hours=float(ot_hours)+float(over)
+            except:
+                ''
+            try:
+                reg_hours=float(reg_hours)+float(reg)
+            except:
+                ''
+            try:
+                tot_money=float(tot_money)+float(money)
+            except:
+                ''
+            
+
+            if 1==1:
+            
+
+                three='Hours: '+self.only5(allhours)
+                if over !='-' and over>0:
+                    three=three+" Reg: "+self.only5(reg)+ " OT: "+self.only5(over)
+                #if money[0]!='0':
+                three=three+" $"+str(money)
+
+            #except:
+            #    three='error'
             three=three+"[size=-50]"+'%%%'+listofdicks[z]["date"]+'%%%'+listofdicks[z]["time"]+'%%%'+listofdicks[z]["job"]+'%%%'+listofdicks[z]["show"]
+
             panel = ThreeLineListItem(
-                text="Date: "
-                + str((listofdicks[z]["date"])),
-                secondary_text="Show: "
-                + str(listofdicks[z]["show"]),
+                text="Show: "
+                + str((listofdicks[z]["show"])),
+                secondary_text="Date: "
+                + str(listofdicks[z]["date"]),
                 #+ " Hours: "
                 #+ str(listofdicks[z]["totalhours"])
                 #+ " Overtime: "
@@ -3509,9 +3585,108 @@ class Demo3App(MDApp):
             )
 
             self.root.get_screen("archive").ids.archive.add_widget(panel, z)
+        App.get_running_app().root.current_screen.ids["archive"].text='bla'
+        bb=App.get_running_app().root.current_screen.ids["archive"].children
+        #print (bb,dir(bb),'BSDF')
+        bbl=len(bb)
+        bb=bb[bbl-1]
+        bb.text="Shows: "+str(bbl-1)
+        try:
+            ratee=("   Rate: $%.2f" % (tot_money/tot_hours))
+            #ratee="    Rate: $"+str(tot_money/tot_hours)
+        except:
+            ratee=''
+        bb.secondary_text="Hours: "+str(tot_hours)+"   Reg: "+str(reg_hours) +"   OT: "+str(ot_hours)
+        bb.tertiary_text="$: "+str(tot_money) +ratee
+    def calc_money(self,v,h,o):
+        if v.get('rate')!=None:
+            #print (h,o,v['rate'],v['show'],'ALL OF IT')
+            try:
+                h=float(h)
+            except:
+                h=0
+            if type(h)==float or type(h)==int:
+                rate=float(v['rate'])
+                
+                money=float(rate)*h
+                try:
+                    money2=money+float(rate)*o*1.5
+                except:
+                    print('noot')
+                    money2=money
+                #print (money,money2,'DUMB')
+                
+                return money2
+            #except:
+            #    return '--'
+        else:
+            print (type(h),v.get('rate'),'hello)')
+            return '-'
+    def only5(self,v):
+        try:
+            v=str(v)
+            z=str.split(v,'.')
+            if z[1]=='0':
+                return z[0]
+            else:
+                return v
+        except:
+            return (str(v))
+    def calc_time(self,z):
+        from datetime import datetime
+        a= ["lunches","time","endtime","ota","rate"]
+        for p in range(len(a)):
+            if z.get(a[p])==None:
+                z[a[p]]=0
+        #print (z['time'],z['ota'],z['endtime'],z['rate'],z['lunches'],'TESTTEST')
+        starttime=z['time']
+        start = datetime.strptime(starttime,"%H:%M")
+        try:
+            end = datetime.strptime(z['endtime'],"%H:%M:%S")
+        except:
+            #print('time not found')
+            return('-','-','-')
+        try:
+            hours=self.conv_time_float(str(start-end))
+        except:
+            #print (start,end,'STARTEND')
+            hours=self.conv_time_float(str(end-start))
+            #return('-','-','-')
+
+        #print (hours,'DECIMAL NUMBERS')
+        reg_hours=0
+        ot=0
+        hours=float(hours)
+        if float(z['lunches'])>0:
+            hours=hours-float(z['lunches'])
+        reg_hours=hours
+        if hours>float(z['ota']):
+            reg_hours=float(z['ota'])
+            ot=hours-float(z['ota'])
+        #print(hours,reg_hours,ot,z['show'])
+        return hours,reg_hours,ot
+
+
+
+
+    def conv_time_float(self, value):
+        vals = value.split(':')
+        t, hours = divmod(float(vals[0]), 24)
+        t, minutes = divmod(float(vals[1]), 60)
+        minutes = minutes / 60.0
+        return hours + minutes
+
+
+
     def edit_show_details(self,b):
         import libs.lib_new
-        show=libs.lib_new.load_archive_json(ad,b.tertiary_text)
+        try:
+
+            show=libs.lib_new.load_archive_json(ad,b.tertiary_text)
+        except:
+            print ('old show data')
+            toast('failed to find show')
+            return
         print (show,'SHOW DATA')
         self.root.set_current("editShow")
         z=App.get_running_app().root.current_screen.ids[
@@ -3527,16 +3702,36 @@ class Demo3App(MDApp):
         z.tertiary_text=three+"[size=-0]"+'%%%'+show["date"]+'%%%'+show["time"]+'%%%'+show["job"]+'%%%'+show["show"]
 
         print (z,'button4')
+        za=App.get_running_app().root.current_screen
+        id=["lunches",'endtime','ota','rate','user_notes']
+        b5=["button4",'newhours','button5','rate','user_notes']
+
+        for q in range(len(id)):
+            try:
+                za.ids[b5[q]].text=str(show[id[q]])
+            except:
+                za.ids[b5[q]].text='?'
+                print ('not able to set '+id[q])
+    def update_show_single(self,f):
+        import libs.lib_new
+        b='%%%'+f["date"]+'%%%'+f["time"]+'%%%'+f["job"]+'%%%'+f["show"]
+        show=libs.lib_new.load_archive_json(ad,b)
+        show['hours']=f['hours']
+        show['reghours']=f['reghours']
+        show['ot']=f['ot']
+        show['pay']=f['pay']
+        print ('updated for you')
+        libs.lib_new.update_archive_json(ad,show)
 
     def update_show(self):
         z=App.get_running_app().root.current_screen
         import libs.lib_new
         show=libs.lib_new.load_archive_json(ad,z.ids['show'].tertiary_text)
-        timeout=z.ids['newhours'].text
+        show['endtime']=z.ids['newhours'].text
         show['lunches']=z.ids['button4'].text
         show['ota']=z.ids['button5'].text
         show['rate']=z.ids['rate'].text
-        show['notes']=z.ids['notes'].text
+        show['user_notes']=z.ids['user_notes'].text
         #print (timeout,lunches,ota,rate,notes,show,'THISISTHEINFO')
 
         libs.lib_new.update_archive_json(ad,show)
