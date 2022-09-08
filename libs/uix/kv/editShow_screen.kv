@@ -10,7 +10,7 @@
         MDTopAppBar:
             #title: "Settings"
             height: app.mheight
-            left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
+            left_action_items: [['chevron-left', lambda screen: app.change_screen('archive','left'),'home']]
 
 
 
@@ -107,11 +107,14 @@
                     valign: 'middle'
                     hint_text:'Notes'
                     halign: 'left'
-                    font_size: 16
+                    font_size: dp(16)
                     multiline: True
                     size_hint: 1, None
                     #height: scrlv.height
                     background_color: app.theme_cls.bg_dark
+                    hint_text_color:app.theme_cls.opposite_bg_dark
+                    text_color:app.theme_cls.opposite_bg_dark
+                    foreground_color:app.theme_cls.opposite_bg_dark
 
 
                 MDRaisedButton:
