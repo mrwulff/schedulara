@@ -3392,10 +3392,14 @@ class Demo3App(MDApp):
         # print (what)
         from os import walk
 
-        filenames = next(walk(ad + "/shows"), (None, None, []))[2]  # [] if no file
+        filenames = next(walk(ad + "/future_shows"), (None, None, []))[2]  # [] if no file
         # print(filenames)
+        g=0
         for i in range(len(filenames)):
-            os.remove(ad + "/shows/" + filenames[i])
+            os.remove(ad + "/future_shows/" + filenames[i])
+            g=g+1
+        toast("deleted "+str(g)+" shows")
+
 
     def show_delete_dialog(self):
         from kivymd.uix.dialog import MDDialog
