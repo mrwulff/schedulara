@@ -2008,7 +2008,7 @@ class Demo3App(MDApp):
                 # if shows[z]["canceled"] == True:
                 if 1 == 1:
                     self.root.get_screen("newhome").ids.rlist.add_widget(panel)
-                libs.lib_bonus.create_notification(shows[z], x, True, ad)
+                #libs.lib_bonus.create_notification(shows[z], x, True, ad)
         if useold == True:
             canned = -1
             for z in range(len(shows)):
