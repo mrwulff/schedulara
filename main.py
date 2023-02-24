@@ -1342,6 +1342,24 @@ class Demo3App(MDApp):
 
         # self.root.set_current("home")
 
+
+
+        self.data={
+            'Settings': [
+                    'cog-outline',
+                    "on_press", lambda x: print("settings"),
+                    #"on_release", self.do_settings(),
+                    "on_release", lambda x: self.do_settings()
+
+            ],
+            'Backup': [
+                    'test-tube',
+                    "on_press", lambda x: print("backup"),
+                    #"on_release", self.do_settings(),
+                    "on_release", lambda x: self.do_gbackup()
+
+            ]
+        }
     def on_start(self):
         toast(str(tic - time.perf_counter()))
         global x
