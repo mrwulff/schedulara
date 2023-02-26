@@ -2453,17 +2453,16 @@ class Demo3App(MDApp):
     def get_wall(self, page):
         # self.root.set_current(page)
 
-        b="images/walls/"+x['wall']+'.png'
+        print(x, "assert")
         try:
-            self.root.get_screen(page).ids["pic"].source = "images/walls/" + x["wall"] +'.jpg'
-
+            b = "images/walls/" + x["wall"] + ".jpg"
+        except:
+            b = "images/walls/" + "rhino" + ".jpg"
+        try:
+            self.root.get_screen(page).ids["pic"].source = b
             print("success set image")
         except:
-            try:
-                self.root.get_screen(page).ids["pic"].source = "images/walls/" + x["wall"] +'.png'
-
-            except:
-                print("fail to set image")
+            print("fail to set image")
             pass
 
         return b
