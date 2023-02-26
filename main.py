@@ -1358,8 +1358,16 @@ class Demo3App(MDApp):
                     #"on_release", self.do_settings(),
                     "on_release", lambda x: self.do_gbackup()
 
+            ],
+            'Export Calendar': [
+                    'google-downasaur',
+                    "on_press", lambda x: toast("backing up"),
+                    #"on_release", self.do_settings(),
+                    "on_release", lambda x: self.do_google_cal()
+
             ]
         }
+
     def on_start(self):
         toast(str(tic - time.perf_counter()))
         global x
