@@ -609,7 +609,7 @@ class Demo3App(MDApp):
     ]
     right_hint=None,.9
     right_width=dp(70)
-    wall = ["Rhino", "Dark", "Light", "Stage", "Sing", "schedulara"]
+    wall = ["Rhino", "Dark", "Light", "Stage", "Sing", "schedulara",'neon','neon2','neon3']
     profile = 0
     profile_data = []
     data = {
@@ -2453,16 +2453,17 @@ class Demo3App(MDApp):
     def get_wall(self, page):
         # self.root.set_current(page)
 
-        print(x, "assert")
+        b="images/walls/"+x['wall']+'.png'
         try:
-            b = "images/walls/" + x["wall"] + ".jpg"
-        except:
-            b = "images/walls/" + "rhino" + ".jpg"
-        try:
-            self.root.get_screen(page).ids["pic"].source = b
+            self.root.get_screen(page).ids["pic"].source = "images/walls/" + x["wall"] +'.jpg'
+
             print("success set image")
         except:
-            print("fail to set image")
+            try:
+                self.root.get_screen(page).ids["pic"].source = "images/walls/" + x["wall"] +'.png'
+
+            except:
+                print("fail to set image")
             pass
 
         return b
