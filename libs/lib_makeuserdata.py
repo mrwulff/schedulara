@@ -112,7 +112,7 @@ def makeshowfile(App, x, config_file, ios):
             + '"}'
         )
     # print (x,'jsonfile')
-    y = json.loads(x)
+    y = json.loads(x,strict=False)
     try:
         with open(ad + "/shows/" + fname + ".json", "w") as outfile:
             json.dump(y, outfile)
