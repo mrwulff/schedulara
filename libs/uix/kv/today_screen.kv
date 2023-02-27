@@ -49,16 +49,17 @@
                 spacing: dp(3)
                 border_radius: 15
                 radius: 1
-                text_color:app.theme_cls.primary_color
+                #text_color:app.theme_cls.primary_color
                 MDCard:
-                    size_hint: .8, None
-                    height: stats.height 
-                    background:"images/walls/neon2.jpg"
+                    size_hint: .5, None
+                    height: stats.height/1.5 
+                    id:branding
+                    #background:"images/walls/logo.png" if app.branding True
                     TwoLineListItem:
 
-                        id: name
-                        text: "OMG IS YOU"
-                        opposite_colors: True
+                        id: name2
+                        #text: "OMG IS YOU"
+                        #opposite_colors: True
                         #IconLeftWidget:
                             #icon:"table-account"
 

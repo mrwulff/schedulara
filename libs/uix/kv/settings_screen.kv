@@ -236,6 +236,21 @@
                     IconLeftWidget:
                         icon: "hide-source"
 
+                OneLineAvatarIconListItem:
+                    text: "Rhino Branding"
+                    #on_release:app.makenots("1")
+                    YourContainer:
+                        id: container
+                        MDSwitch:
+                            widget_style: "ios"
+                            active: app.check_att('branding')
+                            id: branding
+                            on_active:
+                                app.updatetext("branding")
+
+                    IconLeftWidget:
+                        icon: "hide-source"
+
 
 
                 OneLineAvatarIconListItem:

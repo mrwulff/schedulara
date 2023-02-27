@@ -1955,7 +1955,12 @@ class Demo3App(MDApp):
             self.root.get_screen("today").ids[li[i]].tertiary_text = (
                 color + shows[i]["venue"]
             )
-
+        qq=self.root.get_screen("today").ids
+        if x['branding']==True:
+            qq.branding.background="images/walls/logo.png"
+        #if x['branding']==False:
+        #    qq.name2.text="NOOOOOO"
+        print (qq,'BRANDING')
         numshows = len(shows)
         numconf = js["num_shows"]
         confirmable = numshows - numconf
