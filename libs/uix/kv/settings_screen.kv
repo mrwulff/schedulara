@@ -218,6 +218,26 @@
 
                     IconLeftWidget:
                         icon: "hours-24"
+
+                OneLineAvatarIconListItem:
+                    text: "Hide Personal Data"
+                    #on_release:app.makenots("1")
+                    YourContainer:
+                        id: container
+                        MDSwitch:
+                            #on_active: app.enable_nots()
+                            widget_style: "ios"
+                            active: app.check_att('hidden')
+                            id: hidden
+                            on_active:
+                                #app.on_checkbox_active(*args)
+                                app.updatetext("hidden")
+
+                    IconLeftWidget:
+                        icon: "hide-source"
+
+
+
                 OneLineAvatarIconListItem:
                     text: "Show Welcome Message"
                     on_press: app.do_onboarding(0)

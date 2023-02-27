@@ -1358,13 +1358,13 @@ class Demo3App(MDApp):
 
             ],
             'Backup': [
-                    'test-tube',
+                    'backup-restore',
                     "on_press", lambda x: print("backup"),
                     "on_release", lambda x: self.do_gbackup()
 
             ],
-            'Export Calendar': [
-                    'google-downasaur',
+            'Export': [
+                    'calendar-export',
                     "on_press", lambda x: toast("backing up"),
                     "on_release", lambda x: self.do_google_cal()
 
@@ -1417,7 +1417,9 @@ class Demo3App(MDApp):
             self.dialog = MDDialog(
                 title="Search Shows:",
                 type="custom",
+                #type="simple",
                 content_cls=Content(),
+                height=.5,
                 buttons=[
                     
 
@@ -1461,7 +1463,8 @@ class Demo3App(MDApp):
         print (ssort,reverse_search,"SSORT WTF MAN")
 
         bu = ["YTD", "Year", "All", "Custom"]
-        bu2 = ["paydate", "moneytotal", "totalhours"]
+        bu2 = ["timeIn", "Total", "tot_hours"]
+        """
         for i in range(len(bu)):
             if self.date_range_pp == bu[i]:
                 App.get_running_app().root.current_screen.ids[
@@ -1471,7 +1474,7 @@ class Demo3App(MDApp):
                 App.get_running_app().root.current_screen.ids[
                     bu[i]
                 ].md_bg_color = self.theme_cls.primary_light
-
+        """
         for i in range(len(bu2)):
             if ssort == bu2[i]:
                 App.get_running_app().root.current_screen.ids[
@@ -1498,19 +1501,39 @@ class Demo3App(MDApp):
             self.lday, "full"
         )
         """
+
+
+
+
+        
+        panel = ThreeLineListItem(
+                text="Shows: "
+                + str(gigs),
+                secondary_text="Earnings: "
+                + str(self.hide(self.format_money(b))),
+
+                tertiary_text="Hours: "+str(gigs),
+                bg_color=self.theme_cls.bg_dark,
+                radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],)
+        self.root.get_screen("newsearch").ids.search_list.add_widget(panel)
+
+
+
         for z in range(len(listofdicks)):
             # print(listofdicks[z])
+            time=listofdicks[z]["timeIn"]
+            date,time=str.split(time,' ')
 
             panel = ThreeLineListItem(
                 text="Show: "
                 + str(listofdicks[z]["show"]),
                 secondary_text="Date: "
-                + str(listofdicks[z]["timeIn"])
+                + str(date)
                 + " Hours: "
                 + str(listofdicks[z]["tot_hours"])
                 + " Overtime: "
                 + str(listofdicks[z]["otH"]),
-                tertiary_text="$" + str(listofdicks[z]["Total"]),
+                tertiary_text="$" + str(self.hide(self.format_money(listofdicks[z]["Total"]))),
                 bg_color=self.theme_cls.bg_dark,
                 radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
                 #on_release=self.do_pay_ind,
@@ -1525,9 +1548,17 @@ class Demo3App(MDApp):
 
 
 
+    def format_money(self,z):
+        import locale
+        locale.setlocale(locale.LC_ALL, '')
+        return(locale.currency(z, grouping=True))
 
+    def hide(self,y):
+        global x
+        if x['hidden']==True:
 
-
+            return "***"
+        return y
 
 
     def junk2(self,a):
@@ -1574,6 +1605,7 @@ class Demo3App(MDApp):
             self.theme_cls.theme_style = x["theme"]
             self.theme_cls.primary_palette = x["pcolor"]
             self.theme_cls.accent_palette = x["scolor"]
+            self.theme_cls.material_style = "M3"
         except:
             pass
         # print(x, "lol")
@@ -1859,12 +1891,7 @@ class Demo3App(MDApp):
                         text_color=self.theme_cls.primary_color,
                         on_release=lambda x, y=(gg): self.add_google_calendar(y),
                     ),
-                    MDFlatButton(
-                        text="Check In",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=lambda x, y=(gg): self.check_in(y),
-                    ),
+
                     MDFlatButton(
                         text="$",
                         theme_text_color="Custom",
@@ -3302,15 +3329,32 @@ class Demo3App(MDApp):
                 self.dialog2[z].dismiss(force=True)
             except:
                 print(z)
-
+    gshow={}
     def animate_money_new(self, y):
+        global gshow
+        import libs.lib_new
+        global x
+        xx9=x
         self.dialog_close()
+        print (y,'XXXX9')
+
+        try:
+            js = libs.lib_new.get_json_schedule(x, ad)
+        except:
+            toast("login failed")
+            return "fail"
+        s= (y[2])
+        show= (js['shows'][s])
+        gshow=show
+        print (s)
+        print (type(js))
+
         from kivy.clock import Clock
 
         self.root.set_current("animate")
-        print(y, xx9)
+        #print(y, xx9)
 
-        pos = xx9["pos"]
+        pos = show["pos"]
 
         App.get_running_app().root.current_screen.ids["top"].text = str("call start")
         App.get_running_app().root.current_screen.ids["moneyinfo"].secondary_text = str(
@@ -3337,7 +3381,6 @@ class Demo3App(MDApp):
         # print(zzz, "zzz")
 
         Clock.schedule_interval(self.update_label_new, 0.1)
-
     def animate_money(self):
         from kivy.clock import Clock
 
@@ -3372,6 +3415,7 @@ class Demo3App(MDApp):
     def update_label_new(self, dt):
         from datetime import datetime
         import libs.lib_extractjson as lib_extractjson
+        xx9=gshow
 
         start_time = xx9["date"] + "." + xx9["time"]
         start_time = datetime.strptime(start_time, "%m/%d/%Y.%H:%M")
@@ -4516,6 +4560,9 @@ class Demo3App(MDApp):
             App.get_running_app().root.current_screen.ids[
                 "sall"
             ].icon = "sort-ascending"
+        App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].size=2
 
         App.get_running_app().root.current_screen.ids["dstart"].text = (
             self.format_date(self.fday, "full") + "     to"
