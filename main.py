@@ -1956,8 +1956,11 @@ class Demo3App(MDApp):
                 color + shows[i]["venue"]
             )
         qq=self.root.get_screen("today").ids
-        if x['branding']==True:
-            qq.branding.background="images/walls/logo.png"
+        try:
+            if x['branding']==True:
+                qq.branding.background="images/walls/logo.png"
+        except:
+            pass
         #if x['branding']==False:
         #    qq.name2.text="NOOOOOO"
         print (qq,'BRANDING')
