@@ -61,7 +61,7 @@ def update_plot(self, dd):
     pp_date = datetime.strptime(file2, "%m-%d-%Y.html")
 
 
-def make_full_json_pp(ad, s, e):
+def make_full_json_pp(ad, s, e,full):
     ###
     ### NEW ONE
     ###
@@ -85,16 +85,24 @@ def make_full_json_pp(ad, s, e):
         # print(file)
         # f1, f2 = str.split(file, ".")
         f1 = datetime.strptime(file, "%m-%d-%Y.html")
+        if full==False:
 
-        if s < f1 and f1 < e:
-            print(type(s), type(f1), e, "DATES OF PPPPS")
+            if s < f1 and f1 < e:
+                print(type(s), type(f1), e, "DATES OF PPPPS")
 
+                pp = lib_parse.parsepayperiod(ad + "/pp/" + file)
+                all_pp.append(pp)
+
+        if full==True:
             pp = lib_parse.parsepayperiod(ad + "/pp/" + file)
             all_pp.append(pp)
     full_pp = {"shows": all_pp}
 
     ddj = json.dumps(full_pp, indent=4, default=str)
-    mm = open(ad + "/json_pps.json", "w")
+    if full==False:
+        mm = open(ad + "/json_pps.json", "w")
+    if full==True:
+        mm = open(ad + "/full_pp.json", "w")
     mm.write(ddj)
 
 
@@ -229,4 +237,4 @@ if __name__ == "__main__":
     # from kivy.app import App
 
     ad = "C:/Users/kw/AppData/Roaming/demo3/"
-    make_full_json_pp(ad)
+    make_full_json_pp(ad,full)

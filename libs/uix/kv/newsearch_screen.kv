@@ -1,7 +1,7 @@
-<PayScreen>
-    name: "Pay"
+<newsearchScreen>
+    name: "newsarch"
     FitImage:
-        #source: 'images/rh.jpg'
+        source: 'images/rh.jpg'
         id: pic
         source: app.get_wall("today")
         size: self.width,self.height
@@ -21,26 +21,26 @@
                 text: 'Date'
                 id: paydate
 
-                on_press:(app.do_payperiod_trim('paydate',"pp"))
+                on_press:(app.do_payperiod_trim('timeIn','search'))
             MDRaisedButton:
                 text: '$$$'
 
                 id: moneytotal
-                on_press:app.do_payperiod_trim('moneytotal','pp')
+                on_press:app.do_payperiod_trim('Total','search')
             MDRaisedButton:
                 text: 'Hours'
 
                 id: totalhours
                 on_press:
                     app.spinner_toggle()
-                    app.do_payperiod_trim('totalhours','pp')
+                    app.do_payperiod_trim('tot_hours','search')
                     app.spinner_toggle()
                     #(app.set_pp('custom'))
             MDIconButton:
                 text: app.check_var(app.rreverse)
                 id: sall
                 on_press:
-                    app.do_payperiod_trim(app.sort_pp)
+                    app.do_payperiod_trim(app.sort_pp,search)
 
         MDBoxLayout:
             #orientation: 'horizontal'
@@ -106,4 +106,4 @@
                 spacing: app.cspacing/2
                 padding: app.cpadding/2,app.cpadding/2
                 bg_color:app.theme_cls.primary_light
-                id: payperiod_list
+                id: search_list

@@ -133,5 +133,10 @@
         "import": "from libs.uix.baseclass.editShow_screen import editShowscreen",
         "object": "editShowscreen()",
         "kv": "libs/uix/kv/editShow_screen.kv"
+    },
+    "newsearch": {
+        "import": "from libs.uix.baseclass.newsearch_screen import newsearchscreen",
+        "object": "newsearchscreen()",
+        "kv": "libs/uix/kv/newsearch_screen.kv"
     }
 }

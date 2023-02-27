@@ -40,8 +40,10 @@ from kivymd.uix.pickers import MDColorPicker
 # from kivymd.uix.pickers import MDThemePicker
 from kivymd.uix.pickers import MDTimePicker
 
-# from kivymd.uix.picker import MDDatePicker
+#from kivymd.uix.picker import MDDatePicker
+from kivymd.uix.pickers.datepicker import MDDatePicker
 # from kivymd.uix.pickers import MDTimePicker
+from kivymd_extensions.sweetalert import SweetAlert
 
 # print("cant do mddatepicker")
 from kivy.uix.popup import Popup
@@ -534,9 +536,13 @@ class Demo3App(MDApp):
     fday = ""
     lday = ""
     date_range_pp = "All"
-    sort_pp = "paydate"
+    date_range_search = "All"
+    sort_search = "timeIn"
+    sort_pp=  "paydate"
     scale = 1
     reverse = True
+    reverse_search=True
+    sp=True
 
     i = 0
     # print("omg")
@@ -1036,7 +1042,7 @@ class Demo3App(MDApp):
 
         # s = App.get_running_app().root.current_screen.ids["dstart"].text
         # e = App.get_running_app().root.current_screen.ids["dend"].text
-        libs.lib_makegraphs.make_full_json_pp(ad, fdate, ldate)
+        libs.lib_makegraphs.make_full_json_pp(ad, fdate, ldate,False)
         """"
         ##loads all shows from /pp ###POS
         pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(ad, "json_pps.json", "POS")
@@ -1348,25 +1354,201 @@ class Demo3App(MDApp):
             'Settings': [
                     'cog-outline',
                     "on_press", lambda x: print("settings"),
-                    #"on_release", self.do_settings(),
                     "on_release", lambda x: self.do_settings()
 
             ],
             'Backup': [
                     'test-tube',
                     "on_press", lambda x: print("backup"),
-                    #"on_release", self.do_settings(),
                     "on_release", lambda x: self.do_gbackup()
 
             ],
             'Export Calendar': [
                     'google-downasaur',
                     "on_press", lambda x: toast("backing up"),
-                    #"on_release", self.do_settings(),
                     "on_release", lambda x: self.do_google_cal()
 
-            ]
+            ],
+                    'Paystubs': [
+                    'cash-100',
+                    "on_press", lambda x: toast("loading paystubs"),
+                    "on_release", lambda x: self.do_payperiod_f("YTD")
+
+            ],
+                    'Stats': [
+                    'chart-areaspline',
+                    "on_press", lambda x: toast("loading charts"),
+                    "on_release", lambda x: self.prep_stats()
+
+            ],
+
+            'Search': [
+                    'magnify',
+                    #"on_press", lambda x: toast("loading charts"),
+                    "on_release", lambda x: self.new_search()
+
+            ],
+            
+            
+
+            #"Stats": "chart-areaspline",
+
         }
+
+
+#fdate, ldate = self.get_dates("YTD")
+#            self.do_new_stats(fdate, ldate, "YTD")
+    def new_search_bad(self):
+        #content_cls=Content(),
+        button_ok = MDRaisedButton(
+            text='what!',
+            font_size=16,
+            on_release=self.print_street2
+        )
+
+        self.alert = SweetAlert()
+        self.alert.fire(input="Input Email",buttons=[button_ok],)
+    def new_search(self):
+        #THIS ONE WORKS!!! OMG
+        from kivymd.uix.button import  MDIconButton
+
+        toast('Search Page')
+        if not self.dialog:
+            self.dialog = MDDialog(
+                title="Search Shows:",
+                type="custom",
+                content_cls=Content(),
+                buttons=[
+                    
+
+                    MDIconButton(icon="magnify"    ,          
+                                 on_press=self.display_search,
+                                ),
+                        ],
+            )
+        self.dialog.open()
+
+
+        
+        
+        
+        
+    def display_search(self,btn):
+        import libs.lib_archive as lib_archive
+        import libs.lib_makegraphs as lib_makegraphs
+            ###works
+        street_name = self.dialog.content_cls.ids.street.text
+        street_name="VGK"
+        print(street_name)
+        self.dialog.dismiss()
+        self.root.set_current("newsearch")
+        
+
+        lib_makegraphs.make_full_json_pp(ad, 'fdate', 'ldate',True)
+        #datadir and start and end and term,strict
+        success,a,b,gigs=lib_archive.load_archive(ad,'False','False',street_name,False)
+
+        from kivymd.uix.list import ThreeLineListItem
+
+        ssort = self.sort_search
+        reverse_search = self.reverse_search
+        #print(rreverse, "REVERSE")
+
+        self.root.current_screen.ids["search_list"].clear_widgets()
+        listofdicks = success
+        #### SORT!!!!
+        listofdicks = sorted(listofdicks, key=lambda i: i[ssort], reverse=reverse_search)
+        print (ssort,reverse_search,"SSORT WTF MAN")
+
+        bu = ["YTD", "Year", "All", "Custom"]
+        bu2 = ["paydate", "moneytotal", "totalhours"]
+        for i in range(len(bu)):
+            if self.date_range_pp == bu[i]:
+                App.get_running_app().root.current_screen.ids[
+                    bu[i]
+                ].md_bg_color = self.theme_cls.primary_dark
+            else:
+                App.get_running_app().root.current_screen.ids[
+                    bu[i]
+                ].md_bg_color = self.theme_cls.primary_light
+
+        for i in range(len(bu2)):
+            if ssort == bu2[i]:
+                App.get_running_app().root.current_screen.ids[
+                    bu2[i]
+                ].md_bg_color = self.theme_cls.primary_dark
+            else:
+                App.get_running_app().root.current_screen.ids[
+                    bu2[i]
+                ].md_bg_color = self.theme_cls.primary_light
+        if reverse_search == False:
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].icon = "sort-descending"
+        else:
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].icon = "sort-ascending"
+        """       
+        App.get_running_app().root.current_screen.ids["dstart"].text = (
+            self.format_date(self.fday, "full") + "     to"
+        )
+
+        App.get_running_app().root.current_screen.ids["dend"].text = self.format_date(
+            self.lday, "full"
+        )
+        """
+        for z in range(len(listofdicks)):
+            # print(listofdicks[z])
+
+            panel = ThreeLineListItem(
+                text="Show: "
+                + str(listofdicks[z]["show"]),
+                secondary_text="Date: "
+                + str(listofdicks[z]["timeIn"])
+                + " Hours: "
+                + str(listofdicks[z]["tot_hours"])
+                + " Overtime: "
+                + str(listofdicks[z]["otH"]),
+                tertiary_text="$" + str(listofdicks[z]["Total"]),
+                bg_color=self.theme_cls.bg_dark,
+                radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
+                #on_release=self.do_pay_ind,
+            )
+
+            self.root.get_screen("newsearch").ids.search_list.add_widget(panel, z)
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def junk2(self,a):
+        print ('junk2',a)
+        z=self.alert.content_cls.ids
+        print (z)
+    def get_data(self,instance_btn, content_cls):
+        tf = content_cls.ids
+        print (tf)
+        #print ('bla',junk.text,dir(junk))
+        #jp=junk.parent
+
+        
+        #print(dir(self.alert))
+        #print (self.alert.children,'text')
+        #print (dir(self.alert.children),'text')
+        #print (self.alert.ids['text'].input)
+        #print (self.alert.ids)
+    def prep_stats(self):
+        fdate, ldate = self.get_dates("YTD")
+        self.do_new_stats(fdate, ldate, "YTD")
 
     def on_start(self):
         toast(str(tic - time.perf_counter()))
@@ -1448,7 +1630,7 @@ class Demo3App(MDApp):
         b_b = s + "Next", s + "Next", s + "Login"
         b_b2 = s + "Skip", s + "Skip", s + "Demo"
 
-        from kivymd_extensions.sweetalert import SweetAlert
+        
 
         button_ok = MDRaisedButton(
             text=b_b[i] + "[size=0]" + str(i),
@@ -2415,6 +2597,7 @@ class Demo3App(MDApp):
 
     snackbar = None
     rreverse = True
+    
 
     archive_reverse=True
     archive_sort='date'
@@ -4036,7 +4219,7 @@ class Demo3App(MDApp):
         if self.root.current == "pay":
             self.lday = datetime.combine(date_range[-1], datetime.min.time())
             self.fday = datetime.combine(date_range[0], datetime.min.time())
-            self.do_payperiod()
+            self.do_payperiod('x')
 
     def updatetext(self, box):
         app = App.get_running_app()
@@ -4240,6 +4423,7 @@ class Demo3App(MDApp):
     def spinner_toggle(self):
         print("Spinner Toggle")
         app = self.get_running_app()
+        sp=self.sp
 
         #sp = self.root.current_screen.ids["spinner"]
         if sp == False:
@@ -4247,14 +4431,19 @@ class Demo3App(MDApp):
         else:
             sp = False
 
-    def do_payperiod_trim(self, sort):
+    def do_payperiod_trim(self, sort,page):
         if self.sort_pp == sort:
-            # print("omg its equal")
             self.rreverse = not self.rreverse
-            # print(self.rreverse)
-        self.sort_pp = sort
+        if self.sort_search == sort:
+            self.reverse_search = not self.reverse_search
+        
         # Clock.schedule_once()
-        self.do_payperiod("x")
+        if page=="pp":
+            self.sort_pp = sort
+            self.do_payperiod("x")
+        if page=="search":
+            self.sort_search=sort
+            self.display_search(self)
         ## Clock.schedule_once(self.do_payperiod())
     def do_reverse_all(self,sort,screen):
         #print (sort,screen,'SORT AND SCREEN')

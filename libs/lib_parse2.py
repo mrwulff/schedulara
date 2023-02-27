@@ -1,5 +1,5 @@
 def load_full_pp(ad, fil, idex):
-    from ndicts.ndicts import NestedDict
+    from ndicts import NestedDict
     import json
 
     with open(ad + "/" + fil) as json_file:
