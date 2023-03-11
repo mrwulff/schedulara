@@ -120,7 +120,32 @@ def makeshowfile(App, x, config_file, ios):
         os.mkdir(ad + "/shows")
         with open(ad + "/shows/" + fname + ".json", "w") as outfile:
             json.dump(y, outfile)
+def makeratefile(ad,rate,pos):
 
+    try:
+        rate=float(rate)
+    except:
+        rate=0
+    import json
+    with open(ad   + "/rates.json", "r") as json_file:
+        data2 = json.load(json_file)
+
+
+
+    dictionary =data2
+#    dictionary = json.loads(dictionary)
+
+
+    print (dictionary,"rateposad",type(dictionary))
+    import json
+    import os
+    new_rate = {pos:rate}
+    dictionary.update(new_rate)
+    y = json.dumps(dictionary, indent = 4) 
+
+    with open(ad+"/rates.json", "w") as outfile:
+        json.dump(dictionary, outfile)
+    
 
 def makeposfile(App, x, config_file, ios, rate):
     import json
