@@ -3496,13 +3496,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def update_label_new(self, dt):
         from datetime import datetime
-        import libs.lib_extractjson as lib_extractjson
+        import libs.lib_readuserdata as lib_extractjson
         xx9=gshow
 
         start_time = xx9["date"] + "." + xx9["time"]
         start_time = datetime.strptime(start_time, "%m/%d/%Y.%H:%M")
         pos = xx9["pos"]
-        rate = lib_extractjson.extract_pos(App, ad, pos)
+        rate = lib_extractjson.readrate(ad, pos)
         #print (rate,'raterate')
         now = datetime.now()
         difff = now - start_time
@@ -3544,7 +3544,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             ot_hours = dec_hours - ot_after
             r_pay = r_pay + (ot_hours * float(rate) * 1.5)
 
-        r_pay = dec_hours * float(rate)
+        r_pay = dec_hours * float(rate) 
 
         # new_text = datetime.datetime.now().strftime("%H:%M:%S")
 
@@ -3558,7 +3558,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.get_screen("animate").ids["moneyb"].text = str(earn)
         self.root.get_screen("animate").ids["money_r"].text = str(r_hours)
         self.root.get_screen("animate").ids["money_pay"].text = str("%.2f" % r_pay)
-        print (r_pay)
+        print (r_pay,"RPAY")
 
     def update_label66(self, dt):
         from datetime import datetime
