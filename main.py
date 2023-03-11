@@ -898,6 +898,7 @@ class Demo3App(MDApp):
         js = libs.lib_new.get_json_schedule_1(x, ad)
         gg = js["shows"]
         added = 0
+        found=0
         if x.get("cal_id") != None:
             for show in range(len(gg)):
                 # print(gg[show])
@@ -912,6 +913,7 @@ class Demo3App(MDApp):
                             "r",
                         )
                         print("FOUND FILE")
+                        found=found+1
                     except:
                         try:
                             os.mkdir(ad + "/future_shows")
@@ -928,8 +930,8 @@ class Demo3App(MDApp):
                         self.snackbarx("Added " + str(added))
 
                         x2.write(json_object)
-                        +added
-        self.snackbarx("Added " + str(added))
+                        added=1+added
+        self.snackbarx("Added " + str(added)+', Found '+found)
 
     def filename(self, x):
         f = str.replace(x["show"], "/", "")
@@ -960,7 +962,10 @@ class Demo3App(MDApp):
     def check_stats(self, li):
         print(li, "LIST OF CHECKS")
         sum2 = sum(li)
-        ave = sum2 / (len(li))
+        try:
+            ave = sum2 / (len(li))
+        except:
+            ave=-1
         return round(sum2, 2), round(ave, 2)
 
     future_pos = {
@@ -1168,38 +1173,42 @@ class Demo3App(MDApp):
         chart_list.append(self.venue_chart)
 
         for i in range(len(chart_list)):
-            chart = [0] * len(chart_list)
-            "LOAD BUILDING AUTOMATIC"
-            pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
-                ad, chart_list[i]["file"], chart_list[i]["filter"]
-            )
-            chart[i] = App.get_running_app().root.current_screen.ids[
-                chart_list[i]["id"]
-            ]
-            chart[i].x_values = pos_v2
-            chart[i].y_values = pos_v2
-            chart[i].x_labels = pos_k2
-            App.get_running_app().root.current_screen.ids[
-                chart_list[i]["id"]
-            ].width = dp(80) * len(pos_v2)
-
-            #        chart_list[i]["id"]
-            #    ].width = dp(80) * len(pos_v2)
-            # if 100 * len(pos_v2) > dp(300):
-            ##    App.get_running_app().root.current_screen.ids[
-            #        chart_list[i]["id"]
-            #    ].width = dp(80) * len(pos_v2)
-            # else:
-            #    App.get_running_app().root.current_screen.ids[
-            #        chart_list[i]["id"]
-            #    ].width = dp(40)
-            App.get_running_app().root.current_screen.ids[
-                chart_list[i]["id"] + "d"
-            ].text = chart_list[i]["name"]
             try:
-                chart[i].update()
+                chart = [0] * len(chart_list)
+                "LOAD BUILDING AUTOMATIC"
+                pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
+                    ad, chart_list[i]["file"], chart_list[i]["filter"]
+                )
+                chart[i] = App.get_running_app().root.current_screen.ids[
+                    chart_list[i]["id"]
+                ]
+                chart[i].x_values = pos_v2
+                chart[i].y_values = pos_v2
+                chart[i].x_labels = pos_k2
+                App.get_running_app().root.current_screen.ids[
+                    chart_list[i]["id"]
+                ].width = dp(80) * len(pos_v2)
+
+                #        chart_list[i]["id"]
+                #    ].width = dp(80) * len(pos_v2)
+                # if 100 * len(pos_v2) > dp(300):
+                ##    App.get_running_app().root.current_screen.ids[
+                #        chart_list[i]["id"]
+                #    ].width = dp(80) * len(pos_v2)
+                # else:
+                #    App.get_running_app().root.current_screen.ids[
+                #        chart_list[i]["id"]
+                #    ].width = dp(40)
+                App.get_running_app().root.current_screen.ids[
+                    chart_list[i]["id"] + "d"
+                ].text = chart_list[i]["name"]
+                try:
+                    chart[i].update()
+                except:
+                    return
+                    print("chart5 fail")
             except:
-                print("chart5 fail")
+                print ('fail all charts')
             if chart_list[i]["name"] == "Paycheck Amount":
                 check = App.get_running_app().root.current_screen.ids["c3d"]
                 ave, tot = self.check_stats(pos_v2)
@@ -1945,12 +1954,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 #
                 # content_cls=Content(),
                 buttons=[
-                    MDFlatButton(
-                        text="Save Time",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=lambda x, y=(gg): self.add_google_calendar(y),
-                    ),
+                    #MDFlatButton(
+                    #    text="Save Time",
+                    #    theme_text_color="Custom",
+                    #    text_color=self.theme_cls.primary_color,
+                    #    on_release=lambda x, y=(gg): self.add_google_calendar(y),
+                    #),
 
                     MDFlatButton(
                         text="$",
@@ -2063,7 +2072,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # paylist.tertiary_text = "third" + payperiod
 
         #####ALWAYS ONBOARD
-        if x.get("onboarding") == None or 1==1:
+        if x.get("onboarding") == None :
             b = self.do_onboarding(0)
             x["onboarding"] = True
             import libs.lib_updateuserdata
@@ -3421,8 +3430,16 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         print (type(js))
 
         from kivy.clock import Clock
+        now=datetime.datetime.now()
+        start_time = datetime.datetime.strptime(show['date']+'.'+show['time'], "%m/%d/%Y.%H:%M")
+        print (start_time,now,type(start_time),type(now),'showdate')
+        if start_time<now:
 
-        self.root.set_current("animate")
+
+            self.root.set_current("animate")
+        else:
+            toast('Unavalable')
+            return
         #print(y, xx9)
 
         pos = show["pos"]
@@ -3503,6 +3520,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         start_time = datetime.strptime(start_time, "%m/%d/%Y.%H:%M")
         pos = xx9["pos"]
         rate = lib_extractjson.readrate(ad, pos)
+        try:
+            rate=float(rate)
+        except:
+            rate=0.00
+            print ('fail convert')
         #print (rate,'raterate')
         now = datetime.now()
         difff = now - start_time
@@ -3558,7 +3580,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.get_screen("animate").ids["moneyb"].text = str(earn)
         self.root.get_screen("animate").ids["money_r"].text = str(r_hours)
         self.root.get_screen("animate").ids["money_pay"].text = str("%.2f" % r_pay)
-        print (r_pay,"RPAY")
+        #print (r_pay,"RPAY")
 
     def update_label66(self, dt):
         from datetime import datetime
@@ -3842,13 +3864,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         panel = ThreeLineListItem(
                 text="Shows ",
                 #+ str((listofdicks[z]["date"])),
-                secondary_text="Hours: ",
+                #secondary_text="Hours: ",
                 #+ str(listofdicks[z]["show"]),
                 #+ " Hours: "
                 #+ str(listofdicks[z]["totalhours"])
                 #+ " Overtime: "
                 #+ str(listofdicks[z]["othours"]),
-                tertiary_text="Other Stuff",
+                #tertiary_text="Other Stuff",
                 bg_color=self.theme_cls.bg_dark,
                 radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
                 on_release=self.edit_show_details,
@@ -3897,7 +3919,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 ''
             
 
-            if 1==1:
+            if 1==2:
             
 
                 three='Hours: '+self.only5(allhours)
@@ -3937,8 +3959,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             #ratee="    Rate: $"+str(tot_money/tot_hours)
         except:
             ratee=''
-        bb.secondary_text="Hours: "+str(tot_hours)+"   Reg: "+str(reg_hours) +"   OT: "+str(ot_hours)
-        bb.tertiary_text="$: "+str(tot_money) +ratee
+        #bb.secondary_text="Hours: "+str(tot_hours)+"   Reg: "+str(reg_hours) +"   OT: "+str(ot_hours)
+        #bb.tertiary_text="$: "+str(tot_money) +ratee
     def calc_money(self,v,h,o):
         if v.get('rate')!=None:
             #print (h,o,v['rate'],v['show'],'ALL OF IT')
@@ -4647,9 +4669,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             App.get_running_app().root.current_screen.ids[
                 "sall"
             ].icon = "sort-ascending"
-        App.get_running_app().root.current_screen.ids[
-                "sall"
-            ].size=2
+        #App.get_running_app().root.current_screen.ids[
+        #        "sall"
+        #    ].size=2
 
         App.get_running_app().root.current_screen.ids["dstart"].text = (
             self.format_date(self.fday, "full") + "     to"

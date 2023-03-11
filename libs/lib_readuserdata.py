@@ -2,13 +2,16 @@ from appdirs import *
 
 def readrate(ad,pos):
     import json
-    with open(ad   + "/rates.json", "r") as json_file:
-        data2 = json.load(json_file)
+    try:
+        with open(ad   + "/rates.json", "r") as json_file:
+            data2 = json.load(json_file)
+    except:
+        return ""
 
 
 
     #dictionary = json.loads(data2)
-    print (data2[pos],'dictpos')
+    #print (data2[pos],'dictpos')
     return data2[pos]
 def readuserdata(App, config_file, ios):
 

@@ -127,8 +127,11 @@ def makeratefile(ad,rate,pos):
     except:
         rate=0
     import json
-    with open(ad   + "/rates.json", "r") as json_file:
-        data2 = json.load(json_file)
+    try:
+        with open(ad   + "/rates.json", "r") as json_file:
+            data2 = json.load(json_file)
+    except:
+        data2={}
 
 
 
@@ -142,8 +145,10 @@ def makeratefile(ad,rate,pos):
     new_rate = {pos:rate}
     dictionary.update(new_rate)
     y = json.dumps(dictionary, indent = 4) 
+    print (ad,'AFUCKINGD')
 
     with open(ad+"/rates.json", "w") as outfile:
+
         json.dump(dictionary, outfile)
     
 
