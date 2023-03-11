@@ -931,7 +931,8 @@ class Demo3App(MDApp):
 
                         x2.write(json_object)
                         added=1+added
-        self.snackbarx("Added " + str(added)+', Found '+found)
+        
+            self.snackbarx("Added " + str(added)+', Found '+str(found))
 
     def filename(self, x):
         f = str.replace(x["show"], "/", "")
