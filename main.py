@@ -1645,7 +1645,7 @@ class Demo3App(MDApp):
         self.do_new_stats(fdate, ldate, "YTD")
 
     def on_start(self):
-        toast(str(tic - time.perf_counter()))
+        #toast(str(tic - time.perf_counter()))
         global x
         global ad
         # print("wtf")
@@ -2029,8 +2029,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         try:
             if x['branding']==True:
                 qq.branding.background="images/walls/logo.png"
+            if x['branding']==False:
+            #    qq.branding.background="images/wordart2.png"
+                qq.name2.text='Schedulara'
         except:
-            pass
+            #qq.branding.background="images/wordart2.png"
+            qq.name2.text='Schedulara'
         #if x['branding']==False:
         #    qq.name2.text="NOOOOOO"
         print (qq,'BRANDING')
@@ -2054,7 +2058,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if numconf == 0:
             stat_text = str(numshows) + " Confirmed"
         if numconf == 1:
-            stat_text = str(numconf) + " Show Confirmable.  Click To Confrim"
+            stat_text = str(numconf) + " Show Confirmable.  Click To Confirm"
         if numconf > 1:
             stat_text = str(numconf) + " Shows Confirmable.  Click To Confrim All"
         stat_text2 = "Next show in " + diff3
@@ -2136,11 +2140,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         xx9 = libs.lib_new.just_get_json_schedule(x, ad)
         # print("check confirm", xx9)
         print(xx9["num_shows"], "NUMSHOWS")
-        if xx9["num_shows"] > 0:
+        if xx9["num_shows"] > 0 and x['usecache']==False:
+            print (x,'thisisx')
             print(xx9["num_shows"])
             self.new_confirm("all")
             toast("Success")
             self.update()
+        if x['usecache']==True:
+            toast('You are in demo mode')
 
     def make_toast(self, b):
         print(x, b)
