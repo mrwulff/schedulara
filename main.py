@@ -2019,7 +2019,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def today(self):
         import humanize
-        from datetime import datetime
+        from datetime import datetime,timedelta
 
         self.root.set_current("today")
         self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
@@ -2085,7 +2085,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         numshows = len(shows)
         numconf = js["num_shows"]
         confirmable = numshows - numconf
-        try:
+        if 1==1:
             update = js["updated"]
 
             old_update = datetime.strptime(update, "%Y-%m-%d %H:%M:%S.%f")
@@ -2093,10 +2093,21 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             diff2 = humanize.naturaltime(now - old_update)
             next_show = shows[0]["date"] + " " + shows[0]["time"]
             next_show = datetime.strptime(next_show, "%m/%d/%Y %H:%M")
+            bb=0
+            nns=now - next_show
+            print('asdfasdf',nns,type(nns),shows)
+            
+            while (nns) >=timedelta(0):
+                next_show = shows[bb]["date"] + " " + shows[bb]["time"]
+                next_show = datetime.strptime(next_show, "%m/%d/%Y %H:%M")
+                nns=now - next_show
+
+                bb=bb+1
             diff3 = humanize.naturaltime(now - next_show)
-        except:
-            diff2 = ""
-            diff3 = ""
+                
+        #except:
+        #    diff2 = ""
+        #    diff3 = ""
         # print(diff2)
 
         if numconf == 0:
