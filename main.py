@@ -149,7 +149,8 @@ import webcolors
 
 w = 1125 / 3
 h = 2436 / 3
-if platform == "win":
+print (platform,"PLATFORM")
+if platform == "win" or "macos ":
 
     Config.set("graphics", "width", str(w))
     Config.set("graphics", "height", str(h))
@@ -897,6 +898,7 @@ class Demo3App(MDApp):
         js = libs.lib_new.get_json_schedule_1(x, ad)
         gg = js["shows"]
         added = 0
+        found=0
         if x.get("cal_id") != None:
             for show in range(len(gg)):
                 # print(gg[show])
@@ -911,6 +913,7 @@ class Demo3App(MDApp):
                             "r",
                         )
                         print("FOUND FILE")
+                        found=found+1
                     except:
                         try:
                             os.mkdir(ad + "/future_shows")
@@ -927,8 +930,9 @@ class Demo3App(MDApp):
                         self.snackbarx("Added " + str(added))
 
                         x2.write(json_object)
-                        +added
-        self.snackbarx("Added " + str(added))
+                        added=1+added
+        
+            self.snackbarx("Added " + str(added)+', Found '+str(found))
 
     def filename(self, x):
         f = str.replace(x["show"], "/", "")
@@ -959,7 +963,10 @@ class Demo3App(MDApp):
     def check_stats(self, li):
         print(li, "LIST OF CHECKS")
         sum2 = sum(li)
-        ave = sum2 / (len(li))
+        try:
+            ave = sum2 / (len(li))
+        except:
+            ave=-1
         return round(sum2, 2), round(ave, 2)
 
     future_pos = {
@@ -1206,9 +1213,41 @@ class Demo3App(MDApp):
                 chart_list[i]["id"] + "d"
             ].text = chart_list[i]["name"]
             try:
-                chart[i].update()
+                chart = [0] * len(chart_list)
+                "LOAD BUILDING AUTOMATIC"
+                pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
+                    ad, chart_list[i]["file"], chart_list[i]["filter"]
+                )
+                chart[i] = App.get_running_app().root.current_screen.ids[
+                    chart_list[i]["id"]
+                ]
+                chart[i].x_values = pos_v2
+                chart[i].y_values = pos_v2
+                chart[i].x_labels = pos_k2
+                App.get_running_app().root.current_screen.ids[
+                    chart_list[i]["id"]
+                ].width = dp(80) * len(pos_v2)
+
+                #        chart_list[i]["id"]
+                #    ].width = dp(80) * len(pos_v2)
+                # if 100 * len(pos_v2) > dp(300):
+                ##    App.get_running_app().root.current_screen.ids[
+                #        chart_list[i]["id"]
+                #    ].width = dp(80) * len(pos_v2)
+                # else:
+                #    App.get_running_app().root.current_screen.ids[
+                #        chart_list[i]["id"]
+                #    ].width = dp(40)
+                App.get_running_app().root.current_screen.ids[
+                    chart_list[i]["id"] + "d"
+                ].text = chart_list[i]["name"]
+                try:
+                    chart[i].update()
+                except:
+                    return
+                    print("chart5 fail")
             except:
-                print("chart5 fail")
+                print ('fail all charts')
             if chart_list[i]["name"] == "Paycheck Amount":
                 check = App.get_running_app().root.current_screen.ids["c3d"]
                 try:
@@ -1424,6 +1463,58 @@ class Demo3App(MDApp):
 
         self.alert = SweetAlert()
         self.alert.fire(input="Input Email",buttons=[button_ok],)
+
+    def rate_input(self):
+        #THIS ONE WORKS!!! OMG
+        from kivymd.uix.button import  MDIconButton
+
+        toast('Input Rate')
+        if not self.dialog:
+            self.dialog = MDDialog(
+                title="Rate for :",
+                type="custom",
+                #type="simple",
+                content_cls=Content(),
+                height=.5,
+                buttons=[
+                    
+
+                    MDIconButton(icon="magnify"    ,          
+                                 on_press=self.update_rates,
+                                ),
+                        ],
+            )
+        self.dialog.open()
+        
+        self.set_rate()
+
+
+        
+    def update_rates(self,btn):
+        import libs.lib_new
+        xx9 = libs.lib_new.just_get_json_schedule(x, ad)
+
+        show= (xx9['shows'][idex])
+        pos=show['pos']
+        sho=show['date']
+        print (sho,"SHOWEEEEEE,", sho)
+    
+        street_name = self.dialog.content_cls.ids.street.text
+        print (street_name)
+        
+
+        self.dialog.dismiss()
+
+        App.get_running_app().root.current_screen.ids["moneyinfo"].text=street_name
+        pos=App.get_running_app().root.current_screen.ids["moneyinfo"].secondary_text
+        pos=str.split(pos,' ')
+        #App.get_running_app().root.current_screen.ids["moneyinfordeszxdfxzs"].text="POO"
+        #self.root.get_screen("animate").ids["moneyinfo"].text='str(v)'
+        #print (App.get_running_app().root.current_screen.ids["moneyinfo"].text)
+        import libs.lib_makeuserdata as lib_makeuserdata
+
+        lib_makeuserdata.makeratefile(ad,street_name,pos[0])
+
     def new_search(self):
         #THIS ONE WORKS!!! OMG
         from kivymd.uix.button import  MDIconButton
@@ -1456,7 +1547,7 @@ class Demo3App(MDApp):
         import libs.lib_makegraphs as lib_makegraphs
             ###works
         street_name = self.dialog.content_cls.ids.street.text
-        street_name="VGK"
+        #street_name="VGK"
         print(street_name)
         self.dialog.dismiss()
         self.root.set_current("newsearch")
@@ -1598,7 +1689,7 @@ class Demo3App(MDApp):
         self.do_new_stats(fdate, ldate, "YTD")
 
     def on_start(self):
-        toast(str(tic - time.perf_counter()))
+        #toast(str(tic - time.perf_counter()))
         global x
         global ad
         # print("wtf")
@@ -1639,13 +1730,13 @@ class Demo3App(MDApp):
         except:
             asdf = "1.1"
         print(asdf)
-
+        
         try:
             if x["today_start"] == False:
                 self.newstart("", useold)
 
             if x["today_start"] == True:
-                toast("Success " + asdf)
+                #toast("Success " + asdf)
                 self.today()
         except:
             self.today()
@@ -1668,12 +1759,19 @@ class Demo3App(MDApp):
             self.root.set_current("login")
 
     def do_onboarding(self, i):
-        s = "[size=20dp]"
-        title = ["Hello", "First Step:", "Extras:"]
+        legal="While Schedulara is designed to help you stay organized and manage your schedule, we are not responsible for any missed gigs, or other issues that may arise. It is ultimately your responsibility to ensure that you are available for events and to communicate any scheduling conflicts to your team. Use our app at your own risk."
+        welcome="Welcome to our Schedulara! Manage your schedule with ease and view upcoming events Let's get started!"
+        demo="""To get started, please select one of the following options:
+
+Login: If you already have an account, please click this button to log in and access your schedule.
+
+Demo: If you are new to our app or would like to see how it works, click this button to access the demo mode. Please note that demo mode is for testing purposes only and does not reflect real event schedules."""
+        s = "[size=15dp]"
+        title = ["Welcome", "Legal:", "Extras:"]
         text = [
-            s + "Welcome to Schedulara",
-            s + "1. Click the MENU button\n2. Click Settings\n3. Click Login",
-            s + "Notifications\nGoogle Calendar Export\n\Cloud Backups",
+            s + welcome,
+            s + legal,
+            s + demo,
         ]
         b_b = s + "Next", s + "Next", s + "Login"
         b_b2 = s + "Skip", s + "Skip", s + "Demo"
@@ -1685,12 +1783,12 @@ class Demo3App(MDApp):
             font_size=16,
             on_release=self.callback,
         )
-        button_cancel = MDFlatButton(
+        button_cancel = MDRaisedButton(
             text=b_b2[i] + "[size=0]" + "9",
             font_size=16,
             on_release=self.callback,
         )
-        button_login = MDFlatButton(
+        button_login = MDRaisedButton(
             text=b_b[i] + "[size=0]" + "8",
             font_size=16,
             on_release=self.callback,
@@ -1901,12 +1999,12 @@ class Demo3App(MDApp):
                 #
                 # content_cls=Content(),
                 buttons=[
-                    MDFlatButton(
-                        text="Save Time",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=lambda x, y=(gg): self.add_google_calendar(y),
-                    ),
+                    #MDFlatButton(
+                    #    text="Save Time",
+                    #    theme_text_color="Custom",
+                    #    text_color=self.theme_cls.primary_color,
+                    #    on_release=lambda x, y=(gg): self.add_google_calendar(y),
+                    #),
 
                     MDFlatButton(
                         text="$",
@@ -1975,8 +2073,12 @@ class Demo3App(MDApp):
         try:
             if x['branding']==True:
                 qq.branding.background="images/walls/logo.png"
+            if x['branding']==False:
+            #    qq.branding.background="images/wordart2.png"
+                qq.name2.text='Schedulara'
         except:
-            pass
+            #qq.branding.background="images/wordart2.png"
+            qq.name2.text='Schedulara'
         #if x['branding']==False:
         #    qq.name2.text="NOOOOOO"
         print (qq,'BRANDING')
@@ -2000,7 +2102,7 @@ class Demo3App(MDApp):
         if numconf == 0:
             stat_text = str(numshows) + " Confirmed"
         if numconf == 1:
-            stat_text = str(numconf) + " Show Confirmable.  Click To Confrim"
+            stat_text = str(numconf) + " Show Confirmable.  Click To Confirm"
         if numconf > 1:
             stat_text = str(numconf) + " Shows Confirmable.  Click To Confrim All"
         stat_text2 = "Next show in " + diff3
@@ -2017,7 +2119,9 @@ class Demo3App(MDApp):
         paylist.text = "Next Payday:  " + paydate
         paylist.secondary_text = "Current Payperiod: " + payperiod
         # paylist.tertiary_text = "third" + payperiod
-        if x.get("onboarding") == None:
+
+        #####ALWAYS ONBOARD
+        if x.get("onboarding") == None :
             b = self.do_onboarding(0)
             x["onboarding"] = True
             import libs.lib_updateuserdata
@@ -2080,11 +2184,14 @@ class Demo3App(MDApp):
         xx9 = libs.lib_new.just_get_json_schedule(x, ad)
         # print("check confirm", xx9)
         print(xx9["num_shows"], "NUMSHOWS")
-        if xx9["num_shows"] > 0:
+        if xx9["num_shows"] > 0 and x['usecache']==False:
+            print (x,'thisisx')
             print(xx9["num_shows"])
             self.new_confirm("all")
             toast("Success")
             self.update()
+        if x['usecache']==True:
+            toast('You are in demo mode')
 
     def make_toast(self, b):
         print(x, b)
@@ -3357,6 +3464,7 @@ class Demo3App(MDApp):
     def animate_money_new(self, y):
         global gshow
         import libs.lib_new
+        import libs.lib_readuserdata
         global x
         xx9=x
         self.dialog_close()
@@ -3374,12 +3482,31 @@ class Demo3App(MDApp):
         print (type(js))
 
         from kivy.clock import Clock
+        now=datetime.datetime.now()
+        start_time = datetime.datetime.strptime(show['date']+'.'+show['time'], "%m/%d/%Y.%H:%M")
+        print (start_time,now,type(start_time),type(now),'showdate')
+        if start_time<now:
 
-        self.root.set_current("animate")
+
+            self.root.set_current("animate")
+        else:
+            toast('Unavalable')
+            return
         #print(y, xx9)
 
         pos = show["pos"]
 
+        qq=libs.lib_readuserdata.readrate(ad,pos)
+
+        App.get_running_app().root.current_screen.ids["moneyinfo"].text =str(qq)
+        
+
+
+
+
+
+
+        App.get_running_app().root.current_screen.ids["show"].text = show['show']
         App.get_running_app().root.current_screen.ids["top"].text = str("call start")
         App.get_running_app().root.current_screen.ids["moneyinfo"].secondary_text = str(
             pos + " rate"
@@ -3438,13 +3565,19 @@ class Demo3App(MDApp):
 
     def update_label_new(self, dt):
         from datetime import datetime
-        import libs.lib_extractjson as lib_extractjson
+        import libs.lib_readuserdata as lib_extractjson
         xx9=gshow
 
         start_time = xx9["date"] + "." + xx9["time"]
         start_time = datetime.strptime(start_time, "%m/%d/%Y.%H:%M")
         pos = xx9["pos"]
-        rate = lib_extractjson.extract_pos(App, ad, pos)
+        rate = lib_extractjson.readrate(ad, pos)
+        try:
+            rate=float(rate)
+        except:
+            rate=0.00
+            print ('fail convert')
+        #print (rate,'raterate')
         now = datetime.now()
         difff = now - start_time
         difff = int(difff.total_seconds())
@@ -3485,20 +3618,21 @@ class Demo3App(MDApp):
             ot_hours = dec_hours - ot_after
             r_pay = r_pay + (ot_hours * float(rate) * 1.5)
 
-        # r_pay = dec_hours * float(rate)
+        r_pay = dec_hours * float(rate) 
 
         # new_text = datetime.datetime.now().strftime("%H:%M:%S")
 
         # label.text = new_text
         # print(new_text)
         self.root.get_screen("animate").ids["top"].text = str(start_time)
-        self.root.get_screen("animate").ids["moneyinfo"].text = str(
-            "%.2f" % float(rate)
-        )
+        #self.root.get_screen("animate").ids["moneyinfo"].text = str(
+        #    "%.2f" % float(rate)
+        #)
         self.root.get_screen("animate").ids["moneya"].text = str(newh)
         self.root.get_screen("animate").ids["moneyb"].text = str(earn)
         self.root.get_screen("animate").ids["money_r"].text = str(r_hours)
         self.root.get_screen("animate").ids["money_pay"].text = str("%.2f" % r_pay)
+        #print (r_pay,"RPAY")
 
     def update_label66(self, dt):
         from datetime import datetime
@@ -3782,13 +3916,13 @@ class Demo3App(MDApp):
         panel = ThreeLineListItem(
                 text="Shows ",
                 #+ str((listofdicks[z]["date"])),
-                secondary_text="Hours: ",
+                #secondary_text="Hours: ",
                 #+ str(listofdicks[z]["show"]),
                 #+ " Hours: "
                 #+ str(listofdicks[z]["totalhours"])
                 #+ " Overtime: "
                 #+ str(listofdicks[z]["othours"]),
-                tertiary_text="Other Stuff",
+                #tertiary_text="Other Stuff",
                 bg_color=self.theme_cls.bg_dark,
                 radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
                 on_release=self.edit_show_details,
@@ -3837,7 +3971,7 @@ class Demo3App(MDApp):
                 ''
             
 
-            if 1==1:
+            if 1==2:
             
 
                 three='Hours: '+self.only5(allhours)
@@ -3877,8 +4011,8 @@ class Demo3App(MDApp):
             #ratee="    Rate: $"+str(tot_money/tot_hours)
         except:
             ratee=''
-        bb.secondary_text="Hours: "+str(tot_hours)+"   Reg: "+str(reg_hours) +"   OT: "+str(ot_hours)
-        bb.tertiary_text="$: "+str(tot_money) +ratee
+        #bb.secondary_text="Hours: "+str(tot_hours)+"   Reg: "+str(reg_hours) +"   OT: "+str(ot_hours)
+        #bb.tertiary_text="$: "+str(tot_money) +ratee
     def calc_money(self,v,h,o):
         if v.get('rate')!=None:
             #print (h,o,v['rate'],v['show'],'ALL OF IT')
@@ -4141,12 +4275,15 @@ class Demo3App(MDApp):
             # pass
 
     def set_rate(self):
-        x = xxx[idex][8]
+
+        
+        
         # rate=str(28.5)
-        rate = App.get_running_app().root.current_screen.ids["rate"].text
+        rate = App.get_running_app().root.current_screen.ids["moneyinfo"].text
+
         import libs.lib_makeuserdata as lib_makeuserdata
 
-        lib_makeuserdata.makeposfile(App, x, config_file, ios, rate)
+        #lib_makeuserdata.makeratefile(ad,rate,pos)
         print("set rate")
 
     def get_date(self, date):
