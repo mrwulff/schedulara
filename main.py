@@ -1242,7 +1242,8 @@ class Demo3App(MDApp):
                     chart_list[i]["id"] + "d"
                 ].text = chart_list[i]["name"]
                 try:
-                    chart[i].update()
+                    ''
+                    #chart[i].update()
                 except:
                     return
                     print("chart5 fail")
@@ -1662,9 +1663,12 @@ class Demo3App(MDApp):
 
     def hide(self,y):
         global x
-        if x['hidden']==True:
+        try:
+            if x['hidden']==True:
 
-            return "***"
+                return "***"
+        except:
+            ''
         return str(y)
 
 
@@ -1686,7 +1690,10 @@ class Demo3App(MDApp):
         #print (self.alert.ids)
     def prep_stats(self):
         fdate, ldate = self.get_dates("YTD")
-        self.do_new_stats(fdate, ldate, "YTD")
+        try:
+            self.do_new_stats(fdate, ldate, "YTD")
+        except:
+            ''
 
     def on_start(self):
         #toast(str(tic - time.perf_counter()))
@@ -3813,14 +3820,22 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def delete_shows(self, what):
         # print (what)
         from os import walk
-
-        filenames = next(walk(ad + "/future_shows"), (None, None, []))[2]  # [] if no file
-        # print(filenames)
+        dirs=["pp",'backup','shows','future_shows']
         g=0
+        for i2 in range(len(dirs)):
+            filenames = next(walk(ad + "/"+dirs[i2]), (None, None, []))[2]  # [] if no file
+            # print(filenames)
+            
+            for i in range(len(filenames)):
+                os.remove(ad + "/"+dirs[i2]+'/' + filenames[i])
+                g=g+1
+
+        filenames = next(walk(ad + "/"), (None, None, []))[2]  # [] if no file
         for i in range(len(filenames)):
-            os.remove(ad + "/future_shows/" + filenames[i])
+            os.remove(ad + "/" + filenames[i])
             g=g+1
-        toast("deleted "+str(g)+" shows")
+        toast("deleted "+str(g)+" files")
+        self.dialog.dismiss()
 
 
     def show_delete_dialog(self):
@@ -3828,7 +3843,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         if not self.dialog:
             self.dialog = MDDialog(
-                text="Discard draft?",
+                text="Delete All Data?",
                 buttons=[
                     MDFlatButton(
                         text="CANCEL",
