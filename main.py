@@ -1436,13 +1436,13 @@ class Demo3App(MDApp):
                     "on_release", lambda x: self.prep_stats()
 
             ],
-
-            'Search': [
-                    'magnify',
-                    #"on_press", lambda x: toast("loading charts"),
-                    "on_release", lambda x: self.new_search()
-
-            ],
+           ####BROKEN PLEASE FIX SOON
+           # 'Search': [
+           #         'magnify',
+           #         #"on_press", lambda x: toast("loading charts"),
+           #         "on_release", lambda x: self.new_search()
+            #
+           # ],
             
             
 
