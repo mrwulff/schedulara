@@ -1014,6 +1014,7 @@ class Demo3App(MDApp):
     }
 
     def do_new_stats(self, fdate, ldate, rng):
+        global x
         import kivymd_extensions.akivymd
 
         print("omg")
@@ -1158,7 +1159,9 @@ class Demo3App(MDApp):
         chart_list = []
         chart_list.append(self.pos_chart)
         chart_list.append(self.type_chart)
-        chart_list.append(self.paycheck_amount_chart)
+        
+        if x['hidden']==False:
+            chart_list.append(self.paycheck_amount_chart)
         chart_list.append(self.client_chart)
 
         chart_list.append(self.future_pos)
@@ -1175,8 +1178,15 @@ class Demo3App(MDApp):
             chart[i] = App.get_running_app().root.current_screen.ids[
                 chart_list[i]["id"]
             ]
+            pos_v3=pos_v2
+            #if i==2 :
+            #   for x in range(len(pos_v3)):
+            #       pos_v3[x]=str(self.hide(pos_v3[x]))
+            #print (pos_v3,'posk2')
+                
             chart[i].x_values = pos_v2
             chart[i].y_values = pos_v2
+            #chart[i].y_labels = (pos_v3)
             chart[i].x_labels = pos_k2
             App.get_running_app().root.current_screen.ids[
                 chart_list[i]["id"]
@@ -1201,10 +1211,16 @@ class Demo3App(MDApp):
                 print("chart5 fail")
             if chart_list[i]["name"] == "Paycheck Amount":
                 check = App.get_running_app().root.current_screen.ids["c3d"]
-                ave, tot = self.check_stats(pos_v2)
-                check.secondary_text = "Total: $" + str(ave)
-                check.tertiary_text = "Average:  $" + str(tot)
+                try:
+                    ave, tot = self.check_stats(pos_v2)
+                    check.secondary_text = "Total: $" + str(self.hide(ave))
+                    check.tertiary_text = "Average:  $" + str(self.hide(tot))
+                    
+                except:
+                    #check.text ="***HIDDEN***"
+                    check.secondary_text = "***HIDDEN***"
                 check.text = "Paychecks: " + str(len(pos_v2))
+
                 # App.get_running_app().root.current_screen.ids[
                 #    chart_list[i]["id"]
                 # ].height = (self.mheight * 2)
@@ -1558,7 +1574,7 @@ class Demo3App(MDApp):
         if x['hidden']==True:
 
             return "***"
-        return y
+        return str(y)
 
 
     def junk2(self,a):
@@ -4568,9 +4584,9 @@ class Demo3App(MDApp):
             App.get_running_app().root.current_screen.ids[
                 "sall"
             ].icon = "sort-ascending"
-        App.get_running_app().root.current_screen.ids[
-                "sall"
-            ].size=2
+        #App.get_running_app().root.current_screen.ids[
+        #        "sall"
+        #    ].size=2
 
         App.get_running_app().root.current_screen.ids["dstart"].text = (
             self.format_date(self.fday, "full") + "     to"
@@ -4591,7 +4607,7 @@ class Demo3App(MDApp):
                 + str(listofdicks[z]["totalhours"])
                 + " Overtime: "
                 + str(listofdicks[z]["othours"]),
-                tertiary_text="$" + str(listofdicks[z]["moneytotal"]),
+                tertiary_text="$" + str(self.hide(listofdicks[z]["moneytotal"])),
                 bg_color=self.theme_cls.bg_dark,
                 radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
                 on_release=self.do_pay_ind,
@@ -4634,7 +4650,7 @@ class Demo3App(MDApp):
             + str(z["reghours"])
             + " Overtime: "
             + str(z["othours"]),
-            tertiary_text="$" + str(z["grandtotal"]),
+            tertiary_text="$" + str(self.hide(z["grandtotal"])),
             # fourth_text="test",
             bg_color=self.theme_cls.bg_darkest,
             radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
