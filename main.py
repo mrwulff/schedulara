@@ -2096,7 +2096,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         except:
             #qq.branding.background="images/wordart2.png"
             qq.name2.text='Schedulara'
-        #if x['branding']==False:
+        #if x['branding']== False:
         #    qq.name2.text="NOOOOOO"
         print (qq,'BRANDING')
         numshows = len(shows)
