@@ -17,9 +17,11 @@
 
 
             MDList:
+                spacing: 2
                 OneLineAvatarIconListItem: 
                     id: button
                     text: "Wallpapepr"
+                    bg_color:self.theme_cls.primary_light
 
                     IconLeftWidget:
                         id: button2
@@ -39,6 +41,7 @@
                             on_release: app.choose_drop(app.wall,'wall')          
                 OneLineAvatarIconListItem:
                     text: "DarkMode"
+                    bg_color:self.theme_cls.primary_light
                     on_press: 
                         #app.show_theme_picker()
                         #app.do_theme()
@@ -62,6 +65,7 @@
                 OneLineAvatarIconListItem: 
                     id: button
                     text: "Colors"
+                    bg_color:self.theme_cls.primary_light
 
                     IconLeftWidget:
                         id: button2

@@ -1022,7 +1022,8 @@ class Demo3App(MDApp):
 
     def do_new_stats(self, fdate, ldate, rng):
         global x
-        import kivymd_extensions.akivymd
+        #import kivymd_extensions.akivymd
+        import libs.charts
 
         print("omg")
         self.root.set_current("newstats")
@@ -1260,6 +1261,7 @@ class Demo3App(MDApp):
                     #check.text ="***HIDDEN***"
                     check.secondary_text = "***HIDDEN***"
                 check.text = "Paychecks: " + str(len(pos_v2))
+                toast("Found " + str(len(pos_v2)))+" Paychecks"
 
                 # App.get_running_app().root.current_screen.ids[
                 #    chart_list[i]["id"]
@@ -1433,7 +1435,7 @@ class Demo3App(MDApp):
             ],
                     'Stats': [
                     'chart-areaspline',
-                    "on_press", lambda x: toast("loading charts"),
+                    #"on_press", lambda x: toast("loading charts"),
                     "on_release", lambda x: self.prep_stats()
 
             ],
@@ -2023,6 +2025,27 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             )
 
         self.dialog2[d].open()
+    def ampm(self,z):
+        h, m = str.split(z, ":")
+        h = int(h)
+        print(h)
+        ppp = " AM"
+        h2 = h
+        if h == 12 and m == "00":
+            ppp = " Noon"
+
+        if h == 24 and m == "00":
+            ppp = " Midnight"
+
+        if h > 12:
+            h2 = h2 - 12
+            ppp = " PM"
+        if x['twenty']==False:
+            ntime = str(h2) + ":" + m + "[sup]" + ppp
+        if x['twenty']==True:
+            ntime=str(z)
+        return ntime
+
 
     def today(self):
         import humanize
@@ -2047,22 +2070,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             show_date = datetime.strptime(shows[i]["date"], "%m/%d/%Y")
             show_date = show_date.strftime("%A, %m/%d")
             z = shows[i]["time"]
-            h, m = str.split(z, ":")
-            h = int(h)
-            print(h)
-            ppp = " AM"
-            h2 = h
-            if h == 12 and m == "00":
-                ppp = " Noon"
+            ntime=self.ampm(z)
 
-            if h == 24 and m == "00":
-                ppp = " Midnight"
-
-            if h > 12:
-                h2 = h2 - 12
-                ppp = " PM"
-
-            ntime = str(h2) + ":" + m + "[sup]" + ppp
             color = ""
             if shows[i]["canceled"] == True:
                 color = "[color=#ff0000]"
@@ -2081,8 +2090,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             if x['branding']==True:
                 qq.branding.background="images/walls/logo.png"
             if x['branding']==False:
-            #    qq.branding.background="images/wordart2.png"
-                qq.name2.text='Schedulara'
+                qq.branding.background="images/walls/logo2.png"
+                #qq.name2.text='Schedulara'
+                #qq.name2.secondary_text='Schedulara'
         except:
             #qq.branding.background="images/wordart2.png"
             qq.name2.text='Schedulara'
@@ -2374,7 +2384,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     # icon="recipe.png",
                     content=Content(),
                     panel_cls=MDExpansionPanelThreeLine(
-                        text=color + shows[z]["date"] + "\n" + shows[z]["time"],
+                        text=color + shows[z]["date"] + "\n" + self.ampm(shows[z]["time"])+' [/sup]         '+shows[z]['pos'],
                         # content=Content(),
                         text_color=(1, 0, 1, 0),
                         secondary_text=color + shows[z]["show"],
@@ -2383,6 +2393,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         on_close=self.close_panel,
                     ),
                 )
+                
                 panel.bind(
                     on_open=lambda x, y=shows[z], q=canned, l=len(
                         shows
@@ -2414,8 +2425,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
                 panel = MDExpansionPanel(
                     # icon="recipe.png",
-                    content=Content2(),
-                    panel_cls=MDExpansionPanelThreeLine(
+                    content=Content3(),
+                    panel_cls=ThreeLineListItem(
                         text=color + shows[z]["date"] + "\n" + shows[z]["time"],
                         # content=Content(),
                         text_color=(1, 0, 1, 0),
@@ -2459,18 +2470,18 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         text_color=self.theme_cls.primary_color,
                         on_release=lambda x, y=(cat, r, d): self.email_time(y),
                     ),
-                    MDFlatButton(
-                        text="Save Time",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        # on_release=self.email_time,
-                    ),
-                    MDFlatButton(
-                        text="Confirm",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=lambda x, y=(cat, r, d): self.new_confirm(y),
-                    ),
+                    #MDFlatButton(
+                    #    text="Save Time",
+                    #    theme_text_color="Custom",
+                    #    text_color=self.theme_cls.primary_color,
+                    #    # on_release=self.email_time,
+                    #),
+                    #MDFlatButton(
+                    #    text="Confirm",
+                    #    theme_text_color="Custom",
+                    #    text_color=self.theme_cls.primary_color,
+                    #    on_release=lambda x, y=(cat, r, d): self.new_confirm(y),
+                    #),
                 ],
             )
 
