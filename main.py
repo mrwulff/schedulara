@@ -2069,7 +2069,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_new
 
         #####hustle error checks
-        try:
+        try:\
             js = libs.lib_new.get_json_schedule(x, ad)
         except:
             toast("login failed")
