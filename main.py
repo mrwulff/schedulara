@@ -1415,18 +1415,16 @@ class Demo3App(MDApp):
                     "on_release", lambda x: self.do_settings()
 
             ],
-            'Backup': [
-                    'backup-restore',
-                    "on_press", lambda x: print("backup"),
-                    "on_release", lambda x: self.do_gbackup()
+            
+            #'Backup': [
+            #        'backup-restore',
+            #        "on_press", lambda x: print("backup"),
+            #        "on_release", lambda x: self.do_gbackup()
 
-            ],
-            'Export': [
-                    'calendar-export',
-                    "on_press", lambda x: toast("backing up"),
-                    "on_release", lambda x: self.do_google_cal()
+            #],
 
-            ],
+            
+            #],
                     'Paystubs': [
                     'cash-100',
                     "on_press", lambda x: toast("loading paystubs"),
@@ -1452,6 +1450,21 @@ class Demo3App(MDApp):
             #"Stats": "chart-areaspline",
 
         }
+        zz=False
+        if 1==1:
+            
+            try:
+                import libs.lib_readuserdata
+                x = libs.lib_readuserdata.readuserdata(App, ad, ios)
+                if x.get("backdoor") == True:
+                    zz=True
+            except:
+                pass
+        
+            
+        if zz == True:
+            self.data.update({'Backup': ['backup-restore',"on_press", lambda x: print("backup"),"on_release", lambda x: self.do_gbackup()]})
+            self.data.update({'Export': ['calendar-export',"on_press", lambda x: print("export"),"on_release", lambda x: self.do_google_cal()]})
 
 
 #fdate, ldate = self.get_dates("YTD")

