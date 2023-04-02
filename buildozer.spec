@@ -46,10 +46,10 @@ version = 0.1
 # requirements.source.kivy = ../../kivy
 
 # (str) Presplash of the application
-presplash.filename = %(source.dir)s/images/walls/schedulara.png
+presplash.filename = %(source.dir)s/images/icon.png
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/images/launcher.png
+icon.filename = %(source.dir)s/images/icon.png
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
 orientation = portrait
