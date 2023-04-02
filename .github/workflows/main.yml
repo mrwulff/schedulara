@@ -17,7 +17,8 @@ jobs:
         id: buildozer
         with:
           # Command to start Buildozer. Set to `buildozer ios debug` for iOS
-          command: buildozer android debug
+          command: buildozer android debug release
+          
           # Path to cloned repository. Set if you specified path for `actions/checkout` action.
           repository_root: .
           # Working directory where buildozer.spec is located. Set to `src` if buildozer.spec is in `src` directory
