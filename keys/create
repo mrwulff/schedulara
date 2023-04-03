@@ -3,8 +3,8 @@ keytool -genkey -v -keystore ~/keystores/mykeystore.keystore -alias schedulara -
 keytool -importkeystore -srckeystore ~/keystores/mykeystore.keystore -destkeystore ~/keystores/mykeystore.keystore -deststoretype pkcs12
 
 export P4A_RELEASE_KEYSTORE=~/keystores/mykeystore.keystore
-export P4A_RELEASE_KEYSTORE_PASSWD="blink182"
-export P4A_RELEASE_KEYALIAS_PASSWD="blink182"
+export P4A_RELEASE_KEYSTORE_PASSWD=""
+export P4A_RELEASE_KEYALIAS_PASSWD=""
 export P4A_RELEASE_KEYALIAS="schedulara"
 
 buildozer -v android release
