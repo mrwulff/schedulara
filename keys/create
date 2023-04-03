@@ -1,0 +1,20 @@
+keytool -genkey -v -keystore ~/keystores/mykeystore.keystore -alias schedulara -keyalg RSA -keysize 2048 -validity 10000
+
+keytool -importkeystore -srckeystore ~/keystores/mykeystore.keystore -destkeystore ~/keystores/mykeystore.keystore -deststoretype pkcs12
+
+export P4A_RELEASE_KEYSTORE=~/keystores/mykeystore.keystore
+export P4A_RELEASE_KEYSTORE_PASSWD="blink182"
+export P4A_RELEASE_KEYALIAS_PASSWD="blink182"
+export P4A_RELEASE_KEYALIAS="schedulara"
+
+buildozer -v android release
+
+
+https://play.google.com/apps/testing/org.kw.schedulara.kw.schedulara
+https://play.google.com/store/apps/details?id=org.kw.schedulara.kw.schedulara
+
+https://testflight.apple.com/join/elNCq0xy
+https://apps.apple.com/us/app/schedulara/id6446215252
+
+https://github.com/mrwulff/mrwulff.github.io/raw/main/store/icon.png
+

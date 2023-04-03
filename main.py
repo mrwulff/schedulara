@@ -2240,9 +2240,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def update(self):
         print("only updating schedule")
         import libs.lib_new
-
-        libs.lib_new.make_json_schedule(x, ad)
-        print("updated schedule")
+        try:
+            libs.lib_new.make_json_schedule(x, ad)
+            print("updated schedule")
+        except:
+            print('login failed')
+            toast('login failed')
         self.today()
 
     def open_panel2(self, xx, i, l, junk, z):
