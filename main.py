@@ -156,6 +156,10 @@ if platform == "win" or "macos ":
     Config.set("graphics", "height", str(h))
     Window.size = (w, h)
     scale = 1
+if platform == 'android':
+    from kivy.core.window import Window
+    Window.maximize()
+    print ('windowmax')
 """
 HOME = os.environ.get("HOME", "/")
 BUNDLE = os.environ.get("KIVY_BUNDLE_ID", "/")
