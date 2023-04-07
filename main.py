@@ -169,7 +169,7 @@ if platform == 'android':
 
         
         #Window.size = (1366, 768)
-    Window.fullscreen = True
+    #Window.fullscreen = True
     #Config.set("graphics", "width", str(800))
 
 
@@ -1447,7 +1447,7 @@ class Demo3App(MDApp):
         #print ('windowmax')
 
         
-        Window.size = (1366, 1366)
+        #Window.size = (1366, 1366)
         Window.fullscreen = True
 
 
