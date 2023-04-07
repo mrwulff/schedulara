@@ -150,7 +150,7 @@ import webcolors
 w = 1125 / 3
 h = 2436 / 3
 print (platform,"PLATFORM")
-if platform == "win" or "macos ":
+if platform == "win2" or "macos ":
     #pass
     Config.set("graphics", "width", str(w))
     Config.set("graphics", "height", str(h))
@@ -1443,12 +1443,12 @@ class Demo3App(MDApp):
         #Config.set('graphics', 'window_state', 'maximized')
         #Config.write()
         from kivy.core.window import Window
-        Window.maximize()
+        #Window.maximize()
         #print ('windowmax')
 
         
         #Window.size = (1366, 1366)
-        Window.fullscreen = True
+        #Window.fullscreen = True
 
 
         # rv = self.root.ids.rv
