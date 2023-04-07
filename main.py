@@ -151,11 +151,11 @@ w = 1125 / 3
 h = 2436 / 3
 print (platform,"PLATFORM")
 if platform == "win" or "macos ":
-
-    Config.set("graphics", "width", str(w))
-    Config.set("graphics", "height", str(h))
-    Window.size = (w, h)
-    scale = 1
+    pass
+    #Config.set("graphics", "width", str(w))
+    #Config.set("graphics", "height", str(h))
+    #Window.size = (w, h)
+    #scale = 1
 if platform == 'android':
     from kivy.core.window import Window
     Window.maximize()
@@ -1412,9 +1412,18 @@ class Demo3App(MDApp):
 
         from kivy.config import Config
 
-        Config.set('graphics', 'fullscreen', 'auto')
-        Config.set('graphics', 'window_state', 'maximized')
-        Config.write()
+        #Config.set('graphics', 'fullscreen', 'auto')
+        #Config.set('graphics', 'window_state', 'maximized')
+        #Config.write()
+        #from kivy.core.window import Window
+        #Window.maximize()
+        #print ('windowmax')
+
+        
+        #Window.size = (1366, 768)
+        #Window.fullscreen = True
+
+
         # rv = self.root.ids.rv
         # self.data = [self.create_random_input(rv, index) for index in range(20)]
 
