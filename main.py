@@ -151,7 +151,7 @@ w = 1125 / 3
 h = 2436 / 3
 print (platform,"PLATFORM")
 if platform == "win" or "macos ":
-    pass
+    #pass
     Config.set("graphics", "width", str(w))
     Config.set("graphics", "height", str(h))
     Window.size = (w, h)
@@ -170,6 +170,7 @@ if platform == 'android':
         
         #Window.size = (1366, 768)
     Window.fullscreen = True
+    Config.set("graphics", "width", str(800))
 
 
 
@@ -1442,7 +1443,7 @@ class Demo3App(MDApp):
         #Config.set('graphics', 'window_state', 'maximized')
         #Config.write()
         from kivy.core.window import Window
-        Window.maximize()
+        #Window.maximize()
         #print ('windowmax')
 
         
@@ -2157,7 +2158,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 #qq.name2.secondary_text='Schedulara'
         except:
             #qq.branding.background="images/wordart2.png"
-            qq.name2.text='Schedulara7'
+            qq.name2.text='Schedulara8'
             print ('sch5')
         #if x['branding']== False:
         #    qq.name2.text="NOOOOOO"
