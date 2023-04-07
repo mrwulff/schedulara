@@ -161,6 +161,7 @@ if platform == 'android':
     from android.runnable import run_on_ui_thread
     from android import mActivity
     View = autoclass('android.view.View')
+    print ('autoclasssss')
 
     @run_on_ui_thread
     def hide_landscape_status_bar(instance, width, height):
