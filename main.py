@@ -157,6 +157,22 @@ if platform == "win" or "macos ":
     Window.size = (w, h)
     scale = 1
 if platform == 'android':
+
+    from kivy.config import Config
+
+    Config.set('graphics', 'fullscreen', 'auto')
+    Config.set('graphics', 'window_state', 'maximized')
+    Config.write()
+    from kivy.core.window import Window
+    Window.maximize()
+    print ('windowmax')
+
+        
+        #Window.size = (1366, 768)
+    Window.fullscreen = True
+
+
+
     from jnius import autoclass
     from android.runnable import run_on_ui_thread
     from android import mActivity
