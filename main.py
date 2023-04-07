@@ -157,13 +157,22 @@ if platform == "win" or "macos ":
     Window.size = (w, h)
     scale = 1
 if platform == 'android':
-    from kivy.core.window import Window
-    Window.maximize()
-    print ('windowmax')
+    from jnius import autoclass
+    from android.runnable import run_on_ui_thread
+    from android import mActivity
+    View = autoclass('android.view.View')
 
-    from kivy.core.window import Window
-    #Window.size = (1366, 768)
-    Window.fullscreen = True
+    @run_on_ui_thread
+    def hide_landscape_status_bar(instance, width, height):
+        # width,height gives false layout events, on pinch/spread 
+        # so use Window.width and Window.height
+        if Window.width > Window.height: 
+            # Hide status bar
+            option = View.SYSTEM_UI_FLAG_FULLSCREEN
+        else:
+            # Show status bar 
+            option = View.SYSTEM_UI_FLAG_VISIBLE
+        mActivity.getWindow().getDecorView().setSystemUiVisibility(option)
 """
 HOME = os.environ.get("HOME", "/")
 BUNDLE = os.environ.get("KIVY_BUNDLE_ID", "/")
