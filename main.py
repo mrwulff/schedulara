@@ -158,12 +158,12 @@ if platform == "win" or "macos ":
     scale = 1
 if platform == 'android':
 
-    from kivy.config import Config
+    #from kivy.config import Config
 
-    Config.set('graphics', 'fullscreen', 'auto')
-    Config.set('graphics', 'window_state', 'maximized')
-    Config.write()
-    from kivy.core.window import Window
+    #Config.set('graphics', 'fullscreen', 'auto')
+    #Config.set('graphics', 'window_state', 'maximized')
+    #Config.write()
+    #from kivy.core.window import Window
     #Window.maximize()
     print ('windowmax')
 
@@ -1437,18 +1437,18 @@ class Demo3App(MDApp):
     def build(self):
         self.root = Root()
 
-        from kivy.config import Config
+        #from kivy.config import Config
 
         #Config.set('graphics', 'fullscreen', 'auto')
         #Config.set('graphics', 'window_state', 'maximized')
         #Config.write()
-        from kivy.core.window import Window
+        #from kivy.core.window import Window
         #Window.maximize()
         #print ('windowmax')
 
         
         #Window.size = (1366, 1366)
-        Window.fullscreen = True
+        #Window.fullscreen = True
 
 
         # rv = self.root.ids.rv
