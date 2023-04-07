@@ -152,10 +152,10 @@ h = 2436 / 3
 print (platform,"PLATFORM")
 if platform == "win" or "macos ":
     pass
-    #Config.set("graphics", "width", str(w))
-    #Config.set("graphics", "height", str(h))
-    #Window.size = (w, h)
-    #scale = 1
+    Config.set("graphics", "width", str(w))
+    Config.set("graphics", "height", str(h))
+    Window.size = (w, h)
+    scale = 1
 if platform == 'android':
     from kivy.core.window import Window
     Window.maximize()
