@@ -1409,6 +1409,12 @@ class Demo3App(MDApp):
 
     def build(self):
         self.root = Root()
+
+        from kivy.config import Config
+
+        Config.set('graphics', 'fullscreen', 'auto')
+        Config.set('graphics', 'window_state', 'maximized')
+        Config.write()
         # rv = self.root.ids.rv
         # self.data = [self.create_random_input(rv, index) for index in range(20)]
 
