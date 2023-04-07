@@ -1441,8 +1441,8 @@ class Demo3App(MDApp):
         #Config.set('graphics', 'fullscreen', 'auto')
         #Config.set('graphics', 'window_state', 'maximized')
         #Config.write()
-        #from kivy.core.window import Window
-        #Window.maximize()
+        from kivy.core.window import Window
+        Window.maximize()
         #print ('windowmax')
 
         
@@ -2157,7 +2157,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 #qq.name2.secondary_text='Schedulara'
         except:
             #qq.branding.background="images/wordart2.png"
-            qq.name2.text='Schedulara4'
+            qq.name2.text='Schedulara7'
             print ('sch5')
         #if x['branding']== False:
         #    qq.name2.text="NOOOOOO"
