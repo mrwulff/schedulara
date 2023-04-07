@@ -164,13 +164,13 @@ if platform == 'android':
     Config.set('graphics', 'window_state', 'maximized')
     Config.write()
     from kivy.core.window import Window
-    Window.maximize()
+    #Window.maximize()
     print ('windowmax')
 
         
         #Window.size = (1366, 768)
     Window.fullscreen = True
-    Config.set("graphics", "width", str(800))
+    #Config.set("graphics", "width", str(800))
 
 
 
@@ -1447,8 +1447,8 @@ class Demo3App(MDApp):
         #print ('windowmax')
 
         
-        #Window.size = (1366, 768)
-        #Window.fullscreen = True
+        Window.size = (1366, 1366)
+        Window.fullscreen = True
 
 
         # rv = self.root.ids.rv
