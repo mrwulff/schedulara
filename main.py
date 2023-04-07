@@ -2141,7 +2141,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 #qq.name2.secondary_text='Schedulara'
         except:
             #qq.branding.background="images/wordart2.png"
-            qq.name2.text='Schedulara5'
+            qq.name2.text='Schedulara'
             print ('sch5')
         #if x['branding']== False:
         #    qq.name2.text="NOOOOOO"
