@@ -160,6 +160,10 @@ if platform == 'android':
     from kivy.core.window import Window
     Window.maximize()
     print ('windowmax')
+
+    from kivy.core.window import Window
+    Window.size = (1366, 768)
+    Window.fullscreen = True
 """
 HOME = os.environ.get("HOME", "/")
 BUNDLE = os.environ.get("KIVY_BUNDLE_ID", "/")
