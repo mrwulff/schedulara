@@ -3974,6 +3974,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         self.root.current_screen.ids["archive"].clear_widgets()
         listofdicks = libs.lib_archive.load("/future_shows",ad,f1,f2)
+        listofcustomdicks = libs.lib_archive.load("/custom_shows",ad,f1,f2)
+        #listofdicks.update(listofcustomdicks)
+        for q in range(len(listofcustomdicks)):
+            listofdicks.append(listofcustomdicks[q])
+
         for nan in range(len(listofdicks)):
             print(listofdicks[nan].get(self.archive_sort))
             if listofdicks[nan].get(self.archive_sort)==None:
@@ -3984,7 +3989,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             listofdicks = sorted(listofdicks, key=lambda i: i[self.archive_sort], reverse=self.archive_reverse)
         else:
             listofdicks = sorted(listofdicks, key=lambda i: i[self.archive_sort], reverse= not self.archive_reverse)
-        print (len(listofdicks),'lenlistofdicts')
+        print (len(listofdicks),'lenlistofdicts',listofdicks)
         tot_hours=0
         ot_hours=0
         reg_hours=0
@@ -4238,7 +4243,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 print ('not able to set '+id[q])
     def update_show_single(self,f):
         import libs.lib_new
-        b='%%%'+f["date"]+'%%%'+f["time"]+'%%%'+f["job"]+'%%%'+f["show"]
+        try:
+            b='%%%'+f["date"]+'%%%'+f["time"]+'%%%'+f["job"]+'%%%'+f["show"]
+        except:
+            b='%%%'+f["date"]+'%%%'+f["time"]+'%%%'+f["show"]
         show=libs.lib_new.load_archive_json(ad,b)
         show['hours']=f['hours']
         show['reghours']=f['reghours']
@@ -4416,11 +4424,16 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         location=iid.ids['location'].text
         event=iid.ids['event'].text
         date=iid.ids['start_date'].text
-        new_event={"show":event,"date":date,"location":location,"notes:":notes,"time":start_time,"custom":True}
+        
+        new_event={"show":event,"date":date,"location":location,"notes:":notes,"time":start_time,"custom":True,"end time":end_time,"job":"Custom"}
         print ("notes,notes",new_event)
         import json
+        end_time=str.replace(end_time,":","")
         start_time_edit=str.replace(start_time,":","")
-        fname=date+location+event+start_time_edit
+        
+
+        fname=date+event+str(start_time_edit)
+        fname=str.replace(fname,'\t','  ')
         try:
             os.mkdir(ad + "/custom_shows")
             with open(ad + "/custom_shows/" + fname + ".json", "w") as outfile:
@@ -4615,15 +4628,20 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         z = time_dialog1.open()
 
     def get_time(self, instance, time):
+        temp=str.split(time,':')
+        time=temp[0]+':'+temp[1]
+        print (time)
 
         App.get_running_app().root.current_screen.ids["newhours"].text = str(time)
         return time
     def get_time_start(self, instance, time):
-
+        temp=str.split(str(time),':')
+        time=temp[0]+':'+temp[1]
         App.get_running_app().root.current_screen.ids["start_time"].text = str(time)
         return time
     def get_time_end(self, instance, time):
-
+        temp=str.split(str(time),':')
+        time=temp[0]+':'+temp[1]
         App.get_running_app().root.current_screen.ids["end_time"].text = str(time)
         return time
     def make_info(self, thing):

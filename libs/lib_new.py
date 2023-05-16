@@ -184,17 +184,35 @@ def load_archive_json(ad,x):
     import os
 
     #print (x)
-    junk,date,time,job,show=str.split(x,'%%%')
-    fname = (
+    flag=0
+    try:
+        junk,date,time,job,show=str.split(x,'%%%')
+        space=' '
+        d='future_shows'
+        fname = (
         format_textt(date)
-        + " "
+        + space
         + format_textt(time)
-        + " "
+        + space
         + job
-        + " "
+        + space
         + format_textt(show)
     )
-    nf = os.path.join(ad, "future_shows", fname) + ".json"
+    except:
+        pass
+    if job=='Custom':
+
+        d="custom_shows"
+        print (type(show),type(date),'show')
+        fname=(
+        format_textt(date)
+        + format_textt(show)
+        + format_textt(time)
+        )
+        
+
+    print (x,"WHATTTTT")
+    nf = os.path.join(ad, d, fname) + ".json"
     with open(nf) as json_file:
         data = json.load(json_file)
     return data

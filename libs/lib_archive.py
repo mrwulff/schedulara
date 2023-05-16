@@ -11,7 +11,13 @@ def load(cd, ad,last,first):
         with open(z[i]) as d:
             dictData = json.load(d)
             c= (dictData['date'])
-            show_date = datetime.strptime(c, "%m/%d/%Y")
+            try:
+                show_date = datetime.strptime(c, "%m/%d/%Y")
+            except:
+                try:
+                    show_date = datetime.strptime(c, "%Y-%m-%d")
+                except:
+                    show_date = datetime.strptime("1999-01-01", "%Y-%m-%d")
             show_date=show_date.date()
             #print (first,show_date,last)
             #print (type(first),type(show_date),type(last))
