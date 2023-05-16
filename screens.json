@@ -138,5 +138,10 @@
         "import": "from libs.uix.baseclass.newsearch_screen import newsearchscreen",
         "object": "newsearchscreen()",
         "kv": "libs/uix/kv/newsearch_screen.kv"
+    },
+    "add_user_show": {
+        "import": "from libs.uix.baseclass.add_user_show_screen import add_user_showscreen",
+        "object": "add_user_showscreen()",
+        "kv": "libs/uix/kv/add_user_show_screen.kv"
     }
 }

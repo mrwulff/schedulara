@@ -1523,6 +1523,7 @@ class Demo3App(MDApp):
 #            self.do_new_stats(fdate, ldate, "YTD")
     def add_event(self):
         print("add_event")
+        self.root.set_current("add_user_show")
     def new_search_bad(self):
         #content_cls=Content(),
         button_ok = MDRaisedButton(
@@ -2407,9 +2408,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         rshows = (len(shows)) - (js["num_shows"])
         if useold == False:
             if js["num_shows"] > 0:
-                ttt = str(rshows) + "/" + str(len(shows)) + " shows confirmed"
+                ttt = str(rshows) + "/" + str(len(shows)) + " shows 1confirmed"
             else:
-                ttt = str(len(shows)) + " shows confirmed"
+                ttt = str(len(shows)) + " shows 1confirmed"
 
             panel = MDExpansionPanel(
                 # icon="recipe.png",
@@ -4407,7 +4408,28 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         """
         # return date
         pass
-
+    def create_custom_show(self):
+        iid=App.get_running_app().root.current_screen
+        notes=iid.ids['user_notes'].text
+        end_time=iid.ids['end_time'].text
+        start_time=iid.ids['start_time'].text
+        location=iid.ids['location'].text
+        event=iid.ids['event'].text
+        date=iid.ids['start_date'].text
+        new_event={"show":event,"date":date,"location":location,"notes:":notes,"time":start_time,"custom":True}
+        print ("notes,notes",new_event)
+        import json
+        start_time_edit=str.replace(start_time,":","")
+        fname=date+location+event+start_time_edit
+        try:
+            os.mkdir(ad + "/custom_shows")
+            with open(ad + "/custom_shows/" + fname + ".json", "w") as outfile:
+                json.dump(new_event, outfile, indent=4)
+        except:
+            
+            with open(ad + "/custom_shows/" + fname + ".json", "w") as outfile:
+                json.dump(new_event, outfile, indent=4)
+        
     def set_pp(self, current):
         App.get_running_app().root.current_screen.ids[
             "scustom"
@@ -4504,10 +4526,19 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # App.get_running_app().root.current_screen.ids['sstart'].md_bg_color= self.theme_cls.primary_light
         # App.get_running_app().root.current_screen.ids['scustom'].md_bg_color= self.theme_cls.primary_dark
 
+    def show_date_picker_norange(self):
+        date_dialog = MDDatePicker()
+        date_dialog.bind(on_save=self.on_save_n, on_cancel=self.on_cancel)
+        date_dialog.open()
+
     def on_cancel(self, instance, value):
         # self.root.ids.date_label.text = "You Clicked Cancel"
         pass
 
+
+    def on_save_n(self, instance, value, date_range):
+        App.get_running_app().root.current_screen.ids["start_date"].text=str(value)
+        print ("omg!",instance, value)
     def on_save(self, instance, value, date_range):
         from datetime import datetime
 
@@ -4570,21 +4601,31 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         libs.lib_makeuserdata.makeshowfile(App, xxx[idex], config_file, ios)
 
-    def show_time_picker(self):
+    def show_time_picker(self,inst):
         b= App.get_running_app().root.current_screen.name
         print (b,dir(b),"BBBBBBBBB")
         #if App.get_running_app().root.current_screen.ids['newhours'].text=='Set Worked Hours':
 
         y = time_dialog1 = MDTimePicker()
             #if b=='editShow':
-        x = time_dialog1.bind(time=self.get_time)
+        if inst=='start_time':
+            x = time_dialog1.bind(time=self.get_time_start)
+        if inst=='end_time':
+            x = time_dialog1.bind(time=self.get_time_end)
         z = time_dialog1.open()
 
     def get_time(self, instance, time):
 
         App.get_running_app().root.current_screen.ids["newhours"].text = str(time)
         return time
+    def get_time_start(self, instance, time):
 
+        App.get_running_app().root.current_screen.ids["start_time"].text = str(time)
+        return time
+    def get_time_end(self, instance, time):
+
+        App.get_running_app().root.current_screen.ids["end_time"].text = str(time)
+        return time
     def make_info(self, thing):
 
         return thing
