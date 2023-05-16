@@ -405,7 +405,7 @@ class SwipeToDeleteItem(Screen):
             rate = lib_extractjson.extract_pos(App, config_file, xxx[idex][8])
             App.get_running_app().root.current_screen.ids["rate"].text = rate
         except:
-            App.get_running_app().root.current_screen.ids["rate"].text = "?"
+            App.get_running_app().root.current_screen.ids["rate"].text = "Notes"
         from datetime import datetime
 
         now = datetime.now()
@@ -1515,10 +1515,14 @@ class Demo3App(MDApp):
         if zz == True:
             self.data.update({'Backup': ['backup-restore',"on_press", lambda x: print("backup"),"on_release", lambda x: self.do_gbackup()]})
             self.data.update({'Export': ['calendar-export',"on_press", lambda x: print("export"),"on_release", lambda x: self.do_google_cal()]})
+            self.data.update({'Search': ['magnify',"on_press", lambda x: print("export"),"on_release", lambda x: self.new_search()]})
+            self.data.update({'Add Event': ['calendar-plus',"on_press", lambda x: print("export"),"on_release", lambda x: self.add_event()]})
 
 
 #fdate, ldate = self.get_dates("YTD")
 #            self.do_new_stats(fdate, ldate, "YTD")
+    def add_event(self):
+        print("add_event")
     def new_search_bad(self):
         #content_cls=Content(),
         button_ok = MDRaisedButton(
@@ -4102,14 +4106,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
                 on_release=self.edit_show_details,
             )
-
-            self.root.get_screen("archive").ids.archive.add_widget(panel, z)
+            if listofdicks[z].get("hidden") is not True or x['hide_shows']==False:
+                self.root.get_screen("archive").ids.archive.add_widget(panel, z)
         App.get_running_app().root.current_screen.ids["archive"].text='bla'
         bb=App.get_running_app().root.current_screen.ids["archive"].children
         #print (bb,dir(bb),'BSDF')
         bbl=len(bb)
         bb=bb[bbl-1]
-        bb.text="Shows: "+str(bbl-1)
+        bb.text="Show!s: "+str(bbl-1)
         try:
             ratee=("   Rate: $%.2f" % (tot_money/tot_hours))
             #ratee="    Rate: $"+str(tot_money/tot_hours)
@@ -4240,6 +4244,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         show['ot']=f['ot']
         show['pay']=f['pay']
         print ('updated for you')
+        libs.lib_new.update_archive_json(ad,show)
+    def hide_show(self):
+        print ("hide_show")
+        z=App.get_running_app().root.current_screen
+        import libs.lib_new
+        show=libs.lib_new.load_archive_json(ad,z.ids['show'].tertiary_text)
+        show['hidden']=True
         libs.lib_new.update_archive_json(ad,show)
 
     def update_show(self):

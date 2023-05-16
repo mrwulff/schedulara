@@ -219,6 +219,22 @@
 
                     IconLeftWidget:
                         icon: "ghost"
+                OneLineAvatarIconListItem:
+                    text: "Hide Hidden Shows"
+                    #on_release:app.makenots("1")
+                    YourContainer:
+                        id: container
+                        MDSwitch:
+                            #on_active: app.enable_nots()
+                            widget_style: "ios"
+                            active: app.check_att('hide_shows')
+                            id: hide_shows
+                            on_active:
+                                #app.on_checkbox_active(*args)
+                                app.updatetext("hide_shows")
+
+                    IconLeftWidget:
+                        icon: "file-hidden"
 
                 OneLineAvatarIconListItem:
                     text: "Rhino Branding"
