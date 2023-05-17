@@ -101,9 +101,9 @@ if platform == 'android':
 
     from kivy.config import Config
 
-    Config.set('graphics', 'fullscreen', 'auto')
+    #Config.set('graphics', 'fullscreen', 'auto')
     #Config.set('graphics', 'window_state', 'maximized')
-    Config.write()
+    #Config.write()
     from kivy.core.window import Window
     Window.maximize()
     print ('windowmax')
