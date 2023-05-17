@@ -95,7 +95,7 @@ if platform == "win2" or "macos ":
     pass
 Config.set("graphics", "width", str(w))
 Config.set("graphics", "height", str(h))
-Window.size = (w, h)
+#Window.size = (w, h)
 scale = 1
 if platform == 'android':
 
