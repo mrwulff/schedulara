@@ -88,13 +88,13 @@ cwd = os.getcwd()
 from pyparsing import ParseExpression
 import webcolors
 
-w = 1125 / 3
-h = 2436 / 3
+#w = 1125 / 3
+#h = 2436 / 3
 print (platform,"PLATFORM")
 if platform == "win2" or "macos ":
     pass
-Config.set("graphics", "width", str(w))
-Config.set("graphics", "height", str(h))
+#Config.set("graphics", "width", str(w))
+#Config.set("graphics", "height", str(h))
 #Window.size = (w, h)
 scale = 1
 if platform == 'android':
