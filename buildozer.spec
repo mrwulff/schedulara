@@ -2,7 +2,7 @@
 log_level = 1
 # (str) Title of your application
 title = Schedulara
-android.numeric_version = 10212
+android.numeric_version = 23165
 
 
 requirements = git+https://github.com/kivymd-extensions/sweetalert.git,uritemplate,httplib2,google-api-core==2.8.2,oauthlib,requests_oauthlib,cachetools,rsa,pyasn1,pyasn1_modules,certifi,idna,chardet,urllib3,requests,plyer,jnius,pyparsing,webencodings,html5lib,beautifulsoup4,soupsieve, python3,kivy,appdirs, kivymd, pillow,dateutil, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker, kivy-garden, kivy-garden.graph, kivymd_extensions.akivymd, ndicts, ,google-api-python-client, google-auth-oauthlib,google-auth-httplib2,google-auth 
