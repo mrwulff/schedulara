@@ -8,6 +8,8 @@ from asyncio import queues
 import profile
 import time
 import sys
+from kivy.metrics import dp
+
 
 #
 #
@@ -66,7 +68,6 @@ from kivymd.uix.expansionpanel import (
 from kivy.uix.label import Label
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.button import MDFlatButton
-from kivy.metrics import dp
 
 
 import datetime
@@ -80,67 +81,7 @@ except:
 import libs.lib_readuserdata as lib_readuserdata
 
 
-"""
-from audioop import ratecv
-from kivy.lang import Builder
 
-from kivymd.uix.list import (
-    MDList,
-    ThreeLineIconListItem,
-    TwoLineIconListItem,
-    IconLeftWidget,
-)
-
-from kivymd.uix.textfield import MDTextField
-
-
-# from kivy.effects.dampedscroll import DampedScrollEffect
-
-print(platform, "KIVY PLATFORM")
-if platform == "linux":
-    print("omgitslinux")
-
-
-
-from kivymd.uix.button import MDRectangleFlatIconButton
-
-from kivy.uix.button import Button
-from kivy.core.clipboard import ClipboardBase
-
-# from kivycupertino.uix.slider import CupertinoSlider
-
-
-from kivy.uix.textinput import TextInput
-
-import json
-from appdirs import *
-import ssl
-import logging
-
-ssl.verify = False
-mjds = []
-
-
-from kivy.uix.spinner import Spinner, SpinnerOption
-from kivy.uix.dropdown import DropDown
-import webcolors
-
-
-
-
-from kivy.core.window import Window
-
-from kivymd.uix.dialog import MDDialog
-from math import sin
-from kivy_garden.graph import Graph, MeshLinePlot, LinePlot
-from kivy.properties import NumericProperty
-from kivymd.uix.button import MDRectangleFlatButton
-from kivymd.uix.button import MDFlatButton
-from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
-
-
-import os
-"""
 import os
 
 cwd = os.getcwd()
@@ -150,13 +91,14 @@ import webcolors
 w = 1125 / 3
 h = 2436 / 3
 print (platform,"PLATFORM")
-if platform == "win2" or "macos ":
+if platform == "win3" or "macos ":
     #pass
-    Config.set("graphics", "width", str(w))
-    Config.set("graphics", "height", str(h))
-    Window.size = (w, h)
-    scale = 1
-if platform == 'android':
+    #Config.set("graphics", "width", str(w))
+    #Config.set("graphics", "height", str(h))
+    #Window.size = (w, h)
+    #scale = 1
+    pass
+if platform == 'android2':
 
     from kivy.config import Config
 
@@ -191,38 +133,7 @@ if platform == 'android':
             # Show status bar 
             option = View.SYSTEM_UI_FLAG_VISIBLE
         mActivity.getWindow().getDecorView().setSystemUiVisibility(option)
-"""
-HOME = os.environ.get("HOME", "/")
-BUNDLE = os.environ.get("KIVY_BUNDLE_ID", "/")
-os.environ["PYTHON_EGG_CACHE"] = f"{HOME}/Library/Caches/{BUNDLE}"
-config_file = f"{HOME}/Library/Caches/{BUNDLE}"
-print(config_file, "THIS IS THE CONFIG FILE", platform)
 
-# if platform=='win':
-#    app = App.get_running_app()
-#    config_file=app.user_data_dir
-
-
-import datetime
-import humanize
-import lib_createcache
-import lib_parse
-import lib_makeuserdata
-import lib_readuserdata
-import lib_tinyfs
-import lib_ppdownloader
-import lib_updateuserdata
-import lib_extractjson
-import lib_makegraphs
-import lib_bonus
-import lib_webserver
-import paydays
-import time
-import webbrowser
-import shutil
-
-from functools import partial
-"""
 toc1 = time.perf_counter()
 print(tic - toc1, "firsttimer")
 from kivy.utils import platform
@@ -241,33 +152,6 @@ if platform == "ios":
     UIApplication = autoclass("UIApplication")
     sharedApplication = UIApplication.sharedApplication()
 
-"""
-class SpinnerOptions(SpinnerOption):
-    def __init__(self, **kwargs):
-        super(SpinnerOptions, self).__init__(**kwargs)
-        self.background_normal = ""
-        self.background_color = [0, 0, 1, 1]  # blue colour
-
-        self.height = 26
-
-
-
-class SpinnerDropdown(DropDown):
-    def __init__(self, **kwargs):
-        super(SpinnerDropdown, self).__init__(**kwargs)
-        self.auto_width = False
-        self.width = 150
-
-
-
-
-class SpinnerWidget(Spinner):
-    def __init__(self, **kwargs):
-        super(SpinnerWidget, self).__init__(**kwargs)
-        self.dropdown_cls = SpinnerDropdown
-        self.option_cls = SpinnerOptions
-        ...
-"""
 
 
 class AboutScreen(Screen):
@@ -1087,118 +971,7 @@ class Demo3App(MDApp):
         # s = App.get_running_app().root.current_screen.ids["dstart"].text
         # e = App.get_running_app().root.current_screen.ids["dend"].text
         libs.lib_makegraphs.make_full_json_pp(ad, fdate, ldate,False)
-        """"
-        ##loads all shows from /pp ###POS
-        pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(ad, "json_pps.json", "POS")
-        if len(pos_k2) < 1:
-            pos_k2 = [0]
-            pos_v2 = [0]
-
-        chart1 = App.get_running_app().root.current_screen.ids["c1"]
-        chart1.x_values = pos_v2
-        chart1.y_values = pos_v2
-        chart1.x_labels = pos_k2
-        if 100 * len(pos_v2) > dp(400):
-            App.get_running_app().root.current_screen.ids["c4"].width = dp(50) * len(
-                pos_v2
-            )
-        else:
-            App.get_running_app().root.current_screen.ids["c4"].width = dp(400)
-        chart1.update()
-
-        ##loads all shows from /pp   ###SHOW/in/Out
-        pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(
-            ad, "json_pps.json", "TYPE"
-        )
-        if len(pos_k2) < 1:
-            pos_k2 = [0]
-            pos_v2 = [0]
-        chart2 = App.get_running_app().root.current_screen.ids["c2"]
-        chart2.x_values = pos_v2
-        chart2.y_values = pos_v2
-        chart2.x_labels = pos_k2
-        App.get_running_app().root.current_screen.ids["c2d"].width = 1 * len(pos_v2)
-        if 100 * len(pos_v2) > dp(400):
-            App.get_running_app().root.current_screen.ids["c2"].width = dp(130) * len(
-                pos_v2
-            )
-        else:
-            App.get_running_app().root.current_screen.ids["c2"].width = dp(400)
-        chart2.update()
         
-        ##loads all shows from /pp   ###PAYCHECK DOLLAR AMOUNT
-        pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
-            ad, "json_pps.json", "PCDA"
-        )
-        if len(pos_k2) < 1:
-            pos_k2 = [0]
-            pos_v2 = [0]
-            toast("No PP data Found")
-        chart3 = App.get_running_app().root.current_screen.ids["c3"]
-        chart3.x_values = pos_k2
-        chart3.y_values = pos_k2
-        chart3.x_labels = pos_v2
-        check = App.get_running_app().root.current_screen.ids["c3d"]
-        ave, tot = self.check_stats(pos_k2)
-        check.secondary_text = "average: " + str(ave)
-        check.tertiary_text = "total: " + str(tot)
-        check.text = "Paychecks: " + str(len(pos_k2))
-        if 100 * len(pos_v2) > dp(300):
-            App.get_running_app().root.current_screen.ids["c3"].width = dp(50) * len(
-                pos_v2
-            )
-        else:
-            App.get_running_app().root.current_screen.ids["c3"].width = dp(400)
-        try:
-            chart3.update()
-        except:
-            print("chart3 fail")
-            # chart3.update()
-        
-        ##loads all shows from /pp   ###Client!!!
-        pos_k2, pos_v2, pos_l = libs.lib_parse2.load_full_pp(
-            ad, "json_pps.json", "CLIENT"
-        )
-        if len(pos_k2) < 1:
-            pos_k2 = [0]
-            pos_v2 = [0]
-        chart4 = App.get_running_app().root.current_screen.ids["c4"]
-        chart4.x_values = pos_v2
-        chart4.y_values = pos_v2
-        chart4.x_labels = pos_k2
-        if 100 * len(pos_v2) > dp(300):
-            App.get_running_app().root.current_screen.ids["c4"].width = dp(80) * len(
-                pos_v2
-            )
-        else:
-            App.get_running_app().root.current_screen.ids["c4"].width = dp(400)
-        try:
-            chart4.update()
-        except:
-            print("chart4 fail")
-
-        "LOAD BUILDING AUTOMATIC"
-        
-        pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
-            ad, "json_pps.json", "VENUE"
-        )
-        chart5 = App.get_running_app().root.current_screen.ids["c5"]
-        chart5.x_values = pos_v2
-        chart5.y_values = pos_v2
-        chart5.x_labels = pos_k2
-        if 100 * len(pos_v2) > dp(300):
-            App.get_running_app().root.current_screen.ids["c5"].width = dp(70) * len(
-                pos_v2
-            )
-        else:
-            App.get_running_app().root.current_screen.ids["c5"].width = dp(400)
-
-        try:
-            chart5.update()
-        except:
-            print("chart5 fail")
-        
-        """
         chart_list = []
         chart_list.append(self.pos_chart)
         chart_list.append(self.type_chart)
@@ -1429,10 +1202,10 @@ class Demo3App(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.title = "Kivy - Lazy Load"
+        #self.title = "Kivy - Lazy Load"
 
-        Window.keyboard_anim_args = {"d": 0.2, "t": "linear"}
-        Window.softinput_mode = "below_target"
+        #Window.keyboard_anim_args = {"d": 0.2, "t": "linear"}
+        #Window.softinput_mode = "below_target"
 
     def build(self):
         self.root = Root()
