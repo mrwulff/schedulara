@@ -98,7 +98,7 @@ if platform == "win3" or "macos ":
     #Window.size = (w, h)
     #scale = 1
     pass
-if platform == 'android2':
+if platform == 'android':
 
     from kivy.config import Config
 
