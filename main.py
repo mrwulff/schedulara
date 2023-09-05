@@ -410,6 +410,7 @@ browser = ""
 plus_search = 0
 today_index = 0
 s_index = 0
+pp_index=0
 
 
 class RecipeLine(MDBoxLayout):
@@ -467,10 +468,12 @@ class Demo3App(MDApp):
     # print("omg")
     print(tic - time.perf_counter(), "supershort")
     cspacing = 10
+
     mtype = "top"
     bradius = 10 * scale
     radius = 10 * scale
     cpadding = 20
+    cradius=0
     sound_effects = ["Ding", "Bang", "Lol"]
     lunches = ["0", "1", "2",'3']
     oth=["0", "1", "2",'3',"4", "5", "6",'7',"8", "9", "10",'11']
@@ -1925,8 +1928,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             ntime=str(z)
         return ntime
 
-
     def today(self):
+        
         import humanize
         from datetime import datetime,timedelta
 
@@ -2021,11 +2024,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.get_screen("today").ids["stats"].secondary_text = stat_text2
         self.root.get_screen("today").ids["stats"].tertiary_text = stat_text3
 
-        paydate, payperiod = self.find_pay_date(0)
+        paydate, payperiod = self.find_pay_date(pp_index)
 
         paylist = self.root.get_screen("today").ids["pay"]
-        paylist.text = "Next Payday:  " + paydate
-        paylist.secondary_text = "Current Payperiod: " + payperiod
+        paylist.text = "Payday:  " + paydate
+        paylist.secondary_text = "Payperiod: " + payperiod
         # paylist.tertiary_text = "third" + payperiod
 
         #####ALWAYS ONBOARD
@@ -2062,6 +2065,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             z = z + 1
         lastdate = nextdate - datetime.timedelta(days=7)
         lastdate1 = lastdate - datetime.timedelta(days=13)
+        if type(c)==int:
+            if c<=-1:
+                lastdate = lastdate + datetime.timedelta(days=14*pp_index)
+                lastdate1 = lastdate1 + datetime.timedelta(days=14*pp_index)
+                firstdate=firstdate+datetime.timedelta(days=14*pp_index)
+            if c>=1:
+                lastdate = lastdate - datetime.timedelta(days=14*pp_index)
+                lastdate1 = lastdate1 - datetime.timedelta(days=14*pp_index)
+                firstdate=firstdate-datetime.timedelta(days=14*pp_index)
         if c=='Last':
             lastdate = lastdate - datetime.timedelta(days=14)
             lastdate1 = lastdate1 - datetime.timedelta(days=14)
@@ -2070,14 +2082,17 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             lastdate = lastdate + datetime.timedelta(days=14)
             lastdate1 = lastdate1 + datetime.timedelta(days=14)
             firstdate=firstdate+datetime.timedelta(days=14)
+
+
         l = self.format_date(lastdate, "short")
         l2 = self.format_date(lastdate1, "short")
         a = self.format_date(firstdate, "full")
         #print (c,'TRIM')
         if c=="All":
-            return ("All","","","")
-        if c!=0:
-            return l2,l,lastdate,lastdate1
+           return ("All","","","")
+        if type(c)!=int:
+           return l2,l,lastdate,lastdate1
+        print (a)
         
         
 
@@ -3339,11 +3354,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             toast(str("No Paychecks found for ") + x["name"])
         else:
             paystubs, new = lib_ppdownloader.thinkpp(x, ad)
-            self.snackbar = Snackbar(
-                text="Downloaded " + str(new) + " Paystubs out of " + str(paystubs),
-                bg_color=self.theme_cls.primary_color,
-            )
-            self.snackbar.open()
+            try:
+                self.snackbar = Snackbar(
+                    text="Downloaded " + str(new) + " Paystubs out of " + str(paystubs),
+                    bg_color=self.theme_cls.primary_color,
+                )
+                self.snackbar.open()
+            except:
+                print ('failed to dl paystubs',new,paystubs)
+                toast(str(new)+ ' out of  '+str(paystubs))
 
     def ccc(self):
         print(mjds)
@@ -4567,6 +4586,21 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.transition.direction = direction
         # self.root.current = screen
         self.root.set_current(screen)
+
+    def do_pp_sum(self,lala):
+        
+        print ('cc',lala)
+        global pp_index
+        pp_index=pp_index+lala
+        print (pp_index)
+        paydate, payperiod = self.find_pay_date(pp_index)
+        #zz=self.find_pay_date(pp_index)
+        #print (zz)
+
+        paylist = self.root.get_screen("today").ids["pay"]
+        paylist.text = "Payday:  " + paydate
+        paylist.secondary_text = "Payperiod: " + payperiod
+
 
     def load_paychecks(self):
         import glob, os
