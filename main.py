@@ -88,14 +88,14 @@ cwd = os.getcwd()
 from pyparsing import ParseExpression
 import webcolors
 
-#w = 1125 / 3
-#h = 2436 / 3
+w = 1125 / 3
+h = 2436 / 3
 print (platform,"PLATFORM")
 if platform == "win2" or "macos ":
     pass
 #Config.set("graphics", "width", str(w))
 #Config.set("graphics", "height", str(h))
-#Window.size = (w, h)
+    Window.size = (w, h)
 scale = 1
 if platform == 'android':
 
@@ -1280,8 +1280,20 @@ class Demo3App(MDApp):
                 x = libs.lib_readuserdata.readuserdata(App, ad, ios)
                 if x.get("backdoor") == True:
                     zz=True
+                    toast('backdoor=true')
+
+                    print ('user11true')
+                if x.get("backdoor") == False:
+                    zz=False
+                    print ('user11false')
+                print ('good user read')
+                #toast(str(x.get("backdoor")+' test'))
+                print('BACKDOOR')
             except:
-                pass
+                print("bad user read")
+                toast('backdoor=unknown')
+                self.snackbar = Snackbar(text="bla", bg_color=self.theme_cls.primary_color)
+                self.snackbar.open()
         
             
         if zz == True:
@@ -1332,7 +1344,34 @@ class Demo3App(MDApp):
         self.set_rate()
 
 
+    def do_backdoor(self):
+        #print ('bla')
+        #toast("bla")
+        import libs.lib_readuserdata
+        x = libs.lib_readuserdata.readuserdata(App, ad, ios)
         
+
+        if x.get("demo_count") == None:
+            x['demo_count']=1
+        if type(x.get("demo_count")) == int:
+            x['demo_count']=x['demo_count']+1
+        if x['demo_count']==5:
+            toast('almost there')
+        if x['demo_count']==10:
+            toast('dev mode enabled')
+            x["backdoor"]=True
+        if x['demo_count']>10:
+            x["backdoor"]=False
+            x['demo_count']=1
+            toast('dev mode disabled')
+        print (x)
+
+        
+
+
+        import libs.lib_updateuserdata as lib_updateuserdata
+
+        lib_updateuserdata.updateuser(x, ad)
     def update_rates(self,btn):
         import libs.lib_new
         xx9 = libs.lib_new.just_get_json_schedule(x, ad)
