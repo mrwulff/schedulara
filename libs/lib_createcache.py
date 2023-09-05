@@ -124,7 +124,7 @@ def createcache(ad, numshows):
             + """</td><td class="cell-noborder" style="background-color:Gray;width:10px;">"""
             + (random.choice(ctimes))
             + """</td><td class="cell-noborder" style="background-color:Gray;">24150</td><td class="cell-noborder" style="background-color:Gray;">"""
-            + (random.choice(cshow))
+            + (random.choice(cshow))+' DEMOSHOW!'
             + """ </td><td class="cell-noborder" style="background-color:Gray;">"""
             + (random.choice(rven))
             + """</td><td class="cell-noborder" style="background-color:Gray;">DOLBY LIVE</td><td class="cell-noborder" style="background-color:Gray;">MGM RESORTS</td><td class="cell-noborder" style="background-color:Gray;">IN</td><td class="cell-noborder" style="background-color:Gray;">"""

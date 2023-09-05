@@ -3,7 +3,20 @@
 #        icon: root.icon
 
 
+<SwipeToDeleteItem>
+    size_hint_y: None
+    height: content.height
 
+    MDCardSwipeLayerBox:
+        # Content under the card.
+
+    MDCardSwipeFrontBox:
+
+        # Content of card.
+        OneLineListItem:
+            id: content
+            text: root.text
+            _no_ripple_effect: True
 <Content>
     orientation: "vertical"
     #spacing: "12dp"
@@ -46,14 +59,15 @@
                 cols: 1
                 adaptive_height: True
                 padding: dp(10), dp(10)
-                spacing: dp(3)
+                spacing: dp(4)
                 border_radius: 15
-                radius: 1
+                radius: app.cradius
                 #text_color:app.theme_cls.primary_color
                 MDCard:
-                    size_hint: .5, None
+                    size_hint: .8, None
                     height: stats.height/1.5 
                     id:branding
+                    radius: app.cradius
                     #background:"images/walls/logo.png" if app.branding True
                     OneLineListItem:
 
@@ -75,6 +89,7 @@
                     shadow_softness:0 
                     shadow_offset:(0, 1)
                     line_color:(0.2, 0.2, 0.2, 0.8)
+                    radius: app.cradius
 
 
                     ThreeLineListItem:
@@ -89,6 +104,7 @@
                     ripple_behavior: True
                     pos_hint: {"center_x": .5, "center_y": .5}
                     on_release: app.pop_new(0)
+                    radius: app.cradius
                     TwoLineListItem:
                         id:first
                         text: "First Show"
@@ -102,6 +118,7 @@
                     ripple_behavior: True
                     pos_hint: {"center_x": .5, "center_y": .5}
                     on_release: app.pop_new(1)
+                    radius: app.cradius
                     ThreeLineListItem:
                         id:second
                         text: "First Show"
@@ -115,6 +132,7 @@
                     ripple_behavior: True
                     pos_hint: {"center_x": .5, "center_y": .5}
                     on_release: app.pop_new(2)
+                    radius: app.cradius
                     ThreeLineListItem:
                         id:third
                         text: "First Show"
@@ -124,60 +142,93 @@
 
 
 
+                MDSeparator:
 
+                    height:dp(50)
+                    color:0,0,0,0
                 MDCard:
+                    
                     #orientation: "vertical"
-                    size_hint: None,None
-                    height: butt.height
-                    width: butt.width+butt2.width
+                    size_hint: .8, 1
+                    height: butt.height+dp(59)
+                    width: butt.width+butt2.width+butt3.width+butt3.width/2
+                    width:lolz.width
+                    spacing:dp(16)
+                    #padding: dp(10), dp(10)
                     focus_behavior: True
                     ripple_behavior: False
-                    pos_hint: {"center_x": .5, "center_y": .5}
+                    id:lolz
+                    pos_hint: {"center_x": .8, "center_y": .5}
+                    radius: app.cradius
+                    #padding:10
+                    #spacing:10
                     MDRaisedButton:
                         id:butt
+                        #width:butt.width*dp(5)
                         text: "Show All"
                         secondary_text: "Secondary text here"
                         on_release: app.newstart("",False)
+                        #pos_hint: {"center_x": .25, "center_y": .5}
+                        #pos:{"center_x": .25, "center_y": .5}
+                        #set_radius: app.cradius
                     MDRaisedButton:
                         id:butt2
                         text: "Past"
                         secondary_text: "Secondary text here"
                         #on_release: app.newstart("",True)
                         on_release: app.show_archive()
+                        #pos_hint: {"center_x": .45, "center_y": .5}
                     MDRaisedButton:
-                        id:butt2
+                        id:butt3
                         text: "Update"
                         secondary_text: "Secondary text here"
                         on_release: app.update()
+                        #pos_hint: {"center_x": .79, "center_y": .5}
+                    
                 TwoLineListItem: 
+
                 MDCard:
                     orientation: "vertical"
                     #size_hint:.5,.8
                     #width: 50
-                    height:app.mheight/3
-                    spacing: app.mheight
+                    #height:app.mheight/3
+                    #spacing: app.mheight
+                    #radius: app.cradius
                     TwoLineListItem: 
                         #size_hint:1,.8
                         height: app.mheight/3
                         #width:560
                         bg_color:self.theme_cls.primary_dark
                         text: 'Paycheck Info:' 
+                        #id:pay
 
+                    
                 MDCard:
                     orientation: "vertical"
                     size_hint: .8, None
-                    height: first.height +dp(5)
+                    height: first.height+dp(4)
                     focus_behavior: True
                     ripple_behavior: True
-                    pos_hint: {"center_x": .5, "center_y": .5}
-                    on_release:
-                        on_press:(app.do_payperiod_f('YTD'))
-                    TwoLineListItem:
+                    pos_hint: {"center_x": .5, "center_y": .6}
+                    radius: app.cradius
+                    
+                    ThreeLineAvatarIconListItem:
                         id:pay
                         text: "Next Paycheck"
                         secondary_text: "Secondary text here"
+                        tertiary_text: "Shows: 50"
+                        on_press:(app.do_payperiod_f('YTD'))
+                        IconLeftWidget:
+                            icon: "arrow-left-bold"  
+                            on_press: app.do_pp_sum(-1)
+                        IconRightWidget:
+                            
+                            icon: "menu-right"  
+                            on_press: app.do_pp_sum(1)
+                
+                    
 
-                Label:
+                #Label:
 
     MDFloatingActionButtonSpeedDial:
         id: speed_dial
