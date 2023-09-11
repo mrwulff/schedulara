@@ -29,7 +29,7 @@ toolchain pip install git+https://github.com/kivymd-extensions/sweetalert.git
 
 
 
-[Website](https://kevinwulff.com/schedulara)
+[Website](https://schedulara.app) NEW!
 
 [subreddit](https://reddit.com/r/schedulara)
 
