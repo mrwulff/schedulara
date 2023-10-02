@@ -513,7 +513,7 @@ class Demo3App(MDApp):
         "tucson",
         "wisconsin",
     ]
-
+    js=[]
     pcolor = [
         "Red",
         "Pink",
@@ -1291,12 +1291,12 @@ class Demo3App(MDApp):
                     print ('user11false')
                 print ('good user read')
                 #toast(str(x.get("backdoor")+' test'))
-                print('BACKDOOR')
+                #print('BACKDOOR')
             except:
                 print("bad user read")
                 toast('backdoor=unknown')
-                self.snackbar = Snackbar(text="bla", bg_color=self.theme_cls.primary_color)
-                self.snackbar.open()
+                #self.snackbar = Snackbar(text="bla", bg_color=self.theme_cls.primary_color)
+                #self.snackbar.open()
         
             
         if zz == True:
@@ -1927,7 +1927,46 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if x['twenty']==True:
             ntime=str(z)
         return ntime
+    def find_type(self,a,b):
+        import libs.lib_new
+        #z=self.root.get_screen("today").ids["first"].text
+        js = libs.lib_new.get_json_schedule(x, ad)
+        icon= (js["shows"][a][b])
+        #if icon == "IN":
+        #    return 'alpha-i'
+        icons=[
+        'IN','alpha-i',
+        'HR','engine-outline',
+        'HDR','engine-outline',
+        'DR','engine',
+        'OUT','alpha-o',
+        'SHOW','alpha-s',
+        'ME','power-plug',
+        'ADV','video-4k-box'
+        'L3','lightbulb',
+        'L2','lightbulb',
+        'L1','lightbulb',
+        'SL','spotlight-beam',
+        'SUP','account-supervisor'
+        'HL','lightbulb-multiple-outline',
+        'F','forklift',
+        'SH','hand-back-left',
+        'P','human-dolly',
+        "V3",'video-account',
+        "V2",'video-account',
+        "V1",'video-account',
+        'A3','volume-high',
+        'A2','volume-high',
+        'A1','volume-high',
 
+        ]
+        print (icon,'newICON')
+        for xx in range(len(icons)):
+            print (icons[xx],icon,'matches')
+            if icons[xx]==icon:
+                print (icons[xx+1],'NEWICON')
+                return icons[xx+1]
+        return ('help')
     def today(self):
         
         import humanize
@@ -1957,7 +1996,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             color = ""
             if shows[i]["canceled"] == True:
                 color = "[color=#ff0000]"
-
+            self.root.get_screen("today").ids[li[i]].text = (
+                color + show_date + " " + ntime
+            )    
             self.root.get_screen("today").ids[li[i]].text = (
                 color + show_date + " " + ntime
             )
@@ -5114,20 +5155,59 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     # self.root.current = "home"
 
     def save_login(self):
-        import libs.lib_enc
 
-        self.root.current = "login"
-        x["username"] = App.get_running_app().root.current_screen.ids["temail"].text
-        x["usecache"] = False
-        x["password"] = str(
-            libs.lib_enc.make_password(
-                App.get_running_app().root.current_screen.ids["tpassword"].text
+        loc=App.get_running_app().root.current_screen.ids["button4"].text
+        print (loc,"LOC")
+        blank=False
+        if loc=="...":
+            toast("Please Enter Location")
+            blank=True
+            print (blank,"locc")
+        if App.get_running_app().root.current_screen.ids["temail"].text=="":
+            toast("Please Enter Email")
+            blank=True
+            print (blank,"emailloc")
+
+        if App.get_running_app().root.current_screen.ids["tpassword"].text=="":
+            toast("Please Enter Password")
+            blank=True
+            print (blank,"passwordloc")
+        print (blank,"BLANK")
+        if blank==False:
+            import libs.lib_new
+            
+    
+
+
+            import libs.lib_enc
+
+            self.root.current = "login"
+            x["username"] = App.get_running_app().root.current_screen.ids["temail"].text
+            x["usecache"] = False
+            x["password"] = str(
+                libs.lib_enc.make_password(
+                    App.get_running_app().root.current_screen.ids["tpassword"].text
+                )
             )
-        )
-        x["city"] = App.get_running_app().root.current_screen.ids["button4"].text
-        import libs.lib_updateuserdata as lib_updateuserdata
+            x["city"] = App.get_running_app().root.current_screen.ids["button4"].text
 
-        lib_updateuserdata.updateuser(x, ad)
+
+            import libs.lib_updateuserdata as lib_updateuserdata
+
+            lib_updateuserdata.updateuser(x, ad)
+            js = libs.lib_new.make_json_schedule(x, ad)
+
+            try:
+                
+                print (js,"JesusCh")
+                toast(str(js))
+            except:
+                toast("login failed...")
+                return "fail"
+            
+
+
+
 
     # btnState2 = StringProperty("false")
 

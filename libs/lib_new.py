@@ -1,4 +1,5 @@
 def make_json_schedule(x, ad):
+    print ("make_json_schedule")
     from bs4 import BeautifulSoup
     import libs.lib_updateuserdata
 
@@ -14,9 +15,11 @@ def make_json_schedule(x, ad):
         print("WHY YOU NOT WORK")
 
     encoding = "utf8"
+    print (cache,"CACHE IN NEW")
 
     try:
         z = open(ad + c2onf, "r", encoding="utf8")
+    
     except:
         if cache == True:
             print ('truecache')
@@ -48,7 +51,11 @@ def make_json_schedule(x, ad):
     except:
         print("emp not found")
         return
-    name = str.split(name.get_text(), ", ")
+    print (name.get_text(),"YOUR NAME HERE")
+    try:
+        name = str.split(name.get_text(), ", ")
+    except:
+        return "Failed to Login (57)]"
     # print(name, "wtfname")
     name = name[1] + " " + name[0]
     x["name"] = name
@@ -156,6 +163,7 @@ def make_json_schedule(x, ad):
     if cache == False:
         x = open(ad + "/jason_show_cache_real.json", "w")
     x.write(json_object)
+    return "Logged in as " + name
 
 
 def format_textt(name):
@@ -267,18 +275,18 @@ def get_json_schedule(x, ad):
 
     # print(x["usecache"], "usecache!!!")
     if x["usecache"] == "True" or x["usecache"] == True or x["usecache"] == "true":
-        print("USING CACHE DATA OK?")
+        print("USING CACHE")
         show = "jason_show_cache_fake.json"
 
     if x["usecache"] == "False" or x["usecache"] == False or x["usecache"] == "false":
-        print("USING Real DATA OK?")
+        print("USING Real?",x["refreshreload"])
         show = "jason_show_cache_real.json"
         if (
             x["refreshreload"] == "True"
             or x["refreshreload"] == True
             or x["refreshreload"] == "true"
         ):
-            # print("forcing new data", type(x["refreshreload"]))
+            print("forcing new data", type(x["refreshreload"]))
             make_json_schedule(x, ad)
             # good_login = lib_think.login(ad, x, "True", App)
     data = get_json_schedule_2(x, ad, show)

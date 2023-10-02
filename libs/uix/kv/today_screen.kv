@@ -105,10 +105,14 @@
                     pos_hint: {"center_x": .5, "center_y": .5}
                     on_release: app.pop_new(0)
                     radius: app.cradius
-                    TwoLineListItem:
+                    ThreeLineAvatarIconListItem:
                         id:first
                         text: "First Show"
                         secondary_text: "Secondary text here"
+                        IconLeftWidget:
+                            icon: app.find_type(0,"type") 
+                        IconRightWidget:
+                            icon: app.find_type(0,"pos")   
                         
                 MDCard:
                     orientation: "vertical"
@@ -119,10 +123,14 @@
                     pos_hint: {"center_x": .5, "center_y": .5}
                     on_release: app.pop_new(1)
                     radius: app.cradius
-                    ThreeLineListItem:
+                    ThreeLineAvatarIconListItem:
                         id:second
                         text: "First Show"
                         secondary_text: "Secondary text here"
+                        IconLeftWidget:
+                            icon: app.find_type(1,"type") 
+                        IconRightWidget:
+                            icon: app.find_type(1,"pos")   
 
                 MDCard:
                     orientation: "vertical"
@@ -133,10 +141,14 @@
                     pos_hint: {"center_x": .5, "center_y": .5}
                     on_release: app.pop_new(2)
                     radius: app.cradius
-                    ThreeLineListItem:
+                    ThreeLineAvatarIconListItem:
                         id:third
                         text: "First Show"
                         secondary_text: "Secondary text here"
+                        IconLeftWidget:
+                            icon: app.find_type(2,"type") 
+                        IconRightWidget:
+                            icon: app.find_type(2,"pos")   
 
 
 
@@ -216,10 +228,10 @@
                         id:pay
                         text: "Next Paycheck"
                         secondary_text: "Secondary text here"
-                        tertiary_text: "Shows: 50"
+                        #tertiary_text: "Shows: 50"
                         on_press:(app.do_payperiod_f('YTD'))
                         IconLeftWidget:
-                            icon: "arrow-left-bold"  
+                            icon: "menu-left"  
                             on_press: app.do_pp_sum(-1)
                         IconRightWidget:
                             
@@ -233,5 +245,6 @@
     MDFloatingActionButtonSpeedDial:
         id: speed_dial
         data: app.data
+        icon:"menu"
         root_button_anim: True
         hint_animation: True
