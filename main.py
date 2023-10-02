@@ -2045,33 +2045,35 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
                 bb=bb+1
             diff3 = humanize.naturaltime(now - next_show)
+        
+                
+            #except:
+            #    diff2 = ""
+            #    diff3 = ""
+            # print(diff2)
+
+            if numconf == 0:
+                stat_text = str(numshows) + " Confirmed"
+            if numconf == 1:
+                stat_text = str(numconf) + " Show Confirmable.  Click To Confirm"
+            if numconf > 1:
+                stat_text = str(numconf) + " Shows Confirmable.  Click To Confrim All"
+            stat_text2 = "Next show in " + diff3
+            stat_text3 = "Last updated " + diff2
+
+            self.root.get_screen("today").ids["stats"].text = stat_text
+
+            self.root.get_screen("today").ids["stats"].secondary_text = stat_text2
+            self.root.get_screen("today").ids["stats"].tertiary_text = stat_text3
+
+            paydate, payperiod = self.find_pay_date(pp_index)
+
+            paylist = self.root.get_screen("today").ids["pay"]
+            paylist.text = "Payday:  " + paydate
+            paylist.secondary_text = "Payperiod: " + payperiod
         except:
             toast('failed to get times')
-                
-        #except:
-        #    diff2 = ""
-        #    diff3 = ""
-        # print(diff2)
-
-        if numconf == 0:
-            stat_text = str(numshows) + " Confirmed"
-        if numconf == 1:
-            stat_text = str(numconf) + " Show Confirmable.  Click To Confirm"
-        if numconf > 1:
-            stat_text = str(numconf) + " Shows Confirmable.  Click To Confrim All"
-        stat_text2 = "Next show in " + diff3
-        stat_text3 = "Last updated " + diff2
-
-        self.root.get_screen("today").ids["stats"].text = stat_text
-
-        self.root.get_screen("today").ids["stats"].secondary_text = stat_text2
-        self.root.get_screen("today").ids["stats"].tertiary_text = stat_text3
-
-        paydate, payperiod = self.find_pay_date(pp_index)
-
-        paylist = self.root.get_screen("today").ids["pay"]
-        paylist.text = "Payday:  " + paydate
-        paylist.secondary_text = "Payperiod: " + payperiod
+            print ("failed to get times")
         # paylist.tertiary_text = "third" + payperiod
 
         #####ALWAYS ONBOARD
