@@ -1947,7 +1947,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         'L2','lightbulb',
         'L1','lightbulb',
         'SL','spotlight-beam',
-        'SUP','account-group'
+        'SUP','account-supervisor'
         'HL','lightbulb-multiple-outline',
         'F','forklift',
         'SH','hand-back-left',
