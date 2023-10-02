@@ -97,7 +97,9 @@ print (platform,"PLATFORM")
 if platform == 'win':
     Window.size = (w, h)
 #scale = 1
-if platform == 'android':
+if platform not in ["android", "ios"]:
+    Window.size = (320,640)
+if platform == 'android3':
 
     from kivy.config import Config
 
