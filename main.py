@@ -96,10 +96,11 @@ print (platform,"PLATFORM")
 #Config.set("graphics", "height", str(h))
 if platform == 'win':
     Window.size = (w, h)
-scale = 1
+#scale = 1
 #if platform not in ["android", "ios"]:
 #    Window.size = (320,640)
-if platform == 'android':
+print ('windowmax1.26')
+if platform == 'android5':
 
     from kivy.config import Config
 
@@ -109,7 +110,7 @@ if platform == 'android':
     #Window.size = (600,900)
     from kivy.core.window import Window
     Window.maximize()
-    print ('windowmax1.25')
+    
 
         
     #Window.size = (1366, 768)
