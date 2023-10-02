@@ -91,13 +91,13 @@ import webcolors
 w = 1125 / 3
 h = 2436 / 3
 print (platform,"PLATFORM")
-if platform == "win2" or "macos ":
-    pass
+
 #Config.set("graphics", "width", str(w))
 #Config.set("graphics", "height", str(h))
+if platform == 'win':
     Window.size = (w, h)
-scale = 1
-if platform == 'android2':
+#scale = 1
+if platform == 'android':
 
     from kivy.config import Config
 
@@ -109,9 +109,9 @@ if platform == 'android2':
     print ('windowmax')
 
         
-        #Window.size = (1366, 768)
+    Window.size = (1366, 768)
     Window.fullscreen = True
-    #Config.set("graphics", "width", str(800))
+    Config.set("graphics", "width", str(800))
 
 
 
