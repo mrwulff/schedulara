@@ -100,6 +100,11 @@ if platform == 'win':
 #if platform not in ["android", "ios"]:
 #    Window.size = (320,640)
 print ('windowmax1.26')
+if platform == "android"
+
+    Config.set('graphics', 'fullscreen', 'auto')
+    Config.set('graphics', 'window_state', 'maximized')
+    Config.write()
 if platform == 'android5':
 
     from kivy.config import Config
