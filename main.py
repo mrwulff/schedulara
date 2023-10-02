@@ -1553,7 +1553,8 @@ class Demo3App(MDApp):
     def format_money(self,z):
         import locale
         locale.setlocale(locale.LC_ALL, '')
-        return(locale.currency(z, grouping=True))
+        #return(locale.currency(z, grouping=True))
+        return (z)
 
     def hide(self,y):
         global x
