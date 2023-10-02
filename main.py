@@ -2026,7 +2026,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         numshows = len(shows)
         numconf = js["num_shows"]
         confirmable = numshows - numconf
-        if 1==1:
+        try:
             update = js["updated"]
 
             old_update = datetime.strptime(update, "%Y-%m-%d %H:%M:%S.%f")
@@ -2045,6 +2045,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
                 bb=bb+1
             diff3 = humanize.naturaltime(now - next_show)
+        except:
+            toast('failed to get times')
                 
         #except:
         #    diff2 = ""
