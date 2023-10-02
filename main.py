@@ -1,5 +1,7 @@
 ###cp \schedulara\.buildozer\android\platform\build-arm64-v8a_armeabi-v7a\dists\kw.schedulara\build\outputs\apk\debug\kw.schedulara-0.1-arm64-v8a_armeabi-v7a-debug.apk /mnt/c/Users/kw/Desktop/app.apk
-
+###
+### RELEASE 10.2.2023
+###
 print ("wtf1006")
 from ast import Pass
 from asyncio import queues
