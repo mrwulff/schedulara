@@ -4,16 +4,17 @@ log_level = 1
 title = Schedulara
 android.numeric_version = 100006
 android.api = 34
+version = 1.1
 
 
 requirements = git+https://github.com/kivymd-extensions/sweetalert.git,uritemplate,httplib2,google-api-core==2.8.2,oauthlib,requests_oauthlib,cachetools,rsa,pyasn1,pyasn1_modules,certifi,idna,chardet,urllib3,requests,plyer,jnius,pyparsing,webencodings,html5lib,beautifulsoup4,soupsieve, python3,kivy,appdirs, kivymd, pillow,dateutil, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker, kivy-garden, kivy-garden.graph, kivymd_extensions.akivymd, ndicts, ,google-api-python-client, google-auth-oauthlib,google-auth-httplib2,google-auth 
 
 # (str) Package name
-package.name = org.kw.schedulara.kw.schedulara2.org.kw.schedulara.kw.schedulara
+package.name = org.kw.schedulara.kw.schedulara.org.kw.schedulara.kw.schedulara
                
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.kw.schedulara.kw.schedulara2
+package.domain = org.kw.schedulara.kw.schedulara
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -35,7 +36,7 @@ source.include_patterns = assets/*,images/*.png,*.json
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.2
+
 
 
 # (str) Application versioning (method 2)
@@ -276,7 +277,7 @@ android.allow_backup = True
 # android.no-compile-pyo = True
 
 # (str) The format used to package the app for release mode (aab or apk or aar).
-# android.release_artifact = aab
+android.release_artifact = aab
 
 # (str) The format used to package the app for debug mode (apk or aar).
 # android.debug_artifact = apk
