@@ -1,6 +1,6 @@
 ###cp \schedulara\.buildozer\android\platform\build-arm64-v8a_armeabi-v7a\dists\kw.schedulara\build\outputs\apk\debug\kw.schedulara-0.1-arm64-v8a_armeabi-v7a-debug.apk /mnt/c/Users/kw/Desktop/app.apk
 
-
+print ("wtf1004")
 from ast import Pass
 from asyncio import queues
 #from audioop import reverse
@@ -102,7 +102,7 @@ if platform == 'win':
 print ('windowmax1.26')
 if platform == "android":
 
-    Config.set('graphics', 'fullscreen', 'auto')
+    #Config.set('graphics', 'fullscreen', 'auto')
     Config.set('graphics', 'window_state', 'maximized')
     Config.write()
 if platform == 'android5':
@@ -1307,7 +1307,7 @@ class Demo3App(MDApp):
                 #self.snackbar = Snackbar(text="bla", bg_color=self.theme_cls.primary_color)
                 #self.snackbar.open()
         
-            
+        print (zz,' BACKDOOR true or false')
         if zz == True:
             self.data.update({'Backup': ['backup-restore',"on_press", lambda x: print("backup"),"on_release", lambda x: self.do_gbackup()]})
             self.data.update({'Export': ['calendar-export',"on_press", lambda x: print("export"),"on_release", lambda x: self.do_google_cal()]})
