@@ -96,10 +96,10 @@ print (platform,"PLATFORM")
 #Config.set("graphics", "height", str(h))
 if platform == 'win':
     Window.size = (w, h)
-#scale = 1
-if platform not in ["android", "ios"]:
-    Window.size = (320,640)
-if platform == 'android3':
+scale = 1
+#if platform not in ["android", "ios"]:
+#    Window.size = (320,640)
+if platform == 'android':
 
     from kivy.config import Config
 
@@ -111,7 +111,7 @@ if platform == 'android3':
     print ('windowmax')
 
         
-    Window.size = (1366, 768)
+    #Window.size = (1366, 768)
     Window.fullscreen = True
     Config.set("graphics", "width", str(800))
 
