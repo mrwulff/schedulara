@@ -1,6 +1,6 @@
 ###cp \schedulara\.buildozer\android\platform\build-arm64-v8a_armeabi-v7a\dists\kw.schedulara\build\outputs\apk\debug\kw.schedulara-0.1-arm64-v8a_armeabi-v7a-debug.apk /mnt/c/Users/kw/Desktop/app.apk
 
-print ("wtf1004")
+print ("wtf1005")
 from ast import Pass
 from asyncio import queues
 #from audioop import reverse
@@ -1308,11 +1308,12 @@ class Demo3App(MDApp):
                 #self.snackbar.open()
         
         print (zz,' BACKDOOR true or false')
-        if zz == True:
+        #if zz == True:
+        if 1==1:
             self.data.update({'Backup': ['backup-restore',"on_press", lambda x: print("backup"),"on_release", lambda x: self.do_gbackup()]})
             self.data.update({'Export': ['calendar-export',"on_press", lambda x: print("export"),"on_release", lambda x: self.do_google_cal()]})
             self.data.update({'Search': ['magnify',"on_press", lambda x: print("export"),"on_release", lambda x: self.new_search()]})
-            self.data.update({'Add Event': ['calendar-plus',"on_press", lambda x: print("export"),"on_release", lambda x: self.add_event()]})
+            #self.data.update({'Add Event': ['calendar-plus',"on_press", lambda x: print("export"),"on_release", lambda x: self.add_event()]})
 
 
 #fdate, ldate = self.get_dates("YTD")

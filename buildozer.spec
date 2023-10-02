@@ -2,7 +2,7 @@
 log_level = 1
 # (str) Title of your application
 title = Schedulara
-android.numeric_version = 100003
+android.numeric_version = 100005
 android.api = 34
 
 
