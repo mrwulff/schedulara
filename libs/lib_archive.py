@@ -39,10 +39,12 @@ def load_archive(ad,first,last,term,strict):
         data = json.load(json_file)
     z= (data['shows'])
     #print (len(z))
+    term=term.upper()
     for z2 in range(len(z)):
         #print ((z[z2]
         gigs= (z[z2]['gigs'])
         #print (len(gigs))
+
         for z3 in range(len(gigs)):
 
             if "'"+term+"'"  in str(gigs[z3]) and strict==True:

@@ -99,10 +99,11 @@ if platform == 'win':
 #scale = 1
 #if platform not in ["android", "ios"]:
 #    Window.size = (320,640)
-print ('windowmax1.26')
+print ('windowmax1.27')
 if platform == "android":
+    from kivy.config import Config
 
-    #Config.set('graphics', 'fullscreen', 'auto')
+    Config.set('graphics', 'fullscreen', 'auto')
     Config.set('graphics', 'window_state', 'maximized')
     Config.write()
 if platform == 'android5':
@@ -1514,7 +1515,7 @@ class Demo3App(MDApp):
                 secondary_text="Earnings: "
                 + str(self.hide(self.format_money(b))),
 
-                tertiary_text="Hours: "+str(gigs),
+                tertiary_text="Hours: "+str(a),
                 bg_color=self.theme_cls.bg_dark,
                 radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],)
         self.root.get_screen("newsearch").ids.search_list.add_widget(panel)
