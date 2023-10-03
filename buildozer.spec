@@ -14,7 +14,7 @@ package.name = org.kw.schedulara.kw.schedulara2.org.kw.schedulara.kw.schedulara
                
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.kw.schedulara.kw.schedulara
+package.domain = org.kw.schedulara.kw.schedulara2
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -277,7 +277,7 @@ android.allow_backup = True
 # android.no-compile-pyo = True
 
 # (str) The format used to package the app for release mode (aab or apk or aar).
-android.release_artifact = aab
+#android.release_artifact = aab
 
 # (str) The format used to package the app for debug mode (apk or aar).
 # android.debug_artifact = apk
@@ -296,7 +296,7 @@ android.release_artifact = aab
 p4a.branch = develop
 
 # (str) python-for-android specific commit to use, defaults to HEAD, must be within p4a.branch
-#p4a.commit = HEAD
+#p4a.commit = HEAD#
 
 # (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
 #p4a.source_dir =
