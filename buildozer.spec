@@ -4,7 +4,7 @@ log_level = 1
 title = Schedulara
 android.numeric_version = 100008
 android.api = 34
-android.minapi = 33
+#android.minapi = 33
 version = 1.1.1
 
 
