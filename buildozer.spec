@@ -4,6 +4,7 @@ log_level = 1
 title = Schedulara
 android.numeric_version = 100007
 android.api = 34
+android.minapi = 33
 version = 1.1
 
 
@@ -111,7 +112,7 @@ android.permissions = INTERNET,BILLING
 
 
 # (int) Minimum API your APK / AAB will support.
-#android.minapi = 21
+
 
 # (int) Android SDK version to use
 #android.sdk = 20
