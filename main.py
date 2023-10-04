@@ -1958,12 +1958,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         'OUT','alpha-o',
         'SHOW','alpha-s',
         'ME','power-plug',
-        'ADV','video-4k-box'
+        'ADV','video-4k-box',
+        'TK','note-edit-outline',
         'L3','lightbulb',
         'L2','lightbulb',
         'L1','lightbulb',
         'SL','spotlight-beam',
-        'SUP','account-supervisor'
+        'SUP','account-supervisor',
         'HL','lightbulb-multiple-outline',
         'F','forklift',
         'SH','hand-back-left',
