@@ -2,9 +2,9 @@
 log_level = 1
 # (str) Title of your application
 title = Schedulara
-android.numeric_version = 100008
+android.numeric_version = 100009
 android.api = 34
-#android.minapi = 33
+android.minapi = 32
 version = 1.1.1
 
 
