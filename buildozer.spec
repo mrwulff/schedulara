@@ -6,6 +6,7 @@ android.numeric_version = 100010
 android.api = 34
 android.minapi = 32
 version = 1.1.2
+p4a.branch = master
 ##changelog! added more icons,crashfix?
 
 
@@ -297,7 +298,7 @@ android.allow_backup = True
 #p4a.fork = kivy
 
 # (str) python-for-android branch to use, defaults to master
-p4a.branch = develop
+
 
 # (str) python-for-android specific commit to use, defaults to HEAD, must be within p4a.branch
 #p4a.commit = HEAD#
