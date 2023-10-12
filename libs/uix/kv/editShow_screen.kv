@@ -82,7 +82,7 @@
                     text: "Time Out"
                     id: endtime
                     IconLeftWidget:
-                        icon: "stop-circle"
+                        icon: "clock"
                     YourContainer:
                         id: container
 
@@ -93,28 +93,70 @@
                             pos_hint: {'center_x': .5, 'center_y': .5}
                             size_hint:app.right_hint
                             width:app.right_width
-                            on_release: app.show_time_picker("end_time")
+                            on_release: app.show_time_picker("end_time")                
 
                 OneLineAvatarIconListItem:
                     bg_color: app.theme_cls.bg_dark
-                    text: "Rate"
-                    id: rate1
-                    on_release: app.tokast('wow')
+                    text: "Total Hours"
+                    id: endtime
+                    IconLeftWidget:
+                        icon: "update"
+                    YourContainer:
+                        id: container
+
+                        MDLabel:
+                            text:"Time"
+                            id:newhoursplus
+                            padding: [15, 15]
+                            pos_hint: {'center_x': .5, 'center_y': .5}
+                            size_hint:app.right_hint
+                            width:app.right_width
+                            #on_release: app.show_time_picker("end_time")
+
+                OneLineAvatarIconListItem:
+                    bg_color: app.theme_cls.bg_dark
+                    #text: "Rate"
+                    id: rat
+                    #on_release: app.tokast('wow')
+                    on_release: app.set_rate()
                     IconLeftWidget:
                         icon: "cash"
                     YourContainer:
                         id: container
 
-                        TextInput:
+                        MDTextField:
+                            color_mode: 'accent'
+                            #text:"28.5"
+                            #padding: [15, 15]
+                            #pos_hint: {'center_x': .5, 'center_y': .5}
+                            pos_hint: {.9: .5}
+                            
+                            id:rate
+                            #size_hint:app.right_hint
+                            width:app.right_width
+                            #id:newhours
+                            
+                OneLineAvatarIconListItem:
+                    bg_color: app.theme_cls.bg_dark
+                    text: "Earnings"
+                    id: rate1
+                    #on_release: app.tokast('wow')
+                    IconLeftWidget:
+                        icon: "cash-multiple"
+                    YourContainer:
+                        id: earnings
+
+                        MDLabel:
                             #text:"28.5"
                             padding: [15, 15]
                             pos_hint: {'center_x': .5, 'center_y': .5}
                             
-                            id:rate
+                            id:earningsl
                             size_hint:app.right_hint
-                            width:app.right_width
+                            width:app.right_width+200
                             #id:newhours
                             #on_release: app.show_time_picker()
+
 
                 TextInput:
 

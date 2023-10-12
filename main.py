@@ -179,16 +179,16 @@ if platform == "ios":
     sharedApplication = UIApplication.sharedApplication()
 
 from kivy.base import ExceptionHandler, ExceptionManager,Logger
-'''
+
 class E(ExceptionHandler):
     def handle_exception(self, inst):
         Logger.exception('Exception caught by ExceptionHandler')
         toast(str(inst))
         print (inst)
         return ExceptionManager.PASS
-if 1==2:
-    ExceptionManager.add_handler(E())
-    '''
+
+ExceptionManager.add_handler(E())
+    
 class AboutScreen(Screen):
     pass
 
@@ -1593,8 +1593,10 @@ class Demo3App(MDApp):
     def format_money(self,z):
         import locale
         locale.setlocale(locale.LC_ALL, '')
-        #return(locale.currency(z, grouping=True))
-        return (z)
+        try:
+            return(locale.currency(z, grouping=True))
+        except:
+            return (z)
 
     def hide(self,y):
         global x
@@ -3884,13 +3886,17 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         via FileChoose.handle_selection.
         """
         App.get_running_app().root.ids.result.text = str(self.selection)
-
+    def delete_demo(self):
+        import libs.lib_archive
+        listofdicks = libs.lib_archive.delete_demo_files("/future_shows",ad)
+        toast('deleted shows')
     def show_archive(self):
         import libs.lib_archive
 
         print("archive")
         self.root.set_current("archive")
         #self.archive_sort=1
+
 
         print (self.archive_sort,self.archive_reverse,self.archive_trim,'archive details')
 
@@ -3957,10 +3963,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         panel = ThreeLineListItem(
                 text="Shows ",
                 #+ str((listofdicks[z]["date"])),
-                #secondary_text="Hours: ",
+                secondary_text="Hours11: ",
                 #+ str(listofdicks[z]["show"]),
                 #+ " Hours: "
-                #+ str(listofdicks[z]["totalhours"])
+                #+ str(listofdicks[z]["totalhours"]),
                 #+ " Overtime: "
                 #+ str(listofdicks[z]["othours"]),
                 #tertiary_text="Other Stuff",
@@ -3970,6 +3976,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             )
 
         self.root.get_screen("archive").ids.archive.add_widget(panel)
+        listofdicks_copy=listofdicks
+
         for z in range(len(listofdicks)):
             three='Lunches!'
             if listofdicks[z].get('lunches')==None:
@@ -4024,7 +4032,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             #except:
             #    three='error'
             three=three+"[size=-50]"+'%%%'+listofdicks[z]["date"]+'%%%'+listofdicks[z]["time"]+'%%%'+listofdicks[z]["job"]+'%%%'+listofdicks[z]["show"]
-            print (listofdicks[z],"WOWZERS")
+            #print (listofdicks[z],"WOWZERS")
 
             panel = ThreeLineListItem(
                 text="Show: "
@@ -4069,7 +4077,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 try:
                     money2=money+float(rate)*o*1.5
                 except:
-                    print('noot')
+                    #print('noot')
                     money2=money
                 #print (money,money2,'DUMB')
                 
@@ -4153,8 +4161,21 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         z.secondary_text=(show['date'])
         three=show['time']
         try:
-            three=three+show['endtime']
+            App.get_running_app().root.current_screen.ids["newhoursplus"].text=str(show['totaltime'])
         except:
+            App.get_running_app().root.current_screen.ids["newhoursplus"].text=""
+        try:
+            App.get_running_app().root.current_screen.ids["earningsl"].text=str(show['earnings'])
+        except:
+            App.get_running_app().root.current_screen.ids["earningsl"].text=""
+
+        App.get_running_app().root.current_screen.ids["rat"].text=show['pos']+' Rate'
+        
+
+        try:
+            three=thre5e+' '+show['endtime']
+        except:
+            print ("THREE IS GOOD")
             pass
         z.tertiary_text=three+"[size=-0]"+'%%%'+show["date"]+'%%%'+show["time"]+'%%%'+show["job"]+'%%%'+show["show"]
 
@@ -4167,7 +4188,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             try:
                 za.ids[b5[q]].text=str(show[id[q]])
             except:
-                za.ids[b5[q]].text='?'
+                #za.ids[b5[q]].text='?'
                 print ('not able to set '+id[q])
     def update_show_single(self,f):
         import libs.lib_new
@@ -4180,7 +4201,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         show['reghours']=f['reghours']
         show['ot']=f['ot']
         show['pay']=f['pay']
-        print ('updated for you')
+        #print ('updated for you')
         libs.lib_new.update_archive_json(ad,show)
     def hide_show(self):
         print ("hide_show")
@@ -4199,17 +4220,56 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         show['ota']=z.ids['button5'].text
         show['rate']=z.ids['rate'].text
         show['user_notes']=z.ids['user_notes'].text
+        #show['totalhoursplus']=z.ids['totalhours'].text
         #show['total_hours']=z.ids['newhours'].text-show['time']-z.ids['lunches'].text
 
         from datetime import datetime
 
         datetime_str_end = z.ids['newhours'].text
         datetime_str_start = show['time']
-        end = datetime.strptime(datetime_str_end, '%H:%M')
         start = datetime.strptime(datetime_str_start, '%H:%M')
+        try:
+            end = datetime.strptime(datetime_str_end, '%H:%M')
+            
+        except:
+            toast("PLEASE SET OUT TIME")
+            end = datetime.strptime('00:00', '%H:%M')
         
         tot= (end-start)
         print (end,start,type(end),"END",tot,type(tot))
+        end=str(end)
+        ehour,eminute,escond=str.split(end,':')
+        print(eminute,'eminute')
+        eminute=float(eminute)/60
+        junk,ehour=str.split(ehour,' ')
+        ehour=str(ehour)
+        print(ehour,'ehour!!')
+        print(eminute,ehour,'eminute2')
+        dtimeout=float(ehour)+float(eminute)
+        #-z.ids['lunches']
+        #show['rate']=z.ids['rate'].text
+        #print(show['totaltime'],"totaltim")
+        dstart_h,dstart_m=str.split(show['time'],":")
+        dstart_m=float(dstart_m)/60
+        dstart=float(dstart_h)+dstart_m
+    
+        show['totaltime']=dtimeout-dstart
+        if show['totaltime']<0:
+            show['totaltime']=show['totaltime']+24
+        print (show,"SHOW!!")
+        print (show['totaltime'],'titaltime')
+        App.get_running_app().root.current_screen.ids["newhoursplus"].text=str(show['totaltime'])
+        print (show['rate'],(show['totaltime'],float(show['lunches'])),'maths')
+        show['earnings']=float(show['rate'])*float((show['totaltime'])-float(show['lunches']))
+        otearnings=0
+        if float(((show['totaltime'])-float(show['lunches']))>float(show['ota'])):
+            ot=float(((show['totaltime'])-float(show['lunches']))-float(show['ota']))
+            print(ot,'boo ya, overtime')
+            otearnings=float(show['rate'])*.5*ot
+        
+        show['earnings']=show['earnings']+otearnings
+        show['earnings']=self.format_money(show['earnings'])
+        App.get_running_app().root.current_screen.ids["earningsl"].text=str(show['earnings'])
 
 
 
@@ -4339,17 +4399,22 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
             # print(xxx, "get_rate2error3")
             # pass
-
+    def save_rate(self):
+        print ('save rate')
     def set_rate(self):
 
         
         
         # rate=str(28.5)
-        rate = App.get_running_app().root.current_screen.ids["moneyinfo"].text
+        try:
+            rate = App.get_running_app().root.current_screen.ids["moneyinfo"].text
+        except:
+            rate = App.get_running_app().root.current_screen.ids["rate"].text
+            pos,junk = str.split(App.get_running_app().root.current_screen.ids["rat"].text,' ')
 
         import libs.lib_makeuserdata as lib_makeuserdata
 
-        #lib_makeuserdata.makeratefile(ad,rate,pos)
+        lib_makeuserdata.makeratefile(ad,rate,pos)
         print("set rate")
 
     def get_date(self, date):

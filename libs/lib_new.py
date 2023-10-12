@@ -219,7 +219,7 @@ def load_archive_json(ad,x):
         )
         
 
-    print (x,"WHATTTTT")
+    #print (x,"WHATTTTT")
     nf = os.path.join(ad, d, fname) + ".json"
     with open(nf) as json_file:
         data = json.load(json_file)

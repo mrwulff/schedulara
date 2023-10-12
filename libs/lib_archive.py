@@ -1,4 +1,29 @@
 import json
+
+def delete_demo_files(cd, ad):
+    #print("loading archive",first,last)
+    import glob
+    import os
+    from datetime import datetime
+    all_shows=[]
+    z=(glob.glob(ad  + cd+"/*.json"))
+    #print (z)
+    dell=0
+    for i in range(len(z)):
+        if "DEMOSHOW!" in z[i]:
+                    
+
+            try:
+                os.remove(z[i])
+                dell=dell+1
+                #self.snackbarx("success")
+            except:
+                print ("failed to remove")
+                print (z[i],'files)')
+
+    print (dell)
+    return dell
+
 def load(cd, ad,last,first):
     #print("loading archive",first,last)
     import glob
@@ -9,6 +34,7 @@ def load(cd, ad,last,first):
     #print (z)
     for i in range(len(z)):
         with open(z[i]) as d:
+            #print (z[i],'TRY JSON')
             dictData = json.load(d)
             c= (dictData['date'])
             try:
