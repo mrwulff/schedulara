@@ -143,5 +143,10 @@
         "import": "from libs.uix.baseclass.add_user_show_screen import add_user_showscreen",
         "object": "add_user_showscreen()",
         "kv": "libs/uix/kv/add_user_show_screen.kv"
+    },
+    "dev": {
+        "import": "from libs.uix.baseclass.dev_screen import devscreen",
+        "object": "devscreen()",
+        "kv": "libs/uix/kv/dev_screen.kv"
     }
 }

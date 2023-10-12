@@ -15,8 +15,21 @@ from kivy.metrics import dp
 
 #
 #
-
-
+if 1==2:
+    import sentry_sdk
+    f=open('secrets.txt','r')
+    for line in f.readlines():
+        yo=line
+    sentry_sdk.init(
+        dsn=yo,
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        traces_sample_rate=1.0,
+        # Set profiles_sample_rate to 1.0 to profile 100%
+        # of sampled transactions.
+        # We recommend adjusting this value in production.
+        profiles_sample_rate=1.0,
+    )
 tic = time.perf_counter()
 from libs.uix.root import Root
 
@@ -165,8 +178,17 @@ if platform == "ios":
     UIApplication = autoclass("UIApplication")
     sharedApplication = UIApplication.sharedApplication()
 
-
-
+from kivy.base import ExceptionHandler, ExceptionManager,Logger
+'''
+class E(ExceptionHandler):
+    def handle_exception(self, inst):
+        Logger.exception('Exception caught by ExceptionHandler')
+        toast(str(inst))
+        print (inst)
+        return ExceptionManager.PASS
+if 1==2:
+    ExceptionManager.add_handler(E())
+    '''
 class AboutScreen(Screen):
     pass
 
@@ -1319,10 +1341,16 @@ class Demo3App(MDApp):
             self.data.update({'Export': ['calendar-export',"on_press", lambda x: print("export"),"on_release", lambda x: self.do_google_cal()]})
             self.data.update({'Search': ['magnify',"on_press", lambda x: print("export"),"on_release", lambda x: self.new_search()]})
             #self.data.update({'Add Event': ['calendar-plus',"on_press", lambda x: print("export"),"on_release", lambda x: self.add_event()]})
+        if 1==1:
+            self.data.update({'DEV': ['debug',"debug", lambda x: print("debug"),"on_release", lambda x: self.do_dev()]})
 
 
 #fdate, ldate = self.get_dates("YTD")
 #            self.do_new_stats(fdate, ldate, "YTD")
+    def dev(self,x):
+        if x=='zero':
+            toast('divide by zero GO')
+            z=1/0
     def add_event(self):
         print("add_event")
         self.root.set_current("add_user_show")
@@ -1361,7 +1389,9 @@ class Demo3App(MDApp):
         
         self.set_rate()
 
-
+    def do_dev(self):
+        print ("DEV MODE SCREEN")
+        self.root.set_current("dev")
     def do_backdoor(self):
         #print ('bla')
         #toast("bla")
@@ -1373,6 +1403,11 @@ class Demo3App(MDApp):
             x['demo_count']=1
         if type(x.get("demo_count")) == int:
             x['demo_count']=x['demo_count']+1
+        if x['demo_count']==2:
+            
+
+            self.do_dev()
+            
         if x['demo_count']==5:
             toast('almost there')
         if x['demo_count']==10:
@@ -3989,15 +4024,16 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             #except:
             #    three='error'
             three=three+"[size=-50]"+'%%%'+listofdicks[z]["date"]+'%%%'+listofdicks[z]["time"]+'%%%'+listofdicks[z]["job"]+'%%%'+listofdicks[z]["show"]
+            print (listofdicks[z],"WOWZERS")
 
             panel = ThreeLineListItem(
                 text="Show: "
                 + str((listofdicks[z]["show"])),
                 secondary_text="Date: "
-                + str(listofdicks[z]["date"]),
-                #+ " Hours: "
+                + str(listofdicks[z]["date"])
+                + " Hours: "
                 #+ str(listofdicks[z]["totalhours"])
-                #+ " Overtime: "
+                + " Overtime: ",
                 #+ str(listofdicks[z]["othours"]),
                 tertiary_text=three,
                 bg_color=self.theme_cls.bg_dark,
@@ -4163,6 +4199,20 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         show['ota']=z.ids['button5'].text
         show['rate']=z.ids['rate'].text
         show['user_notes']=z.ids['user_notes'].text
+        #show['total_hours']=z.ids['newhours'].text-show['time']-z.ids['lunches'].text
+
+        from datetime import datetime
+
+        datetime_str_end = z.ids['newhours'].text
+        datetime_str_start = show['time']
+        end = datetime.strptime(datetime_str_end, '%H:%M')
+        start = datetime.strptime(datetime_str_start, '%H:%M')
+        
+        tot= (end-start)
+        print (end,start,type(end),"END",tot,type(tot))
+
+
+
         #print (timeout,lunches,ota,rate,notes,show,'THISISTHEINFO')
 
         libs.lib_new.update_archive_json(ad,show)
@@ -4534,7 +4584,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def get_time_end(self, instance, time):
         temp=str.split(str(time),':')
         time=temp[0]+':'+temp[1]
-        App.get_running_app().root.current_screen.ids["end_time"].text = str(time)
+        App.get_running_app().root.current_screen.ids["newhours"].text = str(time)
+        print(time)
         return time
     def make_info(self, thing):
 
