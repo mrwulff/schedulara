@@ -1366,7 +1366,7 @@ class Demo3App(MDApp):
             self.data.update({'Export': ['calendar-export',"on_press", lambda x: print("export"),"on_release", lambda x: self.do_google_cal()]})
             self.data.update({'Search': ['magnify',"on_press", lambda x: print("export"),"on_release", lambda x: self.new_search()]})
             #self.data.update({'Add Event': ['calendar-plus',"on_press", lambda x: print("export"),"on_release", lambda x: self.add_event()]})
-        if 1==1:
+        if 1==2:
             self.data.update({'DEV': ['debug',"debug", lambda x: print("debug"),"on_release", lambda x: self.do_dev()]})
 
 
@@ -2055,7 +2055,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         'L3','lightbulb',
         'L2','lightbulb',
         'L1','lightbulb',
-        'L','dolly'
+        'LL','lightbulb',
+        'L','dolly',
         'SL','spotlight-beam',
         'SUP','account-supervisor',
         'HL','lightbulb-multiple-outline',
@@ -2068,6 +2069,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         'A3','volume-high',
         'A2','volume-high',
         'A1','volume-high',
+        'C','hammer',
 
         ]
         print (icon,'newICON')
