@@ -2055,6 +2055,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         'L3','lightbulb',
         'L2','lightbulb',
         'L1','lightbulb',
+        'L','dolly'
         'SL','spotlight-beam',
         'SUP','account-supervisor',
         'HL','lightbulb-multiple-outline',
@@ -2093,6 +2094,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             return "fail"
         shows = js["shows"]
         li = ["first", "second", "third"]
+        li_r=["1r",'2r','3r']
+        li_l=["1l",'2l','3l']
+
         ns = 3
         if len(shows) < 3:
             ns = len(shows)
@@ -2117,6 +2121,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.root.get_screen("today").ids[li[i]].tertiary_text = (
                 color + shows[i]["venue"]
             )
+            self.root.get_screen("today").ids[li[i]].text
+            z44=dir(self.root.get_screen("today").ids[li_l[i]])
+            self.root.get_screen("today").ids[li_l[i]].icon=self.find_type(i,"type")
+            self.root.get_screen("today").ids[li_r[i]].icon=self.find_type(i,"pos")
+            print (z44,'leftwidget')
         qq=self.root.get_screen("today").ids
         try:
             if x['branding']==True:
