@@ -6,7 +6,7 @@ android.numeric_version = 100015
 android.api = 33
 #android.minapi = 30
 version = 1.1.3
-#p4a.branch = master
+p4a.branch = master
 #android.ndk = 23b
 ##changelog! added more icons,crashfix?
 
