@@ -15,13 +15,21 @@ from kivy.metrics import dp
 
 #
 #
-if 1==2:
+if 1==1:
     import sentry_sdk
+    import logging
+    from sentry_sdk.integrations.logging import LoggingIntegration
+
     f=open('secrets.txt','r')
     for line in f.readlines():
         yo=line
     sentry_sdk.init(
         dsn=yo,
+        #integrations=[
+        #LoggingIntegration(
+        #    level = logging.INFO,           # Capture info and above as breadcrumbs (this is the default)
+        #    event_level = logging.WARNING)
+        #],
         # Set traces_sample_rate to 1.0 to capture 100%
         # of transactions for performance monitoring.
         traces_sample_rate=1.0,
@@ -114,6 +122,23 @@ if platform == 'win':
 #scale = 1
 #if platform not in ["android", "ios"]:
 #    Window.size = (320,640)
+
+from kivy.logger import Logger
+from kivy.config import Config
+App.get_running_app()
+print(Config.get('kivy', 'log_name'),'log_dir')
+#Config.get
+
+Config.set('kivy', 'log_enable', 1)
+Config.set('kivy', 'log_level', 'debug')
+Config.set('kivy', 'log_name', 'my_file.log')
+#Config.set('kivy', 'log_dir', '/home/dude/folder')
+
+Config.write()
+Logger.debug('main:switching stuff on')
+Logger.info('socket:send command to raspberry')
+Logger
+
 print ('windowmax1.278')
 if platform == "android":
     from kivy.config import Config
@@ -1631,15 +1656,45 @@ class Demo3App(MDApp):
             self.do_new_stats(fdate, ldate, "YTD")
         except:
             ''
+    def delete_show(self):
+        
+        z=App.get_running_app().root.current_screen.ids["show"].tertiary_text
+        print ('DELETE SHOW',z)
 
+        import libs.lib_new
+        try:
+
+            show,f=libs.lib_new.load_archive_json(ad,z)
+        except:
+            print ('old show data')
+            toast('failed to find show')
+            return
+        print (f,'DELETESHOW DATA?')
+        import os
+        os.remove(f)
+        self.show_archive()
     def on_start(self):
+
         #toast(str(tic - time.perf_counter()))
         global x
         global ad
         # print("wtf")
         app = App.get_running_app()
         ad = app.user_data_dir
+        #Config.set('kivy', 'log_dir', ad)
+        #Config.write()
         # if ios == True:
+        logger = logging.getLogger('spam_application')
+        logger.setLevel(logging.DEBUG)
+        fh = logging.FileHandler(ad+'/spam.log')
+        fh.setLevel(logging.DEBUG)
+        logger.addHandler(fh)
+
+
+
+
+
+
         if 1 == 1:
             config_file = ad
         print(tic - time.perf_counter(), "on start !!!")
@@ -3922,11 +3977,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             listofdicks = sorted(listofdicks, key=lambda i: i[self.archive_sort], reverse=self.archive_reverse)
         else:
             listofdicks = sorted(listofdicks, key=lambda i: i[self.archive_sort], reverse= not self.archive_reverse)
-        print (len(listofdicks),'lenlistofdicts',listofdicks)
+        #print (len(listofdicks),'lenlistofdicts',listofdicks)
         tot_hours=0
         ot_hours=0
         reg_hours=0
         tot_money=0
+        tottime_all=0
+        earnings_all=0
         bu = ["Current","Next", "Last", "All", "Custom"]
         bu2 = ["date", "hours", "pay"]
         for i in range(len(bu)):
@@ -3960,7 +4017,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             ].icon = "sort-ascending"
             print ('decend')
 
-        panel = ThreeLineListItem(
+        panel3 = ThreeLineListItem(
                 text="Shows ",
                 #+ str((listofdicks[z]["date"])),
                 secondary_text="Hours11: ",
@@ -3975,11 +4032,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 on_release=self.edit_show_details,
             )
 
-        self.root.get_screen("archive").ids.archive.add_widget(panel)
+        self.root.get_screen("archive").ids.archive.add_widget(panel3)
         listofdicks_copy=listofdicks
-
+        
         for z in range(len(listofdicks)):
             three='Lunches!'
+            #print (listofdicks[z],'LISTOFDICKS')
             if listofdicks[z].get('lunches')==None:
 
                 three='No Lunches'
@@ -3987,6 +4045,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 three=listofdicks[z]["lunches"]
                 three=''
             #try:
+
+            if listofdicks[z].get('totaltime')!=None:
+                tottime_all=tottime_all+listofdicks[z].get('totaltime')
+                print (tottime_all,'tottime_all')
+            if listofdicks[z].get('earnings')!=None:
+                earnings_all=earnings_all+listofdicks[z].get('earnings')
+                print (earnings_all,'earnings_all')
+
             if listofdicks[z].get('pay')==None:
                 allhours,reg,over=self.calc_time(listofdicks[z])
                 #print (listofdicks[z]["show"],reg,allhours,over,'OMG')
@@ -4033,15 +4099,18 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             #    three='error'
             three=three+"[size=-50]"+'%%%'+listofdicks[z]["date"]+'%%%'+listofdicks[z]["time"]+'%%%'+listofdicks[z]["job"]+'%%%'+listofdicks[z]["show"]
             #print (listofdicks[z],"WOWZERS")
-
+            try:
+                tottime=str(listofdicks[z]["totaltime"])
+            except:
+                tottime=''
             panel = ThreeLineListItem(
                 text="Show: "
                 + str((listofdicks[z]["show"])),
                 secondary_text="Date: "
                 + str(listofdicks[z]["date"])
                 + " Hours: "
-                #+ str(listofdicks[z]["totalhours"])
-                + " Overtime: ",
+                + tottime,
+                #+ " Overtime: ",
                 #+ str(listofdicks[z]["othours"]),
                 tertiary_text=three,
                 bg_color=self.theme_cls.bg_dark,
@@ -4056,6 +4125,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         bbl=len(bb)
         bb=bb[bbl-1]
         bb.text="Show!s: "+str(bbl-1)
+        bb.secondary_text="Hours: "+str(tottime_all)
+        bb.tertiary_text="Pay: "+str(self.format_money(earnings_all))
         try:
             ratee=("   Rate: $%.2f" % (tot_money/tot_hours))
             #ratee="    Rate: $"+str(tot_money/tot_hours)
@@ -4147,7 +4218,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_new
         try:
 
-            show=libs.lib_new.load_archive_json(ad,b.tertiary_text)
+            show,filee=libs.lib_new.load_archive_json(ad,b.tertiary_text)
         except:
             print ('old show data')
             toast('failed to find show')
@@ -4196,7 +4267,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             b='%%%'+f["date"]+'%%%'+f["time"]+'%%%'+f["job"]+'%%%'+f["show"]
         except:
             b='%%%'+f["date"]+'%%%'+f["time"]+'%%%'+f["show"]
-        show=libs.lib_new.load_archive_json(ad,b)
+        show,fileee=libs.lib_new.load_archive_json(ad,b)
         show['hours']=f['hours']
         show['reghours']=f['reghours']
         show['ot']=f['ot']
@@ -4207,14 +4278,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         print ("hide_show")
         z=App.get_running_app().root.current_screen
         import libs.lib_new
-        show=libs.lib_new.load_archive_json(ad,z.ids['show'].tertiary_text)
+        show,filee=libs.lib_new.load_archive_json(ad,z.ids['show'].tertiary_text)
         show['hidden']=True
         libs.lib_new.update_archive_json(ad,show)
 
     def update_show(self):
         z=App.get_running_app().root.current_screen
         import libs.lib_new
-        show=libs.lib_new.load_archive_json(ad,z.ids['show'].tertiary_text)
+        show,filee=libs.lib_new.load_archive_json(ad,z.ids['show'].tertiary_text)
         show['endtime']=z.ids['newhours'].text
         show['lunches']=z.ids['button4'].text
         show['ota']=z.ids['button5'].text
@@ -4268,8 +4339,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             otearnings=float(show['rate'])*.5*ot
         
         show['earnings']=show['earnings']+otearnings
-        show['earnings']=self.format_money(show['earnings'])
-        App.get_running_app().root.current_screen.ids["earningsl"].text=str(show['earnings'])
+        #show['earnings']=self.format_money(show['earnings'])
+        App.get_running_app().root.current_screen.ids["earningsl"].text=self.format_money(show['earnings'])
 
 
 

@@ -172,18 +172,21 @@ def format_textt(name):
     return name
 def update_archive_json(ad,thisdict):
     import json
-    fname = (
-        format_textt(thisdict["date"])
-        + " "
-        + format_textt(thisdict["time"])
-        + " "
-        + thisdict["job"]
-        + " "
-        + format_textt(thisdict["show"])
-    )
+    try:
+        fname = (
+            format_textt(thisdict["date"])
+            + " "
+            + format_textt(thisdict["time"])
+            + " "
+            + thisdict["job"]
+            + " "
+            + format_textt(thisdict["show"])
+        )
 
-    with open(ad + "/future_shows/" + fname + ".json", "w") as outfile:
-                json.dump(thisdict, outfile, indent=4)
+        with open(ad + "/future_shows/" + fname + ".json", "w") as outfile:
+                    json.dump(thisdict, outfile, indent=4)
+    except:
+        pass
 
 
 
@@ -221,9 +224,12 @@ def load_archive_json(ad,x):
 
     #print (x,"WHATTTTT")
     nf = os.path.join(ad, d, fname) + ".json"
-    with open(nf) as json_file:
-        data = json.load(json_file)
-    return data
+    try:
+        with open(nf) as json_file:
+            data = json.load(json_file)
+    except:
+        data={}
+    return data,nf
 
 
 def update_history(thisdict, ad):
