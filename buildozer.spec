@@ -108,7 +108,7 @@ osx.kivy_version = 1.9.1
 #icon.adaptive_background.filename = %(source.dir)s/data/icon_bg.png
 
 # (list) Permissions
-android.permissions = INTERNET,BILLING
+android.permissions = INTERNET,BILLING, ACCESS_NETWORK_STATE, READ_EXTERNAL_STORAGE
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
