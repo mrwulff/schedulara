@@ -1,9 +1,9 @@
 [app]
 log_level = 1
 # (str) Title of your application
-title = ASS or Shit
+title = ASS or Shit 33
 android.numeric_version = 100016
-android.api = 34
+android.api = 33
 #android.minapi = 30
 version = 1.1.4
 p4a.branch = master
