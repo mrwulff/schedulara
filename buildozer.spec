@@ -1,7 +1,7 @@
 [app]
 log_level = 1
 # (str) Title of your application
-title = Schedulara
+title = ASS or Shit
 android.numeric_version = 100016
 android.api = 34
 #android.minapi = 30
@@ -15,7 +15,9 @@ requirements = git+https://github.com/kivymd-extensions/sweetalert.git,uritempla
 
 # (str) Package name
 #package.name = org.kw.schedulara.kw.schedulara2.org.kw.schedulara.kw.schedulara
-package.name = org.kw.schedulara.kw.schedulara
+package.name = org.kw.schedulara.kw.schedulara.test
+#package.name = org.kw.schedulara.kw.schedulara
+
                
 
 # (str) Package domain (needed for android/ios packaging)
