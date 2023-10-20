@@ -1,5 +1,5 @@
 [app]
-log_level = 1
+log_level = 2
 # (str) Title of your application
 title = ASS or Shit 33
 android.numeric_version = 100016
