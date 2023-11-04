@@ -1,5 +1,5 @@
 [app]
-log_level = 1
+log_level = 2
 # (str) Title of your application
 title = Schedulara
 android.numeric_version = 100016
@@ -8,10 +8,10 @@ android.api = 33
 version = 1.1.4
 p4a.branch = master
 #android.ndk = 23b
-##changelog! added more icons,crashfix?
+##changelog! edited requirements
 
 
-requirements = git+https://github.com/kivymd-extensions/sweetalert.git,uritemplate,httplib2,google-api-core==2.8.2,oauthlib,requests_oauthlib,cachetools,rsa,pyasn1,pyasn1_modules,urllib3,plyer,jnius,pyparsing,webencodings,html5lib,beautifulsoup4,soupsieve, python3,kivy,appdirs, kivymd, pillow,python-dateutil, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker, kivy-garden, kivy-garden.graph, kivymd_extensions.akivymd, ndicts, ,google-api-python-client, google-auth-oauthlib,google-auth-httplib2,google-auth,sentry_sdk 
+requirements =kivy==master, https://github.com/kivymd/KivyMD/archive/master.zip,git+https://github.com/kivymd-extensions/sweetalert.git,uritemplate,httplib2,google-api-core==2.8.2,oauthlib,requests_oauthlib,cachetools,rsa,pyasn1,pyasn1_modules,urllib3,plyer,jnius,pyparsing,webencodings,html5lib,beautifulsoup4,soupsieve, python3,appdirs, pillow,python-dateutil, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker, kivy-garden, kivy-garden.graph, kivymd_extensions.akivymd, ndicts, ,google-api-python-client, google-auth-oauthlib,google-auth-httplib2,google-auth,sentry_sdk 
 
 # (str) Package name
 #package.name = org.kw.schedulara.kw.schedulara2.org.kw.schedulara.kw.schedulara
@@ -108,7 +108,7 @@ osx.kivy_version = 1.9.1
 #icon.adaptive_background.filename = %(source.dir)s/data/icon_bg.png
 
 # (list) Permissions
-android.permissions = INTERNET,BILLING
+android.permissions = INTERNET,BILLING, ACCESS_NETWORK_STATE, READ_EXTERNAL_STORAGE
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
