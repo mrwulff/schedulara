@@ -1,3 +1,26 @@
+<DrawerClickableItem@MDNavigationDrawerItem>
+    focus_color: "#e7e4c0"
+    text_color: "#4a4939"
+    icon_color: "#4a4939"
+    ripple_color: "#c5bdd2"
+    selected_color: "#0c6c4d"
+
+
+<DrawerLabelItem@MDNavigationDrawerItem>
+    text_color: "#4a4939"
+    icon_color: "#4a4939"
+    focus_behavior: False
+    selected_color: "#4a4939"
+    _no_ripple_effect: True
+<NavigationDrawer>
+    _list: list
+    elevation: 0
+    canvas:
+        Color:
+            rgba: root.theme_cls.bg_light
+        Rectangle:
+            size: root.size
+            pos: root.pos
 <TwoLineAvatarListItem>
     IconLeftWidget:
 #        icon: root.icon
@@ -33,6 +56,9 @@
 
 <TodayScreen>
     name: "today"
+    #BoxLayout:
+    #    MDTopAppBar:
+    #        left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
 
     FitImage:
         #source: 'images/rh.jpg'
@@ -41,6 +67,16 @@
         size: self.width,self.height
 
     
+
+
+    #MDBottomNavigation:
+
+    #    MDBottomNavigationItem:
+    #        name: "screen 1"
+    #    MDBottomNavigationItem:
+    #        name: "screen 1"
+    #    MDBottomNavigationItem:
+    #        name: "screen 1"
 
 
 
@@ -52,8 +88,9 @@
             #title: "Settings"
             height: app.mheight
         #    type: "bottom"
-            #left_action_items: [['chevron-left', lambda screen: app.change_screen('mainmenu','left'),'home']]
-            #right_action_items: [["refresh", lambda x: app.ach_reset(),'reset ach'],["counter", lambda x: app.ach_top(0),'reset ach']]
+            left_action_items:
+                [['menu', lambda x: nav_drawer.set_state("open")]]
+        
         ScrollView:
             MDGridLayout:
                 cols: 1
@@ -247,7 +284,79 @@
                     
 
                 #Label:
+    MDNavigationDrawer:
+        id: nav_drawer
+        type: "modal"
+        radius: (0, 16, 16, 0)
+        
 
+        ContentNavigationDrawer:
+            MDNavigationDrawerMenu:
+
+                MDNavigationDrawerHeader:
+                    title: "Menu"
+                    #title_color: "#4a4939"
+                    #text: "Header text"
+                    spacing: "4dp"
+                    #padding: "12dp", 0, 0, "56dp"
+                    #source: "images/icon.png"
+                    #allow_stretch: True
+                    #size:(10,10)
+                    #size_hint:(10,10)
+                DrawerClickableItem:
+                    icon: "cog"
+                    text: "Settings"
+                    on_press:
+                        app.close_menu()
+                        app.do_settings()
+                DrawerClickableItem:
+                    icon: "chart-areaspline"
+                    text: "Insights"
+                    on_press:
+                        app.close_menu()
+                        app.prep_stats()
+                        
+                DrawerClickableItem:
+                    icon: "cash-100"
+                    text: "Paystubs"
+                    on_press:
+                        app.close_menu()
+                        app.do_payperiod_f("YTD")
+                DrawerClickableItem:
+                    icon: "magnify"
+                    text: "Search"
+                    on_press:
+                        app.close_menu()
+                        app.new_search()
+                DrawerClickableItem:
+                    icon: "calendar-export"
+                    text: "Calendar Export"
+                    on_press:
+                        app.close_menu()
+                        app.do_google_cal()
+                DrawerClickableItem:
+                    icon: "backup-restore"
+                    text: "Backup and Restore"
+                    on_press:
+                        app.close_menu()
+                        app.do_gbackup()
+                MDNavigationDrawerDivider:
+                DrawerClickableItem:
+                    icon: "close"
+                    text: "Close"
+                    on_press:
+                        app.close_menu()
+                        #app.prep_stats()
+
+
+                
+    
+    
+    
+    
+    
+    
+    
     MDFloatingActionButtonSpeedDial:
         id: speed_dial
         data: app.data

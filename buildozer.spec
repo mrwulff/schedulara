@@ -1,7 +1,7 @@
 [app]
 log_level = 1
 # (str) Title of your application
-title = ASS or Shit 33
+title = Schedulara
 android.numeric_version = 100016
 android.api = 33
 #android.minapi = 30

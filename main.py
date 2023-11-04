@@ -11,13 +11,23 @@ import profile
 import time
 import sys
 from kivy.metrics import dp
+from kivy.base import ExceptionHandler, ExceptionManager,Logger
+import logging
+class E(ExceptionHandler):
+    def handle_exception(self, inst):
+        Logger.exception('Exception caught by ExceptionHandler')
+        toast(str(inst))
+        print (inst)
+        return ExceptionManager.PASS
 
+ExceptionManager.add_handler(E())
 
 #
 #
-if 1==1:
+
+if 1==2:
     import sentry_sdk
-    import logging
+    
     from sentry_sdk.integrations.logging import LoggingIntegration
 
     f=open('secrets.txt','r')
@@ -203,16 +213,7 @@ if platform == "ios":
     UIApplication = autoclass("UIApplication")
     sharedApplication = UIApplication.sharedApplication()
 
-from kivy.base import ExceptionHandler, ExceptionManager,Logger
 
-class E(ExceptionHandler):
-    def handle_exception(self, inst):
-        Logger.exception('Exception caught by ExceptionHandler')
-        toast(str(inst))
-        print (inst)
-        return ExceptionManager.PASS
-
-ExceptionManager.add_handler(E())
     
 class AboutScreen(Screen):
     pass
@@ -641,7 +642,9 @@ class Demo3App(MDApp):
         print(d, type(d))
 
         return d, now
-
+    def close_menu(self):
+        print ('closing')
+        self.root.current_screen.ids.nav_drawer.set_state("close")
     def call(self, lol):
         print("call", (lol), lol.icon)
         self.root.current_screen.ids.menub.close_stack()
@@ -1684,11 +1687,12 @@ class Demo3App(MDApp):
         #Config.set('kivy', 'log_dir', ad)
         #Config.write()
         # if ios == True:
-        logger = logging.getLogger('spam_application')
-        logger.setLevel(logging.DEBUG)
-        fh = logging.FileHandler(ad+'/spam.log')
-        fh.setLevel(logging.DEBUG)
-        logger.addHandler(fh)
+        if 1==2:
+            logger = logging.getLogger('spam_application')
+            logger.setLevel(logging.DEBUG)
+            fh = logging.FileHandler(ad+'/spam.log')
+            fh.setLevel(logging.DEBUG)
+            logger.addHandler(fh)
 
 
 
@@ -1788,12 +1792,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             on_release=self.callback,
         )
         button_login = MDRaisedButton(
-            text=b_b[i] + "[size=0]" + "8",
+            #text=b_b[i] + "[size=0]" + "8",
+            text="Login"+ "[size=0]" + "8",
             font_size=16,
             on_release=self.callback,
         )
         bb = (
-            [button_ok, button_cancel],
+            [button_ok, button_cancel,button_login],
             [button_ok, button_cancel],
             [button_login, button_cancel],
         )
@@ -3898,8 +3903,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def delete_shows(self, what):
         # print (what)
         from os import walk
-        dirs=["pp",'backup','shows','future_shows']
+        dirs=["pp",'backup','shows','future_shows','custom_shows']
         g=0
+        f=0
         for i2 in range(len(dirs)):
             filenames = next(walk(ad + "/"+dirs[i2]), (None, None, []))[2]  # [] if no file
             # print(filenames)
@@ -3910,9 +3916,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         filenames = next(walk(ad + "/"), (None, None, []))[2]  # [] if no file
         for i in range(len(filenames)):
-            os.remove(ad + "/" + filenames[i])
-            g=g+1
-        toast("deleted "+str(g)+" files")
+            try:
+                os.remove(ad + "/" + filenames[i])
+                g=g+1
+            except:
+                f=f+1
+        toast("deleted "+str(g)+" files, "+str(f)+' failed')
         self.dialog.dismiss()
 
 
@@ -5392,6 +5401,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             blank=True
             print (blank,"passwordloc")
         print (blank,"BLANK")
+        success=False
         if blank==False:
             import libs.lib_new
             
@@ -5420,9 +5430,16 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 
                 print (js,"JesusCh")
                 toast(str(js))
+                success=True
             except:
                 toast("login failed...")
                 return "fail"
+            if success==True:
+                
+                self.delete_demo()
+                self.root.set_current("today")
+                self.update()
+                toast(str(js))
             
 
 
