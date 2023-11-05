@@ -1379,6 +1379,11 @@ class Demo3App(MDApp):
         if x=='zero':
             toast('divide by zero GO')
             z=1/0
+        if x=='webview':
+            toast('webview')
+            import libs.lib_custom_views
+            x = libs.lib_custom_views.webviews(App, ad, ios,self)
+            toast(x)
     def add_event(self):
         print("add_event")
         self.root.set_current("add_user_show")
