@@ -105,6 +105,7 @@ from kivymd.uix.button import MDFlatButton
 
 import datetime
 import libs.lib_think as lib_think
+"""
 try:
     import libs.lib_google2 as lib_google
 except:
@@ -115,7 +116,7 @@ try:
 except:
     print("fail google")
 import libs.lib_readuserdata as lib_readuserdata
-
+"""
 
 
 import os
