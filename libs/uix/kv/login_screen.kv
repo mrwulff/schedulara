@@ -11,14 +11,18 @@
             height: app.mheight
             left_action_items: [['chevron-left', lambda screen: app.change_screen('settings', 'left'),'login']]
         Screen:
-            
+            FitImage:
+                pos_hint:{'center_x': 0.5, 'center_y': 0.75}
+                source: 'images/cartoon.png'
+                size_hint_y: .1
+                size:dp(20)
             MDTextField:
                 hint_text: "Email"
                 #helper_text: "to join the chat (test mode)"
                 #helper_text_mode: "on_focus"
                 #icon_right: "android"
                 #icon_right_color: app.theme_cls.primary_color
-                pos_hint:{'center_x': 0.5, 'center_y': 0.65}
+                pos_hint:{'center_x': 0.5, 'center_y': 0.55}
                 size_hint_x:None
                 font_size:dp(20)
                 width:dp(300)
@@ -29,7 +33,7 @@
                 #helper_text_mode: "on_focus"
                 icon_right: "lock"
                 icon_right_color: app.theme_cls.primary_color
-                pos_hint:{'center_x': 0.5, 'center_y': 0.55}
+                pos_hint:{'center_x': 0.5, 'center_y': 0.45}
                 size_hint_x:None
                 font_size:sp(20)
                 width:sp(300)
@@ -40,7 +44,7 @@
 
             MDLabel:
                 text: "Select Your Location"
-                pos_hint: {'center_x': .5, 'center_y': .45}
+                pos_hint: {'center_x': .5, 'center_y': .35}
                 halign: "center"
             MDRoundFlatButton:
                 id: button4
@@ -48,7 +52,7 @@
 
                 width: 50
                 text: "..."
-                pos_hint: {'center_x': .5, 'center_y': .40}
+                pos_hint: {'center_x': .5, 'center_y': .30}
                 values: app.sound_effects
                 items: app.sound_effects
                 #id: noise
@@ -57,7 +61,7 @@
             MDRoundFlatButton:
                 text: "Login!"
                 theme_text_color: "Primary"
-                pos_hint: {"center_x": .5, "center_y": .2}
+                pos_hint: {"center_x": .5, "center_y": .1}
                 on_release:
                     #app.check_login()
                     app.save_login()

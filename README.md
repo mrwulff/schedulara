@@ -9,7 +9,7 @@ cd ~/Documents/
 
 pip uninstall pillow
 
-pip install pillow==8.2.1
+pip install pillow==8.2.1--8.2.0??
 
 toolchain build kivy pillow pycrypto
 

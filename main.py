@@ -105,7 +105,10 @@ from kivymd.uix.button import MDFlatButton
 
 import datetime
 import libs.lib_think as lib_think
-import libs.lib_google2 as lib_google
+try:
+    import libs.lib_google2 as lib_google
+except:
+    pass
 
 try:
     import libs.lib_google2 as lib_google
@@ -1347,7 +1350,7 @@ class Demo3App(MDApp):
                 x = libs.lib_readuserdata.readuserdata(App, ad, ios)
                 if x.get("backdoor") == True:
                     zz=True
-                    toast('backdoor=true')
+                    #toast('backdoor=true')
 
                     print ('user11true')
                 if x.get("backdoor") == False:
@@ -1358,7 +1361,7 @@ class Demo3App(MDApp):
                 #print('BACKDOOR')
             except:
                 print("bad user read")
-                toast('backdoor=unknown')
+                #toast('backdoor=unknown')
                 #self.snackbar = Snackbar(text="bla", bg_color=self.theme_cls.primary_color)
                 #self.snackbar.open()
         
@@ -1788,18 +1791,18 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         button_ok = MDRaisedButton(
             text=b_b[i] + "[size=0]" + str(i),
-            font_size=16,
+            font_size=dp(16),
             on_release=self.callback,
         )
         button_cancel = MDRaisedButton(
             text=b_b2[i] + "[size=0]" + "9",
-            font_size=16,
+            font_size=dp(16),
             on_release=self.callback,
         )
         button_login = MDRaisedButton(
             #text=b_b[i] + "[size=0]" + "8",
             text="Login"+ "[size=0]" + "8",
-            font_size=16,
+            font_size=dp(16),
             on_release=self.callback,
         )
         bb = (
