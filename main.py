@@ -142,21 +142,21 @@ if platform == 'win':
 #if platform not in ["android", "ios"]:
 #    Window.size = (320,640)
 
-from kivy.logger import Logger
-from kivy.config import Config
+#from kivy.logger import Logger
+#from kivy.config import Config
 App.get_running_app()
-print(Config.get('kivy', 'log_name'),'log_dir')
+#print(Config.get('kivy', 'log_name'),'log_dir')
 #Config.get
 
-Config.set('kivy', 'log_enable', 1)
-Config.set('kivy', 'log_level', 'debug')
-Config.set('kivy', 'log_name', 'my_file.log')
-#Config.set('kivy', 'log_dir', '/home/dude/folder')
+#Config.set('kivy', 'log_enable', 1)
+#Config.set('kivy', 'log_level', 'debug')
+#Config.set('kivy', 'log_name', 'my_file.log')
+##Config.set('kivy', 'log_dir', '/home/dude/folder')
 
-Config.write()
-Logger.debug('main:switching stuff on')
-Logger.info('socket:send command to raspberry')
-Logger
+#Config.write()
+#Logger.debug('main:switching stuff on')
+#Logger.info('socket:send command to raspberry')
+#Logger
 
 print ('windowmax1.278')
 if platform == "android":
