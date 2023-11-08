@@ -32,11 +32,11 @@ if 1==1:
     
     from sentry_sdk.integrations.logging import LoggingIntegration
 
-    f=open('secrets.txt','r')
-    for line in f.readlines():
-        yo=line
+    #f=open('secrets.txt','r')
+    #for line in f.readlines():
+        #yo=line
     sentry_sdk.init(
-        dsn=yo,
+        dsn="https://531fb56e8ac34fc3a2c624cc9cb43ee7@app.glitchtip.com/4771",
         #integrations=[
         #LoggingIntegration(
         #    level = logging.INFO,           # Capture info and above as breadcrumbs (this is the default)
