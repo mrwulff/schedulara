@@ -105,7 +105,7 @@ from kivymd.uix.button import MDFlatButton
 
 import datetime
 import libs.lib_think as lib_think
-"""
+
 try:
     import libs.lib_google2 as lib_google
 except:
@@ -116,7 +116,7 @@ try:
 except:
     print("fail google")
 import libs.lib_readuserdata as lib_readuserdata
-"""
+
 
 
 import os
@@ -552,13 +552,13 @@ class Demo3App(MDApp):
         "default",
     ]
     locations = [
+        "lasvegas",
         "denver",
         "dc",
         "florida",
         "georgia",
         "indiana",
         "kentucky",
-        "lasvegas",
         "losangeles",
         "louisiana",
         "michigan",
@@ -812,6 +812,10 @@ class Demo3App(MDApp):
             path = ""
 
     def find_gbackups(self):
+        try:
+            import libs.lib_google2 as lib_google
+        except:
+            return
         import libs.lib_readuserdata
 
         x = libs.lib_readuserdata.readuserdata(App, ad, ios)
@@ -3040,7 +3044,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             # caller=self.root.get_screen("notification").ids["button4"],
             caller=App.get_running_app().root.current_screen.ids["button4"],
             items=menu_items,
-            max_height=400,
+            max_height=dp(4000),
+            height= dp(154),
             # position="center",
             width_mult=4,
         )

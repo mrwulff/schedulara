@@ -12,12 +12,16 @@ pip uninstall pillow
 pip install pillow==8.2.1--8.2.0??
 
 toolchain build kivy pillow pycrypto
+python toolchain.py build kivy pillow pycrypto
 
-toolchain update schedulara24
 
+toolchain update schedulara
+python3 toolchain.py create schedulara schedulara
 ##hints for when i forget
 
 toolchain pip install appdirs kivymd pillow humanize mechanize bs4 emoji webcolors pyperclip kivy-garden kivy-garden.graph faker pyparsing kivymd_extensions.akivymd ndicts google-auth-oauthlib google-api-python-client plyer tzlocal ndicts sentry_sdk
+
+python3 toolchain.py pip install appdirs kivymd pillow humanize mechanize bs4 emoji webcolors pyperclip kivy-garden kivy-garden.graph faker pyparsing kivymd_extensions.akivymd ndicts google-auth-oauthlib google-api-python-client plyer tzlocal ndicts sentry_sdk git+https://github.com/kivymd-extensions/sweetalert.git
 
 kivymd_extensions.sweetalert
 
@@ -43,8 +47,14 @@ toolchain pip install git+https://github.com/kivymd-extensions/sweetalert.git
 
 
 
-git clone https://github.com/kivy/kivy-ios.git
+git clone https://github.com/mrwulff/kivy-ios.git
 cd kivy-ios/
 python3 -m venv venv
 . venv/bin/activate
 pip install -e .
+
+
+
+
+
+git clone https://github.com/mrwulff/kivy-ios.git
