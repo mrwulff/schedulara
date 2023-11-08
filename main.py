@@ -27,7 +27,7 @@ if 1==1:
 #
 #
 
-if 1==2:
+if 1==1:
     import sentry_sdk
     
     from sentry_sdk.integrations.logging import LoggingIntegration
