@@ -13,21 +13,21 @@ import sys
 from kivy.metrics import dp
 from kivy.base import ExceptionHandler, ExceptionManager,Logger
 import logging
-'''
+
 class E(ExceptionHandler):
     def handle_exception(self, inst):
         Logger.exception('Exception caught by ExceptionHandler')
         toast(str(inst))
         print (inst)
         return ExceptionManager.PASS
-        '''
-if 1==2:
+        
+if 1==1:
     ExceptionManager.add_handler(E())
 
 #
 #
 
-if 1==2:
+if 1==1:
     import sentry_sdk
     
     from sentry_sdk.integrations.logging import LoggingIntegration
