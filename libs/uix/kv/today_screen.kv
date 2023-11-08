@@ -222,7 +222,9 @@
                         #width:butt.width*dp(5)
                         text: "Show All"
                         secondary_text: "Secondary text here"
-                        on_release: app.newstart("",False)
+                        on_release: 
+                            app.newstart("",False)
+                            #app.partial(app.launch_thread,self.func_that_take_time)
                         #pos_hint: {"center_x": .25, "center_y": .5}
                         #pos:{"center_x": .25, "center_y": .5}
                         #set_radius: app.cradius
@@ -294,15 +296,22 @@
             MDNavigationDrawerMenu:
 
                 MDNavigationDrawerHeader:
-                    title: "Menu"
+                    title: " Menu"
                     #title_color: "#4a4939"
-                    text: "v23.11.4.906"
-                    spacing: "4dp"
+                    text: "  v23.11.7.906"
+                    spacing: "6dp"
                     #padding: "12dp", 0, 0, "56dp"
                     #source: "images/icon.png"
                     #allow_stretch: True
                     #size:(10,10)
                     #size_hint:(10,10)
+
+                #DrawerClickableItem:
+                #    text: "loding screen"
+                #    icon:'bug'
+                #    on_press:
+                #        app.close_menu()
+                #        app.loading_screen("today")
                 DrawerClickableItem:
                     icon: "cog"
                     text: "Settings"
@@ -335,11 +344,26 @@
                         app.close_menu()
                         app.do_google_cal()
                 DrawerClickableItem:
+                    text: "Delete All Calendar"
+                    icon:'bug'
+                    on_press:
+                        app.close_menu()
+                        app.find_events("today")
+                DrawerClickableItem:
                     icon: "backup-restore"
                     text: "Backup and Restore"
                     on_press:
                         app.close_menu()
                         app.do_gbackup()
+                #DrawerClickableItem:
+                #    text: "SaveScreen"
+                #    icon: "close"
+                #    on_press:
+                #        app.save_current_screen2('today')
+                #        app.close_menu()
+                        
+
+
                 MDNavigationDrawerDivider:
                 DrawerClickableItem:
                     icon: "close"
@@ -353,6 +377,14 @@
                 #    on_press:
                 #        app.close_menu()
                 #        app.do_dev()
+                DrawerClickableItem:
+                    text: "Restart App"
+                    on_press:
+                        app.close_menu()
+                        app.restart("today")
+
+                        
+                        
 
 
                 
@@ -363,9 +395,9 @@
     
     
     
-    MDFloatingActionButtonSpeedDial:
-        id: speed_dial
-        data: app.data
-        icon:"menu"
-        root_button_anim: True
-        hint_animation: True
+    #MDFloatingActionButtonSpeedDial:
+    #    id: speed_dial
+    #    data: app.data
+    #    icon:"menu"
+    #    root_button_anim: True
+    #    hint_animation: True

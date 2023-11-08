@@ -13,14 +13,16 @@ import sys
 from kivy.metrics import dp
 from kivy.base import ExceptionHandler, ExceptionManager,Logger
 import logging
+'''
 class E(ExceptionHandler):
     def handle_exception(self, inst):
         Logger.exception('Exception caught by ExceptionHandler')
         toast(str(inst))
         print (inst)
         return ExceptionManager.PASS
-
-ExceptionManager.add_handler(E())
+        '''
+if 1==2:
+    ExceptionManager.add_handler(E())
 
 #
 #
@@ -63,6 +65,9 @@ from kivymd.uix.list import IRightBodyTouch, ILeftBodyTouch
 from kivy.properties import ObjectProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivymd.app import MDApp
+#from kivymd.tools.hotreload.app import MDApp
+
+
 from kivy.core.window import Window
 from kivy.app import App
 from kivy.config import Config
@@ -516,9 +521,19 @@ class CountDownLbl(Label):
 """
 
 x = []
+from kivymd.uix.relativelayout import MDRelativeLayout
 
+class ClickableTextFieldRound(MDRelativeLayout):
+    text = StringProperty()
+    hint_text = StringProperty()
 
 class Demo3App(MDApp):
+    def restart(self,wow):
+        self.root.clear_widgets()
+        self.stop()
+        #print (dir(Demo3App().run()))
+        return Demo3App().run()
+        
     fday = ""
     lday = ""
     date_range_pp = "All"
@@ -552,13 +567,13 @@ class Demo3App(MDApp):
         "default",
     ]
     locations = [
-        "lasvegas",
         "denver",
         "dc",
         "florida",
         "georgia",
         "indiana",
         "kentucky",
+        "lasvegas",
         "losangeles",
         "louisiana",
         "michigan",
@@ -603,7 +618,7 @@ class Demo3App(MDApp):
     ]
     right_hint=None,.9
     right_width=dp(70)
-    wall = ["Rhino", "Dark", "Light", "Stage", "Sing", "schedulara",'neon','neon2','neon3']
+    wall = ["Rhino", "Dark", "Light", "Stage", "Sing", "schedulara",'neon','neon2','neon3','rh2','grid','grid']
     profile = 0
     profile_data = []
     data = {
@@ -647,7 +662,7 @@ class Demo3App(MDApp):
 
         return d, now
     def close_menu(self):
-        print ('closing')
+        #print ('closing')
         self.root.current_screen.ids.nav_drawer.set_state("close")
     def call(self, lol):
         print("call", (lol), lol.icon)
@@ -849,11 +864,19 @@ class Demo3App(MDApp):
         return x
 
     def snackbarx(self, text1):
-        self.snackbar = Snackbar(
-            text=text1,
-            bg_color=self.theme_cls.primary_color,
-        )
-        self.snackbar.open()
+        from kivymd.uix.snackbar import MDSnackbar
+        from kivymd.uix.label import MDLabel
+
+
+        if 1==1:
+
+            MDSnackbar(
+                MDLabel(
+                    text=text1,
+                ),
+            ).open()
+        #except:
+        #    print (text1,'FAILED SNACKBAR')
 
     def add_google_calendar(self, y):
         import libs.lib_google2 as lib_google
@@ -862,6 +885,11 @@ class Demo3App(MDApp):
         if x.get("cal_id") != None:
             lib_google.google_calendar_add(ad, y, x["cal_id"])
             # lib_google.get_calendar_service(ad)
+    def find_events(self,rang):
+        print ('find events')
+        import libs.lib_google2 as lib_google
+        z=lib_google.google_calendar_list(ad, x,True)
+        toast(z)
 
     def remove_google_token(self, z):
         import os
@@ -871,7 +899,48 @@ class Demo3App(MDApp):
             self.snackbarx("success")
         except:
             self.snackbarx("failed to remove")
+    def delete_future_shows(self):
+        import libs.lib_new
+        import datetime
+        import os
+        import json
+        js = libs.lib_new.get_json_schedule_1(x, ad)
+        gg = js["shows"]
+        for show in range(len(gg)):
+            z=(self.filename(gg[show]) + ".json")
+            #for line in x2.readlines():
+            now=datetime.datetime.now()
+            time = now.strftime("%m%d%Y")
+            z2=str.split(z,' ')
+            print (z2)
+            z2=z2[0]
+            z2=str.split(z2,'_')
+            z2=z2[0]
 
+            print (time)
+            if 1==1:
+                date_object = datetime.datetime.strptime(z2, "%m%d%Y")
+                print (1,date_object)
+                if date_object>datetime.datetime.now():
+                    print ('revious')
+                    x2=ad + "/future_shows/" + self.filename(gg[show]) + ".json"
+                    with open(x2) as json_file:
+                        data = json.load(json_file)
+                        print (data.get("google_id"))
+                        if data.get("google_id") != None:
+                            del data["google_id"]
+                        data['updated']=True
+                        #print(data)
+                    json_file.close()
+                    data_new = json.dumps(data, indent=4)
+                    nf=open(x2,'w')
+                    nf.write(data_new)
+                    nf.close
+
+                        
+            
+
+            
     def do_google_cal(self):
         import libs.lib_readuserdata
         import json
@@ -894,20 +963,28 @@ class Demo3App(MDApp):
         found=0
         if x.get("cal_id") != None:
             for show in range(len(gg)):
-                # print(gg[show])
+                flag=0
+                #print(gg[show])
                 # self.snackbarx(gg[show]["show"])
                 # print(gg[show], "goddamn")
                 if gg[show].get("google_id") == None:
                     # lib_google.google_calendar_add(ad, gg[show], x["cal_id"])
 
-                    try:
-                        x2 = open(
-                            ad + "/future_shows/" + self.filename(gg[show]) + ".json",
-                            "r",
-                        )
-                        print("FOUND FILE")
-                        found=found+1
-                    except:
+                    
+                    x2 = open(
+                        ad + "/future_shows/" + self.filename(gg[show]) + ".json",
+                        "r",
+                    )
+                    print("FOUND FILE")
+                    found=found+1
+                    x2=ad + "/future_shows/" + self.filename(gg[show]) + ".json"
+                    with open(x2) as json_file:
+                        data = json.load(json_file)
+                        print (data.get("google_id"),'lololol')
+                        if data.get("google_id")!=None:
+                            print ('wowww')
+                            flag==1
+                    if flag==0:
                         try:
                             os.mkdir(ad + "/future_shows")
                         except:
@@ -1281,7 +1358,7 @@ class Demo3App(MDApp):
         #Window.keyboard_anim_args = {"d": 0.2, "t": "linear"}
         #Window.softinput_mode = "below_target"
 
-    def build(self):
+    def build(self, ):
         self.root = Root()
 
         #from kivy.config import Config
@@ -1372,13 +1449,14 @@ class Demo3App(MDApp):
         
         print (zz,' BACKDOOR true or false')
         #if zz == True:
-        if 1==1:
+        if 1==2:
             self.data.update({'Backup': ['backup-restore',"on_press", lambda x: print("backup"),"on_release", lambda x: self.do_gbackup()]})
             self.data.update({'Export': ['calendar-export',"on_press", lambda x: print("export"),"on_release", lambda x: self.do_google_cal()]})
             self.data.update({'Search': ['magnify',"on_press", lambda x: print("export"),"on_release", lambda x: self.new_search()]})
             #self.data.update({'Add Event': ['calendar-plus',"on_press", lambda x: print("export"),"on_release", lambda x: self.add_event()]})
         if 1==2:
             self.data.update({'DEV': ['debug',"debug", lambda x: print("debug"),"on_release", lambda x: self.do_dev()]})
+            self.data.update({'delete future': ['debug',"debug", lambda x: print("debug"),"on_release", lambda x: self.delete_future_shows()]})
 
 
 #fdate, ldate = self.get_dates("YTD")
@@ -1689,7 +1767,22 @@ class Demo3App(MDApp):
         import os
         os.remove(f)
         self.show_archive()
+    import libs.lib_updateuserdata
+    def save_current_screen2(self,t):
+
+        print (x,"TV")
+        x['current']=t
+        import libs.lib_updateuserdata as lib_updateuserdata
+
+        lib_updateuserdata.updateuser(x, ad)
+
+        #libs.lib_updateuserdata.updateuser(x, ad)
+        print ('what in the hell')
+        return ('wow') 
+
     def on_start(self):
+        
+        
 
         #toast(str(tic - time.perf_counter()))
         global x
@@ -5395,7 +5488,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     # if good_login==True:
     # self.save_login()
     # self.root.current = "home"
-
+    
     def save_login(self):
 
         loc=App.get_running_app().root.current_screen.ids["button4"].text
@@ -5409,8 +5502,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             toast("Please Enter Email")
             blank=True
             print (blank,"emailloc")
+        zz=App.get_running_app().root.current_screen.ids
 
-        if App.get_running_app().root.current_screen.ids["tpassword"].text=="":
+        #print(self.root.ids.pass2,'lolz')
+        passw=(App.get_running_app().root.current_screen.ids["pass2"].ids['tpassword'].text)
+        if passw=="":
             toast("Please Enter Password")
             blank=True
             print (blank,"passwordloc")
@@ -5429,7 +5525,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             x["usecache"] = False
             x["password"] = str(
                 libs.lib_enc.make_password(
-                    App.get_running_app().root.current_screen.ids["tpassword"].text
+                    passw
                 )
             )
             x["city"] = App.get_running_app().root.current_screen.ids["button4"].text

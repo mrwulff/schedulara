@@ -1,9 +1,31 @@
+<ClickableTextFieldRound>:
+    size_hint_y: None
+    height: tpassword.height
+    id: textfieldcontainer
+    MDTextField:
+        id:tpassword
+        hint_text: root.hint_text
+        text: root.text
+        password: True
+        #icon_left: "key-variant"
+
+    MDIconButton:
+        icon: "eye-off"
+        pos_hint: {"center_y": .5}
+        pos: tpassword.width - self.width + dp(8), 0
+        theme_text_color: "Hint"
+        on_release:
+            self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+            tpassword.password = False if tpassword.password is True else True
+
 <LoginScreen>
     name: "login"
     #Image:
     #    source: 'images/rh.jpg'
     #    size: self.width,self.height
+    id:lolz
     BoxLayout:
+        #id:lolz
         orientation: "vertical"
         MDTopAppBar:
             type: app.mtype
@@ -11,6 +33,8 @@
             height: app.mheight
             left_action_items: [['chevron-left', lambda screen: app.change_screen('settings', 'left'),'login']]
         Screen:
+            #id:lolz
+            
             Image:
                 pos_hint:{'center_x': 0.5, 'center_y': 0.8}
                 source: 'images/cartoon.png'
@@ -29,24 +53,35 @@
                 font_size:dp(20)
                 width:dp(300)
                 id:temail
-            MDTextField:
+            #MDTextField:
+            #    hint_text: "Password"
+            #    #helper_text: "Use website to Rese"
+            #    #helper_text_mode: "on_focus"
+            #    icon_right: "lock"
+            #    icon_left: "lock"
+            #    icon_left_color: app.theme_cls.primary_color
+            #    icon_right_color: app.theme_cls.primary_color
+            #    pos_hint:{'center_x': 0.5, 'center_y': 0.47}
+            #    size_hint_x:None
+            #    font_size:sp(20)
+            #    width:sp(300)
+            #    password:True
+            #    password_mask: "*"
+            #    #required: True
+            #    id:tpassword
+            #    #on_release:
+            #     #   app.toggle_show_pass()
+            ClickableTextFieldRound:
+                size_hint_x: None
                 hint_text: "Password"
-                #helper_text: "Use website to Rese"
-                #helper_text_mode: "on_focus"
-                icon_right: "lock"
-                icon_right_color: app.theme_cls.primary_color
-                pos_hint:{'center_x': 0.5, 'center_y': 0.40}
-                size_hint_x:None
-                font_size:sp(20)
-                width:sp(300)
-                password:True
-                password_mask: "*"
-                required: True
-                id:tpassword
+                font_size:dp(20)
+                width:dp(300)
+                id:pass2
+                pos_hint:{'center_x': 0.5, 'center_y': 0.43}
 
             MDLabel:
                 text: "Select Your Location"
-                pos_hint: {'center_x': .5, 'center_y': .30}
+                pos_hint: {'center_x': .5, 'center_y': .33}
                 halign: "center"
             MDRoundFlatButton:
                 id: button4
@@ -54,7 +89,7 @@
 
                 width: 50
                 text: "..."
-                pos_hint: {'center_x': .5, 'center_y': .25}
+                pos_hint: {'center_x': .5, 'center_y': .28}
                 values: app.sound_effects
                 items: app.sound_effects
                 #id: noise
@@ -63,7 +98,8 @@
             MDRoundFlatButton:
                 text: "Login!"
                 theme_text_color: "Primary"
-                pos_hint: {"center_x": .5, "center_y": .1}
+                pos_hint: {"center_x": .5, "center_y": .17}
+                font_size:dp(20)
                 on_release:
                     #app.check_login()
                     app.save_login()

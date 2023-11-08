@@ -24,6 +24,31 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive",
 ]
 
+def google_calendar_list(ad,x,delete):
+    service = get_calendar_service(ad)
+    import datetime
+    id2= (x['cal_id'])
+    print (id,'ID')
+    page_token = None
+    tot=0
+    while True:
+        start_date = datetime.datetime.now().isoformat() + 'Z'
+        #end_date = datetime.datetime(2024, 11, 7, 00, 00, 00, 0).isoformat() + 'Z'
+        print (start_date)
+
+        events = service.events().list(calendarId=id2,timeMin=start_date, pageToken=page_token).execute()
+        for event in events['items']:
+            print (event['id'])
+            if delete==True:
+                #dell.append
+                service.events().delete(calendarId=id2, eventId=event['id']).execute()
+
+            tot=tot+1
+        page_token = events.get('nextPageToken')
+        if not page_token:
+            break
+    print (tot)
+    return (str(tot)+' Events Deleted')
 
 def make_user_cals(ad):
     service = get_calendar_service(ad)
@@ -342,7 +367,7 @@ def search_files(ad, name):
 
 
 if __name__ == "__main__":
-    ad = "C:/Users/kw/AppData/Roaming/demo3/"
+    ad = "C:/Users/twat/AppData/Roaming/demo3/"
     x = {
         "date": "08/07/2022",
         "time": "14:30",
@@ -384,4 +409,9 @@ if __name__ == "__main__":
     # google_files(ad)
     # search_files(ad, "bobbobob")
     id = ["1IOFfiU0V4qySMyU3cEK32ypGczXRWz-q"]
-    find_backup(ad, id)
+    #find_backup(ad, id)
+    import lib_readuserdata
+    import json
+    
+    x = lib_readuserdata.readuserdata("App", ad, "ios")
+    google_calendar_list(ad,x,True)
