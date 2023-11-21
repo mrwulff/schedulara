@@ -17,7 +17,7 @@ class Root(ScreenManager):
         import os
 
         dumb = os.listdir()
-        print(dumb, "GETCWD", os.getcwd())
+        #print(dumb, "GETCWD", os.getcwd())
         import glob
 
         # print(glob.glob(dumb), "GLOBCWD")

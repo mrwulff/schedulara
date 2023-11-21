@@ -13,7 +13,7 @@ import sys
 from kivy.metrics import dp
 from kivy.base import ExceptionHandler, ExceptionManager,Logger
 import logging
-
+from kivy.utils import platform
 class E(ExceptionHandler):
     def handle_exception(self, inst):
         Logger.exception('Exception caught by ExceptionHandler')
@@ -26,17 +26,18 @@ if 1==1:
 
 #
 #
-
-if 1==1:
+print (platform,"PLATFORM")
+if platform !='ios':
     import sentry_sdk
     
     from sentry_sdk.integrations.logging import LoggingIntegration
 
-    #f=open('secrets.txt','r')
-    #for line in f.readlines():
-        #yo=line
+    f=open('secrets.txt','r')
+    for line in f.readlines():
+        yo=line
     sentry_sdk.init(
-        dsn="https://531fb56e8ac34fc3a2c624cc9cb43ee7@app.glitchtip.com/4771",
+        dsn=line,
+        #dsn="https://531fb56e8ac34fc3a2c624cc9cb43ee7@app.glitchtip.com/4771",
         #integrations=[
         #LoggingIntegration(
         #    level = logging.INFO,           # Capture info and above as breadcrumbs (this is the default)
@@ -72,7 +73,7 @@ from kivy.core.window import Window
 from kivy.app import App
 from kivy.config import Config
 
-from kivy.utils import platform
+
 from kivymd.uix.snackbar import Snackbar
 from kivymd.toast import toast
 from kivymd.uix.pickers import MDColorPicker
@@ -2267,7 +2268,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             next_show = datetime.strptime(next_show, "%m/%d/%Y %H:%M")
             bb=0
             nns=now - next_show
-            print('asdfasdf',nns,type(nns),shows)
+            #print('asdfasdf',nns,type(nns),shows)
             
             while (nns) >=timedelta(0):
                 next_show = shows[bb]["date"] + " " + shows[bb]["time"]
@@ -2318,8 +2319,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def find_pay_date(self,c):
 
 
-
-        firstdate = datetime.date(2022, 6, 28)
+        firstdate = datetime.date(2022, 10, 3)
         #:
         now = datetime.datetime.now()
         now = datetime.date.today()
@@ -2330,7 +2330,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         while flag == False:
 
             nextdate = firstdate + datetime.timedelta(days=14)
-            #print(nextdate)
+            #print(nextdate,'lolnextdate')
             lastdate = nextdate + datetime.timedelta(days=13)
             # print(type(nextdate), type(now), lastdate, flag, z)
             # print(nextdate - now)
@@ -2346,10 +2346,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 lastdate = lastdate + datetime.timedelta(days=14*pp_index)
                 lastdate1 = lastdate1 + datetime.timedelta(days=14*pp_index)
                 firstdate=firstdate+datetime.timedelta(days=14*pp_index)
+
             if c>=1:
-                lastdate = lastdate - datetime.timedelta(days=14*pp_index)
-                lastdate1 = lastdate1 - datetime.timedelta(days=14*pp_index)
-                firstdate=firstdate-datetime.timedelta(days=14*pp_index)
+                lastdate = lastdate + datetime.timedelta(days=14*pp_index)
+                lastdate1 = lastdate1 + datetime.timedelta(days=14*pp_index)
+                firstdate=firstdate+datetime.timedelta(days=14*pp_index)
         if c=='Last':
             lastdate = lastdate - datetime.timedelta(days=14)
             lastdate1 = lastdate1 - datetime.timedelta(days=14)
@@ -2884,7 +2885,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         global x
         # print(x)
         os.chdir(cwd)
-        print(os.getcwd(), "PRINT OMGOMG")
+        #print(os.getcwd(), "PRINT OMGOMG")
         self.root.set_current("settings")
         # sm.set_current("settings")
         try:
@@ -4968,13 +4969,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         print ('cc',lala)
         global pp_index
         pp_index=pp_index+lala
-        print (pp_index)
+        print (pp_index,'INDEXXX')
         paydate, payperiod = self.find_pay_date(pp_index)
         #zz=self.find_pay_date(pp_index)
         #print (zz)
 
         paylist = self.root.get_screen("today").ids["pay"]
-        paylist.text = "Payday:  " + paydate
+        paylist.text = "Payday:  " + paydate+ ' '+str(lala)
         paylist.secondary_text = "Payperiod: " + payperiod
 
 
@@ -5169,9 +5170,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         #    print(line)
         import os
 
-        print(os.getcwd(), "CWDDDDD")
+        #print(os.getcwd(), "CWDDDDD")
         os.chdir(cwd)
-        print(os.getcwd(), "CWDDDDD")
+        #print(os.getcwd(), "CWDDDDD")
         self.root.set_current("pay_breakdown")
 
         panel = ThreeLineListItem(
