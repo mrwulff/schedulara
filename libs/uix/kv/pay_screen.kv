@@ -11,6 +11,7 @@
 
         orientation: "vertical"
         MDTopAppBar:
+            #title: "Pay"
             height: app.mheight
             left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
         MDBoxLayout:
@@ -67,11 +68,20 @@
 
                 on_press:(app.do_payperiod_f('All'))
             MDRaisedButton:
-                text: 'Custom'
+                text: 'Select'
                 id: Custom
 
                 on_press:
                     (app.show_date_picker())
+            MDRaisedButton:
+                text: 'User'
+                id: button4
+                values: app.custom_range
+                #items: app.sound_effects
+
+                on_release: 
+                    app.choose_drop(app.custom_range,'range')
+                    app.send_dates(button4.text)
         
         MDBoxLayout:
             orientation: 'horizontal'

@@ -27,7 +27,8 @@ if 1==1:
 #
 #
 print (platform,"PLATFORM")
-if platform !='ios':
+send_to_sentry=False
+if platform !='ios' and send_to_sentry==True:
     import sentry_sdk
     
     from sentry_sdk.integrations.logging import LoggingIntegration
@@ -557,6 +558,7 @@ class Demo3App(MDApp):
     cpadding = 20
     cradius=0
     sound_effects = ["Ding", "Bang", "Lol"]
+    custom_range = [2023,2022,2021,2020,2019,2018,2017]
     lunches = ["0", "1", "2",'3']
     oth=["0", "1", "2",'3',"4", "5", "6",'7',"8", "9", "10",'11']
     mheight = dp(170)
@@ -2342,15 +2344,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         lastdate = nextdate - datetime.timedelta(days=7)
         lastdate1 = lastdate - datetime.timedelta(days=13)
         if type(c)==int:
-            if c<=-1:
-                lastdate = lastdate + datetime.timedelta(days=14*pp_index)
-                lastdate1 = lastdate1 + datetime.timedelta(days=14*pp_index)
-                firstdate=firstdate+datetime.timedelta(days=14*pp_index)
 
-            if c>=1:
-                lastdate = lastdate + datetime.timedelta(days=14*pp_index)
-                lastdate1 = lastdate1 + datetime.timedelta(days=14*pp_index)
-                firstdate=firstdate+datetime.timedelta(days=14*pp_index)
+            lastdate = lastdate + datetime.timedelta(days=14*pp_index)
+            lastdate1 = lastdate1 + datetime.timedelta(days=14*pp_index)
+            firstdate=firstdate+datetime.timedelta(days=14*pp_index)
+
+         
         if c=='Last':
             lastdate = lastdate - datetime.timedelta(days=14)
             lastdate1 = lastdate1 - datetime.timedelta(days=14)
@@ -3054,16 +3053,20 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             #self.root.get_screen("editShow").ids["lnch"].text=str(v)
 
         # self.root.get_screen(v2).ids["button4"].text = v[text_item]
+        if v2 == "range":
+            App.get_running_app().root.current_screen.ids["button4"].text = str(
+                v[text_item]
+            )
         global x
         x[v2] = v[text_item]
-        print(x)
+        #print(x)
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
 
     def choose_drop(self, v, v2):
         "oll"
-        print(v2, v, "THISISTHETHING2")
+        #print(v2, v, "THISISTHETHING2")
 
         if v2 == "city":
             menu_items = [
@@ -3131,8 +3134,26 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 }
                 for i in range(len(v) - 1)
             ]
-            # self.root.
+        if v2 == "range":
+            menu_items = [
+                {
+                    "text": f"{v[i]}",
+                    # "scroll_type": ['bars'],
+                    # "effect_cls": "ScrollEffect",
+                    "viewclass": "OneLineListItem",
+                    "on_release": lambda x=1: self.menu_callback(x, v, v2),
+                }
+                for i in range(len(v) - 1)
+            ]
 
+
+            self.menu = MDDropdownMenu(
+            #header_cls=MenuHeader(),
+            #caller=self.screen.ids.button,
+            #items=menu_items,
+        )
+            # self.root.
+            self.send_dates([x,v,v2])
         # print(self.root.get_screen("notification").ids)
         self.menu = MDDropdownMenu(
             # caller=self.root.get_screen("notification").ids["button4"],
@@ -4758,10 +4779,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def on_save_n(self, instance, value, date_range):
         App.get_running_app().root.current_screen.ids["start_date"].text=str(value)
         print ("omg!",instance, value)
+    def send_dates(self,dates):
+        print ("SEND DATES,",dates)
     def on_save(self, instance, value, date_range):
         from datetime import datetime
 
         print(self.root.current, "CURRENT SCREEEEEEN")
+        print (date_range,'wowowow')
         # self.root.ids.date_label.text = str(value)
         # self.root.ids.date_label.text = f'{str(date_range[0])} - {str(date_range[-1])}'
         try:
