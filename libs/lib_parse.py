@@ -30,9 +30,11 @@ def parsepayperiod(file):
     for i in range(len(ab)):
 
         ax = ab[i].find_all("td")
+        #for x in range(len(ax)):
+            #print (ax[x].get_text(),'AX',x)
         try:
-            alldays = [ax[5].get_text(), ax[11].get_text(), ax[4].get_text()]
-            #
+            alldays = [ax[5].get_text(), ax[11].get_text(), ax[4].get_text(),ax[13].get_text()]
+            #timein,total,show
 
             if (ax[1].get_text()) == "SHOW":
                 show_type = show_type + 1
@@ -72,11 +74,15 @@ def parsepayperiod(file):
     ###TODO
     realday = []
     day_ach = []
-
+    #print(allday,'WHAT')
     for i in range(1, len(allday) - 1):
         # allday[i][0], junk, junk = str.split(allday[i][0], " ")
+        #print (allday[i],'allday')
         newallday0, junk, junk = str.split(allday[i][0], " ")
-        junk, allday[i][1] = str.split(allday[i][1], "$")
+        try:
+            junk, allday[i][1] = str.split(allday[i][1], "$")
+        except:
+            junk, allday[i][1] = str.split(allday[i][3], "$")
         allday[i][1], junk = str.split(allday[i][1], "\n")
         # allday[i][1] = float(allday[i][1])
         newallday = float(allday[i][1])
@@ -142,7 +148,7 @@ def parsepayperiod(file):
         "shows": days,
         "ddelta": ddelta,
         "dtext": text,
-        "daysago": realday[0],
+        #"daysago": realday[0],
         "day_ach": day_ach,
         "hours_ach": hhours,
     }
@@ -411,4 +417,6 @@ def parse(sch, ad, usecache, x5):
 
 if __name__ == "__main__":
     # parse("sch", "ad", False)
-    parsepayperiod("C:/Users/kw/AppData/Roaming/demo3/pp/01-25-2022.html")
+    #parsepayperiod("C:/Users/kw/AppData/Roaming/demo3/pp/01-25-2022.html")
+    parsepayperiod("C:/Users/twat/AppData/Roaming/demo3/pp/01-25-2022.html")
+    parsepayperiod("C:/Users/twat/AppData/Roaming/demo3/pp/11-28-2023.html")

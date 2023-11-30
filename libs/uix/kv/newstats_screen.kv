@@ -17,39 +17,85 @@
         width:900
         padding:0
         MDTopAppBar:
+            id:togglehidden
             #title: "Settings"
             height: app.mheight
             left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
+            right_action_items: [['ghost-outline', lambda x: app.toggle_hidden()]]
+        #MDBoxLayout:
+            #orientation: 'horizontal'
+            #size_hint: 1,None
+            #height: app.mheight+10
+            #width: dp(100)
+            #height:dp(42)
+            
+
+            #MDRaisedButton:
+                #text: 'YTD'
+                #id: YTD
+
+                #on_press:(app.do_new_stats_format('YTD'))
+            #MDRaisedButton:
+                #text: 'Year'
+                #id: Year
+
+                #on_press:(app.do_new_stats_format('Year'))
+            #MDRaisedButton:
+                #text: 'All'
+                #id: All
+
+                #on_press:(app.do_new_stats_format('All'))
+            #MDRaisedButton:
+                #text: 'Custom'
+                #id: Custom
+
+                #on_press:
+                   # (app.make_stats('custom','custom'))
+                   # (app.show_date_picker())
         MDBoxLayout:
             #orientation: 'horizontal'
             size_hint: 1,None
             #height: app.mheight+10
-            width: dp(100)
+            #width: 1000
             height:dp(42)
             
+            MDSegmentedButton:
+                pos_hint: {"center_x": .5, "center_y": .5}
+                md_bg_color: app.theme_cls.primary_light
+                size_hint_x: .3
+                #radius:0,0,0,0
+                MDSegmentedButtonItem:
+                    text: "YTD"
+                    id: YTD
 
-            MDRaisedButton:
-                text: 'YTD'
-                id: YTD
+                    on_press:(app.do_new_stats_format('YTD'))
+                    
+                MDSegmentedButtonItem:
+                    text: "Year"
+                    id: Year
 
-                on_press:(app.do_new_stats_format('YTD'))
-            MDRaisedButton:
-                text: 'Year'
-                id: Year
+                    on_press:(app.do_new_stats_format('Year'))
 
-                on_press:(app.do_new_stats_format('Year'))
-            MDRaisedButton:
-                text: 'All'
-                id: All
+                MDSegmentedButtonItem:
+                    text: "All"
+                    id: All
 
-                on_press:(app.do_new_stats_format('All'))
-            MDRaisedButton:
-                text: 'Custom'
-                id: Custom
+                    on_press:(app.do_new_stats_format('All'))
+                MDSegmentedButtonItem:
+                    text: "Range"
+                    id: Custom
 
-                on_press:
-                   # (app.make_stats('custom','custom'))
-                    (app.show_date_picker())
+                    on_press:
+                        (app.show_date_picker())
+                MDSegmentedButtonItem:
+                    text: "Preset"
+                    id: button4
+                    values: app.custom_range
+                #items: app.sound_effects
+
+                    on_release: 
+                        app.choose_drop(app.custom_range,'range')
+                        app.send_dates(button4.text)
         MDBoxLayout:
             id: graph5
             orientation: 'horizontal'
@@ -96,10 +142,14 @@
                 width: dp(975)
                 
                 id:full_stats
-                height:c1c.height+c2c.height+c3c.height+c4c.height
-                width:c3c.width
-
-
+                #height:c1c.height+c2c.height+c3c.height+c4c.height
+                #width:c3c.width
+                #MDCard:
+                #    ThreeLineListItem:
+                #    text: "Paychecks Hidden"
+                #    id:extra
+                #    bg_color: app.theme_cls.primary_light
+                #    height:app.mheight/2
                 MDCard:
                     orientation: "vertical"
                     bg_color: app.theme_cls.primary_light
@@ -145,7 +195,7 @@
                     bg_color: app.theme_cls.primary_light
                     id:c3c
                     size_hint: 1.4,None
-                    height:c3.height+c3d.height
+                    height:c3.height+ex.height+ex.height
                     width:c3.width
                     MyAKBarChart:
                                 
@@ -159,6 +209,11 @@
                     ThreeLineListItem:
                         text: "Paychecks Hidden"
                         id:c3d
+                        bg_color: app.theme_cls.primary_light
+                        height:app.mheight/2
+                    ThreeLineListItem:
+                        text: "THIRDLY"
+                        id:ex
                         bg_color: app.theme_cls.primary_light
                         height:app.mheight/2
 

@@ -2,5 +2,6 @@
 Added side menu
 1.17 (11/20/2023)
 Fixed Next payperiod bug
+updated to new pp format
 Added Presets,Segmented buttons
 

@@ -21,7 +21,7 @@ class E(ExceptionHandler):
         print (inst)
         return ExceptionManager.PASS
         
-if 1==1:
+if 1==2:
     ExceptionManager.add_handler(E())
 
 #
@@ -1101,6 +1101,33 @@ class Demo3App(MDApp):
         "filter": "POS",
         "id": "c1",
     }
+    hours_chart = {
+        "name": "Hours",
+        "file": "json_pps.json",
+        "filter": "hours",
+        "id": "c9",
+    }
+
+    ot_chart = {
+        "name": "OT Hours",
+        "file": "json_pps.json",
+        "filter": "ot",
+        "id": "c10",
+    }
+
+    day_chart = {
+        "name": "Days",
+        "file": "json_pps.json",
+        "filter": "ot",
+        "id": "c11",
+    }
+
+    time_chart = {
+        "name": "Start Time",
+        "file": "json_pps.json",
+        "filter": "start",
+        "id": "c12",
+    }
 
     def do_new_stats(self, fdate, ldate, rng):
         global x
@@ -1108,6 +1135,7 @@ class Demo3App(MDApp):
         import libs.charts
 
         print("omg")
+        #self.root.current_screen.ids["newstats"].clear_widgets()
         self.root.set_current("newstats")
         import libs.lib_makegraphs
         import libs.lib_parse2
@@ -1136,55 +1164,56 @@ class Demo3App(MDApp):
         libs.lib_makegraphs.make_full_json_pp(ad, fdate, ldate,False)
         
         chart_list = []
+        chart_list.append(self.paycheck_amount_chart)
         chart_list.append(self.pos_chart)
         chart_list.append(self.type_chart)
         
         if x['hidden']==False:
-            chart_list.append(self.paycheck_amount_chart)
+            
+            toast('not hidden')
+        if x['hidden']==True:
+            toast('ghost mode')
         chart_list.append(self.client_chart)
-
+        
         chart_list.append(self.future_pos)
         chart_list.append(self.future_venue)
         chart_list.append(self.future_type)
         chart_list.append(self.venue_chart)
 
+        chart_list.append(self.hours_chart)
+        chart_list.append(self.hours_chart)
+
+        #print (len(chart_list),'LENGTH OF CHART LIST')
         for i in range(len(chart_list)):
             chart = [0] * len(chart_list)
-            "LOAD BUILDING AUTOMATIC"
-            pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
-                ad, chart_list[i]["file"], chart_list[i]["filter"]
-            )
+            print ("LOAD BUILDING AUTOMATIC",i,x['hidden'],chart_list[i]["name"])
+            
+            if x['hidden']==False:
+                pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
+                    ad, chart_list[i]["file"], chart_list[i]["filter"]
+                )
+            if x['hidden']==True:
+                #print ('yahoo!')
+                pos_k2=[0,]
+                pos_v2=[0,]
+            
             chart[i] = App.get_running_app().root.current_screen.ids[
                 chart_list[i]["id"]
             ]
             pos_v3=pos_v2
-            #if i==2 :
-            #   for x in range(len(pos_v3)):
-            #       pos_v3[x]=str(self.hide(pos_v3[x]))
-            #print (pos_v3,'posk2')
+            
+
                 
-            chart[i].x_values = pos_v2
-            chart[i].y_values = pos_v2
-            #chart[i].y_labels = (pos_v3)
-            chart[i].x_labels = pos_k2
+
             App.get_running_app().root.current_screen.ids[
                 chart_list[i]["id"]
             ].width = dp(80) * len(pos_v2)
 
-            #        chart_list[i]["id"]
-            #    ].width = dp(80) * len(pos_v2)
-            # if 100 * len(pos_v2) > dp(300):
-            ##    App.get_running_app().root.current_screen.ids[
-            #        chart_list[i]["id"]
-            #    ].width = dp(80) * len(pos_v2)
-            # else:
-            #    App.get_running_app().root.current_screen.ids[
-            #        chart_list[i]["id"]
-            #    ].width = dp(40)
+
             App.get_running_app().root.current_screen.ids[
                 chart_list[i]["id"] + "d"
             ].text = chart_list[i]["name"]
-            try:
+            if 1==1:
                 chart = [0] * len(chart_list)
                 "LOAD BUILDING AUTOMATIC"
                 pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
@@ -1193,34 +1222,27 @@ class Demo3App(MDApp):
                 chart[i] = App.get_running_app().root.current_screen.ids[
                     chart_list[i]["id"]
                 ]
+                if x['hidden']==True and i==0:
+                    print ('yahoo!',chart_list[i]["name"])
+                    pos_k2=[]
+                    pos_v2=[]
                 chart[i].x_values = pos_v2
                 chart[i].y_values = pos_v2
                 chart[i].x_labels = pos_k2
-                App.get_running_app().root.current_screen.ids[
-                    chart_list[i]["id"]
-                ].width = dp(80) * len(pos_v2)
+                #print (pos_v2,'POSV3')
 
-                #        chart_list[i]["id"]
-                #    ].width = dp(80) * len(pos_v2)
-                # if 100 * len(pos_v2) > dp(300):
-                ##    App.get_running_app().root.current_screen.ids[
-                #        chart_list[i]["id"]
-                #    ].width = dp(80) * len(pos_v2)
-                # else:
-                #    App.get_running_app().root.current_screen.ids[
-                #        chart_list[i]["id"]
-                #    ].width = dp(40)
                 App.get_running_app().root.current_screen.ids[
                     chart_list[i]["id"] + "d"
                 ].text = chart_list[i]["name"]
                 try:
                     ''
-                    #chart[i].update()
+                    chart[i].update()
                 except:
-                    return
-                    print("chart5 fail")
-            except:
-                print ('fail all charts')
+                    #return
+                    toast("chart5 fail")
+                    print ('chart fail')
+            #except:
+                #print ('fail all charts')
             if chart_list[i]["name"] == "Paycheck Amount":
                 check = App.get_running_app().root.current_screen.ids["c3d"]
                 try:
@@ -1231,12 +1253,10 @@ class Demo3App(MDApp):
                 except:
                     #check.text ="***HIDDEN***"
                     check.secondary_text = "***HIDDEN***"
+                    print ('hidden***')
                 check.text = "Paychecks: " + str(len(pos_v2))
-                toast("Found " + str(len(pos_v2)))+" Paychecks"
 
-                # App.get_running_app().root.current_screen.ids[
-                #    chart_list[i]["id"]
-                # ].height = (self.mheight * 2)
+    
 
     def add_message_to_chat(self, message):
         import libs.lib_firefriend
@@ -1730,13 +1750,15 @@ class Demo3App(MDApp):
             return (z)
 
     def hide(self,y):
-        global x
+        #global x
+        #toast (x['hidden'],'hidden?')
         try:
             if x['hidden']==True:
-
+                #toast('hiding stuff')
                 return "***"
         except:
             ''
+            #return str(y)
         return str(y)
 
 
@@ -2208,6 +2230,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         from datetime import datetime,timedelta
 
         self.root.set_current("today")
+        print (self.root.current_screen.name,'current_screen')
         self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
         import libs.lib_new
 
@@ -3006,7 +3029,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def get_wall(self, page):
         # self.root.set_current(page)
 
-        print(x, "assert")
+        #print(x, "assert")
         try:
             b = "images/walls/" + x["wall"] + ".jpg"
         except:
@@ -3072,6 +3095,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
+        self.menu.dismiss()
 
     def choose_drop(self, v, v2):
         "oll"
@@ -3177,11 +3201,31 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         )
         # self.menu.caller = button4
         self.menu.open()
+        
     def set_range(self,x,y,z):
+
         print ('set_range',x,y,z)
-        b,e,=self.do_payperiod_f(int(x))
+        print (self.root.current_screen.name,'WHATSCREEN')
+        if self.root.current_screen.name=='newstats':
+            print ("NEWSTATS!!!")
+
+
+
+            b = datetime.datetime.now().date().replace(month=1, day=1,year=int(x))
+            b = datetime.datetime.combine(b, datetime.datetime.min.time())
+            now = datetime.datetime.now().date().replace(month=12, day=31,year=(int(x)))
+            e = datetime.datetime.combine(now, datetime.datetime.min.time())
+
+
+
+
+            self.do_new_stats(b,e, "Custom")
+
+        if self.root.current_screen.name=='pay':
+            b,e,=self.do_payperiod_f(int(x))
         App.get_running_app().root.current_screen.ids["dstart"].text = str(b.date())
         App.get_running_app().root.current_screen.ids["dend"].text = str(e.date())
+        self.menu.dismiss()
     def format_minutes(self, t, v, d):
         # v=5
         if d == True:
@@ -3500,6 +3544,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def make_stats(self, start, b, e):
         self.root.set_current("stats")
+        """
         if start == "ytde":
             App.get_running_app().root.current_screen.ids[
                 "scustom"
@@ -3554,6 +3599,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             App.get_running_app().root.current_screen.ids[
                 "scustom"
             ].md_bg_color = self.theme_cls.primary_light
+            """
 
         from kivy.utils import get_color_from_hex
 
@@ -5118,6 +5164,21 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         self.do_payperiod("None")
         return fdate,ldate
+    def toggle_hidden(self):
+        
+        if x['hidden']==False:
+            x['hidden']=True
+            toast('Hide Personal Data')
+        else:
+            x['hidden']=False
+            toast('Show Personal Data')
+        print ('toggle_hidden',x['hidden'])
+        import libs.lib_updateuserdata as lib_updateuserdata
+
+        lib_updateuserdata.updateuser(x, ad)
+        self.root.set_current("pay")
+        self.prep_stats()
+        
 
     def do_payperiod(self, zz):
         self.root.set_current("pay")

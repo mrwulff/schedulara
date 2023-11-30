@@ -15,12 +15,12 @@ def load_full_pp(ad, fil, idex):
         pos_v, pos_k, pos_l = count_pc(data, "whole")
     if idex == "CLIENT":
         pos_k, pos_v, pos_l = count_pos(data, "client", True)
-        print(pos_k, pos_v, pos_l)
+        #print(pos_k, pos_v, pos_l)
         # a, b, c = shrink2(pos_k, pos_v, pos_l, 5)
 
     if idex == "VENUE":
         pos_k, pos_v, pos_l = count_pos(data, idex, True)
-        print(pos_k, pos_v, pos_l)
+        #print(pos_k, pos_v, pos_l)
         # a, b, c = shrink2(pos_k, pos_v, pos_l, 5)
 
     if idex == "TOTAL":
@@ -64,7 +64,7 @@ def count_gig(data, uu):
                     for m in range(len(v2)):
                         pos.append({"money": v2[m][uu], "date": v2[m]["timeIn"]})
     pos = sorted(pos, reverse=True, key=lambda i: i["date"])
-    print(pos)
+    #print(pos)
 
     for x in range(len(pos)):
         v22.append(pos[x]["money"])
@@ -96,7 +96,7 @@ def count_pc(data, uu):
     # print(pos)
 
     pos = sorted(pos, reverse=True, key=lambda i: i["pd"])
-    print(pos, "nonsortedyear")
+    #print(pos, "nonsortedyear")
 
     for x in range(len(pos)):
         k2.append(round_money(pos[x]["gt"]))
@@ -104,13 +104,13 @@ def count_pc(data, uu):
         temp = " "
         if (x == 0) or x == (len(pos) - 1):
             temp = pos[x]["pds"]
-            print(temp, type(temp), "temp2222")
+            #print(temp, type(temp), "temp2222")
             temp = temp.strftime("%m/%d/%y")
 
         l3.append(temp)
 
     pos_r = []
-    print(l3, "LLLLL3333")
+    #print(l3, "LLLLL3333")
 
     return (k2, l3, l3)
 
@@ -119,7 +119,7 @@ def count_pos_future(data, uu, shrink):
     import collections
 
     # print(data, uu, shrink, "THIS IS THE NEW THINGGY")
-    print(len(data))
+    #print(len(data))
     cc = []
     for z in range(len(data["shows"])):
         a = data["shows"][z][uu]
@@ -131,7 +131,7 @@ def count_pos_future(data, uu, shrink):
             a = a[0:6]
         cc.append(a)
     z = collections.Counter(cc)
-    print(z)
+    #print(z)
 
     k2 = []
     v2 = []
@@ -207,7 +207,7 @@ def count_pos(data, uu, shrink):
         # print(k, v)
 
         if shrink == True:
-            print(k)
+            #print(k)
             if len(k) > 6:
                 k = k[0:6]
             try:

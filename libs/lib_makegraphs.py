@@ -88,7 +88,7 @@ def make_full_json_pp(ad, s, e,full):
         if full==False:
 
             if s < f1 and f1 < e:
-                print(type(s), type(f1), e, "DATES OF PPPPS")
+                #print(type(s), type(f1), e, "DATES OF PPPPS")
 
                 pp = lib_parse.parsepayperiod(ad + "/pp/" + file)
                 all_pp.append(pp)
