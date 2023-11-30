@@ -18,70 +18,83 @@
             #orientation: 'horizontal'
             size_hint: 1,None
             height:dp(42)
-            MDRaisedButton:
-                text: 'Date'
-                id: paydate
+            MDSegmentedButton:
+                pos_hint: {"center_x": .5, "center_y": .5}
+                md_bg_color: app.theme_cls.primary_light
+                size_hint_x: .3
+                MDSegmentedButtonItem:
+                    text: 'Date'
+                    id: paydate
 
-                on_press:(app.do_payperiod_trim('paydate',"pp"))
-            MDRaisedButton:
-                text: '$$$'
+                    on_press:(app.do_payperiod_trim('paydate',"pp"))
+                MDSegmentedButtonItem:
+                    text: '$$$'
 
-                id: moneytotal
-                on_press:app.do_payperiod_trim('moneytotal','pp')
-            MDRaisedButton:
-                text: 'Hours'
+                    id: moneytotal
+                    on_press:app.do_payperiod_trim('moneytotal','pp')
+                MDSegmentedButtonItem:
+                    text: 'Hours'
 
-                id: totalhours
-                on_press:
-                    app.spinner_toggle()
-                    app.do_payperiod_trim('totalhours','pp')
-                    app.spinner_toggle()
-                    #(app.set_pp('custom'))
-            MDIconButton:
-                text: app.check_var(app.rreverse)
-                id: sall
-                on_press:
-                    app.do_payperiod_trim(app.sort_pp)
+                    id: totalhours
+                    on_press:
+                        app.spinner_toggle()
+                        app.do_payperiod_trim('totalhours','pp')
+                        app.spinner_toggle()
+                        #(app.set_pp('custom'))
+                MDIconButton:
+                    text: app.check_var(app.rreverse)
+                    id: sall
+                    #on_press:
+                        #app.do_payperiod_trim(app.sort_pp)
 
+
+        
         MDBoxLayout:
             #orientation: 'horizontal'
             size_hint: 1,None
             #height: app.mheight+10
-            width: 1000
+            #width: 1000
             height:dp(42)
-
             
+            MDSegmentedButton:
+                pos_hint: {"center_x": .5, "center_y": .5}
+                md_bg_color: app.theme_cls.primary_light
+                size_hint_x: .3
+                #radius:0,0,0,0
 
-            MDRaisedButton:
-                text: 'YTD'
-                id: YTD
 
-                on_press:(app.do_payperiod_f('YTD'))
-            MDRaisedButton:
-                text: 'Year'
-                id: Year
+                MDSegmentedButtonItem:
+                    text: "YTD"
+                    id: YTD
 
-                on_press:(app.do_payperiod_f('Year'))
-            MDRaisedButton:
-                text: 'All'
-                id: All
+                    on_press:(app.do_payperiod_f('YTD'))
+                    
+                MDSegmentedButtonItem:
+                    text: "Year"
+                    id: Year
 
-                on_press:(app.do_payperiod_f('All'))
-            MDRaisedButton:
-                text: 'Select'
-                id: Custom
+                    on_press:(app.do_payperiod_f('Year'))
 
-                on_press:
-                    (app.show_date_picker())
-            MDRaisedButton:
-                text: 'User'
-                id: button4
-                values: app.custom_range
+                MDSegmentedButtonItem:
+                    text: "All"
+                    id: All
+
+                    on_press:(app.do_payperiod_f('All'))
+                MDSegmentedButtonItem:
+                    text: "Range"
+                    id: Custom
+
+                    on_press:
+                        (app.show_date_picker())
+                MDSegmentedButtonItem:
+                    text: "Preset"
+                    id: button4
+                    values: app.custom_range
                 #items: app.sound_effects
 
-                on_release: 
-                    app.choose_drop(app.custom_range,'range')
-                    app.send_dates(button4.text)
+                    on_release: 
+                        app.choose_drop(app.custom_range,'range')
+                        app.send_dates(button4.text)
         
         MDBoxLayout:
             orientation: 'horizontal'

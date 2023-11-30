@@ -660,8 +660,17 @@ class Demo3App(MDApp):
             d = datetime.combine(d, datetime.min.time())
             now = datetime.now().date().replace(month=12, day=31)
             now = datetime.combine(now, datetime.min.time())
+        if type(t)==int:
+            
+            d = datetime.now().date().replace(month=1, day=1,year=t)
+            d = datetime.combine(d, datetime.min.time())
+            now = datetime.now().date().replace(month=12, day=31,year=t)
+            now = datetime.combine(now, datetime.min.time())
 
-        print(d, type(d))
+
+
+
+        print(d, type(d),now,'RETURN DATE RANGE')
 
         return d, now
     def close_menu(self):
@@ -3135,13 +3144,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 for i in range(len(v) - 1)
             ]
         if v2 == "range":
+            #presets
             menu_items = [
                 {
                     "text": f"{v[i]}",
                     # "scroll_type": ['bars'],
                     # "effect_cls": "ScrollEffect",
                     "viewclass": "OneLineListItem",
-                    "on_release": lambda x=1: self.menu_callback(x, v, v2),
+                    "on_release": lambda x=v[i]: self.set_range(x,v,v2),
+                    #"on_release": lambda x=1: self.menu_callback(x, v, v2),
                 }
                 for i in range(len(v) - 1)
             ]
@@ -3166,7 +3177,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         )
         # self.menu.caller = button4
         self.menu.open()
-
+    def set_range(self,x,y,z):
+        print ('set_range',x,y,z)
+        b,e,=self.do_payperiod_f(int(x))
+        App.get_running_app().root.current_screen.ids["dstart"].text = str(b.date())
+        App.get_running_app().root.current_screen.ids["dend"].text = str(e.date())
     def format_minutes(self, t, v, d):
         # v=5
         if d == True:
@@ -3485,7 +3500,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def make_stats(self, start, b, e):
         self.root.set_current("stats")
-        if start == "ytd":
+        if start == "ytde":
             App.get_running_app().root.current_screen.ids[
                 "scustom"
             ].md_bg_color = self.theme_cls.primary_light
@@ -3498,26 +3513,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             App.get_running_app().root.current_screen.ids[
                 "sall"
             ].md_bg_color = self.theme_cls.primary_light
-        if start == "year":
+        if start == "yeare":
             App.get_running_app().root.current_screen.ids[
                 "scustom"
             ].md_bg_color = self.theme_cls.primary_light
             App.get_running_app().root.current_screen.ids[
                 "syear"
-            ].md_bg_color = self.theme_cls.primary_dark
-            App.get_running_app().root.current_screen.ids[
-                "sytd"
-            ].md_bg_color = self.theme_cls.primary_light
-            App.get_running_app().root.current_screen.ids[
-                "sall"
-            ].md_bg_color = self.theme_cls.primary_light
-
-        if start == "custom":
-            App.get_running_app().root.current_screen.ids[
-                "syear"
-            ].md_bg_color = self.theme_cls.primary_light
-            App.get_running_app().root.current_screen.ids[
-                "scustom"
             ].md_bg_color = self.theme_cls.primary_dark
             App.get_running_app().root.current_screen.ids[
                 "sytd"
@@ -3526,7 +3527,21 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 "sall"
             ].md_bg_color = self.theme_cls.primary_light
 
-        if start == "all":
+        if start == "custome":
+            App.get_running_app().root.current_screen.ids[
+                "syear"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "scustom"
+            ].md_bg_color = self.theme_cls.primary_dark
+            App.get_running_app().root.current_screen.ids[
+                "sytd"
+            ].md_bg_color = self.theme_cls.primary_light
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].md_bg_color = self.theme_cls.primary_light
+
+        if start == "alle":
             App.get_running_app().root.current_screen.ids[
                 "syear"
             ].md_bg_color = self.theme_cls.primary_light
@@ -5018,11 +5033,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print(self.fday, "now", self.lday)
         from kivy.clock import Clock
 
+
         for file in glob.glob("*.html"):
             # print (file)
             import libs.lib_parse as lib_parse
-
             f1 = datetime.strptime(file, "%m-%d-%Y.html")
+            #print (f1,self.fday,self.lday,'LOADPPDates')
+            #print (type(f1),type(self.fday),type(self.lday),'LOADPPDates')
+
+            
             dd, junk, junk, junk, junk, junk = lib_parse.parsepayperiod(
                 ad + "/pp/" + file
             )
@@ -5092,12 +5111,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         ssort = self.sort_pp
         fdate, ldate = self.get_dates(date_rng)
-        # print(fdate, ldate, self.rreverse, ssort)
+        print(fdate, ldate, self.rreverse, ssort,'do_payperiod')
         self.lday = ldate
         self.fday = fdate
         self.date_range_pp = date_rng
 
         self.do_payperiod("None")
+        return fdate,ldate
 
     def do_payperiod(self, zz):
         self.root.set_current("pay")
@@ -5133,14 +5153,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 App.get_running_app().root.current_screen.ids[
                     bu2[i]
                 ].md_bg_color = self.theme_cls.primary_light
-        if rreverse == False:
-            App.get_running_app().root.current_screen.ids[
-                "sall"
-            ].icon = "sort-descending"
-        else:
-            App.get_running_app().root.current_screen.ids[
-                "sall"
-            ].icon = "sort-ascending"
+        #if rreverse == False:
+        #    App.get_running_app().root.current_screen.ids[
+        #        "sall"
+        #    ].icon = "sort-descending"
+        #else:
+        #    App.get_running_app().root.current_screen.ids[
+        #        "sall"
+        #    ].icon = "sort-ascending"
         #App.get_running_app().root.current_screen.ids[
         #        "sall"
         #    ].size=2
