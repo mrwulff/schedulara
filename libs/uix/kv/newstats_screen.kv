@@ -100,7 +100,7 @@
             id: graph5
             orientation: 'horizontal'
             size_hint: 1.1,None
-            #height: app.mheight
+            height: app.mheight
             height: dp(42)
             MDRaisedButton:
                 text: 'All'
@@ -128,9 +128,9 @@
             do_scroll_y:True
             size_hint: None,2
             width: graphs2.width
-            #adaptive_height: True
+            adaptive_height: True
             id:svh
-            #height:full_stats.height+dp(10000)
+            height:full_stats.height+dp(10000)
             #height:graph5.height/2
             
             MDBoxLayout:
@@ -150,6 +150,27 @@
                 #    id:extra
                 #    bg_color: app.theme_cls.primary_light
                 #    height:app.mheight/2
+                MDCard:
+                    orientation: "vertical"
+                    bg_color: app.theme_cls.primary_light
+                    id:c9c
+                    size_hint: 1,None
+                    height:c8.height+c9d.height
+                    MyAKBarChart:
+                                
+                        id: c9
+                        labels: True
+                        size_hint: 1,None
+                        height:app.mheight
+                        width: dp(350)
+                        
+                
+                    ThreeLineListItem:
+                        text: "Hours"
+                        secondary_text:'wow'
+                        id:c9d
+                        bg_color: app.theme_cls.primary_light
+                        height:app.mheight/2
                 MDCard:
                     orientation: "vertical"
                     bg_color: app.theme_cls.primary_light
@@ -319,6 +340,7 @@
                         id:c8d
                         bg_color: app.theme_cls.primary_light
                         height:app.mheight/4
+
 
 
 

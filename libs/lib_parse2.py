@@ -15,16 +15,22 @@ def load_full_pp(ad, fil, idex):
         pos_v, pos_k, pos_l = count_pc(data, "whole")
     if idex == "CLIENT":
         pos_k, pos_v, pos_l = count_pos(data, "client", True)
-        #print(pos_k, pos_v, pos_l)
+        # print(pos_k, pos_v, pos_l,'WTFYOU')
         # a, b, c = shrink2(pos_k, pos_v, pos_l, 5)
 
     if idex == "VENUE":
         pos_k, pos_v, pos_l = count_pos(data, idex, True)
-        #print(pos_k, pos_v, pos_l)
+        # print(pos_k, pos_v, pos_l)
         # a, b, c = shrink2(pos_k, pos_v, pos_l, 5)
 
     if idex == "TOTAL":
         pos_k, pos_v, pos_l = count_gig(data, "Total")
+    if idex == "hours":
+        # print ('idex=hours')
+
+        pos_k, pos_v, pos_l, tot = count_pos(data, idex, False)
+        print(tot, "WTFYOU")
+        return pos_k, pos_v, pos_l, tot
 
     if idex == "pos":
         pos_k, pos_v, pos_l = count_pos_future(data, "pos", False)
@@ -33,6 +39,7 @@ def load_full_pp(ad, fil, idex):
 
     if fil == "jason_show_cache_real.json":
         pos_k, pos_v, pos_l = count_pos_future(data, idex, False)
+
     return pos_k, pos_v, pos_l
 
 
@@ -64,7 +71,7 @@ def count_gig(data, uu):
                     for m in range(len(v2)):
                         pos.append({"money": v2[m][uu], "date": v2[m]["timeIn"]})
     pos = sorted(pos, reverse=True, key=lambda i: i["date"])
-    #print(pos)
+    # print(pos)
 
     for x in range(len(pos)):
         v22.append(pos[x]["money"])
@@ -84,19 +91,21 @@ def count_pc(data, uu):
     v2 = []
     l3 = []
     for k, v in data.items():
-        # print(v)
+        # print(v,'vvvv')
         for z in range(len(v)):
             pc = v[z]
             z = pc["paydate"]
+
+            # print (reg,'REGGGG')
             z = datetime.strptime(z, "%m/%d/%Y")
             gg = {"gt": pc["grandtotal"], "pd": z, "pds": z}
-            # print(gg)
+            # print(gg,"GG")
             pos.append(gg)
             # pos4.append(pc["grandtotal"])
     # print(pos)
 
     pos = sorted(pos, reverse=True, key=lambda i: i["pd"])
-    #print(pos, "nonsortedyear")
+    # print(pos, "nonsortedyear")
 
     for x in range(len(pos)):
         k2.append(round_money(pos[x]["gt"]))
@@ -104,13 +113,13 @@ def count_pc(data, uu):
         temp = " "
         if (x == 0) or x == (len(pos) - 1):
             temp = pos[x]["pds"]
-            #print(temp, type(temp), "temp2222")
+            # print(temp, type(temp), "temp2222")
             temp = temp.strftime("%m/%d/%y")
 
         l3.append(temp)
 
     pos_r = []
-    #print(l3, "LLLLL3333")
+    # print(l3, "LLLLL3333")
 
     return (k2, l3, l3)
 
@@ -119,7 +128,7 @@ def count_pos_future(data, uu, shrink):
     import collections
 
     # print(data, uu, shrink, "THIS IS THE NEW THINGGY")
-    #print(len(data))
+    # print(len(data))
     cc = []
     for z in range(len(data["shows"])):
         a = data["shows"][z][uu]
@@ -131,7 +140,7 @@ def count_pos_future(data, uu, shrink):
             a = a[0:6]
         cc.append(a)
     z = collections.Counter(cc)
-    #print(z)
+    # print(z)
 
     k2 = []
     v2 = []
@@ -161,12 +170,15 @@ def count_pos(data, uu, shrink):
     # print(len(data))
     # data = NestedDict(data)
     # if uu=='VENUE':
-
+    # print (uu,"UUuuu")
     pos = []
+    poss = []
     for k, v in data.items():
         added = False
+        print(len(v), "lenvvv")
+        qwer = len(v)
         for z in range(len(v)):
-            # print(v[z], z)
+            # print(len(v),'LENVVVV')
             for k2, v2 in v[z].items():
                 # print(k2, v2)
                 if k2 == "gigs":
@@ -188,11 +200,22 @@ def count_pos(data, uu, shrink):
                                 pos.append("TMA")
                                 added = True
                             if s[0] != "(" and added == False:
-                                print(s, "BLARRRRR")
+                                # print(s, "BLARRRRR")
 
                                 pos.append("?")
-                        else:
+
+                        if uu == "pos" or uu == "class" or uu == "client":
                             pos.append(v2[m][uu])
+                        if uu == "hours":
+                            s = v2[m]["tot_hours"]
+                            poss.append(s)
+                            s = str(s)
+                            s = str.split(s, ".")
+                            if len(s) < 2:
+                                s = 0 + s
+                            pos.append(int(s[0]))
+    # print (pos,'POSSS')
+    # pos=str(pos)
 
     # print(len(pos))
     z = collections.Counter(pos)
@@ -200,14 +223,22 @@ def count_pos(data, uu, shrink):
     k2 = []
     v2 = []
     v3 = []
-    z2 = dict(
-        sorted(z.items(), reverse=True, key=lambda item: item[1]),
-    )
+    if uu != "hours":
+        z2 = dict(
+            sorted(z.items(), reverse=True, key=lambda item: item[1]),
+        )
+    if uu == "hours":
+        # print (z)
+        z2 = dict(
+            sorted(z.items(), reverse=False, key=lambda item: item[0]),
+        )
+        # print (z2)
+        # print (z2)
     for k, v in z2.items():
         # print(k, v)
 
         if shrink == True:
-            #print(k)
+            # print(k)
             if len(k) > 6:
                 k = k[0:6]
             try:
@@ -215,12 +246,23 @@ def count_pos(data, uu, shrink):
                 k = k[0]
             except:
                 """"""
+        if uu == "hours":
+            k = str(k)
         v2.append(v)
+
         k2.append(k)
+
     zz = (k2, v2)
     # print(zz)
+    # print (pos,'posss')
     # print(zz[0][0])
-    return k2, v2, v3
+    if uu == "hours":
+        return k2, v2, poss, qwer
+    return (
+        k2,
+        v2,
+        poss,
+    )
 
 
 def moneyconvert(z):
@@ -281,7 +323,6 @@ def parsepayperiod(file):
     pp_all = []
 
     for i in range(len(ab)):
-
         ax = ab[i].find_all("td")
 
         # print(len(ax))
@@ -373,7 +414,6 @@ def parsepayperiod2(file):
     flag2 = False
     hhours = []
     for i in range(len(ab)):
-
         ax = ab[i].find_all("td")
         try:
             alldays = [ax[5].get_text(), ax[11].get_text(), ax[4].get_text()]
@@ -389,7 +429,6 @@ def parsepayperiod2(file):
         except:
             pass
         try:
-
             xx = ax[2].get_text()
             if flag2 == False:
                 if (xx) == "\xa0":
@@ -404,7 +443,6 @@ def parsepayperiod2(file):
             # print(ax, "fail")
             pass
         try:
-
             hours_worked = (float(ax[7].get_text())) + (float(ax[8].get_text()))
             # print(hours_worked, "hoursworked")
             # hours_worked = int(hours_worked)
@@ -735,7 +773,6 @@ def parse(sch, ad, usecache, x5):
         asds = str(ab[i].contents)
 
         if "input2 name" not in asds:
-
             l.append((ab[i].get_text()))
         if "input4 name" in asds:
             l.append(str(ab[i]))
@@ -754,12 +791,12 @@ def parse(sch, ad, usecache, x5):
 
 if __name__ == "__main__":
     # parse("sch", "ad", False)
-    ad = "C:/Users/kw/AppData/Roaming/demo3/"
+    ad = "C:/Users/twat/AppData/Roaming/demo3/"
     # parsepayperiod("C:/Users/kw/AppData/Roaming/demo3/pp/04-05-2022.html")
     # a, b, c = load_full_pp(ad, "json_pps.json", "TOTAL")
     a, b, c = load_full_pp(ad, "json_pps.json", "PCDA")
     # a, b, c = load_full_pp(ad, "json_pps.json", "VENUE")
 
     f = "jason_show_cache_real.json"
-    # a, b, c = load_full_pp(ad, f, "pos")
+    a, b, c = load_full_pp(ad, f, "Hours")
     print(a, b, c)

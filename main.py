@@ -2,48 +2,53 @@
 ###
 ### RELEASE 10.2.2023
 ###
-print ("wtf1006")
+debug = False
+print("wtf1006")
 from ast import Pass
 from asyncio import queues
-#from audioop import reverse
-#from curses import A_REVERSE
+
+# from audioop import reverse
+# from curses import A_REVERSE
 import profile
 import time
 import sys
 from kivy.metrics import dp
-from kivy.base import ExceptionHandler, ExceptionManager,Logger
+from kivy.base import ExceptionHandler, ExceptionManager, Logger
 import logging
 from kivy.utils import platform
+
+
 class E(ExceptionHandler):
     def handle_exception(self, inst):
-        Logger.exception('Exception caught by ExceptionHandler')
+        Logger.exception("Exception caught by ExceptionHandler")
         toast(str(inst))
-        print (inst)
+        print(inst)
         return ExceptionManager.PASS
-        
-if 1==2:
+
+
+if debug == True:
     ExceptionManager.add_handler(E())
 
 #
 #
-print (platform,"PLATFORM")
-send_to_sentry=False
-if platform !='ios' and send_to_sentry==True:
+print(platform, "PLATFORM")
+send_to_sentry = False
+if platform != "ios" and debug == True:
     import sentry_sdk
-    
+
     from sentry_sdk.integrations.logging import LoggingIntegration
 
-    f=open('secrets.txt','r')
+    f = open("secrets.txt", "r")
     for line in f.readlines():
-        yo=line
+        yo = line
     sentry_sdk.init(
         dsn=line,
-        #dsn="https://531fb56e8ac34fc3a2c624cc9cb43ee7@app.glitchtip.com/4771",
-        #integrations=[
-        #LoggingIntegration(
+        # dsn="https://531fb56e8ac34fc3a2c624cc9cb43ee7@app.glitchtip.com/4771",
+        # integrations=[
+        # LoggingIntegration(
         #    level = logging.INFO,           # Capture info and above as breadcrumbs (this is the default)
         #    event_level = logging.WARNING)
-        #],
+        # ],
         # Set traces_sample_rate to 1.0 to capture 100%
         # of transactions for performance monitoring.
         traces_sample_rate=1.0,
@@ -67,7 +72,8 @@ from kivymd.uix.list import IRightBodyTouch, ILeftBodyTouch
 from kivy.properties import ObjectProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivymd.app import MDApp
-#from kivymd.tools.hotreload.app import MDApp
+
+# from kivymd.tools.hotreload.app import MDApp
 
 
 from kivy.core.window import Window
@@ -82,8 +88,9 @@ from kivymd.uix.pickers import MDColorPicker
 # from kivymd.uix.pickers import MDThemePicker
 from kivymd.uix.pickers import MDTimePicker
 
-#from kivymd.uix.picker import MDDatePicker
+# from kivymd.uix.picker import MDDatePicker
 from kivymd.uix.pickers.datepicker import MDDatePicker
+
 # from kivymd.uix.pickers import MDTimePicker
 from kivymd_extensions.sweetalert import SweetAlert
 
@@ -125,7 +132,6 @@ except:
 import libs.lib_readuserdata as lib_readuserdata
 
 
-
 import os
 
 cwd = os.getcwd()
@@ -134,77 +140,76 @@ import webcolors
 
 w = 1125 / 3
 h = 2436 / 3
-print (platform,"PLATFORM")
+print(platform, "PLATFORM")
 
-#Config.set("graphics", "width", str(w))
-#Config.set("graphics", "height", str(h))
-if platform == 'win':
+# Config.set("graphics", "width", str(w))
+# Config.set("graphics", "height", str(h))
+if platform == "win":
     Window.size = (w, h)
-#scale = 1
-#if platform not in ["android", "ios"]:
+# scale = 1
+# if platform not in ["android", "ios"]:
 #    Window.size = (320,640)
 
-#from kivy.logger import Logger
-#from kivy.config import Config
+# from kivy.logger import Logger
+# from kivy.config import Config
 App.get_running_app()
-#print(Config.get('kivy', 'log_name'),'log_dir')
-#Config.get
+# print(Config.get('kivy', 'log_name'),'log_dir')
+# Config.get
 
-#Config.set('kivy', 'log_enable', 1)
-#Config.set('kivy', 'log_level', 'debug')
-#Config.set('kivy', 'log_name', 'my_file.log')
+# Config.set('kivy', 'log_enable', 1)
+# Config.set('kivy', 'log_level', 'debug')
+# Config.set('kivy', 'log_name', 'my_file.log')
 ##Config.set('kivy', 'log_dir', '/home/dude/folder')
 
-#Config.write()
-#Logger.debug('main:switching stuff on')
-#Logger.info('socket:send command to raspberry')
-#Logger
+# Config.write()
+# Logger.debug('main:switching stuff on')
+# Logger.info('socket:send command to raspberry')
+# Logger
 
-print ('windowmax1.278')
+print("windowmax1.278")
 if platform == "android":
     from kivy.config import Config
 
-    Config.set('graphics', 'fullscreen', 'auto')
-    Config.set('graphics', 'window_state', 'maximized')
+    Config.set("graphics", "fullscreen", "auto")
+    Config.set("graphics", "window_state", "maximized")
     from kivy.core.window import Window
+
     Window.maximize()
     Config.write()
-if platform == 'android5':
-
+if platform == "android5":
     from kivy.config import Config
 
-    Config.set('graphics', 'fullscreen', 'auto')
-    #Config.set('graphics', 'window_state', 'maximized')
+    Config.set("graphics", "fullscreen", "auto")
+    # Config.set('graphics', 'window_state', 'maximized')
     Config.write()
-    #Window.size = (600,900)
+    # Window.size = (600,900)
     from kivy.core.window import Window
+
     Window.maximize()
-    
 
-        
-    #Window.size = (1366, 768)
+    # Window.size = (1366, 768)
     Window.fullscreen = True
-    #Config.set("graphics", "width", str(800))
-
-
+    # Config.set("graphics", "width", str(800))
 
     from jnius import autoclass
     from android.runnable import run_on_ui_thread
     from android import mActivity
-    View = autoclass('android.view.View')
-    print ('autoclasssss')
+
+    View = autoclass("android.view.View")
+    print("autoclasssss")
 
     @run_on_ui_thread
     def hide_landscape_status_bar(instance, width, height):
-        # width,height gives false layout events, on pinch/spread 
+        # width,height gives false layout events, on pinch/spread
         # so use Window.width and Window.height
-        if Window.width > Window.height: 
+        if Window.width > Window.height:
             # Hide status bar
             option = View.SYSTEM_UI_FLAG_FULLSCREEN
         else:
-            # Show status bar 
+            # Show status bar
             option = View.SYSTEM_UI_FLAG_VISIBLE
         mActivity.getWindow().getDecorView().setSystemUiVisibility(option)
+
 
 toc1 = time.perf_counter()
 print(tic - toc1, "firsttimer")
@@ -215,7 +220,6 @@ from kivy.utils import platform
 # storagepath.get_downloads_dir()
 
 if platform == "ios":
-
     app = App.get_running_app()
     import ios
     from pyobjus import autoclass
@@ -225,7 +229,6 @@ if platform == "ios":
     sharedApplication = UIApplication.sharedApplication()
 
 
-    
 class AboutScreen(Screen):
     pass
 
@@ -339,7 +342,6 @@ class RV(RecycleView):
 
 
 class SwipeToDeleteItem(Screen):
-
     text = StringProperty()
 
     def click(self, *args):
@@ -412,7 +414,6 @@ class SwipeToDeleteItem(Screen):
         # print(mjds[idex]["location"], "WTHMAN")
 
         try:
-
             App.get_running_app().root.current_screen.ids["image"].source = (
                 "images/" + mjds[idex]["venue"].upper() + ".png"
             )
@@ -428,7 +429,6 @@ class ContentNavigationDrawer(Screen):
 
 
 class P(FloatLayout):
-
     pass
 
 
@@ -447,7 +447,6 @@ class TwoLineAvatarListItem22(TwoLineAvatarListItem):
 
 
 class Prestore(FloatLayout):
-
     pass
 
 
@@ -483,7 +482,7 @@ browser = ""
 plus_search = 0
 today_index = 0
 s_index = 0
-pp_index=0
+pp_index = 0
 
 
 class RecipeLine(MDBoxLayout):
@@ -525,27 +524,29 @@ class CountDownLbl(Label):
 x = []
 from kivymd.uix.relativelayout import MDRelativeLayout
 
+
 class ClickableTextFieldRound(MDRelativeLayout):
     text = StringProperty()
     hint_text = StringProperty()
 
+
 class Demo3App(MDApp):
-    def restart(self,wow):
+    def restart(self, wow):
         self.root.clear_widgets()
         self.stop()
-        #print (dir(Demo3App().run()))
+        # print (dir(Demo3App().run()))
         return Demo3App().run()
-        
+
     fday = ""
     lday = ""
     date_range_pp = "All"
     date_range_search = "All"
     sort_search = "timeIn"
-    sort_pp=  "paydate"
+    sort_pp = "paydate"
     scale = 1
     reverse = True
-    reverse_search=True
-    sp=True
+    reverse_search = True
+    sp = True
 
     i = 0
     # print("omg")
@@ -556,11 +557,11 @@ class Demo3App(MDApp):
     bradius = 10 * scale
     radius = 10 * scale
     cpadding = 20
-    cradius=0
+    cradius = 0
     sound_effects = ["Ding", "Bang", "Lol"]
-    custom_range = [2023,2022,2021,2020,2019,2018,2017]
-    lunches = ["0", "1", "2",'3']
-    oth=["0", "1", "2",'3',"4", "5", "6",'7',"8", "9", "10",'11']
+    custom_range = [2023, 2022, 2021, 2020, 2019, 2018, 2017]
+    lunches = ["0", "1", "2", "3"]
+    oth = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
     mheight = dp(170)
     pictures = [
         "light",
@@ -597,7 +598,7 @@ class Demo3App(MDApp):
         "tucson",
         "wisconsin",
     ]
-    js=[]
+    js = []
     pcolor = [
         "Red",
         "Pink",
@@ -619,9 +620,22 @@ class Demo3App(MDApp):
         "Gray",
         "BlueGray",
     ]
-    right_hint=None,.9
-    right_width=dp(70)
-    wall = ["Rhino", "Dark", "Light", "Stage", "Sing", "schedulara",'neon','neon2','neon3','rh2','grid','grid']
+    right_hint = None, 0.9
+    right_width = dp(70)
+    wall = [
+        "Rhino",
+        "Dark",
+        "Light",
+        "Stage",
+        "Sing",
+        "schedulara",
+        "neon",
+        "neon2",
+        "neon3",
+        "rh2",
+        "grid",
+        "grid",
+    ]
     profile = 0
     profile_data = []
     data = {
@@ -660,22 +674,20 @@ class Demo3App(MDApp):
             d = datetime.combine(d, datetime.min.time())
             now = datetime.now().date().replace(month=12, day=31)
             now = datetime.combine(now, datetime.min.time())
-        if type(t)==int:
-            
-            d = datetime.now().date().replace(month=1, day=1,year=t)
+        if type(t) == int:
+            d = datetime.now().date().replace(month=1, day=1, year=t)
             d = datetime.combine(d, datetime.min.time())
-            now = datetime.now().date().replace(month=12, day=31,year=t)
+            now = datetime.now().date().replace(month=12, day=31, year=t)
             now = datetime.combine(now, datetime.min.time())
 
-
-
-
-        print(d, type(d),now,'RETURN DATE RANGE')
+        print(d, type(d), now, "RETURN DATE RANGE")
 
         return d, now
+
     def close_menu(self):
-        #print ('closing')
+        # print ('closing')
         self.root.current_screen.ids.nav_drawer.set_state("close")
+
     def call(self, lol):
         print("call", (lol), lol.icon)
         self.root.current_screen.ids.menub.close_stack()
@@ -768,7 +780,6 @@ class Demo3App(MDApp):
         bu = ["backup_checks", "backup_config", "backup_shows"]
         for i in range(len(bu)):
             if x[bu[i]]:
-
                 if bu[i] == "backup_checks":
                     # print(bu[i])
                     src = os.path.join(ad, "pp")
@@ -861,7 +872,6 @@ class Demo3App(MDApp):
         return z
 
     def do_test_open(self):
-
         import libs.lib_new
 
         print("test00")
@@ -879,15 +889,13 @@ class Demo3App(MDApp):
         from kivymd.uix.snackbar import MDSnackbar
         from kivymd.uix.label import MDLabel
 
-
-        if 1==1:
-
+        if 1 == 1:
             MDSnackbar(
                 MDLabel(
                     text=text1,
                 ),
             ).open()
-        #except:
+        # except:
         #    print (text1,'FAILED SNACKBAR')
 
     def add_google_calendar(self, y):
@@ -897,10 +905,12 @@ class Demo3App(MDApp):
         if x.get("cal_id") != None:
             lib_google.google_calendar_add(ad, y, x["cal_id"])
             # lib_google.get_calendar_service(ad)
-    def find_events(self,rang):
-        print ('find events')
+
+    def find_events(self, rang):
+        print("find events")
         import libs.lib_google2 as lib_google
-        z=lib_google.google_calendar_list(ad, x,True)
+
+        z = lib_google.google_calendar_list(ad, x, True)
         toast(z)
 
     def remove_google_token(self, z):
@@ -911,48 +921,46 @@ class Demo3App(MDApp):
             self.snackbarx("success")
         except:
             self.snackbarx("failed to remove")
+
     def delete_future_shows(self):
         import libs.lib_new
         import datetime
         import os
         import json
+
         js = libs.lib_new.get_json_schedule_1(x, ad)
         gg = js["shows"]
         for show in range(len(gg)):
-            z=(self.filename(gg[show]) + ".json")
-            #for line in x2.readlines():
-            now=datetime.datetime.now()
+            z = self.filename(gg[show]) + ".json"
+            # for line in x2.readlines():
+            now = datetime.datetime.now()
             time = now.strftime("%m%d%Y")
-            z2=str.split(z,' ')
-            print (z2)
-            z2=z2[0]
-            z2=str.split(z2,'_')
-            z2=z2[0]
+            z2 = str.split(z, " ")
+            print(z2)
+            z2 = z2[0]
+            z2 = str.split(z2, "_")
+            z2 = z2[0]
 
-            print (time)
-            if 1==1:
+            print(time)
+            if 1 == 1:
                 date_object = datetime.datetime.strptime(z2, "%m%d%Y")
-                print (1,date_object)
-                if date_object>datetime.datetime.now():
-                    print ('revious')
-                    x2=ad + "/future_shows/" + self.filename(gg[show]) + ".json"
+                print(1, date_object)
+                if date_object > datetime.datetime.now():
+                    print("revious")
+                    x2 = ad + "/future_shows/" + self.filename(gg[show]) + ".json"
                     with open(x2) as json_file:
                         data = json.load(json_file)
-                        print (data.get("google_id"))
+                        print(data.get("google_id"))
                         if data.get("google_id") != None:
                             del data["google_id"]
-                        data['updated']=True
-                        #print(data)
+                        data["updated"] = True
+                        # print(data)
                     json_file.close()
                     data_new = json.dumps(data, indent=4)
-                    nf=open(x2,'w')
+                    nf = open(x2, "w")
                     nf.write(data_new)
                     nf.close
 
-                        
-            
-
-            
     def do_google_cal(self):
         import libs.lib_readuserdata
         import json
@@ -972,31 +980,30 @@ class Demo3App(MDApp):
         js = libs.lib_new.get_json_schedule_1(x, ad)
         gg = js["shows"]
         added = 0
-        found=0
+        found = 0
         if x.get("cal_id") != None:
             for show in range(len(gg)):
-                flag=0
-                #print(gg[show])
+                flag = 0
+                # print(gg[show])
                 # self.snackbarx(gg[show]["show"])
                 # print(gg[show], "goddamn")
                 if gg[show].get("google_id") == None:
                     # lib_google.google_calendar_add(ad, gg[show], x["cal_id"])
 
-                    
                     x2 = open(
                         ad + "/future_shows/" + self.filename(gg[show]) + ".json",
                         "r",
                     )
                     print("FOUND FILE")
-                    found=found+1
-                    x2=ad + "/future_shows/" + self.filename(gg[show]) + ".json"
+                    found = found + 1
+                    x2 = ad + "/future_shows/" + self.filename(gg[show]) + ".json"
                     with open(x2) as json_file:
                         data = json.load(json_file)
-                        print (data.get("google_id"),'lololol')
-                        if data.get("google_id")!=None:
-                            print ('wowww')
-                            flag==1
-                    if flag==0:
+                        print(data.get("google_id"), "lololol")
+                        if data.get("google_id") != None:
+                            print("wowww")
+                            flag == 1
+                    if flag == 0:
                         try:
                             os.mkdir(ad + "/future_shows")
                         except:
@@ -1012,9 +1019,9 @@ class Demo3App(MDApp):
                         self.snackbarx("Added " + str(added))
 
                         x2.write(json_object)
-                        added=1+added
-        
-            self.snackbarx("Added " + str(added)+', Found '+str(found))
+                        added = 1 + added
+
+            self.snackbarx("Added " + str(added) + ", Found " + str(found))
 
     def filename(self, x):
         f = str.replace(x["show"], "/", "")
@@ -1035,20 +1042,19 @@ class Demo3App(MDApp):
         return str(d)
 
     def do_new_stats_format(self, f):
-
         fdate, ldate = self.get_dates(f)
-        try:
+        if 1 == 1:
             self.do_new_stats(fdate, ldate, f)
-        except:
-            print("div by 0")
+        # except:
+        #    print("div by 0")
 
     def check_stats(self, li):
-        print(li, "LIST OF CHECKS")
+        # print(li, "LIST OF CHECKS")
         sum2 = sum(li)
         try:
             ave = sum2 / (len(li))
         except:
-            ave=-1
+            ave = -1
         return round(sum2, 2), round(ave, 2)
 
     future_pos = {
@@ -1101,11 +1107,20 @@ class Demo3App(MDApp):
         "filter": "POS",
         "id": "c1",
     }
-    hours_chart = {
-        "name": "Hours",
+    shift_chart = {
+        "name": "Shift Length",
         "file": "json_pps.json",
         "filter": "hours",
         "id": "c9",
+        "secondary": "Total Hours: ",
+    }
+
+    hours_chart = {
+        "name": "Hours",
+        "file": "json_pps.json",
+        "filter": "tothours",
+        "id": "c9",
+        "secondary": "Average Hours: ",
     }
 
     ot_chart = {
@@ -1131,11 +1146,11 @@ class Demo3App(MDApp):
 
     def do_new_stats(self, fdate, ldate, rng):
         global x
-        #import kivymd_extensions.akivymd
+        # import kivymd_extensions.akivymd
         import libs.charts
 
         print("omg")
-        #self.root.current_screen.ids["newstats"].clear_widgets()
+        # self.root.current_screen.ids["newstats"].clear_widgets()
         self.root.set_current("newstats")
         import libs.lib_makegraphs
         import libs.lib_parse2
@@ -1149,114 +1164,136 @@ class Demo3App(MDApp):
         App.get_running_app().root.current_screen.ids["dend"].text = self.format_date(
             ldate, "full"
         )
-        for i in range(len(bu)):
-            if rng == bu[i]:
-                App.get_running_app().root.current_screen.ids[
-                    bu[i]
-                ].md_bg_color = self.theme_cls.primary_dark
-            else:
-                App.get_running_app().root.current_screen.ids[
-                    bu[i]
-                ].md_bg_color = self.theme_cls.primary_light
 
-        # s = App.get_running_app().root.current_screen.ids["dstart"].text
-        # e = App.get_running_app().root.current_screen.ids["dend"].text
-        libs.lib_makegraphs.make_full_json_pp(ad, fdate, ldate,False)
-        
+        libs.lib_makegraphs.make_full_json_pp(ad, fdate, ldate, False)
+
         chart_list = []
         chart_list.append(self.paycheck_amount_chart)
         chart_list.append(self.pos_chart)
         chart_list.append(self.type_chart)
-        
-        if x['hidden']==False:
-            
-            toast('not hidden')
-        if x['hidden']==True:
-            toast('ghost mode')
+
         chart_list.append(self.client_chart)
-        
+        chart_list.append(self.venue_chart)
         chart_list.append(self.future_pos)
         chart_list.append(self.future_venue)
         chart_list.append(self.future_type)
-        chart_list.append(self.venue_chart)
 
-        chart_list.append(self.hours_chart)
-        chart_list.append(self.hours_chart)
+        chart_list.append(self.shift_chart)
+        # chart_list.append(self.ot_chart)
+        # chart_list.append(self.venue_chart)
 
-        #print (len(chart_list),'LENGTH OF CHART LIST')
+        # chart_list.append(self.day_chart)
+
+        # chart_list.append(self.time_chart)
+        print(len(chart_list), "chartlist")
+
+        # print (len(chart_list),'LENGTH OF CHART LIST')
         for i in range(len(chart_list)):
             chart = [0] * len(chart_list)
-            print ("LOAD BUILDING AUTOMATIC",i,x['hidden'],chart_list[i]["name"])
-            
-            if x['hidden']==False:
-                pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
-                    ad, chart_list[i]["file"], chart_list[i]["filter"]
-                )
-            if x['hidden']==True:
-                #print ('yahoo!')
-                pos_k2=[0,]
-                pos_v2=[0,]
-            
+            # print ("LOAD BUILDING AUTOMATIC",i,x['hidden'],chart_list[i]["name"],chart)
+
+            if x["hidden"] == False:
+                if chart_list[i]["name"] == "Shift Length":
+                    print("WOWOWOW")
+                    pos_k2, pos_v2, pos_v3, tot = libs.lib_parse2.load_full_pp(
+                        ad, chart_list[i]["file"], chart_list[i]["filter"]
+                    )
+                else:
+                    print("nownwo")
+                    pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
+                        ad, chart_list[i]["file"], chart_list[i]["filter"]
+                    )
+            if x["hidden"] == True:
+                # print ('yahoo!')
+                pos_k2 = [
+                    0,
+                ]
+                pos_v2 = [
+                    0,
+                ]
+
             chart[i] = App.get_running_app().root.current_screen.ids[
                 chart_list[i]["id"]
             ]
-            pos_v3=pos_v2
-            
+            # print(pos_v3, "posv3")
 
-                
+            if chart_list[i]["name"] == "Shift Length":
+                print(chart_list[i]["secondary"], "SECONDARY2")
+                # sec = App.get_running_app().root.current_screen.ids[chart_list[i]["id"+'d']]
+                # sec.secondary_text = chart_list[i]["secondary"]
+                try:
+                    print(((pos_v3)), "sumsum")
+                    what = "Total Hours: " + str(sum(pos_v3))
+                    what2 = (sum(pos_v3)) / tot
+                    what2 = f"{what2:.2f}"
+                    what2 = "Total/Paycheck: " + what2
+                    # print(App.get_running_app().root.current_screen.ids["c9d"].secondary_text)
+                    print(pos_v3, "POSV#")
+                    try:
+                        print(sum(pos_v3), "wowowowow")
+                    except:
+                        print("cant print tot")
+                    App.get_running_app().root.current_screen.ids[
+                        chart_list[i]["id"] + "d"
+                    ].secondary_text = what
+                    App.get_running_app().root.current_screen.ids[
+                        chart_list[i]["id"] + "d"
+                    ].tertiary_text = what2
+                    # print (pos2,'WHATTT222')
+                    # pos2='wows'
+                except:
+                    print("why are you trying to do this")
 
             App.get_running_app().root.current_screen.ids[
                 chart_list[i]["id"]
             ].width = dp(80) * len(pos_v2)
 
-
             App.get_running_app().root.current_screen.ids[
                 chart_list[i]["id"] + "d"
             ].text = chart_list[i]["name"]
-            if 1==1:
+            if 1 == 1:
                 chart = [0] * len(chart_list)
                 "LOAD BUILDING AUTOMATIC"
-                pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
-                    ad, chart_list[i]["file"], chart_list[i]["filter"]
-                )
+                if chart_list[i]["name"] == "Paycheck Amount":
+                    pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
+                        ad, chart_list[i]["file"], chart_list[i]["filter"]
+                    )
                 chart[i] = App.get_running_app().root.current_screen.ids[
                     chart_list[i]["id"]
                 ]
-                if x['hidden']==True and i==0:
-                    print ('yahoo!',chart_list[i]["name"])
-                    pos_k2=[]
-                    pos_v2=[]
+                if x["hidden"] == True and i == 0:
+                    print("yahoo!", chart_list[i]["name"])
+                    pos_k2 = []
+                    pos_v2 = []
                 chart[i].x_values = pos_v2
                 chart[i].y_values = pos_v2
                 chart[i].x_labels = pos_k2
-                #print (pos_v2,'POSV3')
+                # print (pos_v2,'POSV3')
 
                 App.get_running_app().root.current_screen.ids[
                     chart_list[i]["id"] + "d"
                 ].text = chart_list[i]["name"]
                 try:
-                    ''
+                    """"""
                     chart[i].update()
                 except:
-                    #return
+                    # return
                     toast("chart5 fail")
-                    print ('chart fail')
-            #except:
-                #print ('fail all charts')
+                    print("chart fail")
+            # except:
+            # print ('fail all charts')
             if chart_list[i]["name"] == "Paycheck Amount":
                 check = App.get_running_app().root.current_screen.ids["c3d"]
                 try:
                     ave, tot = self.check_stats(pos_v2)
                     check.secondary_text = "Total: $" + str(self.hide(ave))
                     check.tertiary_text = "Average:  $" + str(self.hide(tot))
-                    
-                except:
-                    #check.text ="***HIDDEN***"
-                    check.secondary_text = "***HIDDEN***"
-                    print ('hidden***')
-                check.text = "Paychecks: " + str(len(pos_v2))
 
-    
+                except:
+                    # check.text ="***HIDDEN***"
+                    check.secondary_text = "***HIDDEN***"
+                    print("hidden***")
+                check.text = "Paychecks: " + str(len(pos_v2))
 
     def add_message_to_chat(self, message):
         import libs.lib_firefriend
@@ -1333,7 +1370,6 @@ class Demo3App(MDApp):
         l = ["bio", "phone", "nick", "button4", "name"]
         self.root.set_current("profile")
         for i in range(len(l)):
-
             try:
                 App.get_running_app().root.current_screen.ids[l[i]].text = x[l[i]]
             except:
@@ -1385,275 +1421,315 @@ class Demo3App(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        #self.title = "Kivy - Lazy Load"
+        # self.title = "Kivy - Lazy Load"
 
-        #Window.keyboard_anim_args = {"d": 0.2, "t": "linear"}
-        #Window.softinput_mode = "below_target"
+        # Window.keyboard_anim_args = {"d": 0.2, "t": "linear"}
+        # Window.softinput_mode = "below_target"
 
-    def build(self, ):
+    def build(
+        self,
+    ):
         self.root = Root()
 
-        #from kivy.config import Config
+        # from kivy.config import Config
 
-        #Config.set('graphics', 'fullscreen', 'auto')
-        #Config.set('graphics', 'window_state', 'maximized')
-        #Config.write()
+        # Config.set('graphics', 'fullscreen', 'auto')
+        # Config.set('graphics', 'window_state', 'maximized')
+        # Config.write()
         from kivy.core.window import Window
-        #Window.maximize()
-        #print ('windowmax')
 
-        
-        #Window.size = (1366, 1366)
-        #Window.fullscreen = True
+        # Window.maximize()
+        # print ('windowmax')
 
+        # Window.size = (1366, 1366)
+        # Window.fullscreen = True
 
         # rv = self.root.ids.rv
         # self.data = [self.create_random_input(rv, index) for index in range(20)]
 
         # self.root.set_current("home")
 
-
-
-        self.data={
-            'Settings': [
-                    'cog-outline',
-                    "on_press", lambda x: print("settings"),
-                    "on_release", lambda x: self.do_settings()
-
+        self.data = {
+            "Settings": [
+                "cog-outline",
+                "on_press",
+                lambda x: print("settings"),
+                "on_release",
+                lambda x: self.do_settings(),
             ],
-            
             #'Backup': [
             #        'backup-restore',
             #        "on_press", lambda x: print("backup"),
             #        "on_release", lambda x: self.do_gbackup()
-
-            #],
-
-            
-            #],
-                    'Paystubs': [
-                    'cash-100',
-                    "on_press", lambda x: toast("loading paystubs"),
-                    "on_release", lambda x: self.do_payperiod_f("YTD")
-
+            # ],
+            # ],
+            "Paystubs": [
+                "cash-100",
+                "on_press",
+                lambda x: toast("loading paystubs"),
+                "on_release",
+                lambda x: self.do_payperiod_f("YTD"),
             ],
-                    'Stats': [
-                    'chart-areaspline',
-                    #"on_press", lambda x: toast("loading charts"),
-                    "on_release", lambda x: self.prep_stats()
-
+            "Stats": [
+                "chart-areaspline",
+                # "on_press", lambda x: toast("loading charts"),
+                "on_release",
+                lambda x: self.prep_stats(),
             ],
-           ####BROKEN PLEASE FIX SOON
-           # 'Search': [
-           #         'magnify',
-           #         #"on_press", lambda x: toast("loading charts"),
-           #         "on_release", lambda x: self.new_search()
+            ####BROKEN PLEASE FIX SOON
+            # 'Search': [
+            #         'magnify',
+            #         #"on_press", lambda x: toast("loading charts"),
+            #         "on_release", lambda x: self.new_search()
             #
-           # ],
-            
-            
-
-            #"Stats": "chart-areaspline",
-
+            # ],
+            # "Stats": "chart-areaspline",
         }
-        zz=False
-        if 1==1:
-            
+        zz = False
+        if 1 == 1:
             try:
                 import libs.lib_readuserdata
+
                 x = libs.lib_readuserdata.readuserdata(App, ad, ios)
                 if x.get("backdoor") == True:
-                    zz=True
-                    #toast('backdoor=true')
+                    zz = True
+                    # toast('backdoor=true')
 
-                    print ('user11true')
+                    print("user11true")
                 if x.get("backdoor") == False:
-                    zz=False
-                    print ('user11false')
-                print ('good user read')
-                #toast(str(x.get("backdoor")+' test'))
-                #print('BACKDOOR')
+                    zz = False
+                    print("user11false")
+                print("good user read")
+                # toast(str(x.get("backdoor")+' test'))
+                # print('BACKDOOR')
             except:
                 print("bad user read")
-                #toast('backdoor=unknown')
-                #self.snackbar = Snackbar(text="bla", bg_color=self.theme_cls.primary_color)
-                #self.snackbar.open()
-        
-        print (zz,' BACKDOOR true or false')
-        #if zz == True:
-        if 1==2:
-            self.data.update({'Backup': ['backup-restore',"on_press", lambda x: print("backup"),"on_release", lambda x: self.do_gbackup()]})
-            self.data.update({'Export': ['calendar-export',"on_press", lambda x: print("export"),"on_release", lambda x: self.do_google_cal()]})
-            self.data.update({'Search': ['magnify',"on_press", lambda x: print("export"),"on_release", lambda x: self.new_search()]})
-            #self.data.update({'Add Event': ['calendar-plus',"on_press", lambda x: print("export"),"on_release", lambda x: self.add_event()]})
-        if 1==2:
-            self.data.update({'DEV': ['debug',"debug", lambda x: print("debug"),"on_release", lambda x: self.do_dev()]})
-            self.data.update({'delete future': ['debug',"debug", lambda x: print("debug"),"on_release", lambda x: self.delete_future_shows()]})
+                # toast('backdoor=unknown')
+                # self.snackbar = Snackbar(text="bla", bg_color=self.theme_cls.primary_color)
+                # self.snackbar.open()
 
+        print(zz, " BACKDOOR true or false")
+        # if zz == True:
+        if 1 == 2:
+            self.data.update(
+                {
+                    "Backup": [
+                        "backup-restore",
+                        "on_press",
+                        lambda x: print("backup"),
+                        "on_release",
+                        lambda x: self.do_gbackup(),
+                    ]
+                }
+            )
+            self.data.update(
+                {
+                    "Export": [
+                        "calendar-export",
+                        "on_press",
+                        lambda x: print("export"),
+                        "on_release",
+                        lambda x: self.do_google_cal(),
+                    ]
+                }
+            )
+            self.data.update(
+                {
+                    "Search": [
+                        "magnify",
+                        "on_press",
+                        lambda x: print("export"),
+                        "on_release",
+                        lambda x: self.new_search(),
+                    ]
+                }
+            )
+            # self.data.update({'Add Event': ['calendar-plus',"on_press", lambda x: print("export"),"on_release", lambda x: self.add_event()]})
+        if 1 == 2:
+            self.data.update(
+                {
+                    "DEV": [
+                        "debug",
+                        "debug",
+                        lambda x: print("debug"),
+                        "on_release",
+                        lambda x: self.do_dev(),
+                    ]
+                }
+            )
+            self.data.update(
+                {
+                    "delete future": [
+                        "debug",
+                        "debug",
+                        lambda x: print("debug"),
+                        "on_release",
+                        lambda x: self.delete_future_shows(),
+                    ]
+                }
+            )
 
-#fdate, ldate = self.get_dates("YTD")
-#            self.do_new_stats(fdate, ldate, "YTD")
-    def dev(self,x):
-        if x=='zero':
-            toast('divide by zero GO')
-            z=1/0
-        if x=='webview':
-            toast('webview')
+    # fdate, ldate = self.get_dates("YTD")
+    #            self.do_new_stats(fdate, ldate, "YTD")
+    def dev(self, x):
+        if x == "zero":
+            toast("divide by zero GO")
+            z = 1 / 0
+        if x == "webview":
+            toast("webview")
             import libs.lib_custom_views
-            x = libs.lib_custom_views.webviews(App, ad, ios,self)
+
+            x = libs.lib_custom_views.webviews(App, ad, ios, self)
             toast(x)
+
     def add_event(self):
         print("add_event")
         self.root.set_current("add_user_show")
+
     def new_search_bad(self):
-        #content_cls=Content(),
+        # content_cls=Content(),
         button_ok = MDRaisedButton(
-            text='what!',
-            font_size=16,
-            on_release=self.print_street2
+            text="what!", font_size=16, on_release=self.print_street2
         )
 
         self.alert = SweetAlert()
-        self.alert.fire(input="Input Email",buttons=[button_ok],)
+        self.alert.fire(
+            input="Input Email",
+            buttons=[button_ok],
+        )
 
     def rate_input(self):
-        #THIS ONE WORKS!!! OMG
-        from kivymd.uix.button import  MDIconButton
+        # THIS ONE WORKS!!! OMG
+        from kivymd.uix.button import MDIconButton
 
-        toast('Input Rate')
+        toast("Input Rate")
         if not self.dialog:
             self.dialog = MDDialog(
                 title="Rate for :",
                 type="custom",
-                #type="simple",
+                # type="simple",
                 content_cls=Content(),
-                height=.5,
+                height=0.5,
                 buttons=[
-                    
-
-                    MDIconButton(icon="magnify"    ,          
-                                 on_press=self.update_rates,
-                                ),
-                        ],
+                    MDIconButton(
+                        icon="magnify",
+                        on_press=self.update_rates,
+                    ),
+                ],
             )
         self.dialog.open()
-        
+
         self.set_rate()
 
     def do_dev(self):
-        print ("DEV MODE SCREEN")
+        print("DEV MODE SCREEN")
         self.root.set_current("dev")
+
     def do_backdoor(self):
-        #print ('bla')
-        #toast("bla")
+        # print ('bla')
+        # toast("bla")
         import libs.lib_readuserdata
+
         x = libs.lib_readuserdata.readuserdata(App, ad, ios)
-        
 
         if x.get("demo_count") == None:
-            x['demo_count']=1
+            x["demo_count"] = 1
         if type(x.get("demo_count")) == int:
-            x['demo_count']=x['demo_count']+1
-        if x['demo_count']==2:
-            
-
+            x["demo_count"] = x["demo_count"] + 1
+        if x["demo_count"] == 2:
             self.do_dev()
-            
-        if x['demo_count']==5:
-            toast('almost there')
-        if x['demo_count']==10:
-            toast('dev mode enabled')
-            x["backdoor"]=True
-        if x['demo_count']>10:
-            x["backdoor"]=False
-            x['demo_count']=1
-            toast('dev mode disabled')
-        print (x)
 
-        
-
+        if x["demo_count"] == 5:
+            toast("almost there")
+        if x["demo_count"] == 10:
+            toast("dev mode enabled")
+            x["backdoor"] = True
+        if x["demo_count"] > 10:
+            x["backdoor"] = False
+            x["demo_count"] = 1
+            toast("dev mode disabled")
+        print(x)
 
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
-    def update_rates(self,btn):
+
+    def update_rates(self, btn):
         import libs.lib_new
+
         xx9 = libs.lib_new.just_get_json_schedule(x, ad)
 
-        show= (xx9['shows'][idex])
-        pos=show['pos']
-        sho=show['date']
-        print (sho,"SHOWEEEEEE,", sho)
-    
+        show = xx9["shows"][idex]
+        pos = show["pos"]
+        sho = show["date"]
+        print(sho, "SHOWEEEEEE,", sho)
+
         street_name = self.dialog.content_cls.ids.street.text
-        print (street_name)
-        
+        print(street_name)
 
         self.dialog.dismiss()
 
-        App.get_running_app().root.current_screen.ids["moneyinfo"].text=street_name
-        pos=App.get_running_app().root.current_screen.ids["moneyinfo"].secondary_text
-        pos=str.split(pos,' ')
-        #App.get_running_app().root.current_screen.ids["moneyinfordeszxdfxzs"].text="POO"
-        #self.root.get_screen("animate").ids["moneyinfo"].text='str(v)'
-        #print (App.get_running_app().root.current_screen.ids["moneyinfo"].text)
+        App.get_running_app().root.current_screen.ids["moneyinfo"].text = street_name
+        pos = App.get_running_app().root.current_screen.ids["moneyinfo"].secondary_text
+        pos = str.split(pos, " ")
+        # App.get_running_app().root.current_screen.ids["moneyinfordeszxdfxzs"].text="POO"
+        # self.root.get_screen("animate").ids["moneyinfo"].text='str(v)'
+        # print (App.get_running_app().root.current_screen.ids["moneyinfo"].text)
         import libs.lib_makeuserdata as lib_makeuserdata
 
-        lib_makeuserdata.makeratefile(ad,street_name,pos[0])
+        lib_makeuserdata.makeratefile(ad, street_name, pos[0])
 
     def new_search(self):
-        #THIS ONE WORKS!!! OMG
-        from kivymd.uix.button import  MDIconButton
+        # THIS ONE WORKS!!! OMG
+        from kivymd.uix.button import MDIconButton
 
-        toast('Search Page')
+        toast("Search Page")
         if not self.dialog:
             self.dialog = MDDialog(
                 title="Search Shows:",
                 type="custom",
-                #type="simple",
+                # type="simple",
                 content_cls=Content(),
-                height=.5,
+                height=0.5,
                 buttons=[
-                    
-
-                    MDIconButton(icon="magnify"    ,          
-                                 on_press=self.display_search,
-                                ),
-                        ],
+                    MDIconButton(
+                        icon="magnify",
+                        on_press=self.display_search,
+                    ),
+                ],
             )
         self.dialog.open()
 
-
-        
-        
-        
-        
-    def display_search(self,btn):
+    def display_search(self, btn):
         import libs.lib_archive as lib_archive
         import libs.lib_makegraphs as lib_makegraphs
-            ###works
+
+        ###works
         street_name = self.dialog.content_cls.ids.street.text
-        #street_name="VGK"
+        # street_name="VGK"
         print(street_name)
         self.dialog.dismiss()
         self.root.set_current("newsearch")
-        
 
-        lib_makegraphs.make_full_json_pp(ad, 'fdate', 'ldate',True)
-        #datadir and start and end and term,strict
-        success,a,b,gigs=lib_archive.load_archive(ad,'False','False',street_name,False)
+        lib_makegraphs.make_full_json_pp(ad, "fdate", "ldate", True)
+        # datadir and start and end and term,strict
+        success, a, b, gigs = lib_archive.load_archive(
+            ad, "False", "False", street_name, False
+        )
 
         from kivymd.uix.list import ThreeLineListItem
 
         ssort = self.sort_search
         reverse_search = self.reverse_search
-        #print(rreverse, "REVERSE")
+        # print(rreverse, "REVERSE")
 
         self.root.current_screen.ids["search_list"].clear_widgets()
         listofdicks = success
         #### SORT!!!!
-        listofdicks = sorted(listofdicks, key=lambda i: i[ssort], reverse=reverse_search)
-        print (ssort,reverse_search,"SSORT WTF MAN")
+        listofdicks = sorted(
+            listofdicks, key=lambda i: i[ssort], reverse=reverse_search
+        )
+        print(ssort, reverse_search, "SSORT WTF MAN")
 
         bu = ["YTD", "Year", "All", "Custom"]
         bu2 = ["timeIn", "Total", "tot_hours"]
@@ -1695,149 +1771,129 @@ class Demo3App(MDApp):
         )
         """
 
-
-
-
-        
         panel = ThreeLineListItem(
-                text="Shows: "
-                + str(gigs),
-                secondary_text="Earnings: "
-                + str(self.hide(self.format_money(b))),
-
-                tertiary_text="Hours: "+str(a),
-                bg_color=self.theme_cls.bg_dark,
-                radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],)
+            text="Shows: " + str(gigs),
+            secondary_text="Earnings: " + str(self.hide(self.format_money(b))),
+            tertiary_text="Hours: " + str(a),
+            bg_color=self.theme_cls.bg_dark,
+            radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
+        )
         self.root.get_screen("newsearch").ids.search_list.add_widget(panel)
-
-
 
         for z in range(len(listofdicks)):
             # print(listofdicks[z])
-            time=listofdicks[z]["timeIn"]
-            date,time=str.split(time,' ')
+            time = listofdicks[z]["timeIn"]
+            date, time = str.split(time, " ")
 
             panel = ThreeLineListItem(
-                text="Show: "
-                + str(listofdicks[z]["show"]),
+                text="Show: " + str(listofdicks[z]["show"]),
                 secondary_text="Date: "
                 + str(date)
                 + " Hours: "
                 + str(listofdicks[z]["tot_hours"])
                 + " Overtime: "
                 + str(listofdicks[z]["otH"]),
-                tertiary_text="$" + str(self.hide(self.format_money(listofdicks[z]["Total"]))),
+                tertiary_text="$"
+                + str(self.hide(self.format_money(listofdicks[z]["Total"]))),
                 bg_color=self.theme_cls.bg_dark,
                 radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
-                #on_release=self.do_pay_ind,
+                # on_release=self.do_pay_ind,
             )
 
             self.root.get_screen("newsearch").ids.search_list.add_widget(panel, z)
 
-
-
-
-
-
-
-
-    def format_money(self,z):
+    def format_money(self, z):
         import locale
-        locale.setlocale(locale.LC_ALL, '')
-        try:
-            return(locale.currency(z, grouping=True))
-        except:
-            return (z)
 
-    def hide(self,y):
-        #global x
-        #toast (x['hidden'],'hidden?')
+        locale.setlocale(locale.LC_ALL, "")
         try:
-            if x['hidden']==True:
-                #toast('hiding stuff')
+            return locale.currency(z, grouping=True)
+        except:
+            return z
+
+    def hide(self, y):
+        # global x
+        # toast (x['hidden'],'hidden?')
+        try:
+            if x["hidden"] == True:
+                # toast('hiding stuff')
                 return "***"
         except:
-            ''
-            #return str(y)
+            """"""
+            # return str(y)
         return str(y)
 
+    def junk2(self, a):
+        print("junk2", a)
+        z = self.alert.content_cls.ids
+        print(z)
 
-    def junk2(self,a):
-        print ('junk2',a)
-        z=self.alert.content_cls.ids
-        print (z)
-    def get_data(self,instance_btn, content_cls):
+    def get_data(self, instance_btn, content_cls):
         tf = content_cls.ids
-        print (tf)
-        #print ('bla',junk.text,dir(junk))
-        #jp=junk.parent
+        print(tf)
+        # print ('bla',junk.text,dir(junk))
+        # jp=junk.parent
 
-        
-        #print(dir(self.alert))
-        #print (self.alert.children,'text')
-        #print (dir(self.alert.children),'text')
-        #print (self.alert.ids['text'].input)
-        #print (self.alert.ids)
+        # print(dir(self.alert))
+        # print (self.alert.children,'text')
+        # print (dir(self.alert.children),'text')
+        # print (self.alert.ids['text'].input)
+        # print (self.alert.ids)
+
     def prep_stats(self):
         fdate, ldate = self.get_dates("YTD")
-        try:
+        if 1 == 1:
             self.do_new_stats(fdate, ldate, "YTD")
-        except:
-            ''
+        # except:
+        #    ''
+
     def delete_show(self):
-        
-        z=App.get_running_app().root.current_screen.ids["show"].tertiary_text
-        print ('DELETE SHOW',z)
+        z = App.get_running_app().root.current_screen.ids["show"].tertiary_text
+        print("DELETE SHOW", z)
 
         import libs.lib_new
-        try:
 
-            show,f=libs.lib_new.load_archive_json(ad,z)
+        try:
+            show, f = libs.lib_new.load_archive_json(ad, z)
         except:
-            print ('old show data')
-            toast('failed to find show')
+            print("old show data")
+            toast("failed to find show")
             return
-        print (f,'DELETESHOW DATA?')
+        print(f, "DELETESHOW DATA?")
         import os
+
         os.remove(f)
         self.show_archive()
-    import libs.lib_updateuserdata
-    def save_current_screen2(self,t):
 
-        print (x,"TV")
-        x['current']=t
+    import libs.lib_updateuserdata
+
+    def save_current_screen2(self, t):
+        print(x, "TV")
+        x["current"] = t
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
 
-        #libs.lib_updateuserdata.updateuser(x, ad)
-        print ('what in the hell')
-        return ('wow') 
+        # libs.lib_updateuserdata.updateuser(x, ad)
+        print("what in the hell")
+        return "wow"
 
     def on_start(self):
-        
-        
-
-        #toast(str(tic - time.perf_counter()))
+        # toast(str(tic - time.perf_counter()))
         global x
         global ad
         # print("wtf")
         app = App.get_running_app()
         ad = app.user_data_dir
-        #Config.set('kivy', 'log_dir', ad)
-        #Config.write()
+        # Config.set('kivy', 'log_dir', ad)
+        # Config.write()
         # if ios == True:
-        if 1==2:
-            logger = logging.getLogger('spam_application')
+        if 1 == 2:
+            logger = logging.getLogger("spam_application")
             logger.setLevel(logging.DEBUG)
-            fh = logging.FileHandler(ad+'/spam.log')
+            fh = logging.FileHandler(ad + "/spam.log")
             fh.setLevel(logging.DEBUG)
             logger.addHandler(fh)
-
-
-
-
-
 
         if 1 == 1:
             config_file = ad
@@ -1873,13 +1929,13 @@ class Demo3App(MDApp):
         except:
             asdf = "1.1"
         print(asdf)
-        
+
         try:
             if x["today_start"] == False:
                 self.newstart("", useold)
 
             if x["today_start"] == True:
-                #toast("Success " + asdf)
+                # toast("Success " + asdf)
                 self.today()
         except:
             self.today()
@@ -1892,19 +1948,17 @@ class Demo3App(MDApp):
         nb = int(b[-1])
         self.alert.dismiss()
         if nb < 2:
-
             self.do_onboarding(nb + 1)
         if nb == 9:
             self.alert.dismiss()
         if nb == 8:
-
             self.alert.dismiss()
             self.root.set_current("login")
 
     def do_onboarding(self, i):
-        legal="While Schedulara is designed to help you stay organized and manage your schedule, we are not responsible for any missed gigs, or other issues that may arise. It is ultimately your responsibility to ensure that you are available for events and to communicate any scheduling conflicts to your team. Use our app at your own risk."
-        welcome="Welcome to our Schedulara! Manage your schedule with ease and view upcoming events Let's get started!"
-        demo="""To get started, please select one of the following options:
+        legal = "While Schedulara is designed to help you stay organized and manage your schedule, we are not responsible for any missed gigs, or other issues that may arise. It is ultimately your responsibility to ensure that you are available for events and to communicate any scheduling conflicts to your team. Use our app at your own risk."
+        welcome = "Welcome to our Schedulara! Manage your schedule with ease and view upcoming events Let's get started!"
+        demo = """To get started, please select one of the following options:
 
 Login: If you already have an account, please click this button to log in and access your schedule.
 
@@ -1919,8 +1973,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         b_b = s + "Next", s + "Next", s + "Login"
         b_b2 = s + "Skip", s + "Skip", s + "Demo"
 
-        
-
         button_ok = MDRaisedButton(
             text=b_b[i] + "[size=0]" + str(i),
             font_size=dp(16),
@@ -1932,13 +1984,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             on_release=self.callback,
         )
         button_login = MDRaisedButton(
-            #text=b_b[i] + "[size=0]" + "8",
-            text="Login"+ "[size=0]" + "8",
+            # text=b_b[i] + "[size=0]" + "8",
+            text="Login" + "[size=0]" + "8",
             font_size=dp(16),
             on_release=self.callback,
         )
         bb = (
-            [button_ok, button_cancel,button_login],
+            [button_ok, button_cancel, button_login],
             [button_ok, button_cancel],
             [button_login, button_cancel],
         )
@@ -2027,7 +2079,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         a,
         b,
     ):
-
         # print("bla", type(a), type(b), "\nblabla")
         # print(a, b.index)
 
@@ -2105,7 +2156,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.current_screen.ids["check_id"].add_widget(tables)
 
     def pop_new(self, d):
-
         global today_index
         today_index = d
 
@@ -2143,13 +2193,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 #
                 # content_cls=Content(),
                 buttons=[
-                    #MDFlatButton(
+                    # MDFlatButton(
                     #    text="Save Time",
                     #    theme_text_color="Custom",
                     #    text_color=self.theme_cls.primary_color,
                     #    on_release=lambda x, y=(gg): self.add_google_calendar(y),
-                    #),
-
+                    # ),
                     MDFlatButton(
                         text="$",
                         theme_text_color="Custom",
@@ -2160,7 +2209,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             )
 
         self.dialog2[d].open()
-    def ampm(self,z):
+
+    def ampm(self, z):
         h, m = str.split(z, ":")
         h = int(h)
         print(h)
@@ -2175,75 +2225,103 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if h > 12:
             h2 = h2 - 12
             ppp = " PM"
-        if x['twenty']==False:
+        if x["twenty"] == False:
             ntime = str(h2) + ":" + m + "[sup]" + ppp
-        if x['twenty']==True:
-            ntime=str(z)
+        if x["twenty"] == True:
+            ntime = str(z)
         return ntime
-    def find_type(self,a,b):
-        import libs.lib_new
-        #z=self.root.get_screen("today").ids["first"].text
-        js = libs.lib_new.get_json_schedule(x, ad)
-        icon= (js["shows"][a][b])
-        #if icon == "IN":
-        #    return 'alpha-i'
-        icons=[
-        'IN','alpha-i',
-        'HR','engine-outline',
-        'HDR','engine-outline',
-        'DR','engine',
-        'OUT','alpha-o',
-        'SHOW','alpha-s',
-        'ME','power-plug',
-        'ADV','video-4k-box',
-        'TK','note-edit-outline',
-        'L3','lightbulb',
-        'L2','lightbulb',
-        'L1','lightbulb',
-        'LL','lightbulb',
-        'L','dolly',
-        'SL','spotlight-beam',
-        'SUP','account-supervisor',
-        'HL','lightbulb-multiple-outline',
-        'F','forklift',
-        'SH','hand-back-left',
-        'P','human-dolly',
-        "V3",'video-account',
-        "V2",'video-account',
-        "V1",'video-account',
-        'A3','volume-high',
-        'A2','volume-high',
-        'A1','volume-high',
-        'C','hammer',
 
+    def find_type(self, a, b):
+        import libs.lib_new
+
+        # z=self.root.get_screen("today").ids["first"].text
+        js = libs.lib_new.get_json_schedule(x, ad)
+        icon = js["shows"][a][b]
+        # if icon == "IN":
+        #    return 'alpha-i'
+        icons = [
+            "IN",
+            "alpha-i",
+            "HR",
+            "engine-outline",
+            "HDR",
+            "engine-outline",
+            "DR",
+            "engine",
+            "OUT",
+            "alpha-o",
+            "SHOW",
+            "alpha-s",
+            "ME",
+            "power-plug",
+            "ADV",
+            "video-4k-box",
+            "TK",
+            "note-edit-outline",
+            "L3",
+            "lightbulb",
+            "L2",
+            "lightbulb",
+            "L1",
+            "lightbulb",
+            "LL",
+            "lightbulb",
+            "L",
+            "dolly",
+            "SL",
+            "spotlight-beam",
+            "SUP",
+            "account-supervisor",
+            "HL",
+            "lightbulb-multiple-outline",
+            "F",
+            "forklift",
+            "SH",
+            "hand-back-left",
+            "P",
+            "human-dolly",
+            "V3",
+            "video-account",
+            "V2",
+            "video-account",
+            "V1",
+            "video-account",
+            "A3",
+            "volume-high",
+            "A2",
+            "volume-high",
+            "A1",
+            "volume-high",
+            "C",
+            "hammer",
         ]
-        print (icon,'newICON')
+        print(icon, "newICON")
         for xx in range(len(icons)):
-            print (icons[xx],icon,'matches')
-            if icons[xx]==icon:
-                print (icons[xx+1],'NEWICON')
-                return icons[xx+1]
-        return ('help')
+            print(icons[xx], icon, "matches")
+            if icons[xx] == icon:
+                print(icons[xx + 1], "NEWICON")
+                return icons[xx + 1]
+        return "help"
+
     def today(self):
-        
         import humanize
-        from datetime import datetime,timedelta
+        from datetime import datetime, timedelta
 
         self.root.set_current("today")
-        print (self.root.current_screen.name,'current_screen')
+        print(self.root.current_screen.name, "current_screen")
         self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
         import libs.lib_new
 
         #####hustle error checks
-        try:\
+        try:
             js = libs.lib_new.get_json_schedule(x, ad)
         except:
             toast("login failed")
             return "fail"
         shows = js["shows"]
         li = ["first", "second", "third"]
-        li_r=["1r",'2r','3r']
-        li_l=["1l",'2l','3l']
+        li_r = ["1r", "2r", "3r"]
+        li_l = ["1l", "2l", "3l"]
 
         ns = 3
         if len(shows) < 3:
@@ -2252,14 +2330,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             show_date = datetime.strptime(shows[i]["date"], "%m/%d/%Y")
             show_date = show_date.strftime("%A, %m/%d")
             z = shows[i]["time"]
-            ntime=self.ampm(z)
+            ntime = self.ampm(z)
 
             color = ""
             if shows[i]["canceled"] == True:
                 color = "[color=#ff0000]"
             self.root.get_screen("today").ids[li[i]].text = (
                 color + show_date + " " + ntime
-            )    
+            )
             self.root.get_screen("today").ids[li[i]].text = (
                 color + show_date + " " + ntime
             )
@@ -2270,25 +2348,25 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 color + shows[i]["venue"]
             )
             self.root.get_screen("today").ids[li[i]].text
-            z44=dir(self.root.get_screen("today").ids[li_l[i]])
-            self.root.get_screen("today").ids[li_l[i]].icon=self.find_type(i,"type")
-            self.root.get_screen("today").ids[li_r[i]].icon=self.find_type(i,"pos")
-            print (z44,'leftwidget')
-        qq=self.root.get_screen("today").ids
+            z44 = dir(self.root.get_screen("today").ids[li_l[i]])
+            self.root.get_screen("today").ids[li_l[i]].icon = self.find_type(i, "type")
+            self.root.get_screen("today").ids[li_r[i]].icon = self.find_type(i, "pos")
+            print(z44, "leftwidget")
+        qq = self.root.get_screen("today").ids
         try:
-            if x['branding']==True:
-                qq.branding.background="images/walls/logo.png"
-            if x['branding']==False:
-                qq.branding.background="images/walls/logo2.png"
-                #qq.name2.text='Schedulara'
-                #qq.name2.secondary_text='Schedulara'
+            if x["branding"] == True:
+                qq.branding.background = "images/walls/logo.png"
+            if x["branding"] == False:
+                qq.branding.background = "images/walls/logo2.png"
+                # qq.name2.text='Schedulara'
+                # qq.name2.secondary_text='Schedulara'
         except:
-            #qq.branding.background="images/wordart2.png"
-            qq.name2.text='Schedulara8'
-            print ('sch5')
-        #if x['branding']== False:
+            # qq.branding.background="images/wordart2.png"
+            qq.name2.text = "Schedulara8"
+            print("sch5")
+        # if x['branding']== False:
         #    qq.name2.text="NOOOOOO"
-        print (qq,'BRANDING')
+        # print(qq, "BRANDING")
         numshows = len(shows)
         numconf = js["num_shows"]
         confirmable = numshows - numconf
@@ -2300,20 +2378,19 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             diff2 = humanize.naturaltime(now - old_update)
             next_show = shows[0]["date"] + " " + shows[0]["time"]
             next_show = datetime.strptime(next_show, "%m/%d/%Y %H:%M")
-            bb=0
-            nns=now - next_show
-            #print('asdfasdf',nns,type(nns),shows)
-            
-            while (nns) >=timedelta(0):
+            bb = 0
+            nns = now - next_show
+            # print('asdfasdf',nns,type(nns),shows)
+
+            while (nns) >= timedelta(0):
                 next_show = shows[bb]["date"] + " " + shows[bb]["time"]
                 next_show = datetime.strptime(next_show, "%m/%d/%Y %H:%M")
-                nns=now - next_show
+                nns = now - next_show
 
-                bb=bb+1
+                bb = bb + 1
             diff3 = humanize.naturaltime(now - next_show)
-        
-                
-            #except:
+
+            # except:
             #    diff2 = ""
             #    diff3 = ""
             # print(diff2)
@@ -2338,21 +2415,19 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             paylist.text = "Payday:  " + paydate
             paylist.secondary_text = "Payperiod: " + payperiod
         except:
-            toast('failed to get times')
-            print ("failed to get times")
+            toast("failed to get times")
+            print("failed to get times")
         # paylist.tertiary_text = "third" + payperiod
 
         #####ALWAYS ONBOARD
-        if x.get("onboarding") == None :
+        if x.get("onboarding") == None:
             b = self.do_onboarding(0)
             x["onboarding"] = True
             import libs.lib_updateuserdata
 
             libs.lib_updateuserdata.updateuser(x, ad)
 
-    def find_pay_date(self,c):
-
-
+    def find_pay_date(self, c):
         firstdate = datetime.date(2022, 10, 3)
         #:
         now = datetime.datetime.now()
@@ -2362,47 +2437,41 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # while flag == False or z < 50:
         # while z < 50:
         while flag == False:
-
             nextdate = firstdate + datetime.timedelta(days=14)
-            #print(nextdate,'lolnextdate')
+            # print(nextdate,'lolnextdate')
             lastdate = nextdate + datetime.timedelta(days=13)
             # print(type(nextdate), type(now), lastdate, flag, z)
             # print(nextdate - now)
             if nextdate >= now:
                 flag = True
-                #print("omg", flag)
+                # print("omg", flag)
             firstdate = nextdate
             z = z + 1
         lastdate = nextdate - datetime.timedelta(days=7)
         lastdate1 = lastdate - datetime.timedelta(days=13)
-        if type(c)==int:
+        if type(c) == int:
+            lastdate = lastdate + datetime.timedelta(days=14 * pp_index)
+            lastdate1 = lastdate1 + datetime.timedelta(days=14 * pp_index)
+            firstdate = firstdate + datetime.timedelta(days=14 * pp_index)
 
-            lastdate = lastdate + datetime.timedelta(days=14*pp_index)
-            lastdate1 = lastdate1 + datetime.timedelta(days=14*pp_index)
-            firstdate=firstdate+datetime.timedelta(days=14*pp_index)
-
-         
-        if c=='Last':
+        if c == "Last":
             lastdate = lastdate - datetime.timedelta(days=14)
             lastdate1 = lastdate1 - datetime.timedelta(days=14)
-            firstdate=firstdate-datetime.timedelta(days=14)
-        if c=='Next':
+            firstdate = firstdate - datetime.timedelta(days=14)
+        if c == "Next":
             lastdate = lastdate + datetime.timedelta(days=14)
             lastdate1 = lastdate1 + datetime.timedelta(days=14)
-            firstdate=firstdate+datetime.timedelta(days=14)
-
+            firstdate = firstdate + datetime.timedelta(days=14)
 
         l = self.format_date(lastdate, "short")
         l2 = self.format_date(lastdate1, "short")
         a = self.format_date(firstdate, "full")
-        #print (c,'TRIM')
-        if c=="All":
-           return ("All","","","")
-        if type(c)!=int:
-           return l2,l,lastdate,lastdate1
-        print (a)
-        
-        
+        # print (c,'TRIM')
+        if c == "All":
+            return ("All", "", "", "")
+        if type(c) != int:
+            return l2, l, lastdate, lastdate1
+        print(a)
 
         return a, l2 + " - " + l
 
@@ -2415,14 +2484,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         xx9 = libs.lib_new.just_get_json_schedule(x, ad)
         # print("check confirm", xx9)
         print(xx9["num_shows"], "NUMSHOWS")
-        if xx9["num_shows"] > 0 and x['usecache']==False:
-            print (x,'thisisx')
+        if xx9["num_shows"] > 0 and x["usecache"] == False:
+            print(x, "thisisx")
             print(xx9["num_shows"])
             self.new_confirm("all")
             toast("Success")
             self.update()
-        if x['usecache']==True:
-            toast('You are in demo mode')
+        if x["usecache"] == True:
+            toast("You are in demo mode")
 
     def make_toast(self, b):
         print(x, b)
@@ -2430,16 +2499,16 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def update(self):
         print("only updating schedule")
         import libs.lib_new
+
         try:
             libs.lib_new.make_json_schedule(x, ad)
             print("updated schedule")
         except:
-            print('login failed')
-            toast('login failed')
+            print("login failed")
+            toast("login failed")
         self.today()
 
     def open_panel2(self, xx, i, l, junk, z):
-
         print("adf", xx, i, l)
 
         global i9
@@ -2590,7 +2659,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     # icon="recipe.png",
                     content=Content(),
                     panel_cls=MDExpansionPanelThreeLine(
-                        text=color + shows[z]["date"] + "\n" + self.ampm(shows[z]["time"])+' [/sup]         '+shows[z]['pos'],
+                        text=color
+                        + shows[z]["date"]
+                        + "\n"
+                        + self.ampm(shows[z]["time"])
+                        + " [/sup]         "
+                        + shows[z]["pos"],
                         # content=Content(),
                         text_color=(1, 0, 1, 0),
                         secondary_text=color + shows[z]["show"],
@@ -2599,7 +2673,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         on_close=self.close_panel,
                     ),
                 )
-                
+
                 panel.bind(
                     on_open=lambda x, y=shows[z], q=canned, l=len(
                         shows
@@ -2609,7 +2683,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 # if shows[z]["canceled"] == True:
                 if 1 == 1:
                     self.root.get_screen("newhome").ids.rlist.add_widget(panel)
-                #libs.lib_bonus.create_notification(shows[z], x, True, ad)
+                # libs.lib_bonus.create_notification(shows[z], x, True, ad)
         if useold == True:
             canned = -1
             for z in range(len(shows)):
@@ -2654,7 +2728,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         toast(str(tic - time.perf_counter()))
 
     def showinfo(self, cat, r, d):
-
         from kivymd.uix.dialog import MDDialog as md33
 
         # for ingredient in ingredients:
@@ -2676,18 +2749,18 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         text_color=self.theme_cls.primary_color,
                         on_release=lambda x, y=(cat, r, d): self.email_time(y),
                     ),
-                    #MDFlatButton(
+                    # MDFlatButton(
                     #    text="Save Time",
                     #    theme_text_color="Custom",
                     #    text_color=self.theme_cls.primary_color,
                     #    # on_release=self.email_time,
-                    #),
-                    #MDFlatButton(
+                    # ),
+                    # MDFlatButton(
                     #    text="Confirm",
                     #    theme_text_color="Custom",
                     #    text_color=self.theme_cls.primary_color,
                     #    on_release=lambda x, y=(cat, r, d): self.new_confirm(y),
-                    #),
+                    # ),
                 ],
             )
 
@@ -2717,7 +2790,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 self.newstart("", False)
                 for u in range(len(self.dialog2)):
                     try:
-
                         self.dialog2[u].dismiss(force=True)
                     except:
                         print(u)
@@ -2916,7 +2988,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         global x
         # print(x)
         os.chdir(cwd)
-        #print(os.getcwd(), "PRINT OMGOMG")
+        # print(os.getcwd(), "PRINT OMGOMG")
         self.root.set_current("settings")
         # sm.set_current("settings")
         try:
@@ -2990,11 +3062,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     snackbar = None
     rreverse = True
-    
 
-    archive_reverse=True
-    archive_sort='date'
-    archive_trim='Next'
+    archive_reverse = True
+    archive_sort = "date"
+    archive_trim = "Next"
     menurotate = 10
     menuscale = 0.5, 0.5
 
@@ -3029,7 +3100,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def get_wall(self, page):
         # self.root.set_current(page)
 
-        #print(x, "assert")
+        # print(x, "assert")
         try:
             b = "images/walls/" + x["wall"] + ".jpg"
         except:
@@ -3080,9 +3151,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             App.get_running_app().root.current_screen.ids["button5"].text = str(
                 v[text_item]
             )
-            #self.edit_show_details(App.get_running_app().root.current_screen.ids["button2"])
-            #self.root.set_current("theme")
-            #self.root.get_screen("editShow").ids["lnch"].text=str(v)
+            # self.edit_show_details(App.get_running_app().root.current_screen.ids["button2"])
+            # self.root.set_current("theme")
+            # self.root.get_screen("editShow").ids["lnch"].text=str(v)
 
         # self.root.get_screen(v2).ids["button4"].text = v[text_item]
         if v2 == "range":
@@ -3091,7 +3162,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             )
         global x
         x[v2] = v[text_item]
-        #print(x)
+        # print(x)
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
@@ -3099,7 +3170,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def choose_drop(self, v, v2):
         "oll"
-        #print(v2, v, "THISISTHETHING2")
+        # print(v2, v, "THISISTHETHING2")
 
         if v2 == "city":
             menu_items = [
@@ -3168,64 +3239,63 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 for i in range(len(v) - 1)
             ]
         if v2 == "range":
-            #presets
+            # presets
             menu_items = [
                 {
                     "text": f"{v[i]}",
                     # "scroll_type": ['bars'],
                     # "effect_cls": "ScrollEffect",
                     "viewclass": "OneLineListItem",
-                    "on_release": lambda x=v[i]: self.set_range(x,v,v2),
-                    #"on_release": lambda x=1: self.menu_callback(x, v, v2),
+                    "on_release": lambda x=v[i]: self.set_range(x, v, v2),
+                    # "on_release": lambda x=1: self.menu_callback(x, v, v2),
                 }
                 for i in range(len(v) - 1)
             ]
 
-
             self.menu = MDDropdownMenu(
-            #header_cls=MenuHeader(),
-            #caller=self.screen.ids.button,
-            #items=menu_items,
-        )
+                # header_cls=MenuHeader(),
+                # caller=self.screen.ids.button,
+                # items=menu_items,
+            )
             # self.root.
-            self.send_dates([x,v,v2])
+            self.send_dates([x, v, v2])
         # print(self.root.get_screen("notification").ids)
         self.menu = MDDropdownMenu(
             # caller=self.root.get_screen("notification").ids["button4"],
             caller=App.get_running_app().root.current_screen.ids["button4"],
             items=menu_items,
             max_height=dp(4000),
-            height= dp(154),
+            height=dp(154),
             # position="center",
             width_mult=4,
         )
         # self.menu.caller = button4
         self.menu.open()
-        
-    def set_range(self,x,y,z):
 
-        print ('set_range',x,y,z)
-        print (self.root.current_screen.name,'WHATSCREEN')
-        if self.root.current_screen.name=='newstats':
-            print ("NEWSTATS!!!")
+    def set_range(self, x, y, z):
+        print("set_range", x, y, z)
+        print(self.root.current_screen.name, "WHATSCREEN")
+        if self.root.current_screen.name == "newstats":
+            print("NEWSTATS!!!")
 
-
-
-            b = datetime.datetime.now().date().replace(month=1, day=1,year=int(x))
+            b = datetime.datetime.now().date().replace(month=1, day=1, year=int(x))
             b = datetime.datetime.combine(b, datetime.datetime.min.time())
-            now = datetime.datetime.now().date().replace(month=12, day=31,year=(int(x)))
+            now = (
+                datetime.datetime.now().date().replace(month=12, day=31, year=(int(x)))
+            )
             e = datetime.datetime.combine(now, datetime.datetime.min.time())
 
+            self.do_new_stats(b, e, "Custom")
 
-
-
-            self.do_new_stats(b,e, "Custom")
-
-        if self.root.current_screen.name=='pay':
-            b,e,=self.do_payperiod_f(int(x))
+        if self.root.current_screen.name == "pay":
+            (
+                b,
+                e,
+            ) = self.do_payperiod_f(int(x))
         App.get_running_app().root.current_screen.ids["dstart"].text = str(b.date())
         App.get_running_app().root.current_screen.ids["dend"].text = str(e.date())
         self.menu.dismiss()
+
     def format_minutes(self, t, v, d):
         # v=5
         if d == True:
@@ -3681,7 +3751,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.set_current("stats")
 
     def maketransp(self):
-
         x = self.theme_cls.primary_color
         x[3] = 0.3
         return x
@@ -3721,14 +3790,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 )
                 self.snackbar.open()
             except:
-                print ('failed to dl paystubs',new,paystubs)
-                toast(str(new)+ ' out of  '+str(paystubs))
+                print("failed to dl paystubs", new, paystubs)
+                toast(str(new) + " out of  " + str(paystubs))
 
     def ccc(self):
         print(mjds)
         confable = []
         for i in range(len(mjds)):
-
             if 1 == 1:
                 # if mjds[i].has_key(["confirmable"]):
                 if "confirmable" in mjds[i]:
@@ -3751,53 +3819,51 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 self.dialog2[z].dismiss(force=True)
             except:
                 print(z)
-    gshow={}
+
+    gshow = {}
+
     def animate_money_new(self, y):
         global gshow
         import libs.lib_new
         import libs.lib_readuserdata
+
         global x
-        xx9=x
+        xx9 = x
         self.dialog_close()
-        print (y,'XXXX9')
+        print(y, "XXXX9")
 
         try:
             js = libs.lib_new.get_json_schedule(x, ad)
         except:
             toast("login failed")
             return "fail"
-        s= (y[2])
-        show= (js['shows'][s])
-        gshow=show
-        print (s)
-        print (type(js))
+        s = y[2]
+        show = js["shows"][s]
+        gshow = show
+        print(s)
+        print(type(js))
 
         from kivy.clock import Clock
-        now=datetime.datetime.now()
-        start_time = datetime.datetime.strptime(show['date']+'.'+show['time'], "%m/%d/%Y.%H:%M")
-        print (start_time,now,type(start_time),type(now),'showdate')
-        if start_time<now:
 
-
+        now = datetime.datetime.now()
+        start_time = datetime.datetime.strptime(
+            show["date"] + "." + show["time"], "%m/%d/%Y.%H:%M"
+        )
+        print(start_time, now, type(start_time), type(now), "showdate")
+        if start_time < now:
             self.root.set_current("animate")
         else:
-            toast('Unavalable')
+            toast("Unavalable")
             return
-        #print(y, xx9)
+        # print(y, xx9)
 
         pos = show["pos"]
 
-        qq=libs.lib_readuserdata.readrate(ad,pos)
+        qq = libs.lib_readuserdata.readrate(ad, pos)
 
-        App.get_running_app().root.current_screen.ids["moneyinfo"].text =str(qq)
-        
+        App.get_running_app().root.current_screen.ids["moneyinfo"].text = str(qq)
 
-
-
-
-
-
-        App.get_running_app().root.current_screen.ids["show"].text = show['show']
+        App.get_running_app().root.current_screen.ids["show"].text = show["show"]
         App.get_running_app().root.current_screen.ids["top"].text = str("call start")
         App.get_running_app().root.current_screen.ids["moneyinfo"].secondary_text = str(
             pos + " rate"
@@ -3823,6 +3889,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print(zzz, "zzz")
 
         Clock.schedule_interval(self.update_label_new, 0.1)
+
     def animate_money(self):
         from kivy.clock import Clock
 
@@ -3857,18 +3924,19 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def update_label_new(self, dt):
         from datetime import datetime
         import libs.lib_readuserdata as lib_extractjson
-        xx9=gshow
+
+        xx9 = gshow
 
         start_time = xx9["date"] + "." + xx9["time"]
         start_time = datetime.strptime(start_time, "%m/%d/%Y.%H:%M")
         pos = xx9["pos"]
         rate = lib_extractjson.readrate(ad, pos)
         try:
-            rate=float(rate)
+            rate = float(rate)
         except:
-            rate=0.00
-            print ('fail convert')
-        #print (rate,'raterate')
+            rate = 0.00
+            print("fail convert")
+        # print (rate,'raterate')
         now = datetime.now()
         difff = now - start_time
         difff = int(difff.total_seconds())
@@ -3909,21 +3977,21 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             ot_hours = dec_hours - ot_after
             r_pay = r_pay + (ot_hours * float(rate) * 1.5)
 
-        r_pay = dec_hours * float(rate) 
+        r_pay = dec_hours * float(rate)
 
         # new_text = datetime.datetime.now().strftime("%H:%M:%S")
 
         # label.text = new_text
         # print(new_text)
         self.root.get_screen("animate").ids["top"].text = str(start_time)
-        #self.root.get_screen("animate").ids["moneyinfo"].text = str(
+        # self.root.get_screen("animate").ids["moneyinfo"].text = str(
         #    "%.2f" % float(rate)
-        #)
+        # )
         self.root.get_screen("animate").ids["moneya"].text = str(newh)
         self.root.get_screen("animate").ids["moneyb"].text = str(earn)
         self.root.get_screen("animate").ids["money_r"].text = str(r_hours)
         self.root.get_screen("animate").ids["money_pay"].text = str("%.2f" % r_pay)
-        #print (r_pay,"RPAY")
+        # print (r_pay,"RPAY")
 
     def update_label66(self, dt):
         from datetime import datetime
@@ -4093,27 +4161,29 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def delete_shows(self, what):
         # print (what)
         from os import walk
-        dirs=["pp",'backup','shows','future_shows','custom_shows']
-        g=0
-        f=0
+
+        dirs = ["pp", "backup", "shows", "future_shows", "custom_shows"]
+        g = 0
+        f = 0
         for i2 in range(len(dirs)):
-            filenames = next(walk(ad + "/"+dirs[i2]), (None, None, []))[2]  # [] if no file
+            filenames = next(walk(ad + "/" + dirs[i2]), (None, None, []))[
+                2
+            ]  # [] if no file
             # print(filenames)
-            
+
             for i in range(len(filenames)):
-                os.remove(ad + "/"+dirs[i2]+'/' + filenames[i])
-                g=g+1
+                os.remove(ad + "/" + dirs[i2] + "/" + filenames[i])
+                g = g + 1
 
         filenames = next(walk(ad + "/"), (None, None, []))[2]  # [] if no file
         for i in range(len(filenames)):
             try:
                 os.remove(ad + "/" + filenames[i])
-                g=g+1
+                g = g + 1
             except:
-                f=f+1
-        toast("deleted "+str(g)+" files, "+str(f)+' failed')
+                f = f + 1
+        toast("deleted " + str(g) + " files, " + str(f) + " failed")
         self.dialog.dismiss()
-
 
     def show_delete_dialog(self):
         from kivymd.uix.dialog import MDDialog
@@ -4151,53 +4221,66 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         via FileChoose.handle_selection.
         """
         App.get_running_app().root.ids.result.text = str(self.selection)
+
     def delete_demo(self):
         import libs.lib_archive
-        listofdicks = libs.lib_archive.delete_demo_files("/future_shows",ad)
-        toast('deleted shows')
+
+        listofdicks = libs.lib_archive.delete_demo_files("/future_shows", ad)
+        toast("deleted shows")
+
     def show_archive(self):
         import libs.lib_archive
 
         print("archive")
         self.root.set_current("archive")
-        #self.archive_sort=1
+        # self.archive_sort=1
 
+        print(
+            self.archive_sort,
+            self.archive_reverse,
+            self.archive_trim,
+            "archive details",
+        )
 
-        print (self.archive_sort,self.archive_reverse,self.archive_trim,'archive details')
-
-        z,z1,f1,f2=self.find_pay_date(self.archive_trim)
-        App.get_running_app().root.current_screen.ids["dend"].text=str(z1)
-        App.get_running_app().root.current_screen.ids["dstart"].text=str(z)
-        
+        z, z1, f1, f2 = self.find_pay_date(self.archive_trim)
+        App.get_running_app().root.current_screen.ids["dend"].text = str(z1)
+        App.get_running_app().root.current_screen.ids["dstart"].text = str(z)
 
         self.root.current_screen.ids["archive"].clear_widgets()
-        listofdicks = libs.lib_archive.load("/future_shows",ad,f1,f2)
-        listofcustomdicks = libs.lib_archive.load("/custom_shows",ad,f1,f2)
-        #listofdicks.update(listofcustomdicks)
+        listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
+        listofcustomdicks = libs.lib_archive.load("/custom_shows", ad, f1, f2)
+        # listofdicks.update(listofcustomdicks)
         for q in range(len(listofcustomdicks)):
             listofdicks.append(listofcustomdicks[q])
 
         for nan in range(len(listofdicks)):
             print(listofdicks[nan].get(self.archive_sort))
-            if listofdicks[nan].get(self.archive_sort)==None:
-                listofdicks[nan][self.archive_sort]=0.0
-            if listofdicks[nan][self.archive_sort]=='-':
-                listofdicks[nan][self.archive_sort]=0.0
-        if self.archive_sort=='date':
-            listofdicks = sorted(listofdicks, key=lambda i: i[self.archive_sort], reverse=self.archive_reverse)
+            if listofdicks[nan].get(self.archive_sort) == None:
+                listofdicks[nan][self.archive_sort] = 0.0
+            if listofdicks[nan][self.archive_sort] == "-":
+                listofdicks[nan][self.archive_sort] = 0.0
+        if self.archive_sort == "date":
+            listofdicks = sorted(
+                listofdicks,
+                key=lambda i: i[self.archive_sort],
+                reverse=self.archive_reverse,
+            )
         else:
-            listofdicks = sorted(listofdicks, key=lambda i: i[self.archive_sort], reverse= not self.archive_reverse)
-        #print (len(listofdicks),'lenlistofdicts',listofdicks)
-        tot_hours=0
-        ot_hours=0
-        reg_hours=0
-        tot_money=0
-        tottime_all=0
-        earnings_all=0
-        bu = ["Current","Next", "Last", "All", "Custom"]
+            listofdicks = sorted(
+                listofdicks,
+                key=lambda i: i[self.archive_sort],
+                reverse=not self.archive_reverse,
+            )
+        # print (len(listofdicks),'lenlistofdicts',listofdicks)
+        tot_hours = 0
+        ot_hours = 0
+        reg_hours = 0
+        tot_money = 0
+        tottime_all = 0
+        earnings_all = 0
+        bu = ["Current", "Next", "Last", "All", "Custom"]
         bu2 = ["date", "hours", "pay"]
         for i in range(len(bu)):
-
             if self.archive_trim == bu[i]:
                 App.get_running_app().root.current_screen.ids[
                     bu[i]
@@ -4220,346 +4303,384 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             App.get_running_app().root.current_screen.ids[
                 "sall"
             ].icon = "sort-descending"
-            print ('acend')
+            print("acend")
         else:
             App.get_running_app().root.current_screen.ids[
                 "sall"
             ].icon = "sort-ascending"
-            print ('decend')
+            print("decend")
 
         panel3 = ThreeLineListItem(
-                text="Shows ",
-                #+ str((listofdicks[z]["date"])),
-                secondary_text="Hours11: ",
-                #+ str(listofdicks[z]["show"]),
-                #+ " Hours: "
-                #+ str(listofdicks[z]["totalhours"]),
-                #+ " Overtime: "
-                #+ str(listofdicks[z]["othours"]),
-                #tertiary_text="Other Stuff",
-                bg_color=self.theme_cls.bg_dark,
-                radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
-                on_release=self.edit_show_details,
-            )
+            text="Shows ",
+            # + str((listofdicks[z]["date"])),
+            secondary_text="Hours11: ",
+            # + str(listofdicks[z]["show"]),
+            # + " Hours: "
+            # + str(listofdicks[z]["totalhours"]),
+            # + " Overtime: "
+            # + str(listofdicks[z]["othours"]),
+            # tertiary_text="Other Stuff",
+            bg_color=self.theme_cls.bg_dark,
+            radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
+            on_release=self.edit_show_details,
+        )
 
         self.root.get_screen("archive").ids.archive.add_widget(panel3)
-        listofdicks_copy=listofdicks
-        
+        listofdicks_copy = listofdicks
+
         for z in range(len(listofdicks)):
-            three='Lunches!'
-            #print (listofdicks[z],'LISTOFDICKS')
-            if listofdicks[z].get('lunches')==None:
-
-                three='No Lunches'
+            three = "Lunches!"
+            # print (listofdicks[z],'LISTOFDICKS')
+            if listofdicks[z].get("lunches") == None:
+                three = "No Lunches"
             else:
-                three=listofdicks[z]["lunches"]
-                three=''
-            #try:
+                three = listofdicks[z]["lunches"]
+                three = ""
+            # try:
 
-            if listofdicks[z].get('totaltime')!=None:
-                tottime_all=tottime_all+listofdicks[z].get('totaltime')
-                print (tottime_all,'tottime_all')
-            if listofdicks[z].get('earnings')!=None:
-                earnings_all=earnings_all+listofdicks[z].get('earnings')
-                print (earnings_all,'earnings_all')
+            if listofdicks[z].get("totaltime") != None:
+                tottime_all = tottime_all + listofdicks[z].get("totaltime")
+                print(tottime_all, "tottime_all")
+            if listofdicks[z].get("earnings") != None:
+                earnings_all = earnings_all + listofdicks[z].get("earnings")
+                print(earnings_all, "earnings_all")
 
-            if listofdicks[z].get('pay')==None:
-                allhours,reg,over=self.calc_time(listofdicks[z])
-                #print (listofdicks[z]["show"],reg,allhours,over,'OMG')
-                money=self.calc_money(listofdicks[z],reg,over)
-                listofdicks[z]['hours']=allhours
-                listofdicks[z]['reghours']=reg
-                listofdicks[z]['ot']=over
-                listofdicks[z]['pay']=money
+            if listofdicks[z].get("pay") == None:
+                allhours, reg, over = self.calc_time(listofdicks[z])
+                # print (listofdicks[z]["show"],reg,allhours,over,'OMG')
+                money = self.calc_money(listofdicks[z], reg, over)
+                listofdicks[z]["hours"] = allhours
+                listofdicks[z]["reghours"] = reg
+                listofdicks[z]["ot"] = over
+                listofdicks[z]["pay"] = money
 
                 self.update_show_single(listofdicks[z])
             else:
-                allhours=listofdicks[z]['hours']
-                reg=listofdicks[z]['reghours']
-                over=listofdicks[z]['ot']
-                money=listofdicks[z]['pay']
+                allhours = listofdicks[z]["hours"]
+                reg = listofdicks[z]["reghours"]
+                over = listofdicks[z]["ot"]
+                money = listofdicks[z]["pay"]
             try:
-                tot_hours=float(tot_hours)+float(allhours)
+                tot_hours = float(tot_hours) + float(allhours)
             except:
-                ''
+                """"""
             try:
-                ot_hours=float(ot_hours)+float(over)
+                ot_hours = float(ot_hours) + float(over)
             except:
-                ''
+                """"""
             try:
-                reg_hours=float(reg_hours)+float(reg)
+                reg_hours = float(reg_hours) + float(reg)
             except:
-                ''
+                """"""
             try:
-                tot_money=float(tot_money)+float(money)
+                tot_money = float(tot_money) + float(money)
             except:
-                ''
-            
+                """"""
 
-            if 1==2:
-            
+            if 1 == 2:
+                three = "Hours: " + self.only5(allhours)
+                if over != "-" and over > 0:
+                    three = (
+                        three + " Reg: " + self.only5(reg) + " OT: " + self.only5(over)
+                    )
+                # if money[0]!='0':
+                three = three + " $" + str(money)
 
-                three='Hours: '+self.only5(allhours)
-                if over !='-' and over>0:
-                    three=three+" Reg: "+self.only5(reg)+ " OT: "+self.only5(over)
-                #if money[0]!='0':
-                three=three+" $"+str(money)
-
-            #except:
+            # except:
             #    three='error'
-            three=three+"[size=-50]"+'%%%'+listofdicks[z]["date"]+'%%%'+listofdicks[z]["time"]+'%%%'+listofdicks[z]["job"]+'%%%'+listofdicks[z]["show"]
-            #print (listofdicks[z],"WOWZERS")
+            three = (
+                three
+                + "[size=-50]"
+                + "%%%"
+                + listofdicks[z]["date"]
+                + "%%%"
+                + listofdicks[z]["time"]
+                + "%%%"
+                + listofdicks[z]["job"]
+                + "%%%"
+                + listofdicks[z]["show"]
+            )
+            # print (listofdicks[z],"WOWZERS")
             try:
-                tottime=str(listofdicks[z]["totaltime"])
+                tottime = str(listofdicks[z]["totaltime"])
             except:
-                tottime=''
+                tottime = ""
             panel = ThreeLineListItem(
-                text="Show: "
-                + str((listofdicks[z]["show"])),
+                text="Show: " + str((listofdicks[z]["show"])),
                 secondary_text="Date: "
                 + str(listofdicks[z]["date"])
                 + " Hours: "
                 + tottime,
-                #+ " Overtime: ",
-                #+ str(listofdicks[z]["othours"]),
+                # + " Overtime: ",
+                # + str(listofdicks[z]["othours"]),
                 tertiary_text=three,
                 bg_color=self.theme_cls.bg_dark,
                 radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
                 on_release=self.edit_show_details,
             )
-            if listofdicks[z].get("hidden") is not True or x['hide_shows']==False:
+            if listofdicks[z].get("hidden") is not True or x["hide_shows"] == False:
                 self.root.get_screen("archive").ids.archive.add_widget(panel, z)
-        App.get_running_app().root.current_screen.ids["archive"].text='bla'
-        bb=App.get_running_app().root.current_screen.ids["archive"].children
-        #print (bb,dir(bb),'BSDF')
-        bbl=len(bb)
-        bb=bb[bbl-1]
-        bb.text="Show!s: "+str(bbl-1)
-        bb.secondary_text="Hours: "+str(tottime_all)
-        bb.tertiary_text="Pay: "+str(self.format_money(earnings_all))
+        App.get_running_app().root.current_screen.ids["archive"].text = "bla"
+        bb = App.get_running_app().root.current_screen.ids["archive"].children
+        # print (bb,dir(bb),'BSDF')
+        bbl = len(bb)
+        bb = bb[bbl - 1]
+        bb.text = "Show!s: " + str(bbl - 1)
+        bb.secondary_text = "Hours: " + str(tottime_all)
+        bb.tertiary_text = "Pay: " + str(self.format_money(earnings_all))
         try:
-            ratee=("   Rate: $%.2f" % (tot_money/tot_hours))
-            #ratee="    Rate: $"+str(tot_money/tot_hours)
+            ratee = "   Rate: $%.2f" % (tot_money / tot_hours)
+            # ratee="    Rate: $"+str(tot_money/tot_hours)
         except:
-            ratee=''
-        #bb.secondary_text="Hours: "+str(tot_hours)+"   Reg: "+str(reg_hours) +"   OT: "+str(ot_hours)
-        #bb.tertiary_text="$: "+str(tot_money) +ratee
-    def calc_money(self,v,h,o):
-        if v.get('rate')!=None:
-            #print (h,o,v['rate'],v['show'],'ALL OF IT')
+            ratee = ""
+        # bb.secondary_text="Hours: "+str(tot_hours)+"   Reg: "+str(reg_hours) +"   OT: "+str(ot_hours)
+        # bb.tertiary_text="$: "+str(tot_money) +ratee
+
+    def calc_money(self, v, h, o):
+        if v.get("rate") != None:
+            # print (h,o,v['rate'],v['show'],'ALL OF IT')
             try:
-                h=float(h)
+                h = float(h)
             except:
-                h=0
-            if type(h)==float or type(h)==int:
-                rate=float(v['rate'])
-                
-                money=float(rate)*h
+                h = 0
+            if type(h) == float or type(h) == int:
+                rate = float(v["rate"])
+
+                money = float(rate) * h
                 try:
-                    money2=money+float(rate)*o*1.5
+                    money2 = money + float(rate) * o * 1.5
                 except:
-                    #print('noot')
-                    money2=money
-                #print (money,money2,'DUMB')
-                
+                    # print('noot')
+                    money2 = money
+                # print (money,money2,'DUMB')
+
                 return money2
-            #except:
+            # except:
             #    return '--'
         else:
-            print (type(h),v.get('rate'),'hello)')
-            return '-'
-    def only5(self,v):
+            print(type(h), v.get("rate"), "hello)")
+            return "-"
+
+    def only5(self, v):
         try:
-            v=str(v)
-            z=str.split(v,'.')
-            if z[1]=='0':
+            v = str(v)
+            z = str.split(v, ".")
+            if z[1] == "0":
                 return z[0]
             else:
                 return v
         except:
-            return (str(v))
-    def calc_time(self,z):
+            return str(v)
+
+    def calc_time(self, z):
         from datetime import datetime
-        a= ["lunches","time","endtime","ota","rate"]
+
+        a = ["lunches", "time", "endtime", "ota", "rate"]
         for p in range(len(a)):
-            if z.get(a[p])==None:
-                z[a[p]]=0
-        #print (z['time'],z['ota'],z['endtime'],z['rate'],z['lunches'],'TESTTEST')
-        starttime=z['time']
-        start = datetime.strptime(starttime,"%H:%M")
+            if z.get(a[p]) == None:
+                z[a[p]] = 0
+        # print (z['time'],z['ota'],z['endtime'],z['rate'],z['lunches'],'TESTTEST')
+        starttime = z["time"]
+        start = datetime.strptime(starttime, "%H:%M")
         try:
-            end = datetime.strptime(z['endtime'],"%H:%M:%S")
+            end = datetime.strptime(z["endtime"], "%H:%M:%S")
         except:
-            #print('time not found')
-            return('-','-','-')
+            # print('time not found')
+            return ("-", "-", "-")
         try:
-            hours=self.conv_time_float(str(start-end))
+            hours = self.conv_time_float(str(start - end))
         except:
-            #print (start,end,'STARTEND')
-            hours=self.conv_time_float(str(end-start))
-            #return('-','-','-')
+            # print (start,end,'STARTEND')
+            hours = self.conv_time_float(str(end - start))
+            # return('-','-','-')
 
-        #print (hours,'DECIMAL NUMBERS')
-        reg_hours=0
-        ot=0
-        hours=float(hours)
-        if float(z['lunches'])>0:
-            hours=hours-float(z['lunches'])
-        reg_hours=hours
-        if hours>float(z['ota']):
-            reg_hours=float(z['ota'])
-            ot=hours-float(z['ota'])
-        #print(hours,reg_hours,ot,z['show'])
-        return hours,reg_hours,ot
-
-
-
+        # print (hours,'DECIMAL NUMBERS')
+        reg_hours = 0
+        ot = 0
+        hours = float(hours)
+        if float(z["lunches"]) > 0:
+            hours = hours - float(z["lunches"])
+        reg_hours = hours
+        if hours > float(z["ota"]):
+            reg_hours = float(z["ota"])
+            ot = hours - float(z["ota"])
+        # print(hours,reg_hours,ot,z['show'])
+        return hours, reg_hours, ot
 
     def conv_time_float(self, value):
-        vals = value.split(':')
+        vals = value.split(":")
         t, hours = divmod(float(vals[0]), 24)
         t, minutes = divmod(float(vals[1]), 60)
         minutes = minutes / 60.0
         return hours + minutes
 
-
-
-    def edit_show_details(self,b):
+    def edit_show_details(self, b):
         import libs.lib_new
-        try:
 
-            show,filee=libs.lib_new.load_archive_json(ad,b.tertiary_text)
+        try:
+            show, filee = libs.lib_new.load_archive_json(ad, b.tertiary_text)
         except:
-            print ('old show data')
-            toast('failed to find show')
+            print("old show data")
+            toast("failed to find show")
             return
-        print (show,'SHOW DATA')
+        print(show, "SHOW DATA")
         self.root.set_current("editShow")
-        z=App.get_running_app().root.current_screen.ids[
-                "show"
-            ]
-        z.text=str(show['show'])
-        z.secondary_text=(show['date'])
-        three=show['time']
+        z = App.get_running_app().root.current_screen.ids["show"]
+        z.text = str(show["show"])
+        z.secondary_text = show["date"]
+        three = show["time"]
         try:
-            App.get_running_app().root.current_screen.ids["newhoursplus"].text=str(show['totaltime'])
+            App.get_running_app().root.current_screen.ids["newhoursplus"].text = str(
+                show["totaltime"]
+            )
         except:
-            App.get_running_app().root.current_screen.ids["newhoursplus"].text=""
+            App.get_running_app().root.current_screen.ids["newhoursplus"].text = ""
         try:
-            App.get_running_app().root.current_screen.ids["earningsl"].text=str(show['earnings'])
+            App.get_running_app().root.current_screen.ids["earningsl"].text = str(
+                show["earnings"]
+            )
         except:
-            App.get_running_app().root.current_screen.ids["earningsl"].text=""
+            App.get_running_app().root.current_screen.ids["earningsl"].text = ""
 
-        App.get_running_app().root.current_screen.ids["rat"].text=show['pos']+' Rate'
-        
+        App.get_running_app().root.current_screen.ids["rat"].text = (
+            show["pos"] + " Rate"
+        )
 
         try:
-            three=thre5e+' '+show['endtime']
+            three = thre5e + " " + show["endtime"]
         except:
-            print ("THREE IS GOOD")
+            print("THREE IS GOOD")
             pass
-        z.tertiary_text=three+"[size=-0]"+'%%%'+show["date"]+'%%%'+show["time"]+'%%%'+show["job"]+'%%%'+show["show"]
+        z.tertiary_text = (
+            three
+            + "[size=-0]"
+            + "%%%"
+            + show["date"]
+            + "%%%"
+            + show["time"]
+            + "%%%"
+            + show["job"]
+            + "%%%"
+            + show["show"]
+        )
 
-        print (z,'button4')
-        za=App.get_running_app().root.current_screen
-        id=["lunches",'endtime','ota','rate','user_notes']
-        b5=["button4",'newhours','button5','rate','user_notes']
+        print(z, "button4")
+        za = App.get_running_app().root.current_screen
+        id = ["lunches", "endtime", "ota", "rate", "user_notes"]
+        b5 = ["button4", "newhours", "button5", "rate", "user_notes"]
 
         for q in range(len(id)):
             try:
-                za.ids[b5[q]].text=str(show[id[q]])
+                za.ids[b5[q]].text = str(show[id[q]])
             except:
-                #za.ids[b5[q]].text='?'
-                print ('not able to set '+id[q])
-    def update_show_single(self,f):
+                # za.ids[b5[q]].text='?'
+                print("not able to set " + id[q])
+
+    def update_show_single(self, f):
         import libs.lib_new
+
         try:
-            b='%%%'+f["date"]+'%%%'+f["time"]+'%%%'+f["job"]+'%%%'+f["show"]
+            b = (
+                "%%%"
+                + f["date"]
+                + "%%%"
+                + f["time"]
+                + "%%%"
+                + f["job"]
+                + "%%%"
+                + f["show"]
+            )
         except:
-            b='%%%'+f["date"]+'%%%'+f["time"]+'%%%'+f["show"]
-        show,fileee=libs.lib_new.load_archive_json(ad,b)
-        show['hours']=f['hours']
-        show['reghours']=f['reghours']
-        show['ot']=f['ot']
-        show['pay']=f['pay']
-        #print ('updated for you')
-        libs.lib_new.update_archive_json(ad,show)
+            b = "%%%" + f["date"] + "%%%" + f["time"] + "%%%" + f["show"]
+        show, fileee = libs.lib_new.load_archive_json(ad, b)
+        show["hours"] = f["hours"]
+        show["reghours"] = f["reghours"]
+        show["ot"] = f["ot"]
+        show["pay"] = f["pay"]
+        # print ('updated for you')
+        libs.lib_new.update_archive_json(ad, show)
+
     def hide_show(self):
-        print ("hide_show")
-        z=App.get_running_app().root.current_screen
+        print("hide_show")
+        z = App.get_running_app().root.current_screen
         import libs.lib_new
-        show,filee=libs.lib_new.load_archive_json(ad,z.ids['show'].tertiary_text)
-        show['hidden']=True
-        libs.lib_new.update_archive_json(ad,show)
+
+        show, filee = libs.lib_new.load_archive_json(ad, z.ids["show"].tertiary_text)
+        show["hidden"] = True
+        libs.lib_new.update_archive_json(ad, show)
 
     def update_show(self):
-        z=App.get_running_app().root.current_screen
+        z = App.get_running_app().root.current_screen
         import libs.lib_new
-        show,filee=libs.lib_new.load_archive_json(ad,z.ids['show'].tertiary_text)
-        show['endtime']=z.ids['newhours'].text
-        show['lunches']=z.ids['button4'].text
-        show['ota']=z.ids['button5'].text
-        show['rate']=z.ids['rate'].text
-        show['user_notes']=z.ids['user_notes'].text
-        #show['totalhoursplus']=z.ids['totalhours'].text
-        #show['total_hours']=z.ids['newhours'].text-show['time']-z.ids['lunches'].text
+
+        show, filee = libs.lib_new.load_archive_json(ad, z.ids["show"].tertiary_text)
+        show["endtime"] = z.ids["newhours"].text
+        show["lunches"] = z.ids["button4"].text
+        show["ota"] = z.ids["button5"].text
+        show["rate"] = z.ids["rate"].text
+        show["user_notes"] = z.ids["user_notes"].text
+        # show['totalhoursplus']=z.ids['totalhours'].text
+        # show['total_hours']=z.ids['newhours'].text-show['time']-z.ids['lunches'].text
 
         from datetime import datetime
 
-        datetime_str_end = z.ids['newhours'].text
-        datetime_str_start = show['time']
-        start = datetime.strptime(datetime_str_start, '%H:%M')
+        datetime_str_end = z.ids["newhours"].text
+        datetime_str_start = show["time"]
+        start = datetime.strptime(datetime_str_start, "%H:%M")
         try:
-            end = datetime.strptime(datetime_str_end, '%H:%M')
-            
+            end = datetime.strptime(datetime_str_end, "%H:%M")
+
         except:
             toast("PLEASE SET OUT TIME")
-            end = datetime.strptime('00:00', '%H:%M')
-        
-        tot= (end-start)
-        print (end,start,type(end),"END",tot,type(tot))
-        end=str(end)
-        ehour,eminute,escond=str.split(end,':')
-        print(eminute,'eminute')
-        eminute=float(eminute)/60
-        junk,ehour=str.split(ehour,' ')
-        ehour=str(ehour)
-        print(ehour,'ehour!!')
-        print(eminute,ehour,'eminute2')
-        dtimeout=float(ehour)+float(eminute)
-        #-z.ids['lunches']
-        #show['rate']=z.ids['rate'].text
-        #print(show['totaltime'],"totaltim")
-        dstart_h,dstart_m=str.split(show['time'],":")
-        dstart_m=float(dstart_m)/60
-        dstart=float(dstart_h)+dstart_m
-    
-        show['totaltime']=dtimeout-dstart
-        if show['totaltime']<0:
-            show['totaltime']=show['totaltime']+24
-        print (show,"SHOW!!")
-        print (show['totaltime'],'titaltime')
-        App.get_running_app().root.current_screen.ids["newhoursplus"].text=str(show['totaltime'])
-        print (show['rate'],(show['totaltime'],float(show['lunches'])),'maths')
-        show['earnings']=float(show['rate'])*float((show['totaltime'])-float(show['lunches']))
-        otearnings=0
-        if float(((show['totaltime'])-float(show['lunches']))>float(show['ota'])):
-            ot=float(((show['totaltime'])-float(show['lunches']))-float(show['ota']))
-            print(ot,'boo ya, overtime')
-            otearnings=float(show['rate'])*.5*ot
-        
-        show['earnings']=show['earnings']+otearnings
-        #show['earnings']=self.format_money(show['earnings'])
-        App.get_running_app().root.current_screen.ids["earningsl"].text=self.format_money(show['earnings'])
+            end = datetime.strptime("00:00", "%H:%M")
 
+        tot = end - start
+        print(end, start, type(end), "END", tot, type(tot))
+        end = str(end)
+        ehour, eminute, escond = str.split(end, ":")
+        print(eminute, "eminute")
+        eminute = float(eminute) / 60
+        junk, ehour = str.split(ehour, " ")
+        ehour = str(ehour)
+        print(ehour, "ehour!!")
+        print(eminute, ehour, "eminute2")
+        dtimeout = float(ehour) + float(eminute)
+        # -z.ids['lunches']
+        # show['rate']=z.ids['rate'].text
+        # print(show['totaltime'],"totaltim")
+        dstart_h, dstart_m = str.split(show["time"], ":")
+        dstart_m = float(dstart_m) / 60
+        dstart = float(dstart_h) + dstart_m
 
+        show["totaltime"] = dtimeout - dstart
+        if show["totaltime"] < 0:
+            show["totaltime"] = show["totaltime"] + 24
+        print(show, "SHOW!!")
+        print(show["totaltime"], "titaltime")
+        App.get_running_app().root.current_screen.ids["newhoursplus"].text = str(
+            show["totaltime"]
+        )
+        print(show["rate"], (show["totaltime"], float(show["lunches"])), "maths")
+        show["earnings"] = float(show["rate"]) * float(
+            (show["totaltime"]) - float(show["lunches"])
+        )
+        otearnings = 0
+        if float(((show["totaltime"]) - float(show["lunches"])) > float(show["ota"])):
+            ot = float(
+                ((show["totaltime"]) - float(show["lunches"])) - float(show["ota"])
+            )
+            print(ot, "boo ya, overtime")
+            otearnings = float(show["rate"]) * 0.5 * ot
 
-        #print (timeout,lunches,ota,rate,notes,show,'THISISTHEINFO')
+        show["earnings"] = show["earnings"] + otearnings
+        # show['earnings']=self.format_money(show['earnings'])
+        App.get_running_app().root.current_screen.ids[
+            "earningsl"
+        ].text = self.format_money(show["earnings"])
 
-        libs.lib_new.update_archive_json(ad,show)
+        # print (timeout,lunches,ota,rate,notes,show,'THISISTHEINFO')
 
-
-
+        libs.lib_new.update_archive_json(ad, show)
 
     def backup_new(self):
         results = "blablabla"
@@ -4680,22 +4801,23 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
             # print(xxx, "get_rate2error3")
             # pass
-    def save_rate(self):
-        print ('save rate')
-    def set_rate(self):
 
-        
-        
+    def save_rate(self):
+        print("save rate")
+
+    def set_rate(self):
         # rate=str(28.5)
         try:
             rate = App.get_running_app().root.current_screen.ids["moneyinfo"].text
         except:
             rate = App.get_running_app().root.current_screen.ids["rate"].text
-            pos,junk = str.split(App.get_running_app().root.current_screen.ids["rat"].text,' ')
+            pos, junk = str.split(
+                App.get_running_app().root.current_screen.ids["rat"].text, " "
+            )
 
         import libs.lib_makeuserdata as lib_makeuserdata
 
-        lib_makeuserdata.makeratefile(ad,rate,pos)
+        lib_makeuserdata.makeratefile(ad, rate, pos)
         print("set rate")
 
     def get_date(self, date):
@@ -4704,33 +4826,42 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         """
         # return date
         pass
-    def create_custom_show(self):
-        iid=App.get_running_app().root.current_screen
-        notes=iid.ids['user_notes'].text
-        end_time=iid.ids['end_time'].text
-        start_time=iid.ids['start_time'].text
-        location=iid.ids['location'].text
-        event=iid.ids['event'].text
-        date=iid.ids['start_date'].text
-        
-        new_event={"show":event,"date":date,"location":location,"notes:":notes,"time":start_time,"custom":True,"end time":end_time,"job":"Custom"}
-        print ("notes,notes",new_event)
-        import json
-        end_time=str.replace(end_time,":","")
-        start_time_edit=str.replace(start_time,":","")
-        
 
-        fname=date+event+str(start_time_edit)
-        fname=str.replace(fname,'\t','  ')
+    def create_custom_show(self):
+        iid = App.get_running_app().root.current_screen
+        notes = iid.ids["user_notes"].text
+        end_time = iid.ids["end_time"].text
+        start_time = iid.ids["start_time"].text
+        location = iid.ids["location"].text
+        event = iid.ids["event"].text
+        date = iid.ids["start_date"].text
+
+        new_event = {
+            "show": event,
+            "date": date,
+            "location": location,
+            "notes:": notes,
+            "time": start_time,
+            "custom": True,
+            "end time": end_time,
+            "job": "Custom",
+        }
+        print("notes,notes", new_event)
+        import json
+
+        end_time = str.replace(end_time, ":", "")
+        start_time_edit = str.replace(start_time, ":", "")
+
+        fname = date + event + str(start_time_edit)
+        fname = str.replace(fname, "\t", "  ")
         try:
             os.mkdir(ad + "/custom_shows")
             with open(ad + "/custom_shows/" + fname + ".json", "w") as outfile:
                 json.dump(new_event, outfile, indent=4)
         except:
-            
             with open(ad + "/custom_shows/" + fname + ".json", "w") as outfile:
                 json.dump(new_event, outfile, indent=4)
-        
+
     def set_pp(self, current):
         App.get_running_app().root.current_screen.ids[
             "scustom"
@@ -4796,7 +4927,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         now = datetime.datetime.now()
         now = datetime.date.today()
         while flag == False:
-
             nextdate = firstdate + datetime.timedelta(days=14)
             lastdate = nextdate + datetime.timedelta(days=13)
             if nextdate <= now <= lastdate:
@@ -4836,17 +4966,18 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # self.root.ids.date_label.text = "You Clicked Cancel"
         pass
 
-
     def on_save_n(self, instance, value, date_range):
-        App.get_running_app().root.current_screen.ids["start_date"].text=str(value)
-        print ("omg!",instance, value)
-    def send_dates(self,dates):
-        print ("SEND DATES,",dates)
+        App.get_running_app().root.current_screen.ids["start_date"].text = str(value)
+        print("omg!", instance, value)
+
+    def send_dates(self, dates):
+        print("SEND DATES,", dates)
+
     def on_save(self, instance, value, date_range):
         from datetime import datetime
 
         print(self.root.current, "CURRENT SCREEEEEEN")
-        print (date_range,'wowowow')
+        print(date_range, "wowowow")
         # self.root.ids.date_label.text = str(value)
         # self.root.ids.date_label.text = f'{str(date_range[0])} - {str(date_range[-1])}'
         try:
@@ -4866,7 +4997,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if self.root.current == "history":
             self.do_history()
         if self.root.current == "newstats":
-
             d0 = datetime.combine(date_range[-1], datetime.min.time())
             d1 = datetime.combine(date_range[0], datetime.min.time())
 
@@ -4874,7 +5004,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if self.root.current == "pay":
             self.lday = datetime.combine(date_range[-1], datetime.min.time())
             self.fday = datetime.combine(date_range[0], datetime.min.time())
-            self.do_payperiod('x')
+            self.do_payperiod("x")
 
     def updatetext(self, box):
         app = App.get_running_app()
@@ -4905,39 +5035,41 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         libs.lib_makeuserdata.makeshowfile(App, xxx[idex], config_file, ios)
 
-    def show_time_picker(self,inst):
-        b= App.get_running_app().root.current_screen.name
-        print (b,dir(b),"BBBBBBBBB")
-        #if App.get_running_app().root.current_screen.ids['newhours'].text=='Set Worked Hours':
+    def show_time_picker(self, inst):
+        b = App.get_running_app().root.current_screen.name
+        print(b, dir(b), "BBBBBBBBB")
+        # if App.get_running_app().root.current_screen.ids['newhours'].text=='Set Worked Hours':
 
         y = time_dialog1 = MDTimePicker()
-            #if b=='editShow':
-        if inst=='start_time':
+        # if b=='editShow':
+        if inst == "start_time":
             x = time_dialog1.bind(time=self.get_time_start)
-        if inst=='end_time':
+        if inst == "end_time":
             x = time_dialog1.bind(time=self.get_time_end)
         z = time_dialog1.open()
 
     def get_time(self, instance, time):
-        temp=str.split(time,':')
-        time=temp[0]+':'+temp[1]
-        print (time)
+        temp = str.split(time, ":")
+        time = temp[0] + ":" + temp[1]
+        print(time)
 
         App.get_running_app().root.current_screen.ids["newhours"].text = str(time)
         return time
+
     def get_time_start(self, instance, time):
-        temp=str.split(str(time),':')
-        time=temp[0]+':'+temp[1]
+        temp = str.split(str(time), ":")
+        time = temp[0] + ":" + temp[1]
         App.get_running_app().root.current_screen.ids["start_time"].text = str(time)
         return time
+
     def get_time_end(self, instance, time):
-        temp=str.split(str(time),':')
-        time=temp[0]+':'+temp[1]
+        temp = str.split(str(time), ":")
+        time = temp[0] + ":" + temp[1]
         App.get_running_app().root.current_screen.ids["newhours"].text = str(time)
         print(time)
         return time
-    def make_info(self, thing):
 
+    def make_info(self, thing):
         return thing
 
     def on_checkbox_active(self, checkbox, value):
@@ -4959,7 +5091,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     from typing import Union
 
     def do_theme(self):
-
         specific_text_color = ""
         self.root.set_current("theme")
         self.root.get_screen("theme").ids["pic"].source = self.get_wall("theme")
@@ -5049,20 +5180,18 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # self.root.current = screen
         self.root.set_current(screen)
 
-    def do_pp_sum(self,lala):
-        
-        print ('cc',lala)
+    def do_pp_sum(self, lala):
+        print("cc", lala)
         global pp_index
-        pp_index=pp_index+lala
-        print (pp_index,'INDEXXX')
+        pp_index = pp_index + lala
+        print(pp_index, "INDEXXX")
         paydate, payperiod = self.find_pay_date(pp_index)
-        #zz=self.find_pay_date(pp_index)
-        #print (zz)
+        # zz=self.find_pay_date(pp_index)
+        # print (zz)
 
         paylist = self.root.get_screen("today").ids["pay"]
-        paylist.text = "Payday:  " + paydate+ ' '+str(lala)
+        paylist.text = "Payday:  " + paydate + " " + str(lala)
         paylist.secondary_text = "Payperiod: " + payperiod
-
 
     def load_paychecks(self):
         import glob, os
@@ -5079,15 +5208,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print(self.fday, "now", self.lday)
         from kivy.clock import Clock
 
-
         for file in glob.glob("*.html"):
             # print (file)
             import libs.lib_parse as lib_parse
-            f1 = datetime.strptime(file, "%m-%d-%Y.html")
-            #print (f1,self.fday,self.lday,'LOADPPDates')
-            #print (type(f1),type(self.fday),type(self.lday),'LOADPPDates')
 
-            
+            f1 = datetime.strptime(file, "%m-%d-%Y.html")
+            # print (f1,self.fday,self.lday,'LOADPPDates')
+            # print (type(f1),type(self.fday),type(self.lday),'LOADPPDates')
+
             dd, junk, junk, junk, junk, junk = lib_parse.parsepayperiod(
                 ad + "/pp/" + file
             )
@@ -5113,72 +5241,71 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def spinner_toggle(self):
         print("Spinner Toggle")
         app = self.get_running_app()
-        sp=self.sp
+        sp = self.sp
 
-        #sp = self.root.current_screen.ids["spinner"]
+        # sp = self.root.current_screen.ids["spinner"]
         if sp == False:
             sp = True
         else:
             sp = False
 
-    def do_payperiod_trim(self, sort,page):
+    def do_payperiod_trim(self, sort, page):
         if self.sort_pp == sort:
             self.rreverse = not self.rreverse
         if self.sort_search == sort:
             self.reverse_search = not self.reverse_search
-        
+
         # Clock.schedule_once()
-        if page=="pp":
+        if page == "pp":
             self.sort_pp = sort
             self.do_payperiod("x")
-        if page=="search":
-            self.sort_search=sort
+        if page == "search":
+            self.sort_search = sort
             self.display_search(self)
         ## Clock.schedule_once(self.do_payperiod())
-    def do_reverse_all(self,sort,screen):
-        #print (sort,screen,'SORT AND SCREEN')
+
+    def do_reverse_all(self, sort, screen):
+        # print (sort,screen,'SORT AND SCREEN')
         if self.archive_reverse == self.archive_reverse:
             # print("omg its equal")
             self.archive_reverse = not self.archive_reverse
         self.show_archive()
-    def do_sort_all(self,date_rng,screen):
-        
-        self.archive_sort=date_rng
+
+    def do_sort_all(self, date_rng, screen):
+        self.archive_sort = date_rng
 
         self.show_archive()
-    
-    def do_trim_all(self,trim,screen):
-        #print (sort,'trimall',self.archive_sort)
-        self.archive_trim=trim
+
+    def do_trim_all(self, trim, screen):
+        # print (sort,'trimall',self.archive_sort)
+        self.archive_trim = trim
 
         self.show_archive()
 
     def do_payperiod_f(self, date_rng):
-
         ssort = self.sort_pp
         fdate, ldate = self.get_dates(date_rng)
-        print(fdate, ldate, self.rreverse, ssort,'do_payperiod')
+        print(fdate, ldate, self.rreverse, ssort, "do_payperiod")
         self.lday = ldate
         self.fday = fdate
         self.date_range_pp = date_rng
 
         self.do_payperiod("None")
-        return fdate,ldate
+        return fdate, ldate
+
     def toggle_hidden(self):
-        
-        if x['hidden']==False:
-            x['hidden']=True
-            toast('Hide Personal Data')
+        if x["hidden"] == False:
+            x["hidden"] = True
+            toast("Hide Personal Data")
         else:
-            x['hidden']=False
-            toast('Show Personal Data')
-        print ('toggle_hidden',x['hidden'])
+            x["hidden"] = False
+            toast("Show Personal Data")
+        print("toggle_hidden", x["hidden"])
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
         self.root.set_current("pay")
         self.prep_stats()
-        
 
     def do_payperiod(self, zz):
         self.root.set_current("pay")
@@ -5214,15 +5341,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 App.get_running_app().root.current_screen.ids[
                     bu2[i]
                 ].md_bg_color = self.theme_cls.primary_light
-        #if rreverse == False:
+        # if rreverse == False:
         #    App.get_running_app().root.current_screen.ids[
         #        "sall"
         #    ].icon = "sort-descending"
-        #else:
+        # else:
         #    App.get_running_app().root.current_screen.ids[
         #        "sall"
         #    ].icon = "sort-ascending"
-        #App.get_running_app().root.current_screen.ids[
+        # App.get_running_app().root.current_screen.ids[
         #        "sall"
         #    ].size=2
 
@@ -5275,9 +5402,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         #    print(line)
         import os
 
-        #print(os.getcwd(), "CWDDDDD")
+        # print(os.getcwd(), "CWDDDDD")
         os.chdir(cwd)
-        #print(os.getcwd(), "CWDDDDD")
+        # print(os.getcwd(), "CWDDDDD")
         self.root.set_current("pay_breakdown")
 
         panel = ThreeLineListItem(
@@ -5355,7 +5482,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print(listofdicks)
         i = 0
         for i in range(len(listofdicks)):
-
             print(listofdicks[i])
             self.root.current_screen.ids["payperiod_list"].add_widget(
                 HistoryItem(text=str(listofdicks[i]["dtext"]) + "[size=0]" + str(i))
@@ -5400,7 +5526,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print(moneys, "moneys")
 
     def do_history(self):
-
         self.root.set_current("history")
         self.root.current_screen.ids["history_list"].clear_widgets()
         # self.root.current_screen.ids["history_list"].add_widget(HistoryItem(text='bla'))
@@ -5440,7 +5565,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 # print(type(show_date.date()), type(dstart), type(dend))
                 force = False
                 if dstart == "All":
-
                     dstart = datetime.datetime.strptime("1900", "%Y")
                     dend = datetime.datetime.strptime("2200", "%Y")
                     force = True
@@ -5594,48 +5718,41 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     # if good_login==True:
     # self.save_login()
     # self.root.current = "home"
-    
+
     def save_login(self):
-
-        loc=App.get_running_app().root.current_screen.ids["button4"].text
-        print (loc,"LOC")
-        blank=False
-        if loc=="...":
+        loc = App.get_running_app().root.current_screen.ids["button4"].text
+        print(loc, "LOC")
+        blank = False
+        if loc == "...":
             toast("Please Enter Location")
-            blank=True
-            print (blank,"locc")
-        if App.get_running_app().root.current_screen.ids["temail"].text=="":
+            blank = True
+            print(blank, "locc")
+        if App.get_running_app().root.current_screen.ids["temail"].text == "":
             toast("Please Enter Email")
-            blank=True
-            print (blank,"emailloc")
-        zz=App.get_running_app().root.current_screen.ids
+            blank = True
+            print(blank, "emailloc")
+        zz = App.get_running_app().root.current_screen.ids
 
-        #print(self.root.ids.pass2,'lolz')
-        passw=(App.get_running_app().root.current_screen.ids["pass2"].ids['tpassword'].text)
-        if passw=="":
+        # print(self.root.ids.pass2,'lolz')
+        passw = (
+            App.get_running_app().root.current_screen.ids["pass2"].ids["tpassword"].text
+        )
+        if passw == "":
             toast("Please Enter Password")
-            blank=True
-            print (blank,"passwordloc")
-        print (blank,"BLANK")
-        success=False
-        if blank==False:
+            blank = True
+            print(blank, "passwordloc")
+        print(blank, "BLANK")
+        success = False
+        if blank == False:
             import libs.lib_new
-            
-    
-
 
             import libs.lib_enc
 
             self.root.current = "login"
             x["username"] = App.get_running_app().root.current_screen.ids["temail"].text
             x["usecache"] = False
-            x["password"] = str(
-                libs.lib_enc.make_password(
-                    passw
-                )
-            )
+            x["password"] = str(libs.lib_enc.make_password(passw))
             x["city"] = App.get_running_app().root.current_screen.ids["button4"].text
-
 
             import libs.lib_updateuserdata as lib_updateuserdata
 
@@ -5643,23 +5760,17 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             js = libs.lib_new.make_json_schedule(x, ad)
 
             try:
-                
-                print (js,"JesusCh")
+                print(js, "JesusCh")
                 toast(str(js))
-                success=True
+                success = True
             except:
                 toast("login failed...")
                 return "fail"
-            if success==True:
-                
+            if success == True:
                 self.delete_demo()
                 self.root.set_current("today")
                 self.update()
                 toast(str(js))
-            
-
-
-
 
     # btnState2 = StringProperty("false")
 
