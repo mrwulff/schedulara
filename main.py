@@ -2,7 +2,7 @@
 ###
 ### RELEASE 10.2.2023
 ###
-debug = False
+debug = True
 print("wtf1006")
 from ast import Pass
 from asyncio import queues
