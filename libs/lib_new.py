@@ -1,5 +1,5 @@
 def make_json_schedule(x, ad):
-    print ("make_json_schedule")
+    print("make_json_schedule")
     from bs4 import BeautifulSoup
     import libs.lib_updateuserdata
 
@@ -15,19 +15,19 @@ def make_json_schedule(x, ad):
         print("WHY YOU NOT WORK")
 
     encoding = "utf8"
-    print (cache,"CACHE IN NEW")
+    print(cache, "CACHE IN NEW")
 
     try:
         z = open(ad + c2onf, "r", encoding="utf8")
-    
+
     except:
         if cache == True:
-            print ('truecache')
+            print("truecache")
             if x["username"] == "test":
-                x['backdoor']=True
+                x["backdoor"] = True
                 libs.lib_updateuserdata.updateuser(x, ad)
             if x["username"] == "undo":
-                x['backdoor']=False
+                x["backdoor"] = False
                 libs.lib_updateuserdata.updateuser(x, ad)
             import libs.lib_createcache
 
@@ -51,7 +51,7 @@ def make_json_schedule(x, ad):
     except:
         print("emp not found")
         return
-    print (name.get_text(),"YOUR NAME HERE")
+    print(name.get_text(), "YOUR NAME HERE")
     try:
         name = str.split(name.get_text(), ", ")
     except:
@@ -59,7 +59,6 @@ def make_json_schedule(x, ad):
     # print(name, "wtfname")
     name = name[1] + " " + name[0]
     x["name"] = name
-    
 
     libs.lib_updateuserdata.updateuser(x, ad)
 
@@ -170,8 +169,11 @@ def format_textt(name):
     name = str.replace(name, "/", "")
     name = str.replace(name, ":", "")
     return name
-def update_archive_json(ad,thisdict):
+
+
+def update_archive_json(ad, thisdict):
     import json
+
     try:
         fname = (
             format_textt(thisdict["date"])
@@ -184,52 +186,45 @@ def update_archive_json(ad,thisdict):
         )
 
         with open(ad + "/future_shows/" + fname + ".json", "w") as outfile:
-                    json.dump(thisdict, outfile, indent=4)
+            json.dump(thisdict, outfile, indent=4)
     except:
         pass
 
 
-
-def load_archive_json(ad,x):
+def load_archive_json(ad, x):
     import json
     import os
 
-    #print (x)
-    flag=0
+    # print (x)
+    flag = 0
     try:
-        junk,date,time,job,show=str.split(x,'%%%')
-        space=' '
-        d='future_shows'
+        junk, date, time, job, show = str.split(x, "%%%")
+        space = " "
+        d = "future_shows"
         fname = (
-        format_textt(date)
-        + space
-        + format_textt(time)
-        + space
-        + job
-        + space
-        + format_textt(show)
-    )
+            format_textt(date)
+            + space
+            + format_textt(time)
+            + space
+            + job
+            + space
+            + format_textt(show)
+        )
     except:
         pass
-    if job=='Custom':
+    if job == "Custom":
+        d = "custom_shows"
+        print(type(show), type(date), "show")
+        fname = format_textt(date) + format_textt(show) + format_textt(time)
 
-        d="custom_shows"
-        print (type(show),type(date),'show')
-        fname=(
-        format_textt(date)
-        + format_textt(show)
-        + format_textt(time)
-        )
-        
-
-    #print (x,"WHATTTTT")
+    # print (x,"WHATTTTT")
     nf = os.path.join(ad, d, fname) + ".json"
     try:
         with open(nf) as json_file:
             data = json.load(json_file)
     except:
-        data={}
-    return data,nf
+        data = {}
+    return data, nf
 
 
 def update_history(thisdict, ad):
@@ -237,7 +232,7 @@ def update_history(thisdict, ad):
     import json
     import os
 
-    print("omg its history")
+    # print("omg its history")
 
     # hash_object = hashlib.md5(show.encode())
     # fname = hash_object.hexdigest()
@@ -276,7 +271,6 @@ def update_history(thisdict, ad):
 
 
 def get_json_schedule(x, ad):
-
     # import libs.lib_think
 
     # print(x["usecache"], "usecache!!!")
@@ -285,7 +279,7 @@ def get_json_schedule(x, ad):
         show = "jason_show_cache_fake.json"
 
     if x["usecache"] == "False" or x["usecache"] == False or x["usecache"] == "false":
-        print("USING Real?",x["refreshreload"])
+        print("USING Real?", x["refreshreload"])
         show = "jason_show_cache_real.json"
         if (
             x["refreshreload"] == "True"
@@ -300,7 +294,6 @@ def get_json_schedule(x, ad):
 
 
 def get_json_schedule_1(x, ad):
-
     # import libs.lib_think
 
     # print(x["usecache"], "usecache!!!")
@@ -327,7 +320,6 @@ def get_json_schedule_2(x, ad, show):
     import json, os
 
     try:
-
         from datetime import datetime, timedelta
 
         nf = os.path.join(ad, show)

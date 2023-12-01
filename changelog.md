@@ -4,5 +4,5 @@ Added side menu
 Fixed Next payperiod bug
 updated to new pp format
 1.1.8
-Added Presets,Segmented buttons,shift length graph
+Added Presets,Segmented buttons,Shift length graph
 

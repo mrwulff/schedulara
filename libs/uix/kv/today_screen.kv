@@ -355,6 +355,12 @@
                     on_press:
                         app.close_menu()
                         app.do_gbackup()
+                DrawerClickableItem:
+                    icon: "gauge"
+                    text: "App Stats"
+                    on_press:
+                        app.close_menu()
+                        app.do_internal_stats()
                 #DrawerClickableItem:
                 #    text: "SaveScreen"
                 #    icon: "close"

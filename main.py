@@ -2,7 +2,7 @@
 ###
 ### RELEASE 10.2.2023
 ###
-debug = True
+debug = False
 print("wtf1006")
 from ast import Pass
 from asyncio import queues
@@ -2295,9 +2295,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             "C",
             "hammer",
         ]
-        print(icon, "newICON")
+        # print(icon, "newICON")
         for xx in range(len(icons)):
-            print(icons[xx], icon, "matches")
+            # print(icons[xx], icon, "matches")
             if icons[xx] == icon:
                 print(icons[xx + 1], "NEWICON")
                 return icons[xx + 1]
@@ -2351,7 +2351,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             z44 = dir(self.root.get_screen("today").ids[li_l[i]])
             self.root.get_screen("today").ids[li_l[i]].icon = self.find_type(i, "type")
             self.root.get_screen("today").ids[li_r[i]].icon = self.find_type(i, "pos")
-            print(z44, "leftwidget")
+            # print(z44, "leftwidget")
         qq = self.root.get_screen("today").ids
         try:
             if x["branding"] == True:
@@ -2489,9 +2489,179 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             print(xx9["num_shows"])
             self.new_confirm("all")
             toast("Success")
+            self.update_internal("confirm", "1")
             self.update()
         if x["usecache"] == True:
             toast("You are in demo mode")
+
+    def update_global(self):
+        print("update_global")
+        import libs.lib_readuserdata
+
+        try:
+            ex = libs.lib_readuserdata.readuserdata_extra(App, ad, ios)
+        except:
+            import libs.lib_makeuserdata
+
+            libs.lib_makeuserdata.makeuserdata_extra(App, ad, ios)
+            ex = libs.lib_readuserdata.readuserdata_extra(App, ad, ios)
+
+        import libs.lib_firefriend
+
+        z = libs.lib_firefriend.dl_stats(self, ex, x)
+        print(type(z), z, "TYPEZ")
+        if (z) != None:
+            for key, value in z.items():
+                # print(value, "keyvalue")
+                fb_confirm = value["confirm"]
+                fb_streak = value["streak"]
+                fb_update = value["update"]
+                print(fb_confirm, fb_streak, fb_update, "fbbbbbb")
+                if fb_confirm < ex["confirm"]:
+                    fb_confirm = ex["confirm"]
+                else:
+                    ex["confirm"] = fb_confirm
+                if fb_streak < ex["streak"]:
+                    fb_streak = ex["streak"]
+                else:
+                    ex["streak"] = fb_streak
+                if fb_update < ex["update"]:
+                    fb_update = ex["update"]
+                else:
+                    ex["fb_update"] = fb_update
+                if (
+                    fb_streak == value["streak"]
+                    and fb_confirm == value["confirm"]
+                    and fb_update == value["update"]
+                ):
+                    print("nothing to update")
+                else:
+                    print("updating fb")
+                    z = libs.lib_firefriend.send_stats(self, ex, x)
+        if (z) == None:
+            z = libs.lib_firefriend.send_stats(self, ex, x)
+
+    def check_streak(self, ex):
+        from datetime import datetime, timedelta
+
+        now = datetime.now().date()
+        if ex.get("streak") == None:
+            ex["streak"] = 1
+        if ex.get("lstreak") == None:
+            print("GGGG")
+            ex["lstreak"] = 1
+        if ex.get("previous_update") == None:
+            zz = datetime.now() + timedelta(
+                days=-5,
+            )
+            # print(zz)
+            zz = str(zz.date())
+            ex["previous_update"] = zz
+        else:
+            previous = datetime.strptime(ex["previous_update"], "%Y-%m-%d")
+            print("found previous date", previous.date())
+        diff = now - previous.date()
+        print(diff.days, "NOW", dir(diff))
+        if diff.days == 1:
+            ex["previous_update"] = str(now)
+            ex["streak"] = ex["streak"] + 1
+
+        if ex["streak"] > ex["lstreak"]:
+            ex["lstreak"] = ex["streak"]
+
+        return ex
+
+    def do_internal_stats(self):
+        import libs.lib_updateuserdata
+        import libs.lib_readuserdata
+
+        try:
+            ex = libs.lib_readuserdata.readuserdata_extra(App, ad, ios)
+        except:
+            import libs.lib_makeuserdata
+
+            libs.lib_makeuserdata.makeuserdata_extra(App, ad, ios)
+            ex = libs.lib_readuserdata.readuserdata_extra(App, ad, ios)
+
+        self.root.set_current("internal_stats")
+        print("internal stats")
+        # self.update_internal("update", "1")
+
+        import libs.lib_new
+
+        js = libs.lib_new.get_json_schedule(x, ad)
+        if useold == False:
+            shows = js["shows"]
+        if useold == True:
+            shows = js["old_shows"]
+        rshows = (len(shows)) - (js["num_shows"])
+        current_shows = len(js["shows"])
+        if ex.get("max_shows") == None:
+            ex["max_shows"] = current_shows
+            max = current_shows
+        if ex.get("min_shows") == None:
+            ex["min_shows"] = current_shows
+            min = current_shows
+        if ex.get("max_shows") != None:
+            if current_shows > ex["max_shows"]:
+                ex["max_shows"] = current_shows
+        if ex.get("min_shows") != None:
+            if current_shows < ex["min_shows"]:
+                ex["min_shows"] = current_shows
+
+        ex = self.check_streak(ex)
+
+        libs.lib_updateuserdata.updateuser_extra(ex, ad)
+
+        self.root.get_screen("internal_stats").ids["update"].secondary_text = str(
+            ex["update"]
+        )
+        self.root.get_screen("internal_stats").ids["streak"].secondary_text = str(
+            ex["streak"]
+        )
+
+        self.root.get_screen("internal_stats").ids["confirm"].secondary_text = str(
+            ex["confirm"]
+        )
+        self.root.get_screen("internal_stats").ids["max"].secondary_text = str(
+            ex["max_shows"]
+        )
+
+        self.root.get_screen("internal_stats").ids["min"].secondary_text = str(
+            ex["min_shows"]
+        )
+        self.root.get_screen("internal_stats").ids["lstreak"].secondary_text = str(
+            ex["lstreak"]
+        )
+
+    def update_internal(self, kind, value):
+        import libs.lib_updateuserdata
+        import libs.lib_readuserdata
+
+        # libs.lib_updateuserdata.updateuser_extra(x, ad)
+
+        try:
+            ex = libs.lib_readuserdata.readuserdata_extra(App, ad, ios)
+        except:
+            import libs.lib_makeuserdata
+
+            libs.lib_makeuserdata.makeuserdata_extra(App, ad, ios)
+            ex = libs.lib_readuserdata.readuserdata_extra(App, ad, ios)
+        print(ex, "EXTRA EXTRA111", kind)
+        if (
+            kind == "update"
+            or kind == "confirm"
+            or kind == "streak"
+            or kind == "cstreak"
+        ):
+            if ex.get(kind) == None:
+                print("update not found")
+                ex[kind] = 1
+                libs.lib_updateuserdata.updateuser_extra(ex, ad)
+            if ex.get(kind) > -1:
+                ex[kind] = ex[kind] + 1
+                libs.lib_updateuserdata.updateuser_extra(ex, ad)
+        # print(ex, "EXTRA EXTRA")
 
     def make_toast(self, b):
         print(x, b)
@@ -2503,6 +2673,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         try:
             libs.lib_new.make_json_schedule(x, ad)
             print("updated schedule")
+            self.update_internal("update", 1)
+            toast("Success")
+
         except:
             print("login failed")
             toast("login failed")

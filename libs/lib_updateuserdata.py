@@ -25,3 +25,14 @@ def updateuser(data, ad):
     x = open(ad + "/userdata.json.txt", "w")
     x.write(data)
     x.close()
+
+
+def updateuser_extra(data, ad):
+    import json
+
+    data = json.dumps(data, indent=4)
+    x = open(ad + "/userdata_extra.json.txt", "w")
+    x.write(data)
+    x.close()
+
+    # print(data, "update extra")

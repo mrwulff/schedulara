@@ -1,6 +1,24 @@
 # from turtle import xcor
 
 
+def makeuserdata_extra(App, config_file, ios):
+    import json
+    from kivy.app import App
+
+    app = App.get_running_app()
+    ad = app.user_data_dir
+    if ios == True:
+        ad = config_file
+        app = App.get_running_app()
+        ad = app.user_data_dir
+
+    x = ' { "update":0,"confirm":0,"streak":0,"lstreak":0,"lastupdate":""}'
+    y = json.loads(x)
+    with open(ad + "/userdata_extra.json.txt", "w") as outfile:
+        json.dump(y, outfile)
+    # print("writedata")
+
+
 def makeuserdata(App, config_file, ios):
     import json
     from kivy.app import App
@@ -112,7 +130,7 @@ def makeshowfile(App, x, config_file, ios):
             + '"}'
         )
     # print (x,'jsonfile')
-    y = json.loads(x,strict=False)
+    y = json.loads(x, strict=False)
     try:
         with open(ad + "/shows/" + fname + ".json", "w") as outfile:
             json.dump(y, outfile)
@@ -120,37 +138,36 @@ def makeshowfile(App, x, config_file, ios):
         os.mkdir(ad + "/shows")
         with open(ad + "/shows/" + fname + ".json", "w") as outfile:
             json.dump(y, outfile)
-def makeratefile(ad,rate,pos):
+
+
+def makeratefile(ad, rate, pos):
+    try:
+        rate = float(rate)
+    except:
+        rate = 0
+    import json
 
     try:
-        rate=float(rate)
-    except:
-        rate=0
-    import json
-    try:
-        with open(ad   + "/rates.json", "r") as json_file:
+        with open(ad + "/rates.json", "r") as json_file:
             data2 = json.load(json_file)
     except:
-        data2={}
+        data2 = {}
 
+    dictionary = data2
+    #    dictionary = json.loads(dictionary)
 
-
-    dictionary =data2
-#    dictionary = json.loads(dictionary)
-
-
-    print (dictionary,"rateposad",type(dictionary))
+    print(dictionary, "rateposad", type(dictionary))
     import json
     import os
-    new_rate = {pos:rate}
+
+    new_rate = {pos: rate}
     dictionary.update(new_rate)
-    y = json.dumps(dictionary, indent = 4) 
-    print (ad,'AFUCKINGD')
+    y = json.dumps(dictionary, indent=4)
+    print(ad, "AFUCKINGD")
 
-    with open(ad+"/rates.json", "w") as outfile:
-
+    with open(ad + "/rates.json", "w") as outfile:
         json.dump(dictionary, outfile)
-    
+
 
 def makeposfile(App, x, config_file, ios, rate):
     import json

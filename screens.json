@@ -148,5 +148,10 @@
         "import": "from libs.uix.baseclass.dev_screen import devscreen",
         "object": "devscreen()",
         "kv": "libs/uix/kv/dev_screen.kv"
+    },
+    "internal_stats": {
+        "import": "from libs.uix.baseclass.internal_stats_screen import internal_statsscreen",
+        "object": "internal_statsscreen()",
+        "kv": "libs/uix/kv/internal_stats_screen.kv"
     }
 }

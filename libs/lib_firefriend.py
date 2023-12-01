@@ -1,3 +1,89 @@
+def dl_stats(App, ex, x):
+    from datetime import datetime
+    import hashlib
+
+    now = datetime.now()
+
+    from firebase_admin import db
+    import firebase_admin
+    from datetime import datetime
+
+    databaseURL = "https://schedulara-default-rtdb.firebaseio.com"
+    cred_obj = firebase_admin.credentials.Certificate("sc.json")
+    chat_exists_flag = False
+    try:
+        default_app = firebase_admin.initialize_app(
+            cred_obj, {"databaseURL": databaseURL}
+        )
+    except:
+        print("already logged into db")
+
+    # s = gg["date"] + " " + gg["job"] + " " + x["city"]
+
+    u = str.replace(x["username"], "@", ".at.")
+    u = str.replace(u, ".", "-")
+    u = u.encode("utf-8")
+
+    u = hashlib.md5(u)
+    u = str(u)
+    u = str.split(u, " ")
+    u = u[len(u) - 1]
+    print(u, "md5hash")
+
+    ref = db.reference("/stats/" + u)
+
+    z = ref.get()
+    print(z, "firebase data")
+    return z
+
+
+def send_stats(App, ex, x):
+    from firebase_admin import db
+    import firebase_admin
+    from datetime import datetime
+    import hashlib
+
+    databaseURL = "https://schedulara-default-rtdb.firebaseio.com"
+    cred_obj = firebase_admin.credentials.Certificate("sc.json")
+    cred_obj = firebase_admin.credentials.Certificate("sc.json")
+    chat_exists_flag = False
+    try:
+        default_app = firebase_admin.initialize_app(
+            cred_obj, {"databaseURL": databaseURL}
+        )
+        print("logged in to firebase")
+    except:
+        print("already logged into db")
+
+    u = str.replace(x["username"], "@", ".at.")
+    u = str.replace(u, ".", "-")
+    u = u.encode("utf-8")
+
+    u = hashlib.md5(u)
+    u = str(u)
+    u = str.split(u, " ")
+    u = u[len(u) - 1]
+    print(u, "md5hash")
+
+    ref = db.reference("/stats/" + u)
+    if x["share_stats"] == False:
+        x["name"] = "hidden"
+    if x["share_stats"] == False:
+        x["name"] = "anon"
+
+    user = {
+        x["name"]: {
+            "update": ex["update"],
+            "confirm": ex["confirm"],
+            "streak": ex["streak"],
+        },
+    }
+
+    ref.set(user)
+    toast = "Update Success"
+    return toast
+
+
 def view_chat(App, gg, x):
     # print(App, gg, x)
     from datetime import datetime
@@ -32,7 +118,6 @@ def view_chat(App, gg, x):
         return []
     logs = []
     for key, value in z.items():
-
         # print(key, value)
         for key2, value2 in value.items():
             nt, junk = str.split(value2["Time"], ".")
@@ -87,7 +172,6 @@ def try_add_chat(App, gg, x, test_message):
 
 
 def try_add_show(App, gg, x):
-
     if 1 == 2:
         from faker import Faker
 
@@ -172,7 +256,6 @@ def try_add_show(App, gg, x):
 
 
 def add_show(App, gg, x):
-
     import firebase_admin
     from datetime import datetime
 
@@ -239,7 +322,6 @@ def update_user_profile(x):
 
 
 def get_profile(user):
-
     from firebase_admin import db
     import firebase_admin
     from datetime import datetime
