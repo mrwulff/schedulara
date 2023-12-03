@@ -30,6 +30,8 @@ def updateuser(data, ad):
 def updateuser_extra(data, ad):
     import json
 
+    # print(data, "json exta data")
+
     data = json.dumps(data, indent=4)
     x = open(ad + "/userdata_extra.json.txt", "w")
     x.write(data)

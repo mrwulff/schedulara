@@ -1,6 +1,7 @@
-def dl_stats(App, ex, x):
+def dl_stats(App, ex, x, user):
     from datetime import datetime
     import hashlib
+    import os
 
     now = datetime.now()
 
@@ -8,6 +9,8 @@ def dl_stats(App, ex, x):
     import firebase_admin
     from datetime import datetime
 
+    lol = os.getcwd()
+    print(lol, "getcwd")
     databaseURL = "https://schedulara-default-rtdb.firebaseio.com"
     cred_obj = firebase_admin.credentials.Certificate("sc.json")
     chat_exists_flag = False
@@ -29,11 +32,15 @@ def dl_stats(App, ex, x):
     u = str.split(u, " ")
     u = u[len(u) - 1]
     print(u, "md5hash")
+    if user == "single":
+        ref = db.reference("/stats/" + u)
 
-    ref = db.reference("/stats/" + u)
+    else:
+        ref = db.reference("/stats/")
 
     z = ref.get()
-    print(z, "firebase data")
+
+    # print(z, "firebase data")
     return z
 
 
@@ -59,23 +66,28 @@ def send_stats(App, ex, x):
     u = str.replace(u, ".", "-")
     u = u.encode("utf-8")
 
-    u = hashlib.md5(u)
+    u = hashlib.md5(u).hexdigest()
+    print(dir(u), "md5hashuu")
     u = str(u)
     u = str.split(u, " ")
     u = u[len(u) - 1]
     print(u, "md5hash")
+    u = "f_232344sdf7293847"
 
     ref = db.reference("/stats/" + u)
     if x["share_stats"] == False:
         x["name"] = "hidden"
-    if x["share_stats"] == False:
-        x["name"] = "anon"
 
     user = {
         x["name"]: {
+            "office": x["city"],
             "update": ex["update"],
             "confirm": ex["confirm"],
             "streak": ex["streak"],
+            "positions_list": ex["positions"],
+            "positions": ex["hats"],
+            "opened": ex["opened"],
+            "max_shows": ex["max_shows"],
         },
     }
 

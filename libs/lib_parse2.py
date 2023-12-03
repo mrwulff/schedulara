@@ -32,6 +32,18 @@ def load_full_pp(ad, fil, idex):
         print(tot, "WTFYOU")
         return pos_k, pos_v, pos_l, tot
 
+    if idex == "otH":
+        (
+            pos_k,
+            pos_v,
+            pos_l,
+        ) = count_pos(data, idex, False)
+        return (
+            pos_k,
+            pos_v,
+            pos_l,
+        )
+
     if idex == "pos":
         pos_k, pos_v, pos_l = count_pos_future(data, "pos", False)
     if idex == "venue":
@@ -187,7 +199,7 @@ def count_pos(data, uu, shrink):
                     for m in range(len(v2)):
                         if uu == "VENUE":
                             s = v2[m]["show"]
-                            # print(s)
+
                             if s[0] == "(":
                                 s2 = str.split(s, ")")
                                 s2 = str.split(s2[0], "(")
@@ -203,8 +215,13 @@ def count_pos(data, uu, shrink):
                                 # print(s, "BLARRRRR")
 
                                 pos.append("?")
-
-                        if uu == "pos" or uu == "class" or uu == "client":
+                        # print(uu, "UUUUUUUUU")
+                        if (
+                            uu == "pos"
+                            or uu == "class"
+                            or uu == "client"
+                            or uu == "otH"
+                        ):
                             pos.append(v2[m][uu])
                         if uu == "hours":
                             s = v2[m]["tot_hours"]
@@ -214,15 +231,32 @@ def count_pos(data, uu, shrink):
                             if len(s) < 2:
                                 s = 0 + s
                             pos.append(int(s[0]))
+                        if uu == "otH":
+                            s = v2[m][uu]
+                            if float(s) > 1:
+                                s = str.split(s, ".")
+                                print(s[0], "s000000")
+                                s = s[0]
+                                s = int(0)
+
+                                pos.append(s)
     # print (pos,'POSSS')
     # pos=str(pos)
 
     # print(len(pos))
+    print(pos, "sssssssssssss")
     z = collections.Counter(pos)
     # print(dir(z))
+    print(z, type(z), "zzzzzzz")
     k2 = []
     v2 = []
     v3 = []
+    if uu == "otH":
+        # print (z)
+        z2 = dict(
+            sorted(z.items(), reverse=False, key=lambda item: item[1]),
+        )
+
     if uu != "hours":
         z2 = dict(
             sorted(z.items(), reverse=True, key=lambda item: item[1]),

@@ -1,11 +1,9 @@
 def download_ach(ad):
-
     import urllib.request, urllib.error, urllib.parse, json
 
     flag = True
     hash = False
     try:
-
         # openedFile = open(ad + "/ids22.json")
         f = open(ad + "/ids22.json")
         data = json.load(f)
@@ -28,7 +26,6 @@ def download_ach(ad):
         flag = True
         print("downloaded score tables")
     except:
-
         print("failed to dl")
         return "failed to dl"
 
@@ -197,7 +194,6 @@ def make_ach(ad):
 
 
 def longestrun(myList):
-
     size = 1
     max_size = 0
     listshows = []
@@ -208,7 +204,6 @@ def longestrun(myList):
 
         if myList[i + 1][0] - 1 == myList[i][0] or myList[i + 1][0] == myList[i][0]:
             if myList[i + 1][0] - 1 == myList[i][0]:
-
                 size += 1
             # print("omg")
             listshows.append(myList[i])
@@ -251,13 +246,19 @@ def check_scroll(self, ad, x):
 
 
 def check_hats(self, ad):
+    try:
+        f = open(ad + "/testtest22.json")
+    except:
+        make_ach(ad)
+        f = open(ad + "/testtest22.json")
+
     print("checking hats")
     points = 0
-    import datetime
+    from datetime import datetime, timedelta
     import libs.lib_makegraphs as lib_makegraphs
 
-    new_start = datetime.datetime.now()
-    new_finish = datetime.datetime.now() - datetime.timedelta(days=10365)
+    new_start = datetime.now()
+    new_finish = datetime.now() - timedelta(days=10365)
     h, h2, days, hours = lib_makegraphs.parsepp(
         self,
         ad,
@@ -265,6 +266,9 @@ def check_hats(self, ad):
         new_start,
         new_finish,
     )
+    # print(h, h2, days, hours)
+    return h, h2
+    """
     hours.sort(key=lambda x: x[0], reverse=True)
     top_hours = []
     # print(hours, "hourssss")
@@ -325,6 +329,8 @@ def check_hats(self, ad):
     json_object = json.dumps(data, indent=4)
     x = open(ad + "/testtest22.json", "w")
     x.write(json_object)
+
+    """
 
 
 def make_scores(ad):

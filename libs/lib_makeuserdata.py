@@ -12,7 +12,7 @@ def makeuserdata_extra(App, config_file, ios):
         app = App.get_running_app()
         ad = app.user_data_dir
 
-    x = ' { "update":0,"confirm":0,"streak":0,"lstreak":0,"lastupdate":""}'
+    x = ' { "update":0,"confirm":0,"streak":0,"lstreak":0}'
     y = json.loads(x)
     with open(ad + "/userdata_extra.json.txt", "w") as outfile:
         json.dump(y, outfile)

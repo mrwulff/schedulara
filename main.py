@@ -537,6 +537,10 @@ class Demo3App(MDApp):
         # print (dir(Demo3App().run()))
         return Demo3App().run()
 
+    import os
+
+    cwd = os.getcwd()
+
     fday = ""
     lday = ""
     date_range_pp = "All"
@@ -1126,7 +1130,7 @@ class Demo3App(MDApp):
     ot_chart = {
         "name": "OT Hours",
         "file": "json_pps.json",
-        "filter": "ot",
+        "filter": "otH",
         "id": "c10",
     }
 
@@ -1179,7 +1183,7 @@ class Demo3App(MDApp):
         chart_list.append(self.future_type)
 
         chart_list.append(self.shift_chart)
-        # chart_list.append(self.ot_chart)
+        chart_list.append(self.ot_chart)
         # chart_list.append(self.venue_chart)
 
         # chart_list.append(self.day_chart)
@@ -1222,17 +1226,17 @@ class Demo3App(MDApp):
                 # sec = App.get_running_app().root.current_screen.ids[chart_list[i]["id"+'d']]
                 # sec.secondary_text = chart_list[i]["secondary"]
                 try:
-                    print(((pos_v3)), "sumsum")
+                    # print(((pos_v3)), "sumsum")
                     what = "Total Hours: " + str(sum(pos_v3))
                     what2 = (sum(pos_v3)) / tot
                     what2 = f"{what2:.2f}"
                     what2 = "Total/Paycheck: " + what2
                     # print(App.get_running_app().root.current_screen.ids["c9d"].secondary_text)
-                    print(pos_v3, "POSV#")
-                    try:
-                        print(sum(pos_v3), "wowowowow")
-                    except:
-                        print("cant print tot")
+                    # print(pos_v3, "POSV#")
+                    # try:
+                    #     print(sum(pos_v3), "wowowowow")
+                    # except:
+                    #     print("cant print tot")
                     App.get_running_app().root.current_screen.ids[
                         chart_list[i]["id"] + "d"
                     ].secondary_text = what
@@ -1285,15 +1289,22 @@ class Demo3App(MDApp):
             if chart_list[i]["name"] == "Paycheck Amount":
                 check = App.get_running_app().root.current_screen.ids["c3d"]
                 try:
-                    ave, tot = self.check_stats(pos_v2)
+                    ave, tot, ot2, tot2 = self.check_stats(pos_v2)
                     check.secondary_text = "Total: $" + str(self.hide(ave))
                     check.tertiary_text = "Average:  $" + str(self.hide(tot))
-
                 except:
                     # check.text ="***HIDDEN***"
                     check.secondary_text = "***HIDDEN***"
                     print("hidden***")
                 check.text = "Paychecks: " + str(len(pos_v2))
+            if chart_list[i]["name"] == "OT Hours":
+                (
+                    ave,
+                    tot,
+                ) = self.check_stats(pos_v2)
+                check2 = App.get_running_app().root.current_screen.ids["ex3"]
+                check2.secondary_text = "Total: $" + str(self.hide(ave))
+                check2.tertiary_text = "Average:  $" + str(self.hide(tot))
 
     def add_message_to_chat(self, message):
         import libs.lib_firefriend
@@ -1430,6 +1441,7 @@ class Demo3App(MDApp):
         self,
     ):
         self.root = Root()
+        # self.update_internal("opened", 1)
 
         # from kivy.config import Config
 
@@ -2307,6 +2319,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import humanize
         from datetime import datetime, timedelta
 
+        self.update_internal("opened", 1)
+
         self.root.set_current("today")
         print(self.root.current_screen.name, "current_screen")
         self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
@@ -2494,6 +2508,55 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if x["usecache"] == True:
             toast("You are in demo mode")
 
+    def update_global_all(self, ex):
+        import libs.lib_firefriend
+
+        print("update_global ALLL")
+        # libs.lib_updateuserdata.updateuser_extra(ex, ad)
+        z = libs.lib_firefriend.dl_stats(self, ex, x, "global")
+        vals = [
+            "confirm",
+            "update",
+            "streak",
+            "positions",
+            "opened",
+        ]
+        vals2 = [
+            "tot_confirm",
+            "tot_update",
+            "tot_lstreak",
+            "tot_hats",
+            "tot_opened",
+        ]
+        for tots in range(len(vals2)):
+            ex[vals2[tots]] = 0
+            # print(ex[vals2[tots]], "jesus")
+        # print(ex, "jesus2")
+        # print(z, "global firebase", len(z), type(z))
+        ex["tot_confirm"] = 0
+        ex["users"] = 0
+        ex["gmax_g"] = 0
+        for key, value in z.items():
+            # print(key,value, "keyvalue")
+            for key2, value2 in value.items():
+                # print(value2, "VALUE2")
+                ex["users"] = ex["users"] + 1
+                print(value2["max_shows"], "maxxxxxx")
+                if (value2["max_shows"]) > ex["gmax_g"]:
+                    ex["gmax_g"] = value2["max_shows"]
+
+                for tots in range(len(vals)):
+                    # print(ex[vals2[tots]], "wowowowow55")
+                    # ex[vals2[tots]] = ex[vals2[tots]]
+                    ex[vals2[tots]] = ex[vals2[tots]] + (value2[vals[tots]])
+
+                # print(value2, "plist")
+        ex["tot_confirm"]
+
+        # print(ex, "totconfirm1111")
+
+        return ex
+
     def update_global(self):
         print("update_global")
         import libs.lib_readuserdata
@@ -2508,8 +2571,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         import libs.lib_firefriend
 
-        z = libs.lib_firefriend.dl_stats(self, ex, x)
-        print(type(z), z, "TYPEZ")
+        os.chdir(cwd)
+        z = libs.lib_firefriend.dl_stats(self, ex, x, "single")
+        # print((z), z_all, "TYPEZ")
+        update = False
         if (z) != None:
             for key, value in z.items():
                 # print(value, "keyvalue")
@@ -2538,11 +2603,23 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 else:
                     print("updating fb")
                     z = libs.lib_firefriend.send_stats(self, ex, x)
+                    update = True
+
         if (z) == None:
             z = libs.lib_firefriend.send_stats(self, ex, x)
+            update = True
+        # libs.lib_updateuserdata.updateuser_extra(ex, ad)
+
+        ex = self.update_global_all(ex)
+        if update == False or update == True:
+            import libs.lib_updateuserdata
+
+            libs.lib_updateuserdata.updateuser_extra(ex, ad)
 
     def check_streak(self, ex):
         from datetime import datetime, timedelta
+
+        print("checking streak")
 
         now = datetime.now().date()
         if ex.get("streak") == None:
@@ -2555,33 +2632,78 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 days=-5,
             )
             # print(zz)
-            zz = str(zz.date())
-            ex["previous_update"] = zz
+            previous = zz.date()
+            print("did the update, and checking zzzzz")
+            ex["previous_update"] = str(zz.date())
+            ex["streak"] = 1
+            ex["lstreak"] = 1
+            # previous = zzs
+            print("exxx", ex)
+            return ex
         else:
-            previous = datetime.strptime(ex["previous_update"], "%Y-%m-%d")
-            print("found previous date", previous.date())
-        diff = now - previous.date()
-        print(diff.days, "NOW", dir(diff))
+            previous = datetime.strptime(ex["previous_update"], "%Y-%m-%d").date()
+            print("found previous date", previous)
+        diff = now - previous
+        # print(diff.days, "NOW", dir(diff))
         if diff.days == 1:
             ex["previous_update"] = str(now)
             ex["streak"] = ex["streak"] + 1
 
         if ex["streak"] > ex["lstreak"]:
             ex["lstreak"] = ex["streak"]
+        print
+        try:
+            zz = str(zz)
+        except:
+            print("fail to do something")
 
+        # import libs.lib_updateuserdata
+
+        # libs.lib_updateuserdata.updateuser_extra(ex, ad)
+        return ex
+
+    def check_internal(self, ex, internal_stat):
+        import libs.lib_ach
+
+        if ex.get(internal_stat) == None:
+            ex[internal_stat] = 0
+        if internal_stat == "hats":
+            s, junk = libs.lib_ach.check_hats(self, ad)
+            print(s, "slober")
+            # ex["positions"] = s
+            print(s, "numberofpositions")
+            if ex.get("positions") == None:
+                ex["positions"] = s
+            if ex.get(internal_stat) == None:
+                ex[internal_stat] = len(s)
+
+            if ex["hats"] < len(s):
+                ex["positions"] = s
+
+            if ex[internal_stat] < len(s):
+                ex[internal_stat] = len(s)
+        # print(ex[internal_stat], internal_stat, "blablabla)")
+
+        # libs.lib_updateuserdata.updateuser_extra(ex, ad)
         return ex
 
     def do_internal_stats(self):
         import libs.lib_updateuserdata
         import libs.lib_readuserdata
+        import libs.lib_ach
 
+        # if 1 == 1:
         try:
             ex = libs.lib_readuserdata.readuserdata_extra(App, ad, ios)
         except:
+            # if 1 == 2:
             import libs.lib_makeuserdata
 
             libs.lib_makeuserdata.makeuserdata_extra(App, ad, ios)
+            print("Making new extra data")
             ex = libs.lib_readuserdata.readuserdata_extra(App, ad, ios)
+
+        ###
 
         self.root.set_current("internal_stats")
         print("internal stats")
@@ -2594,9 +2716,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             shows = js["shows"]
         if useold == True:
             shows = js["old_shows"]
+
         rshows = (len(shows)) - (js["num_shows"])
         current_shows = len(js["shows"])
+
         if ex.get("max_shows") == None:
+            # print(ex, "exwtf22")
+
             ex["max_shows"] = current_shows
             max = current_shows
         if ex.get("min_shows") == None:
@@ -2609,10 +2735,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             if current_shows < ex["min_shows"]:
                 ex["min_shows"] = current_shows
 
+        print("check streak")
         ex = self.check_streak(ex)
+        print("checkh hats")
+        ex = self.check_internal(ex, "hats")
 
         libs.lib_updateuserdata.updateuser_extra(ex, ad)
-
+        # print(ex, "exwtf22")
         self.root.get_screen("internal_stats").ids["update"].secondary_text = str(
             ex["update"]
         )
@@ -2633,6 +2762,34 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.get_screen("internal_stats").ids["lstreak"].secondary_text = str(
             ex["lstreak"]
         )
+        self.root.get_screen("internal_stats").ids["poses"].secondary_text = str(
+            ex["hats"]
+        )
+
+        self.root.get_screen("internal_stats").ids["gopened"].secondary_text = str(
+            ex["opened"]
+        )
+
+        self.root.get_screen("internal_stats").ids["gconfirm"].secondary_text = str(
+            ex["tot_confirm"]
+        )
+
+        self.root.get_screen("internal_stats").ids["gupdate"].secondary_text = str(
+            ex["tot_update"]
+        )
+
+        self.root.get_screen("internal_stats").ids["users"].secondary_text = str(
+            ex["users"]
+        )
+        # self.root.get_screen("internal_stats").ids["gstreak"].secondary_text = str(
+        #    ex["tot_lstreak"]
+        # )
+        try:
+            self.root.get_screen("internal_stats").ids["gmax"].secondary_text = str(
+                ex["gmax_g"]
+            )
+        except:
+            print("failg")
 
     def update_internal(self, kind, value):
         import libs.lib_updateuserdata
@@ -2653,6 +2810,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             or kind == "confirm"
             or kind == "streak"
             or kind == "cstreak"
+            or kind == "opened"
         ):
             if ex.get(kind) == None:
                 print("update not found")

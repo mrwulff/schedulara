@@ -56,12 +56,11 @@ def make_stats_pp(self, clabel, dd, newmax, y):
 
 
 def update_plot(self, dd):
-
     self.plot.points = [(dd[x][0], dd[x][1]) for x in range(len(dd))]
     pp_date = datetime.strptime(file2, "%m-%d-%Y.html")
 
 
-def make_full_json_pp(ad, s, e,full):
+def make_full_json_pp(ad, s, e, full):
     ###
     ### NEW ONE
     ###
@@ -85,23 +84,22 @@ def make_full_json_pp(ad, s, e,full):
         # print(file)
         # f1, f2 = str.split(file, ".")
         f1 = datetime.strptime(file, "%m-%d-%Y.html")
-        if full==False:
-
+        if full == False:
             if s < f1 and f1 < e:
-                #print(type(s), type(f1), e, "DATES OF PPPPS")
+                # print(type(s), type(f1), e, "DATES OF PPPPS")
 
                 pp = lib_parse.parsepayperiod(ad + "/pp/" + file)
                 all_pp.append(pp)
 
-        if full==True:
+        if full == True:
             pp = lib_parse.parsepayperiod(ad + "/pp/" + file)
             all_pp.append(pp)
     full_pp = {"shows": all_pp}
 
     ddj = json.dumps(full_pp, indent=4, default=str)
-    if full==False:
+    if full == False:
         mm = open(ad + "/json_pps.json", "w")
-    if full==True:
+    if full == True:
         mm = open(ad + "/full_pp.json", "w")
     mm.write(ddj)
 
@@ -109,6 +107,7 @@ def make_full_json_pp(ad, s, e,full):
 def parsepp(self, ad, type, finish, start):
     import os, glob
     import libs.lib_parse as lib_parse
+    from datetime import datetime
 
     try:
         os.chdir(ad + "/pp")
@@ -139,7 +138,7 @@ def parsepp(self, ad, type, finish, start):
 
         # print(pp_date)
         try:
-            print(start.date(), finish.date(), pp_date.date(), "STARTSSS")
+            qq = (start.date(), finish.date(), pp_date.date(), "STARTSSS")
         except:
             pass
         try:
@@ -174,7 +173,6 @@ def parsepp(self, ad, type, finish, start):
         """
 
         if start < pp_date and pp_date < finish:
-
             dd, days, ins2, outs2, shows2, positions = lib_parse.parsepayperiod(
                 ad + "/pp/" + file
             )
@@ -193,7 +191,6 @@ def parsepp(self, ad, type, finish, start):
             all_hours = all_hours + dd["hours_ach"]
 
             for z in range(len(days)):
-
                 if days[z][1] > realdays_max:
                     realdays_max = days[z][1]
                 if days[z][0] > days_ago_max:
@@ -229,7 +226,7 @@ def parsepp(self, ad, type, finish, start):
     if type == "hats":
         # print(all_pos)
         hats = list(set(all_pos))
-        print(hats, len(hats))
+        # print(hats, len(hats))
         return hats, all_pos, days_ach_list, all_hours
 
 
@@ -237,4 +234,4 @@ if __name__ == "__main__":
     # from kivy.app import App
 
     ad = "C:/Users/kw/AppData/Roaming/demo3/"
-    make_full_json_pp(ad,full)
+    make_full_json_pp(ad, full)

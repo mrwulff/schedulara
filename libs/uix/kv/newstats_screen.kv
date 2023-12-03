@@ -171,6 +171,32 @@
                         id:c9d
                         bg_color: app.theme_cls.primary_light
                         height:app.mheight/2
+
+                MDCard:
+                    orientation: "vertical"
+                    bg_color: app.theme_cls.primary_light
+                    id:c10c
+                    size_hint: 1,None
+                    height:c10.height+c10d.height
+                    MyAKBarChart:
+                                
+                        id: c10
+                        labels: True
+                        size_hint: 1,None
+                        height:app.mheight
+                        width: dp(350)
+                        
+                
+                    ThreeLineListItem:
+                        text: "Hours"
+                        secondary_text:'wow'
+                        id:c10d
+                        bg_color: app.theme_cls.primary_light
+                        height:app.mheight/2
+
+
+
+
                 MDCard:
                     orientation: "vertical"
                     bg_color: app.theme_cls.primary_light
@@ -191,6 +217,7 @@
                         id:c1d
                         height:app.mheight/4
                         bg_color: app.theme_cls.primary_light
+
                 MDCard:
                     orientation: "vertical"
                     bg_color: app.theme_cls.primary_light
@@ -216,7 +243,7 @@
                     bg_color: app.theme_cls.primary_light
                     id:c3c
                     size_hint: 1.4,None
-                    height:c3.height+ex.height+ex.height
+                    height:c3.height+ex3.height+ex3.height
                     width:c3.width
                     MyAKBarChart:
                                 
@@ -234,7 +261,7 @@
                         height:app.mheight/2
                     ThreeLineListItem:
                         text: "THIRDLY"
-                        id:ex
+                        id:ex3
                         bg_color: app.theme_cls.primary_light
                         height:app.mheight/2
 
