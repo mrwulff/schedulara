@@ -9,9 +9,11 @@ def login(ad, x, ios, App):
     # print (x)
 
     print("using real data")
-    # ssl.verify = False
-    # ssl._create_default_https_context = ssl._create_unverified_context
+    ssl.verify = False
+    ssl._create_default_https_context = ssl._create_unverified_context
     print("using real data66")
+    print(libs.lib_enc.r_password(x["password"]))
+    print(x["username"])
 
     PE_LOGIN = "https://www.thinkrhino.com/employee/" + x["city"] + "/index.aspx"
     PE_COUNTRIES = "https://www.thinkrhino.com/employee/" + x["city"] + "/Schedule.aspx"
@@ -27,7 +29,7 @@ def login(ad, x, ios, App):
             "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1",
         )
     ]
-    # print (PE_LOGIN,'PE_LOGIN')
+    print(PE_LOGIN, "PE_LOGIN")
     if 1 == 1:
         # try:
         browser.open(PE_LOGIN)
