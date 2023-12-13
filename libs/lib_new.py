@@ -346,15 +346,7 @@ def get_json_schedule_2(x, ad, show):
 
     print("get_json_schedule2222")
 
-    try:
-        from datetime import datetime, timedelta
-
-        nf = os.path.join(ad, show)
-        with open(nf) as json_file:
-            data = json.loa2d(json_file)
-            # print(data)
-            print("LOADED JSON FILE SUPER FAST")
-    except:
+    if 1 == 1:
         # print("no " + show + "  Createing now")
         # print("forcing new data", type(x["refreshreload"]))
         if x["refreshreload"] == True:
@@ -366,14 +358,14 @@ def get_json_schedule_2(x, ad, show):
                 # print(data)
                 # print("LOADED JSON FILE SUPER FAST on second try")
         except:
-            try:
+            if 1 == 1:
                 make_json_schedule(x, ad)
                 with open(nf) as json_file:
                     data = json.load(json_file)
                     # print(data)
                     print("LOADED JSON FILE SUPER FAST on second try")
-            except:
-                data = {}
+            # except:
+            #    data = {}
 
     return data
 
