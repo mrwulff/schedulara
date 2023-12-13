@@ -1916,11 +1916,13 @@ class Demo3App(MDApp):
 
         try:
             x = libs.lib_readuserdata.readuserdata(App, config_file, ios)
+            print("read user data at begining")
         except:
             import libs.lib_makeuserdata
 
             libs.lib_makeuserdata.makeuserdata(App, config_file, ios)
             x = libs.lib_readuserdata.readuserdata(App, config_file, ios)
+            print("made user data at begining!!!!!")
         try:
             self.theme_cls.theme_style = x["theme"]
             self.theme_cls.primary_palette = x["pcolor"]
