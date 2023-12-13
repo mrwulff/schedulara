@@ -334,7 +334,7 @@ def get_json_schedule_1(x, ad):
             or x["refreshreload"] == True
             or x["refreshreload"] == "true"
         ):
-            # print("forcing new data", type(x["refreshreload"]))
+            print("forcing new data from thingys", type(x["refreshreload"]))
             # make_json_schedule(x, ad)
             # good_login = lib_think.login(ad, x, "True", App)
             pass
@@ -344,6 +344,8 @@ def get_json_schedule_1(x, ad):
 
 def get_json_schedule_2(x, ad, show):
     import json, os
+
+    print("get_json_schedule2222")
 
     try:
         from datetime import datetime, timedelta
