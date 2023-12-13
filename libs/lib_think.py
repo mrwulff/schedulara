@@ -11,6 +11,7 @@ def login(ad, x, ios, App):
     print("using real data")
     ssl.verify = False
     ssl._create_default_https_context = ssl._create_unverified_context
+    print("using real data66")
 
     PE_LOGIN = "https://www.thinkrhino.com/employee/" + x["city"] + "/index.aspx"
     PE_COUNTRIES = "https://www.thinkrhino.com/employee/" + x["city"] + "/Schedule.aspx"
@@ -32,6 +33,7 @@ def login(ad, x, ios, App):
     # print (PE_LOGIN,'PE_LOGIN')
     try:
         browser.open(PE_LOGIN)
+        print("browser=open")
     except:
         return False
     browser.select_form(name="ctl00")

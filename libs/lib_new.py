@@ -17,10 +17,7 @@ def make_json_schedule(x, ad):
     encoding = "utf8"
     print(cache, "CACHE IN NEW")
 
-    try:
-        z = open(ad + c2onf, "r", encoding="utf8")
-
-    except:
+    if 1 == 1:
         if cache == True:
             print("truecache")
             if x["username"] == "test":
@@ -35,6 +32,7 @@ def make_json_schedule(x, ad):
             z = open(ad + conf, "r", encoding="utf8")
 
         if cache == False:
+            print("cache == false")
             import libs.lib_createcache
 
             # lib_createcache.createcache(ad, 15)
