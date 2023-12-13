@@ -2328,6 +2328,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import humanize
         from datetime import datetime, timedelta
         import libs.lib_new
+        import libs.lib_think
+
+        # libs.lib_think.login_basic(ad, x, App)
 
         self.update_internal("opened", 1)
 
