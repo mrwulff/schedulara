@@ -2328,11 +2328,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
 
         #####hustle error checks
-        try:
+        if 1 == 1:
             js = libs.lib_new.get_json_schedule(x, ad)
-        except:
-            toast("login failed")
-            return "fail"
+        # except:
+        #    toast("login failed5")
+        #    return "fail"
         shows = js["shows"]
         li = ["first", "second", "third"]
         li_r = ["1r", "2r", "3r"]
