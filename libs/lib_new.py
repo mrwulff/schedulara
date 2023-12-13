@@ -365,11 +365,14 @@ def get_json_schedule_2(x, ad, show):
                 # print(data)
                 # print("LOADED JSON FILE SUPER FAST on second try")
         except:
-            make_json_schedule(x, ad)
-            with open(nf) as json_file:
-                data = json.load(json_file)
-                # print(data)
-                print("LOADED JSON FILE SUPER FAST on second try")
+            try:
+                make_json_schedule(x, ad)
+                with open(nf) as json_file:
+                    data = json.load(json_file)
+                    # print(data)
+                    print("LOADED JSON FILE SUPER FAST on second try")
+            except:
+                data = {}
 
     return data
 
