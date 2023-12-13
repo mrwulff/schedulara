@@ -300,7 +300,7 @@ def get_json_schedule(x, ad):
 
     # print(x["usecache"], "usecache!!!")
     if x["usecache"] == "True" or x["usecache"] == True or x["usecache"] == "true":
-        print("USING CACHE")
+        print("USING CACHE true/false")
         show = "jason_show_cache_fake.json"
 
     if x["usecache"] == "False" or x["usecache"] == False or x["usecache"] == "false":
@@ -311,7 +311,7 @@ def get_json_schedule(x, ad):
             or x["refreshreload"] == True
             or x["refreshreload"] == "true"
         ):
-            # print("forcing new data", type(x["refreshreload"]))
+            print("forcing new data", type(x["refreshreload"]))
             make_json_schedule(x, ad)
             # good_login = lib_think.login(ad, x, "True", App)
     data = get_json_schedule_2(x, ad, show)
