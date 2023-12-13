@@ -9,17 +9,14 @@ def login(ad, x, ios, App):
     # print (x)
 
     print("using real data")
-    ssl.verify = False
-    ssl._create_default_https_context = ssl._create_unverified_context
+    # ssl.verify = False
+    # ssl._create_default_https_context = ssl._create_unverified_context
     print("using real data66")
 
     PE_LOGIN = "https://www.thinkrhino.com/employee/" + x["city"] + "/index.aspx"
     PE_COUNTRIES = "https://www.thinkrhino.com/employee/" + x["city"] + "/Schedule.aspx"
 
-    # USERNAME = c.text
-    # dir_path = os.path.dirname(os.path.realpath(__file__))
-    # aaa=open(dir_path+'/test2.html','wb')
-    # global browser
+    print(PE_COUNTRIES, "PE_COUNTRIES")
     browser = mechanize.Browser()
 
     browser.set_handle_robots(False)
