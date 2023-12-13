@@ -2,7 +2,8 @@
 ###
 ### RELEASE 10.2.2023
 ###
-debug = True
+debug = False
+print("main debug=" + str(debug))
 print("wtf1006")
 from ast import Pass
 from asyncio import queues
@@ -1943,15 +1944,15 @@ class Demo3App(MDApp):
             asdf = "1.1"
         print(asdf)
 
-        try:
+        if 1 == 1:
             if x["today_start"] == False:
                 self.newstart("", useold)
 
             if x["today_start"] == True:
                 # toast("Success " + asdf)
                 self.today()
-        except:
-            self.today()
+        # except:
+        #    self.today()
 
     def callback(self, instance_button):
         print(
