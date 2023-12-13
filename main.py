@@ -1948,10 +1948,12 @@ class Demo3App(MDApp):
 
         if 1 == 1:
             if x["today_start"] == False:
+                print("oldstart1!!!")
                 self.newstart("", useold)
 
             if x["today_start"] == True:
                 # toast("Success " + asdf)
+                print("newstart!@!")
                 self.today()
         # except:
         #    self.today()
@@ -2336,6 +2338,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         #####hustle error checks
         if 1 == 1:
             js = libs.lib_new.get_json_schedule(x, ad)
+        print("js,wtfiswrong", js)
         # except:
         #    toast("login failed5")
         #    return "fail"

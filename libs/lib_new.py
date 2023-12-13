@@ -312,6 +312,7 @@ def get_json_schedule(x, ad):
             print("forcing new data", type(x["refreshreload"]))
             make_json_schedule(x, ad)
             # good_login = lib_think.login(ad, x, "True", App)
+    print("showasdf", show)
     data = get_json_schedule_2(x, ad, show)
     return data
 
