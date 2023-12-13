@@ -227,6 +227,7 @@ if platform == "ios":
     NSURL = autoclass("NSURL")
     UIApplication = autoclass("UIApplication")
     sharedApplication = UIApplication.sharedApplication()
+import libs.lib_new
 
 
 class AboutScreen(Screen):
@@ -2318,13 +2319,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def today(self):
         import humanize
         from datetime import datetime, timedelta
+        import libs.lib_new
 
         self.update_internal("opened", 1)
 
         self.root.set_current("today")
         print(self.root.current_screen.name, "current_screen")
         self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
-        import libs.lib_new
 
         #####hustle error checks
         try:
@@ -2345,6 +2346,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             show_date = show_date.strftime("%A, %m/%d")
             z = shows[i]["time"]
             ntime = self.ampm(z)
+            fvenue = shows[i]["venue"]
+            if "las vegas" in fvenue:
+                fvenue = str.split(fvenue, "las vegas")
 
             color = ""
             if shows[i]["canceled"] == True:
@@ -2358,9 +2362,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.root.get_screen("today").ids[li[i]].secondary_text = (
                 color + shows[i]["show"]
             )
-            self.root.get_screen("today").ids[li[i]].tertiary_text = (
-                color + shows[i]["venue"]
-            )
+            self.root.get_screen("today").ids[li[i]].tertiary_text = color + fvenue[0]
             self.root.get_screen("today").ids[li[i]].text
             z44 = dir(self.root.get_screen("today").ids[li_l[i]])
             self.root.get_screen("today").ids[li_l[i]].icon = self.find_type(i, "type")
@@ -2423,6 +2425,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.root.get_screen("today").ids["stats"].secondary_text = stat_text2
             self.root.get_screen("today").ids["stats"].tertiary_text = stat_text3
 
+            self.update_today_pp(pp_index)
+
             paydate, payperiod = self.find_pay_date(pp_index)
 
             paylist = self.root.get_screen("today").ids["pay"]
@@ -2431,7 +2435,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         except:
             toast("failed to get times")
             print("failed to get times")
-        # paylist.tertiary_text = "third" + payperiod
+        try:
+            paylist.tertiar_text = "Saved Gigs: 5/7"
+        except:
+            # paylist.tertiary_text = "third" + payperiod
+            1
 
         #####ALWAYS ONBOARD
         if x.get("onboarding") == None:
@@ -2440,6 +2448,47 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             import libs.lib_updateuserdata
 
             libs.lib_updateuserdata.updateuser(x, ad)
+
+    def update_today_pp(self, pp):
+        print(pp, "update_today_pp")
+        tot_shows = 0
+        complete_shows = 0
+        from datetime import datetime, timedelta
+
+        if 1 == 1:
+            # try:
+            js = libs.lib_new.get_json_schedule(x, ad)
+        # except:
+        #    toast("login failed")
+        #    return "fail"
+        shows = js["shows"]
+
+        paydate, payperiod = self.find_pay_date(pp)
+        # print(shows, "shows")
+        pd = datetime.strptime(paydate, "%m/%d/%Y")
+        for i in range(len(shows)):
+            show_date = datetime.strptime(shows[i]["date"], "%m/%d/%Y")
+
+            min_date = pd.date() + timedelta(days=-21)
+            max_date = pd.date() + timedelta(days=-7)
+
+            if show_date.date() >= min_date and show_date.date() < max_date:
+                tot_shows = tot_shows + 1
+                # if 1 == 1:
+                bb = libs.lib_new.get_archive_json(ad, shows[i])
+                # print(bb, "bb")
+                # print(bb.get("earnings"))
+                if (bb.get("earnings")) != None:
+                    print(bb["earnings"], "         earnings!@!!")
+                    complete_shows = complete_shows + 1
+                # if shows[i].get("earnings") != None:
+                # print(shows[i]["earnings"], "endtime")
+
+            # print(min_date, show_date.date(), max_date)
+            paylist = self.root.get_screen("today").ids["pay"]
+        paylist.tertiary_text = (
+            "Saved Times: " + str(complete_shows) + " / " + str((tot_shows))
+        )
 
     def find_pay_date(self, c):
         firstdate = datetime.date(2022, 10, 3)
@@ -4736,12 +4785,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 tottime = str(listofdicks[z]["totaltime"])
             except:
                 tottime = ""
+            realtime, junk, junk = self.format_hours(tottime)
             panel = ThreeLineListItem(
                 text="Show: " + str((listofdicks[z]["show"])),
                 secondary_text="Date: "
                 + str(listofdicks[z]["date"])
                 + " Hours: "
-                + tottime,
+                + realtime,
                 # + " Overtime: ",
                 # + str(listofdicks[z]["othours"]),
                 tertiary_text=three,
@@ -4757,7 +4807,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         bbl = len(bb)
         bb = bb[bbl - 1]
         bb.text = "Show!s: " + str(bbl - 1)
-        bb.secondary_text = "Hours: " + str(tottime_all)
+        bb.secondary_text = "Hours: " + str(self.format_hours(tottime_all)[0])
         bb.tertiary_text = "Pay: " + str(self.format_money(earnings_all))
         try:
             ratee = "   Rate: $%.2f" % (tot_money / tot_hours)
@@ -4848,12 +4898,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def edit_show_details(self, b):
         import libs.lib_new
 
-        try:
+        # try:
+        if 1 == 1:
+            print(b.tertiary_text, "third_text")
             show, filee = libs.lib_new.load_archive_json(ad, b.tertiary_text)
-        except:
-            print("old show data")
-            toast("failed to find show")
-            return
+        # except:
+        #    print("old show data")
+        #    toast("failed to find show")
+        #    return
         print(show, "SHOW DATA")
         self.root.set_current("editShow")
         z = App.get_running_app().root.current_screen.ids["show"]
@@ -4906,6 +4958,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             except:
                 # za.ids[b5[q]].text='?'
                 print("not able to set " + id[q])
+                za.ids[b5[q]].text = ""
 
     def update_show_single(self, f):
         import libs.lib_new
@@ -4939,6 +4992,29 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         show, filee = libs.lib_new.load_archive_json(ad, z.ids["show"].tertiary_text)
         show["hidden"] = True
         libs.lib_new.update_archive_json(ad, show)
+
+    def format_hours(self, time):
+        if time == "":
+            return "", "", ""
+
+        time = float(time)
+        print(int(time), "zzzzzzzzzzzzzzzz")
+        woop = "zz"
+        hours = "5"
+        minutes = "wow"
+        hours = int(time)
+        try:
+            hours = int(time)
+            minutes = int((time * 60) % 60)
+            if len(str(minutes)) == 1:
+                minutes = "0" + str(minutes)
+
+            seconds = (time * 3600) % 60
+            woop = str(hours) + ":" + str(minutes)
+        except:
+            pass
+
+        return woop, hours, minutes
 
     def update_show(self):
         z = App.get_running_app().root.current_screen
@@ -4988,9 +5064,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             show["totaltime"] = show["totaltime"] + 24
         print(show, "SHOW!!")
         print(show["totaltime"], "titaltime")
-        App.get_running_app().root.current_screen.ids["newhoursplus"].text = str(
-            show["totaltime"]
-        )
+
+        time = show["totaltime"]
+        formatted_hours, junk, junk = self.format_hours(time)
+        # print(hours, minutes, "whatttttt")
+
+        App.get_running_app().root.current_screen.ids[
+            "newhoursplus"
+        ].text = formatted_hours
+
         print(show["rate"], (show["totaltime"], float(show["lunches"])), "maths")
         show["earnings"] = float(show["rate"]) * float(
             (show["totaltime"]) - float(show["lunches"])
@@ -5521,8 +5603,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print (zz)
 
         paylist = self.root.get_screen("today").ids["pay"]
-        paylist.text = "Payday:  " + paydate + " " + str(lala)
+        paylist.text = "Payday:  " + paydate + " "
         paylist.secondary_text = "Payperiod: " + payperiod
+        self.update_today_pp(pp_index)
 
     def load_paychecks(self):
         import glob, os

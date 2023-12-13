@@ -256,8 +256,12 @@
                         height: app.mheight/3
                         #width:560
                         bg_color:self.theme_cls.primary_dark
+                        #font_name:"seguiemj"
+                        #font_name: "NotoColorEmoji-Regular.ttf"
                         text: 'Paycheck Info:' 
+                        #text: '\U0001F600'
                         #id:pay
+
 
                     
                 MDCard:
@@ -271,7 +275,9 @@
                     
                     ThreeLineAvatarIconListItem:
                         id:pay
-                        text: "Next Paycheck"
+                        #font_name:'NotoColorEmoji.ttf'
+                        font_name:"seguiemj"
+                        text: "Next Paycheck🌶️"
                         secondary_text: "Secondary text here"
                         #tertiary_text: "Shows: 50"
                         on_press:(app.do_payperiod_f('YTD'))

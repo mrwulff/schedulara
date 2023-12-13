@@ -171,6 +171,29 @@ def format_textt(name):
     return name
 
 
+def get_archive_json(ad, thisdict):
+    import json
+
+    fname = (
+        format_textt(thisdict["date"])
+        + " "
+        + format_textt(thisdict["time"])
+        + " "
+        + thisdict["job"]
+        + " "
+        + format_textt(thisdict["show"])
+    )
+
+    # z = open(ad + "/future_shows/" + fname + ".json", "r")
+    z = ad + "/future_shows/" + fname + ".json"
+
+    # print(thisdict, "success")
+    with open(z) as json_file:
+        data = json.load(json_file)
+    print(data, "datadata")
+    return data
+
+
 def update_archive_json(ad, thisdict):
     import json
 
@@ -197,6 +220,7 @@ def load_archive_json(ad, x):
 
     # print (x)
     flag = 0
+    job = ""
     try:
         junk, date, time, job, show = str.split(x, "%%%")
         space = " "
@@ -219,11 +243,12 @@ def load_archive_json(ad, x):
 
     # print (x,"WHATTTTT")
     nf = os.path.join(ad, d, fname) + ".json"
-    try:
+    if 1 == 1:
+        # try:
         with open(nf) as json_file:
             data = json.load(json_file)
-    except:
-        data = {}
+    # except:
+    #    data = {}
     return data, nf
 
 
@@ -286,7 +311,7 @@ def get_json_schedule(x, ad):
             or x["refreshreload"] == True
             or x["refreshreload"] == "true"
         ):
-            print("forcing new data", type(x["refreshreload"]))
+            # print("forcing new data", type(x["refreshreload"]))
             make_json_schedule(x, ad)
             # good_login = lib_think.login(ad, x, "True", App)
     data = get_json_schedule_2(x, ad, show)
@@ -309,9 +334,10 @@ def get_json_schedule_1(x, ad):
             or x["refreshreload"] == True
             or x["refreshreload"] == "true"
         ):
-            print("forcing new data", type(x["refreshreload"]))
+            # print("forcing new data", type(x["refreshreload"]))
             # make_json_schedule(x, ad)
             # good_login = lib_think.login(ad, x, "True", App)
+            pass
     data = get_json_schedule_2(x, ad, show)
     return data
 
@@ -328,8 +354,8 @@ def get_json_schedule_2(x, ad, show):
             # print(data)
             print("LOADED JSON FILE SUPER FAST")
     except:
-        print("no " + show + "  Createing now")
-        print("forcing new data", type(x["refreshreload"]))
+        # print("no " + show + "  Createing now")
+        # print("forcing new data", type(x["refreshreload"]))
         if x["refreshreload"] == True:
             make_json_schedule(x, ad)
         nf = os.path.join(ad, show)
@@ -337,7 +363,7 @@ def get_json_schedule_2(x, ad, show):
             with open(nf) as json_file:
                 data = json.load(json_file)
                 # print(data)
-                print("LOADED JSON FILE SUPER FAST on second try")
+                # print("LOADED JSON FILE SUPER FAST on second try")
         except:
             make_json_schedule(x, ad)
             with open(nf) as json_file:

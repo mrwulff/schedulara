@@ -44,7 +44,8 @@
                             padding: [15, 15]
 
                             #width: 5
-                            text: "0"
+                            text: "3"
+                            trailing_text:'wat'
                             pos_hint: {'center_x': .5, 'center_y': .5}
                             values: app.lunches
                             items: app.lunches
@@ -169,6 +170,7 @@
                     size_hint: 1, None
                     height: dp(70)
                     #height: scrlv.height
+                    text:''
                     background_color: app.theme_cls.bg_dark
                     hint_text_color:app.theme_cls.opposite_bg_dark
                     text_color:app.theme_cls.opposite_bg_dark
