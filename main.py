@@ -2336,7 +2336,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # except:
         #    toast("login failed5")
         #    return "fail"
-        shows = js["shows"]
+        try:
+            shows = js["shows"]
+        except:
+            shows = {}
         li = ["first", "second", "third"]
         li_r = ["1r", "2r", "3r"]
         li_l = ["1l", "2l", "3l"]

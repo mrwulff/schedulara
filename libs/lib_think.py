@@ -36,6 +36,7 @@ def login(ad, x, ios, App):
         browser.open(PE_LOGIN)
         print("browser=open")
     # except:
+    print("using real data669")
     #    return False
     browser.select_form(name="ctl00")
     # print (x['username'],x['password'])
@@ -52,6 +53,7 @@ def login(ad, x, ios, App):
     aa = res.get_data()  # HTML source of the page
     # print (aa)
     b2 = open(ad + "/realdata.html", "wb")
+    print("using real data66")
 
     b2.write(aa)
 
