@@ -31,11 +31,12 @@ def login(ad, x, ios, App):
         )
     ]
     # print (PE_LOGIN,'PE_LOGIN')
-    try:
+    if 1 == 1:
+        # try:
         browser.open(PE_LOGIN)
         print("browser=open")
-    except:
-        return False
+    # except:
+    #    return False
     browser.select_form(name="ctl00")
     # print (x['username'],x['password'])
     # print (type(x['username']),type(x['password']))
