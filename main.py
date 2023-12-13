@@ -2249,7 +2249,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         # z=self.root.get_screen("today").ids["first"].text
         js = libs.lib_new.get_json_schedule(x, ad)
-        icon = js["shows"][a][b]
+        try:
+            icon = js["shows"][a][b]
+        except:
+            return "help"
         # if icon == "IN":
         #    return 'alpha-i'
         icons = [
