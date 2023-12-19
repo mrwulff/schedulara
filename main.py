@@ -116,6 +116,7 @@ from kivymd.uix.expansionpanel import (
 from kivy.uix.label import Label
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.button import MDFlatButton
+from kivymd.uix.button import MDSegmentedButton
 
 
 import datetime
