@@ -352,20 +352,21 @@ def get_json_schedule_2(x, ad, show):
         if x["refreshreload"] == True:
             make_json_schedule(x, ad)
         nf = os.path.join(ad, show)
+        print(nf, "NF lib new")
         try:
             with open(nf) as json_file:
                 data = json.load(json_file)
                 # print(data)
                 # print("LOADED JSON FILE SUPER FAST on second try")
         except:
-            if 1 == 1:
+            try:
                 make_json_schedule(x, ad)
                 with open(nf) as json_file:
                     data = json.load(json_file)
                     # print(data)
                     print("LOADED JSON FILE SUPER FAST on second try")
-            # except:
-            #    data = {}
+            except:
+                data = {"num_shows": 0}
 
     return data
 

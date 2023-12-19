@@ -153,5 +153,10 @@
         "import": "from libs.uix.baseclass.internal_stats_screen import internal_statsscreen",
         "object": "internal_statsscreen()",
         "kv": "libs/uix/kv/internal_stats_screen.kv"
+    },
+    "icons": {
+        "import": "from libs.uix.baseclass.icons_screen import iconsscreen",
+        "object": "iconsscreen()",
+        "kv": "libs/uix/kv/icons_screen.kv"
     }
 }

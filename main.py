@@ -2,7 +2,8 @@
 ###
 ### RELEASE 10.2.2023
 ###
-debug = False
+debug = True
+debug_online = False
 print("main debug=" + str(debug))
 print("wtf1006")
 from ast import Pass
@@ -34,7 +35,7 @@ if debug == True:
 #
 print(platform, "PLATFORM")
 send_to_sentry = False
-if platform != "ios" and debug == True:
+if platform != "ios" and debug == True and debug_online == True:
     import sentry_sdk
 
     from sentry_sdk.integrations.logging import LoggingIntegration
@@ -2264,57 +2265,79 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             "IN",
             "alpha-i",
             "HR",
-            "engine-outline",
+            "High Rigger" "engine-outline",
             "HDR",
+            "Head Rigger",
             "engine-outline",
             "DR",
             "engine",
+            "Down Rigger",
             "OUT",
             "alpha-o",
+            "Load Out",
             "SHOW",
             "alpha-s",
             "ME",
             "power-plug",
+            "Master Electrician ",
             "ADV",
             "video-4k-box",
+            "Advanced AV",
             "TK",
             "note-edit-outline",
+            "Time Keeper",
             "L3",
             "lightbulb",
+            "Lighting Tech",
             "L2",
             "lightbulb",
+            "Lighting Assist",
             "L1",
             "lightbulb",
+            "Lighting Engineer",
             "LL",
             "lightbulb",
+            "Lighting Lead",
             "L",
             "dolly",
+            "Loader",
             "SL",
             "spotlight-beam",
-            "SUP",
+            "SpotLight" "SUP",
             "account-supervisor",
+            "Supervisor",
             "HL",
             "lightbulb-multiple-outline",
-            "F",
+            "House Lights" "F",
             "forklift",
+            "ForkLift",
+            "RF",
+            "forklift",
+            "Reach ForkLift",
             "SH",
             "hand-back-left",
+            "StageHand",
             "P",
             "human-dolly",
+            "Pusher",
             "V3",
             "video-account",
+            "Video Hand",
             "V2",
             "video-account",
+            "Video Assist",
             "V1",
             "video-account",
+            "Video Engineer",
             "A3",
             "volume-high",
-            "A2",
+            "Audio Tech," "A2",
             "volume-high",
             "A1",
             "volume-high",
-            "C",
+            "Audio Engineer" "C",
             "hammer",
+            "Carpenter",
         ]
         # print(icon, "newICON")
         for xx in range(len(icons)):
@@ -2450,6 +2473,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         except:
             toast("failed to get times")
             print("failed to get times")
+            self.root.get_screen("today").ids["stats"].text = "Invalid Show Data. "
+            self.root.get_screen("today").ids[
+                "stats"
+            ].secondary_text = "Please Delete Data and try again"
         try:
             paylist.tertiar_text = "Saved Gigs: 5/7"
         except:
@@ -2504,6 +2531,167 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         paylist.tertiary_text = (
             "Saved Times: " + str(complete_shows) + " / " + str((tot_shows))
         )
+
+    def view_icons(self):
+        # AVB
+        # ICON
+        # DES
+        icons = [
+            "IN",
+            "alpha-i",
+            "Load In",
+            "HR",
+            "engine-outline",
+            "High Rigger",
+            "HDR",
+            "engine-outline",
+            "Head Rigger",
+            "DR",
+            "engine",
+            "Down Rigger",
+            "OUT",
+            "alpha-o",
+            "Load Out",
+            "SHOW",
+            "alpha-s",
+            "Show Call",
+            "ME",
+            "power-plug",
+            "Master Electrician ",
+            "ADV",
+            "video-4k-box",
+            "Advanced AV",
+            "TK",
+            "note-edit-outline",
+            "Time Keeper",
+            "L3",
+            "lightbulb",
+            "Lighting Tech",
+            "L2",
+            "lightbulb",
+            "Lighting Assist",
+            "L1",
+            "lightbulb",
+            "Lighting Engineer",
+            "LL",
+            "lightbulb",
+            "Lighting Lead",
+            "L",
+            "dolly",
+            "Loader",
+            "SL",
+            "spotlight-beam",
+            "SpotLight",
+            "SUP",
+            "account-supervisor",
+            "Supervisor",
+            "HL",
+            "lightbulb-multiple-outline",
+            "House Lights",
+            "F",
+            "forklift",
+            "ForkLift",
+            "RF",
+            "forklift",
+            "Reach ForkLift",
+            "SH",
+            "hand-back-left",
+            "StageHand",
+            "P",
+            "human-dolly",
+            "Pusher",
+            "V3",
+            "video-account",
+            "Video Hand",
+            "V2",
+            "video-account",
+            "Video Assist",
+            "V1",
+            "video-account",
+            "Video Engineer",
+            "A3",
+            "volume-high",
+            "Audio Tech,",
+            "A2",
+            "volume-high",
+            "Audio Assist",
+            "A1",
+            "volume-high",
+            "Audio Engineer",
+            "C",
+            "hammer",
+            "Carpenter",
+            "BOOM",
+            "weight-lifter",
+            "Boomlift Operator",
+            "BRS",
+            "microphone-message",
+            "Breakout Room Set/Strike Tech",
+            "BRO",
+            "projector-screen-outline",
+            "Breakout Room Operator",
+            "BRR",
+            "projector-screen-outline",
+            "Breakout Room Roamer",
+            "CO",
+            "camera-enhance",
+            "Camera Operator",
+            "FO",
+            "jump-rope",
+            "Flyrail Operator",
+            "HC",
+            "account-hard-hat",
+            "Head Carp",
+            "HHC",
+            "camera-outline",
+            "Handheld Camera Operator",
+            "LAV",
+            "audio-input-xlr",
+            "Lead AV",
+            "LL",
+            "string-lights",
+            "Lighting Lead",
+            "LLC",
+            "camera-gopro",
+            "Long Lens Camera Operator",
+            "PRJ",
+            "monitor-screenshot",
+            "Projectionist",
+            "PRO",
+            "propane-tank",
+            "Prop Tech",
+            "SLO",
+            "content-cut",
+            "Scissorlift Operator",
+            "TL",
+            "bridge",
+            "Trusslight Operator",
+            "TO",
+            "vhs",
+            "Tape Operator",
+            "W",
+            "wardrobe",
+            "Wardrobe",
+            "W2",
+            "wardrobe",
+            "Wardrobe 2",
+        ]
+        from kivymd.uix.list import (
+            IRightBodyTouch,
+            ThreeLineAvatarIconListItem,
+            IconLeftWidget,
+        )
+
+        self.root.set_current("icons")
+        for z in range(0, len(icons), 3):
+            self.root.current_screen.ids["payperiod_list"].add_widget(
+                ThreeLineAvatarIconListItem(
+                    IconLeftWidget(icon=icons[z + 1]),
+                    text=icons[z],
+                    secondary_text=icons[z + 2],
+                )
+            )
+            print(z, "icons!!")
 
     def find_pay_date(self, c):
         firstdate = datetime.date(2022, 10, 3)

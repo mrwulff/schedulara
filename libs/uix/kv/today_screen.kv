@@ -144,8 +144,8 @@
                     radius: app.cradius
                     ThreeLineAvatarIconListItem:
                         id:first
-                        text: "First Show"
-                        secondary_text: "Secondary text here"
+                        #text: "First Show"
+                        #secondary_text: "Secondary text here"
                         IconLeftWidget:
                             id:1l
                             #icon: app.find_type(0,"type") 
@@ -164,13 +164,13 @@
                     radius: app.cradius
                     ThreeLineAvatarIconListItem:
                         id:second
-                        text: "First Show"
-                        secondary_text: "Secondary text here"
+                        #text: "First Show"
+                        #secondary_text: "Secondary text here"
                         IconLeftWidget:
                             id:2l
-                            icon: app.find_type(1,"type") 
+                            #icon: app.find_type(1,"type") 
                         IconRightWidget:
-                            icon: app.find_type(1,"pos")  
+                            #icon: app.find_type(1,"pos")  
                             id:2r 
 
                 MDCard:
@@ -184,8 +184,8 @@
                     radius: app.cradius
                     ThreeLineAvatarIconListItem:
                         id:third
-                        text: "First Show"
-                        secondary_text: "Secondary text here"
+                        #text: "First Show"
+                        #secondary_text: "Secondary text here"
                         IconLeftWidget:
                             id:3l
                             #icon: app.find_type(2,"type") 
@@ -304,7 +304,7 @@
                 MDNavigationDrawerHeader:
                     title: " Menu"
                     #title_color: "#4a4939"
-                    text: "  v23.12.2.906"
+                    text: "  v23.12.19.906"
                     spacing: "6dp"
                     #padding: "12dp", 0, 0, "56dp"
                     #source: "images/icon.png"
@@ -318,6 +318,12 @@
                 #    on_press:
                 #        app.close_menu()
                 #        app.loading_screen("today")
+                DrawerClickableItem:
+                    icon: "cog"
+                    text: "Positions List"
+                    on_press:
+                        app.close_menu()
+                        app.view_icons()
                 DrawerClickableItem:
                     icon: "cog"
                     text: "Settings"
