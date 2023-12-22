@@ -283,13 +283,112 @@
                         on_press:(app.do_payperiod_f('YTD'))
                         IconLeftWidget:
                             icon: "menu-left"  
-                            on_press: app.do_pp_sum(-1)
+                            on_press: app.do_pp_sum(-1,'pp')
                         IconRightWidget:
                             
                             icon: "menu-right"  
-                            on_press: app.do_pp_sum(1)
-                
-                    
+                            on_press: app.do_pp_sum(1,'pp')
+                MDCard:
+                    orientation: "vertical"
+                    size_hint:1,None
+                    width: 50
+                    height:cal_month.height
+                    #spacing: app.mheight
+                    #radius: app.cradius
+                    OneLineAvatarIconListItem: 
+                        #size_hint:1,.8
+                        height: app.mheight/3
+                        #width:560
+                        bg_color:self.theme_cls.primary_dark
+                        #font_name:"seguiemj"
+                        #font_name: "NotoColorEmoji-Regular.ttf"
+                        text: 'Month/Year' 
+                        #text: '\U0001F600'
+                        id:cal_month
+                        on_press: app.reset_cal()
+                        IconLeftWidget:
+                            icon: "menu-left"  
+                            on_press: app.do_pp_sum(-1,'cal')
+                        IconRightWidget:
+                            
+                            icon: "menu-right"  
+                            on_press: app.do_pp_sum(1,'cal')
+                MDCard:
+                    orientation: "horizontal"
+                    size_hint: .5, None
+                    font_size:3
+                    #size:.5,.5
+                    height: dp(42)
+                    width:dp(5)
+                    focus_behavior: True
+                    ripple_behavior: True
+                    #pos_hint: {"center_x": .5, "center_y": .6}
+                    #radius: app.cradius
+                    id:calm
+                    text:'month'
+                MDCard:
+                    orientation: "horizontal"
+                    size_hint: .5, None
+                    font_size:3
+                    #size:.5,.5
+                    height: dp(42)
+                    width:dp(5)
+                    focus_behavior: True
+                    ripple_behavior: True
+                    #pos_hint: {"center_x": .5, "center_y": .6}
+                    #radius: app.cradius
+                    id:cal0
+                    text:'month'
+                MDCard:
+                    orientation: "horizontal"
+                    size_hint: .8, None
+                    height: dp(42)
+                    focus_behavior: True
+                    ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .6}
+                    radius: app.cradius
+                    id:cal1
+                MDCard:
+                    orientation: "horizontal"
+                    size_hint: .8, None
+                    height: dp(42)
+                    focus_behavior: True
+                    ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .6}
+                    radius: app.cradius
+                    id:cal2
+                MDCard:
+                    orientation: "horizontal"
+                    size_hint: .8, None
+                    height: dp(42)
+                    focus_behavior: True
+                    ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .6}
+                    radius: app.cradius
+                    id:cal3
+
+                MDCard:
+                    orientation: "horizontal"
+                    size_hint: .8, None
+                    height: dp(42)
+                    focus_behavior: True
+                    ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .6}
+                    radius: app.cradius
+                    id:cal4
+
+                MDCard:
+                    orientation: "horizontal"
+                    size_hint: .8, None
+                    height: dp(42)
+                    focus_behavior: True
+                    ripple_behavior: True
+                    pos_hint: {"center_x": .5, "center_y": .6}
+                    radius: app.cradius
+                    id:cal5
+
+
+
 
                 #Label:
     MDNavigationDrawer:
@@ -318,12 +417,7 @@
                 #    on_press:
                 #        app.close_menu()
                 #        app.loading_screen("today")
-                DrawerClickableItem:
-                    icon: "cog"
-                    text: "Positions List"
-                    on_press:
-                        app.close_menu()
-                        app.view_icons()
+
                 DrawerClickableItem:
                     icon: "cog"
                     text: "Settings"
@@ -373,6 +467,12 @@
                     on_press:
                         app.close_menu()
                         app.do_internal_stats()
+                DrawerClickableItem:
+                    icon: "format-list-bulleted-square"
+                    text: "Positions List"
+                    on_press:
+                        app.close_menu()
+                        app.view_icons()
                 #DrawerClickableItem:
                 #    text: "SaveScreen"
                 #    icon: "close"

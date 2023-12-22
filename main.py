@@ -9,7 +9,7 @@ print("wtf1006")
 from ast import Pass
 from asyncio import queues
 
-# from audioop import reverse
+# from audioop import reverse\
 # from curses import A_REVERSE
 import profile
 import time
@@ -486,6 +486,7 @@ plus_search = 0
 today_index = 0
 s_index = 0
 pp_index = 0
+cal_index = 0
 
 
 class RecipeLine(MDBoxLayout):
@@ -2338,6 +2339,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             "Audio Engineer" "C",
             "hammer",
             "Carpenter",
+            "TRN",
+            "train",
+            "Training",
         ]
         # print(icon, "newICON")
         for xx in range(len(icons)):
@@ -2490,6 +2494,150 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             import libs.lib_updateuserdata
 
             libs.lib_updateuserdata.updateuser(x, ad)
+        self.reset_cal()
+
+    def reset_cal(self):
+        from datetime import date
+
+        now = date.today()
+        month = now.strftime("%m")
+        year = now.strftime("%Y")
+        mmonth = now.strftime("%B")
+        print(now, "NOW NOW NOW")
+        self.make_calendar_today(month, year, mmonth)
+
+    def make_calendar_today(self, month, year, mmonth):
+        ###do calendar!!
+        print("make calendar", month, year)
+        import libs.lib_new
+
+        js = libs.lib_new.get_json_schedule(x, ad)
+        import libs.lib_cal
+        from kivymd.uix.button import (
+            MDRectangleFlatIconButton,
+            MDRectangleFlatButton,
+            MDIconButton,
+        )
+        from datetime import date
+
+        now = date.today()
+        now_month = now.strftime("%m")
+        now_year = now.strftime("%Y")
+        now_day = now.strftime("%d")
+        from kivy.uix.button import Button
+
+        t_color = self.theme_cls.bg_dark
+
+        for z in range(6):
+            self.root.current_screen.ids["cal" + str(z)].clear_widgets()
+        c = libs.lib_cal.basic_cal(month, year)
+        # yyy = self.theme_cls
+        # print(dir(yyy))
+
+        week_l = ["S", "M", "T", "W", "T", "F", "S"]
+        for we in range(len(week_l)):
+            self.root.get_screen("today").ids["calm"].add_widget(
+                # MDRectangleFlatIconButton(
+                # MDRectangleFlatButton(
+                Button(
+                    # MDIconButton(
+                    size_hint=(None, None),
+                    size=(dp(50), dp(50)),
+                    # icon=ic,
+                    # icon_size=dp(6),
+                    font_size=dp(15),
+                    text=str(week_l[we]),
+                    # width=500,
+                    # type=type_button,
+                    # theme_icon_color="Custom",
+                    # text_color=t_color,
+                    # md_bg_color=b_color,
+                    # background_color=b_color,
+                    # color=t_color
+                    # size_hint_max=(5, 5),
+                    # primary_dark
+                    # icon_color=data[type_button]["text_color"],
+                )
+            )
+        for week in range(len(c)):
+            for day in range(len(c[1])):
+                dd = c[week][day]
+
+                # print(dd, type(dd), dd.day, "c sub week")
+                b_color = "black"
+                t_color = self.theme_cls.bg_dark
+
+                ic = ""
+                gray = "EEEEEE"
+                if dd.day < int(c[week][0].day):
+                    b_color = gray
+                if dd.day % 4 == 0:
+                    ic = "pencil"
+                    # t_color = self.theme_cls.bg_dark
+                if week == 0:
+                    if dd.day <= int(c[week][6].day):
+                        b_color = "black"
+                        # print("changing it to primamary")
+                    else:
+                        b_color = gray
+                        print("changing it to black")
+                if (
+                    int(dd.day) == int(now_day)
+                    and int(dd.month) == int(now_month)
+                    and int(dd.year) == int(now_year)
+                ):
+                    b_color = self.theme_cls.primary_color
+                    t_color = self.theme_cls.opposite_bg_darkest
+                    # print("its today!", dd.day, now_day, dd.month)
+                status, info = self.check_working(
+                    dd.day, dd.month, dd.year, js["shows"]
+                )
+                # rint(status, "STATUSSSSS")
+                if status == True:
+                    t_color = self.theme_cls.primary_light
+
+                self.root.get_screen("today").ids["cal" + str(week)].add_widget(
+                    # MDRectangleFlatIconButton(
+                    # MDRectangleFlatButton(
+                    Button(
+                        # MDIconButton(
+                        size_hint=(None, None),
+                        size=(dp(50), dp(50)),
+                        # icon=ic,
+                        # icon_size=dp(6),
+                        font_size=dp(15),
+                        text=str(dd.day),
+                        # width=500,
+                        # type=type_button,
+                        # theme_icon_color="Custom",
+                        # text_color=t_color,
+                        # md_bg_color=b_color,
+                        background_color=b_color,
+                        color=t_color
+                        # size_hint_max=(5, 5),
+                        # primary_dark
+                        # icon_color=data[type_button]["text_color"],
+                    )
+                )
+        callist = self.root.get_screen("today").ids["cal_month"]
+        callist.text = mmonth + " " + year
+
+    def check_working(self, day, month, year, js):
+        # print(day, month, year,'daymonthyear!')
+        found = False
+        for xy in range(len(js)):
+            d = js[xy]["date"]
+            smonth, sdate, syear = str.split(d, "/")
+            smonth = int(smonth)
+            sdate = int(sdate)
+            syear = int(syear)
+            if smonth == month and sdate == day and syear == year:
+                # print("OMG YOU FOUND IT on ", js[xy])
+                found = True
+
+        from datetime import datetime, timedelta
+
+        return (found, "vgk stuff")
 
     def update_today_pp(self, pp):
         print(pp, "update_today_pp")
@@ -2540,6 +2688,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             "IN",
             "alpha-i",
             "Load In",
+            "SHOW",
+            "alpha-s",
+            "Show Call",
+            "OUT",
+            "alpha-o",
+            "Load Out",
             "HR",
             "engine-outline",
             "High Rigger",
@@ -2549,12 +2703,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             "DR",
             "engine",
             "Down Rigger",
-            "OUT",
-            "alpha-o",
-            "Load Out",
-            "SHOW",
-            "alpha-s",
-            "Show Call",
             "ME",
             "power-plug",
             "Master Electrician ",
@@ -2675,6 +2823,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             "W2",
             "wardrobe",
             "Wardrobe 2",
+            "TRN",
+            "train",
+            "Training",
         ]
         from kivymd.uix.list import (
             IRightBodyTouch,
@@ -2696,7 +2847,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def find_pay_date(self, c):
         firstdate = datetime.date(2022, 10, 3)
         #:
-        now = datetime.datetime.now()
+        # now = datetime.datetime.now()
         now = datetime.date.today()
         flag = False
         z = 0
@@ -3449,7 +3600,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         global config_file
         global plus_search
         good_login = False
-        from datetime import datetime
+        from datetime import datetime, date
 
         now = datetime.now()
         app = App.get_running_app()
@@ -5796,19 +5947,46 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # self.root.current = screen
         self.root.set_current(screen)
 
-    def do_pp_sum(self, lala):
-        print("cc", lala)
-        global pp_index
-        pp_index = pp_index + lala
-        print(pp_index, "INDEXXX")
-        paydate, payperiod = self.find_pay_date(pp_index)
-        # zz=self.find_pay_date(pp_index)
-        # print (zz)
+    def do_pp_sum(self, lala, t):
+        if t == "pp":
+            print("cc", lala)
+            global pp_index
+            pp_index = pp_index + lala
+            print(pp_index, "INDEXXX")
+            paydate, payperiod = self.find_pay_date(pp_index)
+            # zz=self.find_pay_date(pp_index)
+            # print (zz)
 
-        paylist = self.root.get_screen("today").ids["pay"]
-        paylist.text = "Payday:  " + paydate + " "
-        paylist.secondary_text = "Payperiod: " + payperiod
-        self.update_today_pp(pp_index)
+            paylist = self.root.get_screen("today").ids["pay"]
+            paylist.text = "Payday:  " + paydate + " "
+            paylist.secondary_text = "Payperiod: " + payperiod
+            self.update_today_pp(pp_index)
+        if t == "cal":
+            global cal_index
+            cal_index = cal_index + lala
+            month, year, mmonth = self.find_month(cal_index)
+            print(month, year, "cal in pp")
+            self.make_calendar_today(month, year, mmonth)
+
+    def find_month(self, i):
+        import datetime
+        from dateutil import relativedelta
+
+        # nextdate = now + timedelta(months=i)
+        nextdate = datetime.date.today() + relativedelta.relativedelta(months=i)
+
+        print(i, "FIND MONTH", nextdate)
+
+        callist = self.root.get_screen("today").ids["cal_month"]
+        callist.text = nextdate.strftime("%B %Y")
+        month = nextdate.strftime("%m")
+        year = nextdate.strftime("%Y")
+        mmonth = nextdate.strftime("%B")
+
+        # paylist.secondary_text = "Payperiod: " + payperiod
+        # return (i, nextdate)
+        print(month, year, "in find month", nextdate)
+        return month, year, mmonth
 
     def load_paychecks(self):
         import glob, os
