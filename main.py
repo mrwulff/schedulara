@@ -2251,8 +2251,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             ntime = str(z)
         return ntime
 
+    def build_full_pp(self):
+        import libs.lib_makegraphs as lib_makegraphs
+
+        lib_makegraphs.make_full_json_pp(ad, "fdate", "ldate", True)
+        print("build_full_pp")
+
     def find_type(self, a, b):
         import libs.lib_new
+        import libs.lib_positions
 
         # z=self.root.get_screen("today").ids["first"].text
         js = libs.lib_new.get_json_schedule(x, ad)
@@ -2262,93 +2269,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             return "help"
         # if icon == "IN":
         #    return 'alpha-i'
-        icons = [
-            "IN",
-            "alpha-i",
-            "HR",
-            "High Rigger" "engine-outline",
-            "HDR",
-            "Head Rigger",
-            "engine-outline",
-            "DR",
-            "engine",
-            "Down Rigger",
-            "OUT",
-            "alpha-o",
-            "Load Out",
-            "SHOW",
-            "alpha-s",
-            "ME",
-            "power-plug",
-            "Master Electrician ",
-            "ADV",
-            "video-4k-box",
-            "Advanced AV",
-            "TK",
-            "note-edit-outline",
-            "Time Keeper",
-            "L3",
-            "lightbulb",
-            "Lighting Tech",
-            "L2",
-            "lightbulb",
-            "Lighting Assist",
-            "L1",
-            "lightbulb",
-            "Lighting Engineer",
-            "LL",
-            "lightbulb",
-            "Lighting Lead",
-            "L",
-            "dolly",
-            "Loader",
-            "SL",
-            "spotlight-beam",
-            "SpotLight" "SUP",
-            "account-supervisor",
-            "Supervisor",
-            "HL",
-            "lightbulb-multiple-outline",
-            "House Lights" "F",
-            "forklift",
-            "ForkLift",
-            "RF",
-            "forklift",
-            "Reach ForkLift",
-            "SH",
-            "hand-back-left",
-            "StageHand",
-            "P",
-            "human-dolly",
-            "Pusher",
-            "V3",
-            "video-account",
-            "Video Hand",
-            "V2",
-            "video-account",
-            "Video Assist",
-            "V1",
-            "video-account",
-            "Video Engineer",
-            "A3",
-            "volume-high",
-            "Audio Tech," "A2",
-            "volume-high",
-            "A1",
-            "volume-high",
-            "Audio Engineer" "C",
-            "hammer",
-            "Carpenter",
-            "TRN",
-            "train",
-            "Training",
-        ]
+
+        icons = libs.lib_positions.get_positions(ad, "")
+
         # print(icon, "newICON")
         for xx in range(len(icons)):
-            # print(icons[xx], icon, "matches")
-            if icons[xx] == icon:
-                print(icons[xx + 1], "NEWICON")
-                return icons[xx + 1]
+            if icons[xx]["abv"] == icon:
+                return icons[xx]["icon"]
         return "help"
 
     def today(self):
@@ -2368,7 +2295,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         #####hustle error checks
         if 1 == 1:
             js = libs.lib_new.get_json_schedule(x, ad)
-        print("js,wtfiswrong", js)
+        # print("js,wtfiswrong", js)
         # except:
         #    toast("login failed5")
         #    return "fail"
