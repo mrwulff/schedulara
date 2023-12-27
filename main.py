@@ -2680,169 +2680,41 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             "Saved Times: " + str(complete_shows) + " / " + str((tot_shows))
         )
 
-    def view_icons(self):
-        # AVB
-        # ICON
-        # DES
-        icons = [
-            "IN",
-            "alpha-i",
-            "Load In",
-            "SHOW",
-            "alpha-s",
-            "Show Call",
-            "OUT",
-            "alpha-o",
-            "Load Out",
-            "HR",
-            "engine-outline",
-            "High Rigger",
-            "HDR",
-            "engine-outline",
-            "Head Rigger",
-            "DR",
-            "engine",
-            "Down Rigger",
-            "ME",
-            "power-plug",
-            "Master Electrician ",
-            "ADV",
-            "video-4k-box",
-            "Advanced AV",
-            "TK",
-            "note-edit-outline",
-            "Time Keeper",
-            "L3",
-            "lightbulb",
-            "Lighting Tech",
-            "L2",
-            "lightbulb",
-            "Lighting Assist",
-            "L1",
-            "lightbulb",
-            "Lighting Engineer",
-            "LL",
-            "lightbulb",
-            "Lighting Lead",
-            "L",
-            "dolly",
-            "Loader",
-            "SL",
-            "spotlight-beam",
-            "SpotLight",
-            "SUP",
-            "account-supervisor",
-            "Supervisor",
-            "HL",
-            "lightbulb-multiple-outline",
-            "House Lights",
-            "F",
-            "forklift",
-            "ForkLift",
-            "RF",
-            "forklift",
-            "Reach ForkLift",
-            "SH",
-            "hand-back-left",
-            "StageHand",
-            "P",
-            "human-dolly",
-            "Pusher",
-            "V3",
-            "video-account",
-            "Video Hand",
-            "V2",
-            "video-account",
-            "Video Assist",
-            "V1",
-            "video-account",
-            "Video Engineer",
-            "A3",
-            "volume-high",
-            "Audio Tech,",
-            "A2",
-            "volume-high",
-            "Audio Assist",
-            "A1",
-            "volume-high",
-            "Audio Engineer",
-            "C",
-            "hammer",
-            "Carpenter",
-            "BOOM",
-            "weight-lifter",
-            "Boomlift Operator",
-            "BRS",
-            "microphone-message",
-            "Breakout Room Set/Strike Tech",
-            "BRO",
-            "projector-screen-outline",
-            "Breakout Room Operator",
-            "BRR",
-            "projector-screen-outline",
-            "Breakout Room Roamer",
-            "CO",
-            "camera-enhance",
-            "Camera Operator",
-            "FO",
-            "jump-rope",
-            "Flyrail Operator",
-            "HC",
-            "account-hard-hat",
-            "Head Carp",
-            "HHC",
-            "camera-outline",
-            "Handheld Camera Operator",
-            "LAV",
-            "audio-input-xlr",
-            "Lead AV",
-            "LL",
-            "string-lights",
-            "Lighting Lead",
-            "LLC",
-            "camera-gopro",
-            "Long Lens Camera Operator",
-            "PRJ",
-            "monitor-screenshot",
-            "Projectionist",
-            "PRO",
-            "propane-tank",
-            "Prop Tech",
-            "SLO",
-            "content-cut",
-            "Scissorlift Operator",
-            "TL",
-            "bridge",
-            "Trusslight Operator",
-            "TO",
-            "vhs",
-            "Tape Operator",
-            "W",
-            "wardrobe",
-            "Wardrobe",
-            "W2",
-            "wardrobe",
-            "Wardrobe 2",
-            "TRN",
-            "train",
-            "Training",
-        ]
+    def search_icons(self):
+        wow = App.get_running_app().root.current_screen.ids["search"].text
+
+        print(wow, "search_icons")
+        self.root.current_screen.ids["payperiod_list"].clear_widgets()
+        self.view_icons(wow)
+
+    def view_icons(self, term):
+        import libs.lib_positions
+
+        pos = libs.lib_positions.get_positions(ad, term)
+        # self.load_positions()
+
         from kivymd.uix.list import (
-            IRightBodyTouch,
             ThreeLineAvatarIconListItem,
             IconLeftWidget,
         )
 
+        # self.clear_widgets()
+        # self.root.current_screen.ids["payperiod_list"].clear_widgets()
+        # App.get_running_app().root.current_screen.ids["payperiod_list"].clear_widgets()
+        # self.root.current_screen.clear_widgets()
+        lpos = pos
         self.root.set_current("icons")
-        for z in range(0, len(icons), 3):
+        self.root.current_screen.ids["payperiod_list"].clear_widgets()
+        for z in range(0, len(lpos)):
+            # print(lpos[z], "lpoz")
             self.root.current_screen.ids["payperiod_list"].add_widget(
                 ThreeLineAvatarIconListItem(
-                    IconLeftWidget(icon=icons[z + 1]),
-                    text=icons[z],
-                    secondary_text=icons[z + 2],
+                    IconLeftWidget(icon=lpos[z]["icon"]),
+                    text=lpos[z]["abv"],
+                    secondary_text=lpos[z]["description"],
                 )
             )
-            print(z, "icons!!")
+            # print(z, "icons!!")
 
     def find_pay_date(self, c):
         firstdate = datetime.date(2022, 10, 3)

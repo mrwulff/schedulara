@@ -13,15 +13,25 @@
             #title: "Pay"
             height: app.mheight
             left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
-            
+        MDTextField:
+            #text: "bla"
+            id:search
+            on_text_validate: app.search_icons()
+            on_text: app.search_icons()
+            hint_text: "Search"
+            icon_left:
+                "search"
         ScrollView:
             #id: history_view
 
-            
+
             MDList:
+                
+
             
                 
                 spacing: app.cspacing/2
                 padding: app.cpadding/2,app.cpadding/2
                 bg_color:app.theme_cls.primary_light
                 id: payperiod_list
+                
