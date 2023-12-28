@@ -2558,9 +2558,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     b_color = self.theme_cls.primary_color
                     t_color = self.theme_cls.opposite_bg_darkest
                     # print("its today!", dd.day, now_day, dd.month)
-                status, info = self.check_working(
-                    dd.day, dd.month, dd.year, js["shows"]
-                )
+                try:
+                    status, info = self.check_working(
+                        dd.day, dd.month, dd.year, js["shows"]
+                    )
+                except:
+                    status = False
                 # rint(status, "STATUSSSSS")
                 if status == True:
                     t_color = self.theme_cls.primary_light
