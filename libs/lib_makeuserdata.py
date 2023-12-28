@@ -148,25 +148,33 @@ def makeratefile(ad, rate, pos):
     import json
 
     try:
-        with open(ad + "/rates.json", "r") as json_file:
+        # with open(ad + "/rates.json", "r") as json_file:
+        with open(ad + "/position_list.json", "r") as json_file:
             data2 = json.load(json_file)
+        # json_file.close()
     except:
         data2 = {}
-
-    dictionary = data2
+    # print(data2, "POSITIONS!!!")
+    dictionary = data2["positions"]
     #    dictionary = json.loads(dictionary)
+    for z in range(len(dictionary)):
+        print((dictionary[z]["abv"]), pos, "wow")
+        if (dictionary[z]["abv"]) == pos:
+            print("omg")
+            dictionary[z]["rate"] = rate
 
-    print(dictionary, "rateposad", type(dictionary))
+    # print(dictionary, "rateposad", type(dictionary))
     import json
     import os
 
     new_rate = {pos: rate}
-    dictionary.update(new_rate)
-    y = json.dumps(dictionary, indent=4)
+    # dictionary.update(new_rate)
+
     print(ad, "AFUCKINGD")
 
-    with open(ad + "/rates.json", "w") as outfile:
-        json.dump(dictionary, outfile)
+    with open(ad + "/position_list.json", "w") as outfile:
+        json.dump(data2, outfile)
+    outfile.close()
 
 
 def makeposfile(App, x, config_file, ios, rate):
@@ -192,3 +200,8 @@ def makeposfile(App, x, config_file, ios, rate):
         with open(ad + "/pos/" + x + ".json", "w") as outfile:
             json.dump(y, outfile)
         print("updated pos file")
+
+
+if __name__ == "__main__":
+    # get_positions("C://Users//twat//schedulara", "")
+    makeratefile("C://Users//twat//AppData//Roaming//demo3", 30, "ME")

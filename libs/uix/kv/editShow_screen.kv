@@ -62,18 +62,20 @@
                     id: ota
                     YourContainer:
                         id: button3
+                        text:'wow'
                         MDRaisedButton:
                             padding: [15, 15]
                             size_hint:app.right_hint
                             width:app.right_width
 
                             #width: 5
-                            text: "8"
+                            
                             pos_hint: {'center_x': .5, 'center_y': .5}
-                            values: app.oth
+                            #values: app.oth
                             items: app.oth
                             id: button5
                             on_release: app.choose_drop(app.oth,'oth')
+                            text: "8"
                             
                     IconLeftWidget:
                         icon: "one-up"

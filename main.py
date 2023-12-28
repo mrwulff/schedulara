@@ -258,6 +258,7 @@ class PayScreen(Screen):
 
 class YourContainer(IRightBodyTouch, MDBoxLayout):
     adaptive_width = True
+    adaptive_size = True
 
 
 class HistoryItem(Screen):
@@ -569,7 +570,8 @@ class Demo3App(MDApp):
     sound_effects = ["Ding", "Bang", "Lol"]
     custom_range = [2023, 2022, 2021, 2020, 2019, 2018, 2017]
     lunches = ["0", "1", "2", "3"]
-    oth = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
+    oth = ["8", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
+    # oth = ["8", "10"]
     mheight = dp(170)
     pictures = [
         "light",
@@ -628,6 +630,7 @@ class Demo3App(MDApp):
         "Gray",
         "BlueGray",
     ]
+    icons_height = dp(40)
     right_hint = None, 0.9
     right_width = dp(70)
     wall = [
@@ -2219,12 +2222,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     #    text_color=self.theme_cls.primary_color,
                     #    on_release=lambda x, y=(gg): self.add_google_calendar(y),
                     # ),
-                    MDFlatButton(
-                        text="$",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=lambda x, y=(cat, r, d): self.animate_money_new(y),
-                    ),
+                    # MDFlatButton(
+                    #    text="$",
+                    #    theme_text_color="Custom",
+                    #    text_color=self.theme_cls.primary_color,
+                    #    on_release=lambda x, y=(cat, r, d): self.animate_money_new(y),
+                    # ),
                 ],
             )
 
@@ -2252,10 +2255,46 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         return ntime
 
     def build_full_pp(self):
-        import libs.lib_makegraphs as lib_makegraphs
+        import json
 
-        lib_makegraphs.make_full_json_pp(ad, "fdate", "ldate", True)
+        toc5 = time.perf_counter()
+
+        import libs.lib_makegraphs as lib_makegraphs
+        import libs.lib_parse2
+
+        if 1 == 2:
+            lib_makegraphs.make_full_json_pp(ad, "fdate", "ldate", True)
         print("build_full_pp")
+        toc6 = time.perf_counter()
+        t = toc6 - toc5
+        toast(str(round(t, 2)))
+        data = libs.lib_parse2.load_full_pp(ad, "full_pp.json", "p_rate")
+        print(len(data["shows"]), "mother of data")
+        pay_checks = data["shows"]
+        tot = 0
+        with open(ad + "/position_list.json", "r") as json_file:
+            real_list = json.load(json_file)
+        real_list_values = real_list["positions"]
+        json_file.close()
+        for x in range(len(pay_checks)):
+            gigs = pay_checks[x]["gigs"]
+            # print(gigs,"paychecks sub x",)
+            for y in range(len(gigs)):
+                # print(gigs[y]["Rate"], gigs[y]["pos"], "gigs")
+                tot = tot + 1
+                print(len(real_list_values), "realvalues")
+                for z in range(len(real_list_values)):
+                    # print(real_list_values[z])
+                    if real_list_values[z]["abv"] == gigs[y]["pos"]:
+                        if real_list_values[z].get("rate") == None:
+                            real_list_values[z]["rate"] = 0
+
+                        if gigs[y]["Rate"] > real_list_values[z]["rate"]:
+                            real_list_values[z]["rate"] = gigs[y]["Rate"]
+        with open(ad + "/position_list.json", "w") as outfile:
+            json.dump(real_list, outfile)
+        outfile.close()
+        print(tot, "tot gigs")
 
     def find_type(self, a, b):
         import libs.lib_new
@@ -2632,15 +2671,38 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         lpos = pos
         self.root.set_current("icons")
         self.root.current_screen.ids["payperiod_list"].clear_widgets()
+
         for z in range(0, len(lpos)):
+            show = True
             # print(lpos[z], "lpoz")
-            self.root.current_screen.ids["payperiod_list"].add_widget(
-                ThreeLineAvatarIconListItem(
-                    IconLeftWidget(icon=lpos[z]["icon"]),
-                    text=lpos[z]["abv"],
-                    secondary_text=lpos[z]["description"],
+            third = ""
+            if lpos[z].get("rate") != None:
+                if x["pp_hidden"] == True:
+                    third = "$" + str(lpos[z]["rate"])
+                else:
+                    third = "Rate Hidden"
+            # print(lpos[z].get("rate"), "get_rate")
+            # try:
+            #    gg = int(lpos[z]["rate"])
+            #    print (gg)
+            # except:
+            #    if x["pp_all"] == False:
+            #        show = False
+
+            if lpos[z].get("rate") == None:
+                # print(third, "thirddddd", x["pp_all"])
+                if x["pp_all"] == False:
+                    show = False
+
+            if show == True:
+                self.root.current_screen.ids["payperiod_list"].add_widget(
+                    ThreeLineAvatarIconListItem(
+                        IconLeftWidget(icon=lpos[z]["icon"]),
+                        text=lpos[z]["abv"],
+                        secondary_text=lpos[z]["description"],
+                        tertiary_text=third,
+                    )
                 )
-            )
             # print(z, "icons!!")
 
     def find_pay_date(self, c):
@@ -3598,7 +3660,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     archive_reverse = True
     archive_sort = "date"
-    archive_trim = "Next"
+    archive_trim = "Current"
     menurotate = 10
     menuscale = 0.5, 0.5
 
@@ -3703,7 +3765,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def choose_drop(self, v, v2):
         "oll"
-        # print(v2, v, "THISISTHETHING2")
+        print(v2, v, "THISISTHETHING2")
 
         if v2 == "city":
             menu_items = [
@@ -4387,7 +4449,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.root.set_current("animate")
         else:
             toast("Unavalable")
-            return
+            # return
         # print(y, xx9)
 
         pos = show["pos"]
@@ -4935,7 +4997,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             )
             # print (listofdicks[z],"WOWZERS")
             try:
-                tottime = str(listofdicks[z]["totaltime"])
+                tottime = str(
+                    listofdicks[z]["totaltime"] - int(listofdicks[z]["lunches"])
+                )
             except:
                 tottime = ""
             realtime, junk, junk = self.format_hours(tottime)
@@ -4959,7 +5023,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print (bb,dir(bb),'BSDF')
         bbl = len(bb)
         bb = bb[bbl - 1]
-        bb.text = "Show!s: " + str(bbl - 1)
+        bb.text = "Shows!: " + str(bbl - 1)
         bb.secondary_text = "Hours: " + str(self.format_hours(tottime_all)[0])
         bb.tertiary_text = "Pay: " + str(self.format_money(earnings_all))
         try:
@@ -5050,6 +5114,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def edit_show_details(self, b):
         import libs.lib_new
+        import libs.lib_positions
 
         # try:
         if 1 == 1:
@@ -5067,8 +5132,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         three = show["time"]
         try:
             App.get_running_app().root.current_screen.ids["newhoursplus"].text = str(
-                show["totaltime"]
+                show["totaltime"] - int(show["lunches"])
             )
+
         except:
             App.get_running_app().root.current_screen.ids["newhoursplus"].text = ""
         try:
@@ -5077,6 +5143,20 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             )
         except:
             App.get_running_app().root.current_screen.ids["earningsl"].text = ""
+
+        try:
+            App.get_running_app().root.current_screen.ids["button5"].text = str(
+                show["ota"]
+            )
+        except:
+            App.get_running_app().root.current_screen.ids["button5"].text = "8"
+
+        try:
+            App.get_running_app().root.current_screen.ids["button4"].text = str(
+                show["lunches"]
+            )
+        except:
+            App.get_running_app().root.current_screen.ids["button4"].text = "550"
 
         App.get_running_app().root.current_screen.ids["rat"].text = (
             show["pos"] + " Rate"
@@ -5102,16 +5182,30 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         print(z, "button4")
         za = App.get_running_app().root.current_screen
-        id = ["lunches", "endtime", "ota", "rate", "user_notes"]
-        b5 = ["button4", "newhours", "button5", "rate", "user_notes"]
+        id = ["lunches", "endtime", "rate", "user_notes"]
+        b5 = ["button4", "newhours", "rate", "user_notes"]
 
         for q in range(len(id)):
             try:
+                if str(show[id[q]]) == "":
+                    show[id[q]] = "0"
+                    if id[q] == "user_notes":
+                        show[id[q]] = ""
+
                 za.ids[b5[q]].text = str(show[id[q]])
+                print("setting!", str(show[id[q]]), " to bla")
             except:
                 # za.ids[b5[q]].text='?'
                 print("not able to set " + id[q])
                 za.ids[b5[q]].text = ""
+                if id[q] == "rate":
+                    print("FINDING RATE RIGHT NOW for " + show["pos"])
+                    rate = libs.lib_positions.get_single_rate(ad, show["pos"])
+                    print(rate, "found the rate for", show["pos"])
+                    za.ids[b5[q]].text = str(rate)
+                if id[q] == "lunches":
+                    print("setting lunches!!!!")
+                    za.ids[b5[q]].text = str(0)
 
     def update_show_single(self, f):
         import libs.lib_new
@@ -5219,6 +5313,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         print(show["totaltime"], "titaltime")
 
         time = show["totaltime"]
+        time = show["totaltime"] - int(show["lunches"])
         formatted_hours, junk, junk = self.format_hours(time)
         # print(hours, minutes, "whatttttt")
 
@@ -5226,7 +5321,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             "newhoursplus"
         ].text = formatted_hours
 
-        print(show["rate"], (show["totaltime"], float(show["lunches"])), "maths")
+        # print(show["rate"], (show["totaltime"], float(show["lunches"])), "maths")
         show["earnings"] = float(show["rate"]) * float(
             (show["totaltime"]) - float(show["lunches"])
         )

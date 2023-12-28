@@ -52,6 +52,9 @@ def load_full_pp(ad, fil, idex):
     if fil == "jason_show_cache_real.json":
         pos_k, pos_v, pos_l = count_pos_future(data, idex, False)
 
+    if idex == "p_rate":
+        return data
+
     return pos_k, pos_v, pos_l
 
 

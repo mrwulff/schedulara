@@ -1,3 +1,22 @@
+def get_single_rate(ad, pos):
+    import json
+
+    f = "position_list.json"
+    # print
+    # print(ad, "get positions")
+    o = open(ad + "/" + f)
+    data = json.load(o)
+    d = data["positions"]
+    for x in range(len(d)):
+        # print(d[x], "dsubx")
+        if d[x]["abv"] == pos:
+            try:
+                zz = d[x]["rate"]
+            except:
+                zz = 0
+    return zz
+
+
 def get_positions(ad, search):
     import os
     import shutil
@@ -47,4 +66,6 @@ def edit(ad):
 
 if __name__ == "__main__":
     # get_positions("C://Users//twat//schedulara", "")
-    edit("C://Users//twat//schedulara")
+    # edit("C://Users//twat//schedulara")
+    r = "C:/Users/twat/AppData/Roaming/demo3/"
+    get_single_rate(r, "ME")

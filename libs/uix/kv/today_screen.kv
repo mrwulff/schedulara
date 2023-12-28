@@ -59,6 +59,7 @@
     #BoxLayout:
     #    MDTopAppBar:
     #        left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
+    #       
 
     FitImage:
         #source: 'images/rh.jpg'
@@ -90,6 +91,7 @@
         #    type: "bottom"
             left_action_items:
                 [['menu', lambda x: nav_drawer.set_state("open")]]
+            #right_action_items: [['reload-alert', lambda screen: app.build_full_pp(),'home']]
         
         ScrollView:
             MDGridLayout:
@@ -403,7 +405,7 @@
                 MDNavigationDrawerHeader:
                     title: " Menu"
                     #title_color: "#4a4939"
-                    text: "  v23.12.19.906"
+                    text: "  v23.12.27.906"
                     spacing: "6dp"
                     #padding: "12dp", 0, 0, "56dp"
                     #source: "images/icon.png"
