@@ -2262,7 +2262,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_makegraphs as lib_makegraphs
         import libs.lib_parse2
 
-        if 1 == 2:
+        try:
+            with open(ad + "/" + "full_pp.json") as json_file:
+                data = json.load(json_file)
+        except:
             lib_makegraphs.make_full_json_pp(ad, "fdate", "ldate", True)
         print("build_full_pp")
         toc6 = time.perf_counter()
