@@ -2730,7 +2730,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def view_fieldnote(self, y):
         if y == "no":
-            y = ("", "", "2659")
+            # 799 = cable, 2659=tmobile
+            y = ("", "", "799")
         self.root.set_current("fieldnote")
         # print(y, "view single fieldnote")
         import libs.lib_fieldnotes
@@ -2745,46 +2746,69 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         nb, text, picture_url, picture = libs.lib_fieldnotes.get_single(
             x, ad, y[0], y[1], y[2], browser
         )
-        print(picture, picture_url, "picture stuff")
-        try:
-            a = open(ad + "/note_pictures/" + picture)
-            print("found picture")
-        except:
+        if picture != "":
+            print(picture, picture_url, "picture stuff")
             try:
-                os.mkdir(ad + "/note_pictures")
+                a = open(ad + "/note_pictures/" + picture)
+                print("found picture")
             except:
-                print("note pictures already exists")
+                try:
+                    os.mkdir(ad + "/note_pictures")
+                except:
+                    print("note pictures already exists")
 
-            urllib.request.urlretrieve(picture_url, ad + "/note_pictures/" + picture)
-            print("downloaded picture")
-        browser = nb
-        loaded = ad + "/note_pictures/" + picture
-        # self.root.current_screen.ids["pic"].source = ad + "/note_pictures/" + picture
-        self.root.current_screen.ids["box"].add_widget(
-            MDCard(
-                FitImage(
-                    source=ad + "/note_pictures/" + picture,
-                    # size_hint_y=0.35,
-                    # pos_hint={"top": 1},
-                    radius=self.cradius4,
+                urllib.request.urlretrieve(
+                    picture_url, ad + "/note_pictures/" + picture
+                )
+                print("downloaded picture")
+            browser = nb
+            loaded = ad + "/note_pictures/" + picture
+            # self.root.current_screen.ids["pic"].source = ad + "/note_pictures/" + picture
+            self.root.current_screen.ids["box"].add_widget(
+                MDCard(
+                    FitImage(
+                        source=ad + "/note_pictures/" + picture,
+                        # size_hint_y=0.35,
+                        # pos_hint={"top": 0},
+                        radius=self.cradius4,
+                    ),
+                    radius=self.cradius,
+                    md_bg_color="grey",
+                    pos_hint={"center_x": 0.5, "center_y": 0.8},
+                    size_hint=(
+                        None,
+                        None,
+                    ),
+                    height=dp(250),
+                    width=dp(250),
+                    on_release=lambda x, y=(loaded): self.do_zoom(y),
                 ),
-                radius=self.cradius,
-                md_bg_color="grey",
-                pos_hint={"center_x": 0.5, "center_y": 0.5},
-                size_hint=(
-                    None,
-                    None,
+            )
+        if picture == "":
+            self.root.current_screen.ids["box"].add_widget(
+                MDCard(
+                    FitImage(
+                        source="images/cartoon.png",
+                        # size_hint_y=0.35,
+                        # pos_hint={"top": 0},
+                        radius=self.cradius4,
+                    ),
+                    radius=self.cradius,
+                    md_bg_color="grey",
+                    pos_hint={"center_x": 0.5, "center_y": 0.8},
+                    size_hint=(
+                        None,
+                        None,
+                    ),
+                    height=dp(250),
+                    width=dp(250),
                 ),
-                height=dp(350),
-                width=dp(350),
-                on_release=lambda x, y=(loaded): self.do_zoom(y),
-            ),
-        )
+            )
 
-        #
-        # print(text, "HOLY GOD ITS TEXT")
+            #
+            # print(text, "HOLY GOD ITS TEXT")
 
-        # print(text)
+            # print(text)
 
         ss = "[size=" + str(x["text_size"]) + "sp]"
         # print(ss, "this is the text")
@@ -2808,7 +2832,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             width=500,
         )
         print(pic)
-        image = FitImage(source=pic)
+        image = AsyncImage(source=pic)
         self.root.current_screen.ids["sbox"].add_widget(image)
 
     def set_text_size(self, s):

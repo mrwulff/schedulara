@@ -10,23 +10,24 @@
             #title: "Pay"
             height: app.mheight
             left_action_items: [['chevron-left', lambda screen: app.search_fieldnotes(),'home'],['chevron-left', lambda screen: app.view_fieldnotes(""),'home']]
-            right_action_items: [['minus', lambda screen: app.set_text_size(-3),'---'],['plus', lambda screen: app.set_text_size(+3),'home']]
-        FloatLayout:
+            #right_action_items: [['minus', lambda screen: app.set_text_size(-3),'---'],['plus', lambda screen: app.set_text_size(+3),'home']]
+        ScatterLayout:
             id: float_layout
-            canvas:
-                Color:
-                    rgba: 0, 0, 1, 0.5
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
+            #canvas:
+            #    Color:
+            #        rgba: 0, 0, 1, 0.5
+            #    Rectangle:
+            #        pos: self.pos
+            #        size: self.size
             Scatter:
 
-                canvas:
-                    Color:
-                        rgba: 1, 0, 1, 0.5
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
+
+                #canvas:
+                #    Color:
+                #        rgba: 1, 0, 1, 0.5
+                #    Rectangle:
+                #        pos: self.pos
+                #        size: self.size
 
 
                 #MDTextField:
@@ -38,7 +39,18 @@
                 do_position:True
                 #width:200
                 scale:5
-                pos_hint: {"center_x": 0, "center_y": 0}
+                
+                #pos_hint: {"center_x": .5, "center_y": .5}
+                #pos_hint:None,None
+                #pos:100,100
+                #center:{"center_x": .5, "center_y": .5}
+                center:float_layout.width/2,float_layout.height/2
+                #pos_hint_y:1
+                #pos_hint_x:1
+                anchor:0,0
+                #center_x:.5
+                #center_y:.5
+                
 
 
                 id:sbox

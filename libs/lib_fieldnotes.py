@@ -90,6 +90,32 @@ def get_picture(pic):
     # aimg = AsyncImage(source='http://mywebsite.com/logo.png')
 
 
+def word(text):
+    print(type(text))
+    text = str(text)
+    print(text, "wtf")
+
+
+def weird(z, id, ad):
+    print(z, "hello")
+    z2 = open(ad + "/fn/" + id + ".htm", "w")
+    bad = [
+        "UnhideWhenUsed=",
+        "<w:LsdException",
+        "mso-spacerun",
+        "MsoNormal",
+        "mso-style",
+    ]
+    for line in z.readlines():
+        for y in range(len(bad)):
+            if bad[y] in line:
+                line = ""
+        z2.write(line)
+    z2.close()
+    z2 = open(ad + "/fn/" + id + ".html", "r")
+    return z2
+
+
 def get_single(x, ad, title, link, id, browser):
     print(title, link, id, "these are the 3 field notes")
     try:
@@ -105,7 +131,14 @@ def get_single(x, ad, title, link, id, browser):
     #    z = z + line
 
     z = open(ad + "/fn/" + id + ".html", encoding="utf8")
+    2697
+    dumb = ["356", "2697"]
+    for yy in range(len(dumb)):
+        if id == dumb[yy]:
+            print("why")
+            z = weird(z, id, ad)
     soup = BeautifulSoup(z, "html.parser")
+    # word(BeautifulSoup(z2, "xml"))
 
     name = soup.find("div", attrs={"class": "content"})
     # name = soup.find("div")
@@ -120,6 +153,7 @@ def get_single(x, ad, title, link, id, browser):
     ]
     # attachment
     # attachment
+
     img = soup.find_all("img")
     # img = soup.find("a href", attrs={"class": "attachment"})
     pic = ""
@@ -141,7 +175,7 @@ def get_single(x, ad, title, link, id, browser):
     for x in range(0, len(bad)):
         for s in name.select(bad[x]):
             s.extract()
-
+    # print(name, "NAMETEXT")
     name = str(name)
 
     bs = [
@@ -230,7 +264,7 @@ def get_single(x, ad, title, link, id, browser):
     for x in range(0, len(bs), 2):
         # print(bs[x], "wtf2222")
         name = str.replace(name, bs[x], bs[x + 1])
-    print(name, "mnaas")
+    # print(name, "mnaas")
     return browser, name, pic_url, pic
 
 
@@ -335,8 +369,11 @@ if __name__ == "__main__":
         "title": "T-Mobile Arena",
         "url": "https://www.thinkrhino.com/employee/lasvegas/fieldnote.aspx?id=2659",
         "star": False,
-        "num": "2659",
+        "num": "356",
     }
+
+    ##tma=2659
+    ##fucked up 356
     ad = "C://Users//twat//AppData//Roaming//demo3"
     # make_notes(ad, {"city": "lasvegas"})
     # x = get_notes(ad, "")
