@@ -1,0 +1,39 @@
+<fieldnotescreen>
+    #:import Clipboard kivy.core.clipboard.Clipboard
+    #:import Snackbar kivymd.uix.snackbar.Snackbar
+    name: "fieldnote"
+    #FloatLayout:
+    #    pos:.5,.5
+    #    size_hint:.3,.3
+    #    Image:
+        #FitImage:
+        #source: 'images/rh.jpg'
+    #        id: pic
+            #source: app.get_wall("today")
+    #        size: self.width,self.height
+            #on_release:app.view_picture()
+    BoxLayout:
+        orientation: "vertical"
+        MDTopAppBar:
+            #title: "Pay"
+            height: app.mheight
+            left_action_items: [['chevron-left', lambda screen: app.search_fieldnotes(),'home'],['chevron-left', lambda screen: app.view_fieldnotes(""),'home']]
+            right_action_items: [['minus', lambda screen: app.set_text_size(-3),'---'],['plus', lambda screen: app.set_text_size(+3),'home']]
+
+        ScrollView:
+            #MDTextField:
+            id:boxs
+            MDLabel:
+                size_hint: None, None
+                text_size: root.width, None
+                size: self.texture_size
+                text: "text"
+                font_size: dp(50)
+                color:
+                id:box
+                markup:True
+                #max_height: "200dp"
+                mode: "fill"
+                multiline: True
+    #MDLabel:
+    #        id:fake

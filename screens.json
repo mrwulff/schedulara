@@ -158,5 +158,20 @@
         "import": "from libs.uix.baseclass.icons_screen import iconsscreen",
         "object": "iconsscreen()",
         "kv": "libs/uix/kv/icons_screen.kv"
+    },
+    "fieldnote": {
+        "import": "from libs.uix.baseclass.fieldnote_screen import fieldnotescreen",
+        "object": "fieldnotescreen()",
+        "kv": "libs/uix/kv/fieldnote_screen.kv"
+    },
+    "allfieldnotes": {
+        "import": "from libs.uix.baseclass.allfieldnotes_screen import allfieldnotesscreen",
+        "object": "allfieldnotesscreen()",
+        "kv": "libs/uix/kv/allfieldnotes_screen.kv"
+    },
+    "zoom": {
+        "import": "from libs.uix.baseclass.zoom_screen import zoomscreen",
+        "object": "zoomscreen()",
+        "kv": "libs/uix/kv/zoom_screen.kv"
     }
 }

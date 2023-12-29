@@ -47,6 +47,11 @@ def login(ad, x, ios, App):
 
     res = browser.submit()
 
+    aa = res.get_data()  # HTML source of the page
+    # print (aa)
+    full = open(ad + "/fullwebsite.html", "wb")
+    full.write(aa)
+
     res = browser.open(PE_COUNTRIES)
 
     aa = res.get_data()  # HTML source of the page

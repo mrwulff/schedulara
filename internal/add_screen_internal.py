@@ -50,5 +50,4 @@ if exists == False:
     dd = {"import": i, "object": o, "kv": k}
     data[sn] = dd
     with open(cwd + "/internal/screens.json", "w") as ofile:
-
         json.dump(data, ofile, indent=4)

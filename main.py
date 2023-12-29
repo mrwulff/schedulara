@@ -216,6 +216,7 @@ if platform == "android5":
 toc1 = time.perf_counter()
 print(tic - toc1, "firsttimer")
 from kivy.utils import platform
+import urllib.request
 
 # import storagepath
 
@@ -567,12 +568,14 @@ class Demo3App(MDApp):
     radius = 10 * scale
     cpadding = 20
     cradius = 0
+    cradius4 = 0, 0, 0, 0
     sound_effects = ["Ding", "Bang", "Lol"]
     custom_range = [2023, 2022, 2021, 2020, 2019, 2018, 2017]
     lunches = ["0", "1", "2", "3"]
     oth = ["8", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
     # oth = ["8", "10"]
     mheight = dp(170)
+    note_index = ""
     pictures = [
         "light",
         "hammer",
@@ -2652,6 +2655,198 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             "Saved Times: " + str(complete_shows) + " / " + str((tot_shows))
         )
 
+    def update_fieldnotes(self):
+        import libs.lib_fieldnotes
+
+        a = libs.lib_fieldnotes.make_notes(ad, x)
+
+    def view_fieldnotes(self, term):
+        print("view_fieldnotes", term)
+        global note_index
+        self.root.set_current("allfieldnotes")
+        # self.update_fieldnotes()
+
+        import libs.lib_fieldnotes
+
+        pos = libs.lib_fieldnotes.get_notes(ad, term)
+        # self.load_positions()
+
+        from kivymd.uix.list import (
+            ThreeLineAvatarIconListItem,
+            IconLeftWidget,
+            OneLineListItem,
+        )
+
+        # self.clear_widgets()
+        # self.root.current_screen.ids["payperiod_list"].clear_widgets()
+        # App.get_running_app().root.current_screen.ids["payperiod_list"].clear_widgets()
+        # self.root.current_screen.clear_widgets()
+        lpos = pos
+        # self.root.set_current("icons")
+        self.root.current_screen.ids["payperiod_list"].clear_widgets()
+
+        for z in range(0, len(lpos)):
+            show = True
+            # print(lpos[z], "lpoz")
+            third = ""
+            if lpos[z].get("rate") != None:
+                if x["pp_hidden"] == True:
+                    third = "$" + str(lpos[z]["rate"])
+                else:
+                    third = "Rate Hidden"
+            # print(lpos[z].get("rate"), "get_rate")
+            # try:
+            #    gg = int(lpos[z]["rate"])
+            #    print (gg)
+            # except:
+            #    if x["pp_all"] == False:
+            #        show = False
+            y = (
+                lpos[z]["title"],
+                lpos[z]["url"],
+                lpos[z]["num"],
+            )
+            note_index = y
+            if lpos[z].get("rate") == None:
+                # print(third, "thirddddd", x["pp_all"])
+                # if x["pp_all"] == False:
+                #    show = False
+                pass
+            if show == True:
+                self.root.current_screen.ids["payperiod_list"].add_widget(
+                    OneLineListItem(
+                        text=lpos[z]["title"] + "[size=0]@#$" + lpos[z]["num"],
+                        on_release=lambda x, y=(
+                            lpos[z]["title"],
+                            lpos[z]["url"],
+                            lpos[z]["num"],
+                        ): self.view_fieldnote(y),
+                    )
+                )
+            # print(z, "icons!!")
+
+    def view_picture(self):
+        print("view picture")
+
+    def view_fieldnote(self, y):
+        if y == "no":
+            y = ("", "", "2659")
+        self.root.set_current("fieldnote")
+        # print(y, "view single fieldnote")
+        import libs.lib_fieldnotes
+        import libs.lib_readuserdata
+        from kivymd.uix.card import MDCard
+        from kivymd.uix.fitimage import FitImage
+
+        x = libs.lib_readuserdata.readuserdata(App, ad, ios)
+
+        global browser
+
+        nb, text, picture_url, picture = libs.lib_fieldnotes.get_single(
+            x, ad, y[0], y[1], y[2], browser
+        )
+        print(picture, picture_url, "picture stuff")
+        try:
+            a = open(ad + "/note_pictures/" + picture)
+            print("found picture")
+        except:
+            try:
+                os.mkdir(ad + "/note_pictures")
+            except:
+                print("note pictures already exists")
+
+            urllib.request.urlretrieve(picture_url, ad + "/note_pictures/" + picture)
+            print("downloaded picture")
+        browser = nb
+        loaded = ad + "/note_pictures/" + picture
+        # self.root.current_screen.ids["pic"].source = ad + "/note_pictures/" + picture
+        self.root.current_screen.ids["box"].add_widget(
+            MDCard(
+                FitImage(
+                    source=ad + "/note_pictures/" + picture,
+                    # size_hint_y=0.35,
+                    # pos_hint={"top": 1},
+                    radius=self.cradius4,
+                ),
+                radius=self.cradius,
+                md_bg_color="grey",
+                pos_hint={"center_x": 0.5, "center_y": 0.5},
+                size_hint=(
+                    None,
+                    None,
+                ),
+                height=dp(350),
+                width=dp(350),
+                on_release=lambda x, y=(loaded): self.do_zoom(y),
+            ),
+        )
+
+        #
+        # print(text, "HOLY GOD ITS TEXT")
+
+        # print(text)
+
+        ss = "[size=" + str(x["text_size"]) + "sp]"
+        # print(ss, "this is the text")
+        self.root.current_screen.ids["box"].text = (
+            ss + str(text) + "[size=0sp]asdfzxcv" + str(y[2])
+        )
+
+    def do_zoom(self, pic):
+        self.root.set_current("zoom")
+        from kivy.uix.scatter import Scatter
+        from kivy.uix.image import AsyncImage
+        from kivymd.uix.fitimage import FitImage
+
+        print(pic, "PIC")
+
+        scatter = Scatter(
+            do_translation=True,
+            do_rotation=True,
+            size_hint=(None, None),
+            height=500,
+            width=500,
+        )
+        print(pic)
+        image = FitImage(source=pic)
+        self.root.current_screen.ids["sbox"].add_widget(image)
+
+    def set_text_size(self, s):
+        # print("set text size")
+        print(note_index, "this is the note index")
+
+        import libs.lib_readuserdata
+
+        x = libs.lib_readuserdata.readuserdata(App, ad, ios)
+
+        if x.get("text_size") == None:
+            x["text_size"] = 15
+
+        x["text_size"] = x["text_size"] + s
+        print(x["text_size"], " TEXT SIZE")
+
+        import libs.lib_updateuserdata
+
+        libs.lib_updateuserdata.updateuser(x, ad)
+        # print(note_index, "note_indexxxx")
+        #
+        p = self.root.current_screen.ids["box"].text
+        junk, p = str.split(p, "asdfzxcv")
+        p = ("", "", p)
+        self.view_fieldnote(p)
+        # print(p, "all text")
+
+    def search_fieldnotes(self):
+        wow = App.get_running_app().root.get_screen("allfieldnotes").ids["search"].text
+        # wow = App.get_running_app().root.current_screen.ids["search"].text
+
+        print(wow, "search_icons")
+        # self.root.current_screen.ids["payperiod_list"].clear_widgets()
+        App.get_running_app().root.get_screen("allfieldnotes").ids[
+            "payperiod_list"
+        ].clear_widgets()
+        self.view_fieldnotes(wow)
+
     def search_icons(self):
         wow = App.get_running_app().root.current_screen.ids["search"].text
 
@@ -3098,15 +3293,16 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         print("only updating schedule")
         import libs.lib_new
 
-        try:
+        # try:
+        if 1 == 1:
             libs.lib_new.make_json_schedule(x, ad)
             print("updated schedule")
             self.update_internal("update", 1)
             toast("Success")
 
-        except:
-            print("login failed")
-            toast("login failed")
+        # except:
+        ##    print("login failed")
+        #   toast("login failed")
         self.today()
 
     def open_panel2(self, xx, i, l, junk, z):
