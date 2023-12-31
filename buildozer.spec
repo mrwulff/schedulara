@@ -2,16 +2,23 @@
 log_level = 2
 # (str) Title of your application
 title = Schedulara
-android.numeric_version = 100018
+android.numeric_version = 100019
 android.api = 33
 #android.minapi = 30
-version = 1.1.8
+version = 1.1.9
 p4a.branch = master
 #android.ndk = 23b
 ##changelog! edited requirements
 
 
-requirements =kivy==master, https://github.com/kivymd/KivyMD/archive/master.zip,git+https://github.com/kivymd-extensions/sweetalert.git,uritemplate,httplib2,google-api-core==2.8.2,oauthlib,requests_oauthlib,cachetools,rsa,pyasn1,pyasn1_modules,urllib3,plyer,jnius,pyparsing,webencodings,html5lib,beautifulsoup4,soupsieve, python3,appdirs, pillow,python-dateutil, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker, kivy-garden, kivy-garden.graph, kivymd_extensions.akivymd, ndicts, ,google-api-python-client, google-auth-oauthlib,google-auth-httplib2,google-auth,sentry_sdk ,watchdog
+requirements =kivy==master, https://github.com/kivymd/KivyMD/archive/master.zip ,git+https://github.com/kivymd-extensions/sweetalert.git,uritemplate,httplib2,google-api-core==2.8.2,oauthlib,requests_oauthlib,cachetools,rsa,pyasn1,pyasn1_modules,urllib3,plyer,jnius,pyparsing,webencodings,html5lib,beautifulsoup4,soupsieve, python3,appdirs, pillow,python-dateutil, humanize, mechanize, bs4, emoji, webcolors, pyperclip, kivy-garden, kivy-garden.graph, faker, kivy-garden, kivy-garden.graph, kivymd_extensions.akivymd, ndicts, ,google-api-python-client, google-auth-oauthlib,google-auth-httplib2,google-auth,sentry_sdk ,watchdog
+
+
+presplash.filename = %(source.dir)s/images/nye2.png
+
+# (str) Icon of the application
+icon.filename = %(source.dir)s/images/nye.png
+
 
 # (str) Package name
 #package.name = org.kw.schedulara.kw.schedulara2.org.kw.schedulara.kw.schedulara
@@ -59,10 +66,7 @@ source.include_patterns = assets/*,images/*.png,*.json
 # requirements.source.kivy = ../../kivy
 
 # (str) Presplash of the application
-presplash.filename = %(source.dir)s/images/icon.png
 
-# (str) Icon of the application
-icon.filename = %(source.dir)s/images/icon.png
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
 orientation = portrait
@@ -108,7 +112,7 @@ osx.kivy_version = 1.9.1
 #icon.adaptive_background.filename = %(source.dir)s/data/icon_bg.png
 
 # (list) Permissions
-android.permissions = INTERNET,BILLING, ACCESS_NETWORK_STATE, READ_EXTERNAL_STORAGE
+android.permissions = INTERNET,BILLING, ACCESS_NETWORK_STATE, READ_EXTERNAL_STORAGE,ACCESS_FINE_LOCATION
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
@@ -266,7 +270,7 @@ android.permissions = INTERNET,BILLING, ACCESS_NETWORK_STATE, READ_EXTERNAL_STOR
 # In past, was `android.arch` as we weren't supporting builds for multiple archs at the same time.
 #ndroid.archs =  armeabi-v7a
 
-android.archs = arm64-v8a, armeabi-v7a
+android.archs = arm64-v8a
 
 
 # (bool) enables Android auto backup feature (Android API >=23)

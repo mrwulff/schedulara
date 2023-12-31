@@ -1441,6 +1441,7 @@ class Demo3App(MDApp):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        Window.bind(on_keyboard=self.keyboard)
 
         # self.title = "Kivy - Lazy Load"
 
@@ -1593,6 +1594,13 @@ class Demo3App(MDApp):
 
     # fdate, ldate = self.get_dates("YTD")
     #            self.do_new_stats(fdate, ldate, "YTD")
+    def keyboard(self, window, key, *args):
+        if key == 27:
+            self.root.set_current("today")
+            return True  # key event consumed by app
+        else:
+            return False  # key event passed to Android
+
     def dev(self, x):
         if x == "zero":
             toast("divide by zero GO")
