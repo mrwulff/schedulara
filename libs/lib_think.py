@@ -9,8 +9,8 @@ def login(ad, x, ios, App):
     # print (x)
 
     print("using real data")
-    # ssl.verify = False
-    # ssl._create_default_https_context = ssl._create_unverified_context
+    ssl.verify = False
+    ssl._create_default_https_context = ssl._create_unverified_context
     print("using real data66")
     print(libs.lib_enc.r_password(x["password"]))
     print(x["username"])
