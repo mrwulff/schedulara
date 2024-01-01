@@ -2334,12 +2334,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         return "help"
 
     def piplist(self):
-        import subprocess
-        import sys
+        import pkg_resources
 
-        args = [sys.executable, "-m", "pip", "list"]
-        p = subprocess.run(args, check=True, capture_output=True)
-        return p.stdout.decode()
+        x = pkg_resources.get_distribution("kivymd").version
+        print(x, "listofkivymd")
+
+        y = pkg_resources.get_distribution("kivy").version
+        print(y, "listofkivy")
+        return x, y
 
     def today(self):
         import humanize
