@@ -2492,6 +2492,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             import libs.lib_updateuserdata
 
             libs.lib_updateuserdata.updateuser(x, ad)
+        ###make calendar
         self.reset_cal()
 
     def reset_cal(self):
@@ -2608,21 +2609,25 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         # icon=ic,
                         # icon_size=dp(6),
                         font_size=dp(15),
-                        text=str(dd.day),
+                        text=str(dd.day) + "wow\ntwo",
                         # width=500,
                         # type=type_button,
                         # theme_icon_color="Custom",
                         # text_color=t_color,
                         # md_bg_color=b_color,
                         background_color=b_color,
-                        color=t_color
+                        color=t_color,
                         # size_hint_max=(5, 5),
                         # primary_dark
                         # icon_color=data[type_button]["text_color"],
+                        on_release=self.find_cal,
                     )
                 )
         callist = self.root.get_screen("today").ids["cal_month"]
         callist.text = mmonth + " " + year
+
+    def find_cal(self, y):
+        print(self, y, y.text, "this is a calendar click")
 
     def check_working(self, day, month, year, js):
         # print(day, month, year,'daymonthyear!')
