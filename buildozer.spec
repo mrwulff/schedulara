@@ -270,7 +270,8 @@ android.permissions = INTERNET,BILLING, ACCESS_NETWORK_STATE, READ_EXTERNAL_STOR
 # In past, was `android.arch` as we weren't supporting builds for multiple archs at the same time.
 #ndroid.archs =  armeabi-v7a
 
-android.archs = arm64-v8a
+android.archs = arm64-v8a,armeabi-v7a
+
 
 
 # (bool) enables Android auto backup feature (Android API >=23)
