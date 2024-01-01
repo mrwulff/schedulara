@@ -3,7 +3,7 @@
 ### RELEASE 10.2.2023
 ###
 debug = True
-debug_online = True
+debug_online = False
 print("main debug=" + str(debug))
 print("wtf1006")
 from ast import Pass
@@ -1532,7 +1532,7 @@ class Demo3App(MDApp):
                 # toast('backdoor=unknown')
                 # self.snackbar = Snackbar(text="bla", bg_color=self.theme_cls.primary_color)
                 # self.snackbar.open()
-
+        toast("what")
         print(zz, " BACKDOOR true or false")
         # if zz == True:
         if 1 == 2:
@@ -2333,11 +2333,25 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 return icons[xx]["icon"]
         return "help"
 
+    def piplist(self):
+        import subprocess
+        import sys
+
+        args = [sys.executable, "-m", "pip", "list"]
+        p = subprocess.run(args, check=True, capture_output=True)
+        return p.stdout.decode()
+
     def today(self):
         import humanize
         from datetime import datetime, timedelta
         import libs.lib_new
         import libs.lib_think
+
+        toast("today")
+        p = self.piplist()
+
+        toast(str(p))
+        print(str(p), "piplistggggg")
 
         #  libs.lib_think.login_basic(ad, x, App)
 
