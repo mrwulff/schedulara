@@ -3,7 +3,7 @@
 ### RELEASE 10.2.2023
 ###
 debug = True
-debug_online = False
+debug_online = True
 print("main debug=" + str(debug))
 print("wtf1006")
 from ast import Pass
@@ -570,7 +570,7 @@ class Demo3App(MDApp):
     cradius = 0
     cradius4 = 0, 0, 0, 0
     sound_effects = ["Ding", "Bang", "Lol"]
-    custom_range = [2023, 2022, 2021, 2020, 2019, 2018, 2017]
+    custom_range = [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017]
     lunches = ["0", "1", "2", "3"]
     oth = ["8", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
     # oth = ["8", "10"]
@@ -1471,6 +1471,7 @@ class Demo3App(MDApp):
         # self.data = [self.create_random_input(rv, index) for index in range(20)]
 
         # self.root.set_current("home")
+        toast("lol")
 
         self.data = {
             "Settings": [
@@ -1523,6 +1524,7 @@ class Demo3App(MDApp):
                     zz = False
                     print("user11false")
                 print("good user read")
+                toast("lol")
                 # toast(str(x.get("backdoor")+' test'))
                 # print('BACKDOOR')
             except:
@@ -2510,6 +2512,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         for z in range(6):
             self.root.current_screen.ids["cal" + str(z)].clear_widgets()
+        self.root.current_screen.ids["calm"].clear_widgets()
         c = libs.lib_cal.basic_cal(month, year)
         # yyy = self.theme_cls
         # print(dir(yyy))

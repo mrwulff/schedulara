@@ -75,7 +75,15 @@
                     id: Year
 
                     on_press:(app.do_new_stats_format('Year'))
+                MDSegmentedButtonItem:
+                    text: "Preset"
+                    id: button4
+                    values: app.custom_range
 
+
+                    on_release: 
+                        app.choose_drop(app.custom_range,'range')
+                        app.send_dates(button4.text)
                 MDSegmentedButtonItem:
                     text: "All"
                     id: All
@@ -87,15 +95,7 @@
 
                     on_press:
                         (app.show_date_picker())
-                MDSegmentedButtonItem:
-                    text: "Preset"
-                    id: button4
-                    values: app.custom_range
-                #items: app.sound_effects
 
-                    on_release: 
-                        app.choose_drop(app.custom_range,'range')
-                        app.send_dates(button4.text)
         MDBoxLayout:
             id: graph5
             orientation: 'horizontal'
