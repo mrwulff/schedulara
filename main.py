@@ -233,6 +233,18 @@ if platform == "ios":
 import libs.lib_new
 
 
+class CustomSweetAlert(SweetAlert):
+    def open(self, *args):
+        # Override the animation parameters here
+        # For example, adjusting the animation duration
+        self._animate_open()
+
+    def dismiss(self, *args):
+        # Override the animation parameters here
+        # For example, adjusting the animation duration
+        self._animate_close()
+
+
 class AboutScreen(Screen):
     pass
 
@@ -2609,7 +2621,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         # icon=ic,
                         # icon_size=dp(6),
                         font_size=dp(15),
-                        text=str(dd.day) + "wow\ntwo",
+                        text=str(dd.day),
+                        # + "[size=0]"
+                        # + str(dd.day)
+                        # + "-"
+                        # + str(dd.month),
                         # width=500,
                         # type=type_button,
                         # theme_icon_color="Custom",
@@ -2627,7 +2643,149 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         callist.text = mmonth + " " + year
 
     def find_cal(self, y):
-        print(self, y, y.text, "this is a calendar click")
+        # print(self, y, y.text, dir(y), "this is a calendar click")
+        from dateutil.relativedelta import relativedelta
+
+        # print(y.background_color, y.color, "bg color")
+        # print(self.theme_cls.bg_dark[0], self.theme_cls.bg_dark, "colors")
+        bg = "black"
+        offset = 0
+        if y.background_color[0] == 0.9333333333333333:
+            # print(".933")
+            bg = "gray"
+            if int(y.text) > 20:
+                offset = -1
+            if int(y.text) < 10:
+                offset = 1
+
+        if y.background_color[0] == 0.0:
+            print(".0")
+        if y.background_color[0] == self.theme_cls.primary_color[0]:
+            print("red.primary")
+            bg = "red"
+
+        callist = self.root.get_screen("today").ids["cal_month"].text
+        print(callist, "callist")
+        callist = callist + " " + str(y.text)
+        cur_month = datetime.datetime.strptime(callist, "%B %Y %d").date()
+        cur_month = cur_month + relativedelta(months=+offset)
+
+        print(cur_month, "curmonth")
+        dd = cur_month
+        import libs.lib_new
+
+        import libs.lib_readuserdata
+
+        x = libs.lib_readuserdata.readuserdata(App, ad, ios)
+
+        js = libs.lib_new.get_json_schedule(x, ad)
+        try:
+            status, info = self.check_working(dd.day, dd.month, dd.year, js["shows"])
+        except:
+            status = False
+        js = js["shows"]
+        pops = []
+        for x4 in range(len(js)):
+            print(js[x4]["date"], "jsdate")
+            show_date = datetime.datetime.strptime(js[x4]["date"], "%m/%d/%Y").date()
+            # print(show_date, cur_month, "asdfasdf")
+            if show_date == cur_month:
+                print("omg you found a real date", js[x4]["show"])
+                pops.append(x4)
+
+        if len(pops) > 0:
+            self.click_cal(pops[0], js)
+
+    def click_cal(self, info, js):
+        print(type(info), info, "infooooo")
+        print(js[info], "full thingy", str(js[info]["date"]))
+        title5 = js[info]["show"]
+        text55 = (
+            str(js[info]["date"])
+            + " "
+            + str(js[info]["time"])
+            + "\n\n"
+            + str(js[info]["status"])
+            + "   "
+            + str(js[info]["pos"])
+            + "   "
+            + str(js[info]["type"])
+            + "\n"
+            + str(js[info]["venue"])
+            + "\n"
+            + str(js[info]["location"])
+            + "\n"
+            + "\n"
+            + str(js[info]["job"])
+            + "\n"
+            + str(js[info]["client"])
+            + "\n\n"
+            + str(js[info]["notes"])
+        )
+
+        # self.alert2 = SweetAlert()
+        # self.alert2.fire(
+        #    title5,
+        #    text55,
+        #    buttons=([button_ok]),
+        # )
+        i = 0
+        welcome = "welcome"
+        legal = "bla"
+        demo = "demo"
+        s = "[size=19dp]"
+        title = [title5, "Legal:", "Extras:"]
+        text = [
+            s + text55,
+            s + legal,
+            s + demo,
+        ]
+        b_b = s + "Previous", s + "2", s + "3"
+        b_b2 = s + "Close", s + "5", s + "6"
+
+        button_ok = MDRaisedButton(
+            text=b_b[i] + "[size=0]###" + str(int(info) - 1),
+            font_size=dp(16),
+            on_release=self.cal_next,
+        )
+        button_cancel = MDRaisedButton(
+            text=b_b2[i] + "[size=0]" + str(int(info) - 1),
+            font_size=dp(16),
+            on_release=self.cal_close,
+        )
+
+        button_login = MDRaisedButton(
+            # text=b_b[i] + "[size=0]" + str(int(info-1)),
+            text="Next" + "[size=0]###" + str(int(info) + 1),
+            font_size=dp(16),
+            on_release=self.cal_next,
+        )
+
+        bb = ([button_ok, button_cancel, button_login],)
+        self.alert = SweetAlert()
+        self.alert.window_control_buttons = "close"
+        self.alert.fire(title[i], text[i], buttons=bb[i])
+        return True
+
+    def cal_next(self, instance):
+        print("cal next", instance.text)
+        import libs.lib_new
+
+        info = instance.text
+        junk, info = str.split(info, "###")
+        info = int(info)
+
+        js = libs.lib_new.get_json_schedule(x, ad)
+        # print(js[info])
+        js = js["shows"]
+
+        if info > -1 and info < len(js):
+            self.alert.dismiss()
+            self.click_cal(info, js)
+
+    def cal_close(self, instance):
+        print("cal close", instance.text)
+        self.alert.dismiss()
 
     def check_working(self, day, month, year, js):
         # print(day, month, year,'daymonthyear!')
@@ -4671,7 +4829,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             try:
                 self.dialog2[z].dismiss(force=True)
             except:
-                print(z)
+                print(z, "wow")
+            try:
+                self.dialog.dismiss(force=True)
+            except:
+                print(z, "fail")
 
     gshow = {}
 
