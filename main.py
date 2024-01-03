@@ -3,7 +3,7 @@
 ### RELEASE 10.2.2023
 ###
 debug = True
-debug_online = True
+debug_online = False
 print("main debug=" + str(debug))
 print("wtf1006")
 from ast import Pass
@@ -67,6 +67,7 @@ notch = True
 debug = True
 scale = 2
 useold = False
+
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.properties import StringProperty, Property
 from kivymd.uix.boxlayout import MDBoxLayout
@@ -133,6 +134,9 @@ except:
     print("fail google")
 import libs.lib_readuserdata as lib_readuserdata
 
+from kivy.uix.scatter import Scatter
+from kivy.uix.image import AsyncImage
+
 
 import os
 
@@ -142,7 +146,14 @@ import webcolors
 
 w = 1125 / 3
 h = 2436 / 3
+
+# ipad = True
+ipad = False
+if ipad == True:
+    w = 2048 / 2
+    h = 2732 / 2
 print(platform, "PLATFORM")
+
 
 # Config.set("graphics", "width", str(w))
 # Config.set("graphics", "height", str(h))
@@ -557,6 +568,12 @@ class Demo3App(MDApp):
 
     import os
 
+    cal_width = dp(7)
+    cal_height = dp(50)
+    cal_font_size = 3
+    cal_size_hint = (0.5, None)
+    cal_bg = (0, 0, 0, 0)
+
     cwd = os.getcwd()
 
     fday = ""
@@ -649,19 +666,17 @@ class Demo3App(MDApp):
     right_hint = None, 0.9
     right_width = dp(70)
     wall = [
-        "Rhino",
-        "Dark",
-        "Light",
-        "Stage",
-        "Sing",
-        "schedulara",
-        "neon",
-        "neon2",
-        "neon3",
-        "rh2",
-        "grid",
-        "grid",
+        "rhino.jpg",
+        "Dark.jpg",
+        "Light.jpg",
+        "Sing.jpg",
+        "schedulara.png",
+        "neon.jpg",
+        "neon2.jpg",
+        "neon3.jpg",
+        "grid.png",
     ]
+    wall_index = 0
     profile = 0
     profile_data = []
     data = {
@@ -1483,7 +1498,7 @@ class Demo3App(MDApp):
         # self.data = [self.create_random_input(rv, index) for index in range(20)]
 
         # self.root.set_current("home")
-        toast("lol")
+        # toast("lol")
 
         self.data = {
             "Settings": [
@@ -1536,7 +1551,7 @@ class Demo3App(MDApp):
                     zz = False
                     print("user11false")
                 print("good user read")
-                toast("lol")
+                # toast("lol")
                 # toast(str(x.get("backdoor")+' test'))
                 # print('BACKDOOR')
             except:
@@ -1544,7 +1559,7 @@ class Demo3App(MDApp):
                 # toast('backdoor=unknown')
                 # self.snackbar = Snackbar(text="bla", bg_color=self.theme_cls.primary_color)
                 # self.snackbar.open()
-        toast("what")
+        # toast("what")
         print(zz, " BACKDOOR true or false")
         # if zz == True:
         if 1 == 2:
@@ -2361,10 +2376,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_new
         import libs.lib_think
 
-        toast("today")
+        # toast("today")
         p = self.piplist()
 
-        toast(str(p))
+        # toast(str(p))
         print(str(p), "piplistggggg")
 
         #  libs.lib_think.login_basic(ad, x, App)
@@ -2423,9 +2438,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         qq = self.root.get_screen("today").ids
         try:
             if x["branding"] == True:
-                qq.branding.background = "images/walls/logo.png"
+                qq.branding.background = "images/logo/logo.png"
             if x["branding"] == False:
-                qq.branding.background = "images/walls/logo2.png"
+                qq.branding.background = "images/logo/logo2.png"
                 # qq.name2.text='Schedulara'
                 # qq.name2.secondary_text='Schedulara'
         except:
@@ -3006,11 +3021,40 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             ss + str(text) + "[size=0sp]asdfzxcv" + str(y[2])
         )
 
+    def do_wallpaper_screen(self, i):
+        import libs.lib_readuserdata
+
+        walls = libs.lib_readuserdata.get_wallpapers()
+        print("wallpaper screen")
+        self.root.set_current("wallpaper")
+        # print(walls, "list of walls")
+        if i < 0:
+            i = len(walls) - 1
+        if i > len(walls) - 1:
+            i = 0
+        image = AsyncImage(source="images/walls/" + walls[i])
+        self.root.current_screen.ids["sbox"].clear_widgets()
+        self.root.current_screen.ids["sbox"].add_widget(image)
+        self.root.current_screen.ids["p"].text = "previous[size=0]$$$" + str(i)
+        self.root.current_screen.ids["n"].text = "next[size=0]$$$" + str(i)
+        self.root.current_screen.ids["i"].text = str(walls[i])
+
+    def change_wall_select(self):
+        x["wall"] = self.root.current_screen.ids["i"].text
+        self.root.get_screen("theme").ids["pic"].source = self.get_wall("theme")
+        import libs.lib_updateuserdata
+
+        libs.lib_updateuserdata.updateuser(x, ad)
+
+    def change_wall(self, i):
+        t = self.root.current_screen.ids["n"].text
+        print(t, "tbutton")
+        junk, t = str.split(t, "$$$")
+
+        self.do_wallpaper_screen(i + int(t))
+
     def do_zoom(self, pic):
         self.root.set_current("zoom")
-        from kivy.uix.scatter import Scatter
-        from kivy.uix.image import AsyncImage
-        from kivymd.uix.fitimage import FitImage
 
         print(pic, "PIC")
 
@@ -3022,6 +3066,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             width=500,
         )
         print(pic)
+
         image = AsyncImage(source=pic)
         self.root.current_screen.ids["sbox"].add_widget(image)
 
@@ -3992,7 +4037,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             len(mjds),
             (tic - time.perf_counter(), "after schedule"),
         )
-        toast("lol" + str(tic - time.perf_counter()))
+        # toast("lol" + str(tic - time.perf_counter()))
         return good_login
 
     def do_settings(self):
@@ -4113,15 +4158,20 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         # print(x, "assert")
         try:
-            b = "images/walls/" + x["wall"] + ".jpg"
+            b = "images/walls/" + x["wall"]
         except:
             b = "images/walls/" + "rhino" + ".jpg"
         try:
             self.root.get_screen(page).ids["pic"].source = b
+            self.root.get_screen("theme").ids["pic"].source = b
             print("success set image")
         except:
             print("fail to set image")
             pass
+        try:
+            self.root.get_screen("theme").ids["pic"].source = b
+        except:
+            print("coundnt find the theme page")
 
         return b
 

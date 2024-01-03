@@ -3,11 +3,11 @@
     #:import Snackbar kivymd.uix.snackbar.Snackbar
     name: "dev"
 
-    FitImage:
-        #source: 'images/rh.jpg'
-        id: pic
-        source: app.get_wall("today")
-        size: self.width,self.height
+    #FitImage:
+    #    #source: 'images/rh.jpg'
+    #    id: pic
+    #    source: app.get_wall("today")
+    #    size: self.width,self.height
     BoxLayout:
         orientation: "vertical"
         MDTopAppBar:
@@ -38,6 +38,8 @@
                     shadow_offset:(0, 1)
                     line_color:(0.2, 0.2, 0.2, 0.8)
                     radius: app.cradius
+                    size_hint_y: None
+                    height: self.minimum_height
                     OneLineListItem:
                         id:zero
                         text:"DIVIDE BY ZERO"
@@ -49,4 +51,4 @@
                     OneLineListItem:
                         id:webv
                         text:"view icons"
-                        on_release: app.view_icons()
+                        on_release: app.view_icons("")

@@ -173,5 +173,10 @@
         "import": "from libs.uix.baseclass.zoom_screen import zoomscreen",
         "object": "zoomscreen()",
         "kv": "libs/uix/kv/zoom_screen.kv"
+    },
+    "wallpaper": {
+        "import": "from libs.uix.baseclass.wallpaper_screen import wallpaperscreen",
+        "object": "wallpaperscreen()",
+        "kv": "libs/uix/kv/wallpaper_screen.kv"
     }
 }

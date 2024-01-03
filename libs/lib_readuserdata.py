@@ -15,6 +15,18 @@ def readrate(ad, pos):
     return data2[pos]
 
 
+def get_wallpapers():
+    import glob
+    import pathlib
+
+    l = []
+    desktop = pathlib.Path("images/walls")
+    for item in desktop.iterdir():
+        # print(item)
+        l.append(item.name)
+    return l
+
+
 def readuserdata_extra(App, ad, ios):
     import json
 
