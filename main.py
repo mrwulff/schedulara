@@ -3,7 +3,7 @@
 ### RELEASE 10.2.2023
 ###
 debug = True
-debug_online = False
+debug_online = True
 print("main debug=" + str(debug))
 print("wtf1006")
 from ast import Pass
