@@ -147,8 +147,8 @@ import webcolors
 w = 1125 / 3
 h = 2436 / 3
 
-# ipad = True
-ipad = False
+ipad = True
+# ipad = False
 if ipad == True:
     w = 2048 / 2
     h = 2732 / 2
@@ -2439,16 +2439,16 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.root.get_screen("today").ids[li_r[i]].icon = self.find_type(i, "pos")
             # print(z44, "leftwidget")
         qq = self.root.get_screen("today").ids
+        qq.branding.background = "images/logo/logo2.png"
         try:
             if x["branding"] == True:
                 qq.branding.background = "images/logo/logo.png"
-            if x["branding"] == False:
-                qq.branding.background = "images/logo/logo2.png"
+
                 # qq.name2.text='Schedulara'
                 # qq.name2.secondary_text='Schedulara'
         except:
             # qq.branding.background="images/wordart2.png"
-            qq.name2.text = "Schedulara8"
+            qq.name2.text = "Schedulara"
             print("sch5")
         # if x['branding']== False:
         #    qq.name2.text="NOOOOOO"
@@ -2595,7 +2595,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
                 # print(dd, type(dd), dd.day, "c sub week")
                 b_color = "black"
-                t_color = "gray"
+                t_color = "white"
 
                 ic = ""
                 gray = "EEEEEE"
@@ -2627,7 +2627,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     status = False
                 # rint(status, "STATUSSSSS")
                 if status == True:
-                    t_color = self.theme_cls.primary_light
+                    ####GIG COLOR
+                    t_color = self.theme_cls.primary_dark
 
                 self.root.get_screen("today").ids["cal" + str(week)].add_widget(
                     # MDRectangleFlatIconButton(
