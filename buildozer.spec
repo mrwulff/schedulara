@@ -1,5 +1,5 @@
 [app]
-log_level = 1
+log_level = 0
 # (str) Title of your application
 title = Schedulara
 android.numeric_version = 100020

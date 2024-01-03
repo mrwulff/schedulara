@@ -1,3 +1,5 @@
+
+
 <fieldnotescreen>
     #:import Clipboard kivy.core.clipboard.Clipboard
     #:import Snackbar kivymd.uix.snackbar.Snackbar
@@ -16,20 +18,24 @@
         orientation: "vertical"
         MDTopAppBar:
             #title: "Pay"
+            id:what
             height: app.mheight
             left_action_items: [['chevron-left', lambda screen: app.search_fieldnotes(),'home'],['chevron-left', lambda screen: app.view_fieldnotes(""),'home']]
-            right_action_items: [['minus', lambda screen: app.set_text_size(-3),'---'],['plus', lambda screen: app.set_text_size(+3),'home']]
-
+            #right_action_items: [['minus', lambda screen: app.set_text_size(-3),'smaller'],['plus', lambda screen: app.set_text_size(+3),'bigger'],['star', lambda screen: app.toggle_star()]]
+            right_action_items: [['minus', lambda screen: app.set_text_size(-3),'smaller'],['plus', lambda screen: app.set_text_size(+3),'bigger'],['star-outline', lambda screen: app.toggle_star()]]
         ScrollView:
             #MDTextField:
             id:boxs
             MDLabel:
+                padding:dp(10)
                 size_hint: None, None
                 text_size: root.width, root.height
                 size: self.texture_size
                 text: "text"
                 font_size: dp(50)
-                color:
+                #font_c
+                md_bg_color:app.theme_cls.bg_darkest
+                color:app.theme_cls.opposite_bg_darkest
                 id:box
                 markup:True
                 #max_height: "200dp"

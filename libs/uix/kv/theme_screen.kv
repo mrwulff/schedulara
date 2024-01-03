@@ -22,7 +22,7 @@
                     id: button
                     text: "Wallpapepr"
                     bg_color:self.theme_cls.primary_light
-                    on_release:app.do_wallpaper_screen(0)
+                    #on_release:app.do_wallpaper_screen(0)
 
                     IconLeftWidget:
                         id: button2
@@ -40,8 +40,8 @@
                             items: app.wall
                             #id: noise
                             on_release: 
-                                app.choose_drop(app.wall,'wall')    
-                                app.save_theme_picker()      
+                                on_release:app.do_wallpaper_screen(0)  
+                                #app.save_theme_picker()      
                 OneLineAvatarIconListItem:
                     text: "DarkMode"
                     bg_color:self.theme_cls.primary_light

@@ -91,7 +91,7 @@
         #    type: "bottom"
             left_action_items:
                 [['menu', lambda x: nav_drawer.set_state("open")]]
-            right_action_items: [['reload-alert', lambda screen: app.do_theme(),'home']]
+            right_action_items: [['reload-alert', lambda screen: app.view_fieldnotes(""),'home']]
         
         ScrollView:
             MDGridLayout:
@@ -419,7 +419,7 @@
                 MDNavigationDrawerHeader:
                     title: " Menu"
                     #title_color: "#4a4939"
-                    text: "  v24.1.1.906"
+                    text: "  v24.1.3.906"
                     spacing: "6dp"
                     #padding: "12dp", 0, 0, "56dp"
                     #source: "images/icon.png"
@@ -434,18 +434,19 @@
                 #        app.close_menu()
                 #        app.loading_screen("today")
 
+         
+                DrawerClickableItem:
+                    icon: "account-circle"
+                    text: "Login"
+                    on_press:
+                        app.close_menu()
+                        app.change_screen('login', 'left')
                 DrawerClickableItem:
                     icon: "notebook"
                     text: "Notes"
                     on_press:
                         app.close_menu()
-                        app.view_fieldnotes("")           
-                DrawerClickableItem:
-                    icon: "cog"
-                    text: "Settings"
-                    on_press:
-                        app.close_menu()
-                        app.do_settings()
+                        app.view_fieldnotes("")  
                 DrawerClickableItem:
                     icon: "chart-areaspline"
                     text: "Insights"
@@ -505,6 +506,12 @@
 
 
                 MDNavigationDrawerDivider:
+                DrawerClickableItem:
+                    icon: "cog"
+                    text: "Settings"
+                    on_press:
+                        app.close_menu()
+                        app.do_settings()
                 DrawerClickableItem:
                     icon: "close"
                     text: "Close"

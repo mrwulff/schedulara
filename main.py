@@ -333,7 +333,10 @@ class DialogContent(MDBoxLayout):
         self.ids.date_text.text = str(date)
 
 
-class SwipeToDeleteItem2(Screen):
+from kivymd.uix.card import MDCardSwipe
+
+
+class SwipeToDeleteItem(MDCardSwipe):
     text = StringProperty()
 
 
@@ -369,7 +372,7 @@ class RV(RecycleView):
         )
 
 
-class SwipeToDeleteItem(Screen):
+class SwipeToDeleteItem2(Screen):
     text = StringProperty()
 
     def click(self, *args):
@@ -2592,7 +2595,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
                 # print(dd, type(dd), dd.day, "c sub week")
                 b_color = "black"
-                t_color = self.theme_cls.bg_dark
+                t_color = "gray"
 
                 ic = ""
                 gray = "EEEEEE"
@@ -2873,7 +2876,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         import libs.lib_fieldnotes
 
-        pos = libs.lib_fieldnotes.get_notes(ad, term)
+        pos = libs.lib_fieldnotes.get_notes(x, ad, term)
         # self.load_positions()
 
         from kivymd.uix.list import (
@@ -2887,6 +2890,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # App.get_running_app().root.current_screen.ids["payperiod_list"].clear_widgets()
         # self.root.current_screen.clear_widgets()
         lpos = pos
+        # print(lpos, "lpos")
         # self.root.set_current("icons")
         self.root.current_screen.ids["payperiod_list"].clear_widgets()
 
@@ -2917,7 +2921,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 # if x["pp_all"] == False:
                 #    show = False
                 pass
+
             if show == True:
+                # self.root.current_screen.ids["payperiod_list"].add_widget(
                 self.root.current_screen.ids["payperiod_list"].add_widget(
                     OneLineListItem(
                         text=lpos[z]["title"] + "[size=0]@#$" + lpos[z]["num"],
@@ -2930,15 +2936,90 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 )
             # print(z, "icons!!")
 
+    def view_picture2(self):
+        print("view picture2")
+
     def view_picture(self):
         print("view picture")
+
+    def toggle_star(self):
+        pass
+
+        print("toggle")
+        text = self.root.current_screen.ids["box"].text
+        # print(text, text)
+        junk, text = str.split(text, "asdfzxcv")
+        note = int(text)
+
+        import libs.lib_fieldnotes
+
+        libs.lib_fieldnotes.toggle_fav_note(ad, note)
+        # self.root.current_screen.ids["what"].clear_widgets()
+        rai = self.root.current_screen.ids["what"]
+        # print(rai.right_action_items[2][1], "whatisths")
+        if rai.right_action_items[2][0] == "star":
+            rai.right_action_items[2] = (
+                "star-outline",
+                rai.right_action_items[2][1],
+                "help",
+            )
+
+        else:
+            rai.right_action_items[2] = (
+                "star",
+                rai.right_action_items[2][1],
+                "help",
+            )
+
+        print(
+            text,
+            "toggle it you nerd",
+        )
+        y = ("", "", note)
+        # print(
+        #    self.root.current_screen.ids["what"].left_action_items[0], "leftactioinitms"
+        # )
+        # self.view_fieldnote(y)
+
+    def check_fav(self):
+        # print("check star")
+
+        # print("check")
+        text = self.root.current_screen.ids["box"].text
+        # print(text, text)
+        junk, text = str.split(text, "asdfzxcv")
+        note = int(text)
+
+        import libs.lib_fieldnotes
+
+        fav = libs.lib_fieldnotes.check_fav_note(ad, note)
+        # print(
+        #    fav,
+        #    "is it favrite",
+        #    self.root.current_screen.ids["what"].right_action_items[2][0],
+
+        if (
+            fav == True
+            and self.root.current_screen.ids["what"].right_action_items[2][0]
+            == "star-outline"
+        ):
+            self.toggle_star()
+            # print("toggled1")
+        if (
+            fav == False
+            and self.root.current_screen.ids["what"].right_action_items[2][0] == "star"
+        ):
+            self.toggle_star()
+            # print("toggled2")
 
     def view_fieldnote(self, y):
         if y == "no":
             # 799 = cable, 2659=tmobile
             y = ("", "", "799")
         self.root.set_current("fieldnote")
-        # print(y, "view single fieldnote")
+        # self.root.current_screen.ids["what"].clear_widgets()
+
+        print(y, "view single fieldnote")
         import libs.lib_fieldnotes
         import libs.lib_readuserdata
         from kivymd.uix.card import MDCard
@@ -2948,9 +3029,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         global browser
 
-        nb, text, picture_url, picture = libs.lib_fieldnotes.get_single(
+        nb, text, picture_url, picture, toast_status = libs.lib_fieldnotes.get_single(
             x, ad, y[0], y[1], y[2], browser
         )
+        if toast_status != "":
+            toast(toast_status)
         if picture != "":
             print(picture, picture_url, "picture stuff")
             try:
@@ -3020,6 +3103,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.current_screen.ids["box"].text = (
             ss + str(text) + "[size=0sp]asdfzxcv" + str(y[2])
         )
+
+        self.check_fav()
 
     def do_wallpaper_screen(self, i):
         import libs.lib_readuserdata

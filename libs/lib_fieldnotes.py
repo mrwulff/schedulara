@@ -12,10 +12,9 @@ except:
     import libs.lib_enc
 
 
-def get_notes(ad, search):
+def check_fav_note(ad, note):
     f = "j_notes.json"
-    # print
-    # print(ad, "get positions")
+
     try:
         o = open(ad + "/" + f)
         print("opened json file")
@@ -23,7 +22,58 @@ def get_notes(ad, search):
         print("cant find position list", os.getcwd())
         return {}
     data = json.load(o)
+    o.close()
+    for j in range(len(data)):
+        if note == int(data[j]["num"]):
+            return data[j]["star"]
+
+
+def toggle_fav_note(ad, note):
+    f = "j_notes.json"
+
+    try:
+        o = open(ad + "/" + f)
+        print("opened json file")
+    except:
+        print("cant find position list", os.getcwd())
+        return {}
+    data = json.load(o)
+    o.close()
+    for j in range(len(data)):
+        if note == int(data[j]["num"]):
+            # print(data[j]["title"])
+            if (data[j]["star"]) == True:
+                (data[j]["star"]) = False
+            else:
+                (data[j]["star"]) = True
+            print((data[j]["star"]), "star toggle saving")
+
+    out_file = ad + "/j_notes.json"
+    with open(out_file, "w") as ofile:
+        json.dump(data, ofile, indent=4)
+    ofile.close()
+
+
+def get_notes(x, ad, search):
+    f = "j_notes.json"
+    # print
+    # print(ad, "get positions", x)
+    try:
+        o = open(ad + "/" + f)
+        print("opened json file")
+    except:
+        print("cant find position list", os.getcwd())
+        return {}
+    data = json.load(o)
+
     xx = [element for element in data if search.lower() in element["title"].lower()]
+    if x["fav_notes"] == True:
+        xxx = []
+        for p in range(len(xx)):
+            if xx[p]["star"] == True:
+                xxx.append(xx[p])
+        return xxx
+
     return xx
 
 
@@ -116,7 +166,7 @@ def weird(z, id, ad):
     return z2
 
 
-def get_single(x, ad, title, link, id, browser):
+def get_single3(x, ad, title, link, id, browser):
     print(title, link, id, "these are the 3 field notes")
     try:
         aaa = open(ad + "/fn/" + id + ".html", "r")
@@ -265,11 +315,205 @@ def get_single(x, ad, title, link, id, browser):
         # print(bs[x], "wtf2222")
         name = str.replace(name, bs[x], bs[x + 1])
     # print(name, "mnaas")
-    return browser, name, pic_url, pic
+    return browser, name, pic_url, pic, ""
+
+
+def get_single(x, ad, title, link, id, browser):
+    import os
+
+    login = True
+    reason = ""
+    print(title, link, id, "these are the 3 field notes")
+    try:
+        aaa = open(ad + "/fn/" + id + ".html", "r")
+        aaa.close()
+        print("read fine")
+    except:
+        # need to download this file
+        print(browser, "BROWSER!! downloading file cause reasons")
+        browser = dl_fieldnote(x, ad, link, browser, id)
+
+    # aaa = open(ad + "/fn/" + id + ".html", encoding="utf8")
+    # z = ""
+    # for line in aaa.readlines():
+    #    z = z + line
+
+    z = open(ad + "/fn/" + str(id) + ".html", encoding="utf8")
+    toast_fail = ""
+    zz = os.path.getsize(ad + "/fn/" + str(id) + ".html")
+    print(zz, "size")
+    for line in z.readlines():
+        if "er your information be" in line:
+            print("not logged in you dumbbb")
+            # login failed
+            login = False
+            z.close()
+            reason = "not logged in"
+            toast_fail = toast_fail + reason
+    if zz == 0:
+        print("file failed to dl")
+        #
+        toast_fail = toast_fail + "broken file "
+        login = False
+    if login == False:
+        browser = dl_fieldnote(x, ad, link, browser, id)
+        print("file failed to dl")
+    z.close()
+    z = open(ad + "/fn/" + str(id) + ".html", encoding="utf8")
+
+    dumb = ["356", "2697"]
+    for yy in range(len(dumb)):
+        if id == dumb[yy]:
+            print("why")
+            # z = weird(z, id, ad)
+    soup = BeautifulSoup(z, "html.parser")
+    # print(soup.text, "soup.text")
+    # print(soup, "SOUP")
+    # word(BeautifulSoup(z2, "xml"))
+
+    name = soup.find("div", attrs={"class": "content"})
+    # name = soup.find("div")
+    # print(name.text, "NAMEEE")
+    bad = [
+        # "div",
+        "a",
+        # "font",
+        "iframe",
+        # "strong",
+        "br",
+        "font color",
+    ]
+    # attachment
+    # attachment
+
+    img = soup.find_all("img")
+    # img = soup.find("a href", attrs={"class": "attachment"})
+    pic = ""
+    pic_url = ""
+
+    for y in range(len(img)):
+        # if "uploads" in img[y]:
+        # print(img[y], "IMG do")
+        pp = img[y]
+        # print(dir(pp), type(pp), pp.text, "IMG do")
+        im = pp.get("src")
+        # print(im, "pictures")
+        pic_url2, pic2 = get_picture(im)
+        if len(pic2) > len(pic):
+            pic = pic2
+            pic_url = pic_url2
+
+    # print(name, "NAME!!!")
+    for x in range(0, len(bad)):
+        for s in name.select(bad[x]):
+            s.extract()
+    # print(name, "NAMETEXT")
+    name = str(name)
+
+    bs = [
+        "<",
+        "[",
+        ">",
+        "]",
+        "strong",
+        "b",
+        "<br>",
+        "\n",
+        "<br/>",
+        "",
+        '[div class="content"]',
+        "",
+        '[span id="notes"]',
+        "",
+        "[p]",
+        "",
+        "[/p]",
+        "\n",
+        '[span id="title"]',
+        "",
+        '[font color="brown"]',
+        "",
+        "[/font]",
+        "",
+        "[/span]",
+        "",
+        '[div style="text-align: center;"]',
+        "",
+        '[font size="5"]',
+        "",
+        "[/div]",
+        "\n",
+        "[div]",
+        "",
+        '[hr size="2" width="100%"/]',
+        "",
+        '[div class="divider"]',
+        "",
+        "[dt]",
+        "",
+        "[/dt]",
+        "",
+        "[dd]",
+        "",
+        "[/dd]",
+        "",
+        '[div style="text-align: center; "]',
+        "",
+        '[span id="attachmentlabel"]',
+        "",
+        "Attached File:",
+        "",
+        "[ol]",
+        "",
+        "[li]",
+        "",
+        "[/ol]",
+        "",
+        "[/li]",
+        "",
+        '[font color="green"]',
+        "",
+        '[font size="4"]',
+        "",
+        '[blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"]',
+        "\n",
+        "[/blockquote]",
+        "\n",
+        '[font color="orange"]',
+        "",
+        "*",
+        "-",
+        '[blockquote class="webkit-indent-blockquote" style="margin: 0 0 0 40px; border: none; padding: 0px;"]-',
+        "",
+        '[blockquote class="webkit-indent-blockquote" style="margin: 0 0 0 40px; border: none; padding: 0px;"]',
+        "",
+        '[div align="center"]',
+        "",
+        '[font color="#a52a2a"]',
+        "",
+        '[p class="MsoNormal" style="margin: 0in;"]',
+        "",
+        '[p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-family: Cambria;"]',
+        "",
+        '[img src="/uploads/AC0opentp.jpg" width="450"/]',
+        "",
+        '[font face="Georgia" size="4"]',
+        "",
+        '[span style="font-family: Georgia; font-size: large;"]',
+        "",
+        '[font color="purple"]',
+        "",
+    ]
+
+    for x in range(0, len(bs), 2):
+        # print(bs[x], "wtf2222")
+        name = str.replace(name, bs[x], bs[x + 1])
+    # print(name, "mnaas")
+    return browser, name, pic_url, pic, toast_fail
 
 
 def dl_fieldnote(x, ad, note, browser, id):
-    # print("thinkpp", x)
+    print("thinkpp", x)
 
     # USERNAME
     import ssl
@@ -290,6 +534,7 @@ def dl_fieldnote(x, ad, note, browser, id):
     # aaa.close()
     print(browser, "BROWSER!!!")
     if browser == "":
+        print("logging in for real")
         browser = mechanize.Browser()
         browser.set_handle_robots(False)
         browser.set_handle_equiv(False)
@@ -312,6 +557,8 @@ def dl_fieldnote(x, ad, note, browser, id):
 
         # aa = res.get_data()
         # print (aa)
+    else:
+        print(browser, "what is this thing even for")
 
     res = browser.open(PE_second)
 
@@ -320,47 +567,7 @@ def dl_fieldnote(x, ad, note, browser, id):
 
     aaa.write((aa))
     aaa.close()
-    """
-    g = find_paychecks(pp, ad)
 
-    browser.select_form(name="ctl00")
-    found = 0
-    for z in range(len(g)):
-        # for z in range(2):
-        try:
-            aaa = open(ad + "/pp" + "/" + g[z][1] + ".html", "r")
-            print("found " + g[z][1])
-            found = found + 1
-        except:
-            try:
-                aaa = open(ad + "/pp" + "/" + g[z][1] + ".html", "wb")
-            except:
-                os.mkdir(ad + "/pp")
-                aaa = open(ad + "/pp" + "/" + g[z][1] + ".html", "wb")
-
-            browser.select_form(name="ctl00")
-
-            control_t = browser.form.find_control("__EVENTTARGET")
-            control_t.readonly = False
-            # control_t.value='dgResults$ctl02$btn_Paystub'
-            control_t.value = g[z][0]
-            # print (g[z][0], type(g[z][0]),'gz')
-            # print (type(g[z][0]))
-            # control_t.value=g[z][0]
-            # print (control_t.value,type(control_t.value),'value')
-
-            res = browser.submit()
-
-            request = browser.request
-            # print (request.header_items())
-
-            aa = res.get_data()
-
-            aaa.write((aa))
-            print("Downloaded from server " + g[z][1])
-            aaa.close()
-            browser.open(PE_COUNTRIES)
-    """
     return browser
 
 
@@ -369,11 +576,13 @@ if __name__ == "__main__":
         "title": "T-Mobile Arena",
         "url": "https://www.thinkrhino.com/employee/lasvegas/fieldnote.aspx?id=2659",
         "star": False,
-        "num": "356",
+        "num": "3041",
     }
 
     ##tma=2659
     ##fucked up 356
+
+    # 2024=3041
     ad = "C://Users//twat//AppData//Roaming//demo3"
     # make_notes(ad, {"city": "lasvegas"})
     # x = get_notes(ad, "")
@@ -384,3 +593,4 @@ if __name__ == "__main__":
         "city": "lasvegas",
     }
     get_single(x, ad, bbb["title"], bbb["url"], bbb["num"], "")
+    # toggle_fav_note(ad, 3041)
