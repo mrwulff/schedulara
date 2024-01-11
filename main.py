@@ -3,7 +3,7 @@
 ### RELEASE 10.2.2023
 ###
 debug = True
-debug_online = True
+debug_online = False
 print("main debug=" + str(debug))
 print("wtf1006")
 from ast import Pass
@@ -18,6 +18,12 @@ from kivy.metrics import dp
 from kivy.base import ExceptionHandler, ExceptionManager, Logger
 import logging
 from kivy.utils import platform
+
+from kivymd.uix.list import (
+    ThreeLineAvatarIconListItem,
+    IconLeftWidget,
+    OneLineListItem,
+)
 
 
 class E(ExceptionHandler):
@@ -147,7 +153,7 @@ import webcolors
 w = 1125 / 3
 h = 2436 / 3
 
-ipad = True
+ipad = False
 # ipad = False
 if ipad == True:
     w = 2048 / 2
@@ -283,6 +289,18 @@ class PayScreen(Screen):
 class YourContainer(IRightBodyTouch, MDBoxLayout):
     adaptive_width = True
     adaptive_size = True
+
+
+class CustomOneLineListItem(MDBoxLayout, OneLineAvatarIconListItem):
+    adaptive_width = True
+    adaptive_size = True
+    # text = True
+    pass
+
+
+class OneLineAvatarIconListItem2(IRightBodyTouch, MDBoxLayout):
+    # adaptive_width = True
+    pass
 
 
 class HistoryItem(Screen):
@@ -560,6 +578,13 @@ from kivymd.uix.relativelayout import MDRelativeLayout
 class ClickableTextFieldRound(MDRelativeLayout):
     text = StringProperty()
     hint_text = StringProperty()
+
+
+from kivy.uix.bubble import Bubble
+
+
+class cut_copy_paste(Bubble):
+    pass
 
 
 class Demo3App(MDApp):
@@ -1187,6 +1212,45 @@ class Demo3App(MDApp):
         "filter": "start",
         "id": "c12",
     }
+
+    def do_graphOrder(self):
+        self.root.set_current("graphOrder")
+        chart_list = []
+        chart_list.append(self.paycheck_amount_chart)
+        chart_list.append(self.pos_chart)
+        chart_list.append(self.type_chart)
+
+        chart_list.append(self.client_chart)
+        chart_list.append(self.venue_chart)
+        chart_list.append(self.future_pos)
+        chart_list.append(self.future_venue)
+        chart_list.append(self.future_type)
+
+        chart_list.append(self.shift_chart)
+        chart_list.append(self.ot_chart)
+
+        print("graph order")
+        pass
+
+        for z in range(len(chart_list)):
+            print(chart_list[z])
+
+            self.root.current_screen.ids["box"].add_widget(
+                CustomOneLineListItem(
+                    # OneLineAvatarIconListItem(
+                    text=chart_list[z]["name"],
+                    id="7",
+                    # IconRightWidget="lock",
+                    # bg_color=self.theme_cls.primary_dark,
+                    on_release=lambda x, y=(chart_list[z]["name"],): self.view_chart(y),
+                )
+            )
+            # print(dir(self.root.current_screen.ids.values()), "icons!!!")
+            print(dir(self.root.current_screen.ids["container"]), "icons!!!")
+            self.root.current_screen.ids["container"].icon = "account"
+
+    def view_chart(self, y):
+        print("view chart y", y)
 
     def do_new_stats(self, fdate, ldate, rng):
         global x
@@ -2879,12 +2943,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         pos = libs.lib_fieldnotes.get_notes(x, ad, term)
         # self.load_positions()
-
-        from kivymd.uix.list import (
-            ThreeLineAvatarIconListItem,
-            IconLeftWidget,
-            OneLineListItem,
-        )
 
         # self.clear_widgets()
         # self.root.current_screen.ids["payperiod_list"].clear_widgets()

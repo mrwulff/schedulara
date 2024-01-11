@@ -178,5 +178,10 @@
         "import": "from libs.uix.baseclass.wallpaper_screen import wallpaperscreen",
         "object": "wallpaperscreen()",
         "kv": "libs/uix/kv/wallpaper_screen.kv"
+    },
+    "graphOrder": {
+        "import": "from libs.uix.baseclass.graphOrder_screen import graphOrderscreen",
+        "object": "graphOrderscreen()",
+        "kv": "libs/uix/kv/graphOrder_screen.kv"
     }
 }
