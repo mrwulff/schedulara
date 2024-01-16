@@ -37,7 +37,10 @@ def login(ad, x, ios, App):
     # except:
     print("using real data669")
     #    return False
-    browser.select_form(name="ctl00")
+    try:
+        browser.select_form(name="ctl00")
+    except:
+        browser.select_form(nr=0)
     # print (x['username'],x['password'])
     # print (type(x['username']),type(x['password']))
     browser["emailaddress"] = x["username"]
@@ -91,7 +94,10 @@ def openbrowser(ad, x, ios, App):
         )
     ]
     browser.open(PE_LOGIN)
-    browser.select_form(name="ctl00")
+    try:
+        browser.select_form(name="ctl00")
+    except:
+        browser.select_form(nr=0)
     browser["emailaddress"] = x["username"]
     browser["mypassword"] = libs.lib_enc.r_password(x["password"])
 
@@ -142,7 +148,10 @@ def login_basic(ad, x, App):
     # except:
     print("using real data669")
     #    return False
-    browser.select_form(name="ctl00")
+    try:
+        browser.select_form(name="ctl00")
+    except:
+        browser.select_form(nr=0)
     # print (x['username'],x['password'])
     # print (type(x['username']),type(x['password']))
     browser["emailaddress"] = x["username"]

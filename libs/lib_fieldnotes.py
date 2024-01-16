@@ -546,7 +546,10 @@ def dl_fieldnote(x, ad, note, browser, id):
         ]
         browser.open(PE_first)
 
-        browser.select_form(name="ctl00")
+        try:
+            browser.select_form(name="ctl00")
+        except:
+            browser.select_form(nr=0)
         browser["emailaddress"] = x["username"]
         try:
             browser["mypassword"] = libs.lib_enc.r_password(x["password"])

@@ -47,14 +47,20 @@ def doublefake():
         except:
             print(g[i][1] + "opened failed")
 
-            br.select_form(name="ctl00")
+            try:
+                br.select_form(name="ctl00")
+            except:
+                br.select_form(nr=0)
             control_a = br.form.find_control("__EVENTARGUMENT")
             control_vs = br.form.find_control("__VIEWSTATE")
 
             control_g = br.form.find_control("__VIEWSTATEGENERATOR")
             control_va = br.form.find_control("__EVENTVALIDATION")
 
-            br.select_form(name="ctl00")
+            try:
+                br.select_form(name="ctl00")
+            except:
+                br.select_form(nr=0)
 
             control_t = br.form.find_control("__EVENTTARGET")
 
@@ -128,7 +134,10 @@ def thinkpp(x, ad):
     ]
     browser.open(PE_LOGIN)
 
-    browser.select_form(name="ctl00")
+    try:
+        browser.select_form(name="ctl00")
+    except:
+        browser.select_form(nr=0)
     browser["emailaddress"] = x["username"]
     browser["mypassword"] = libs.lib_enc.r_password(x["password"])
     # print (browser)
@@ -148,7 +157,10 @@ def thinkpp(x, ad):
     aaa.close()
     g = find_paychecks(pp, ad)
 
-    browser.select_form(name="ctl00")
+    try:
+        browser.select_form(name="ctl00")
+    except:
+        browser.select_form(nr=0)
     found = 0
     for z in range(len(g)):
         # for z in range(2):
@@ -163,7 +175,10 @@ def thinkpp(x, ad):
                 os.mkdir(ad + "/pp")
                 aaa = open(ad + "/pp" + "/" + g[z][1] + ".html", "wb")
 
-            browser.select_form(name="ctl00")
+                try:
+                    browser.select_form(name="ctl00")
+                except:
+                    browser.select_form(nr=0)
 
             control_t = browser.form.find_control("__EVENTTARGET")
             control_t.readonly = False

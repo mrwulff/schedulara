@@ -29,7 +29,7 @@ from kivymd.uix.list import (
 class E(ExceptionHandler):
     def handle_exception(self, inst):
         Logger.exception("Exception caught by ExceptionHandler")
-        toast(str(inst))
+        toast("ERROR!  " + str(inst))
         print(inst)
         return ExceptionManager.PASS
 
@@ -2377,7 +2377,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         print("build_full_pp")
         toc6 = time.perf_counter()
         t = toc6 - toc5
-        toast(str(round(t, 2)))
+        # toast(str(round(t, 2)))
         data = libs.lib_parse2.load_full_pp(ad, "full_pp.json", "p_rate")
         print(len(data["shows"]), "mother of data")
         pay_checks = data["shows"]
@@ -3925,7 +3925,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 # if shows[z]["canceled"] == True:
                 if 1 == 1:
                     self.root.get_screen("newhome").ids.rlist.add_widget(panel)
-        toast(str(tic - time.perf_counter()))
+        # toast(str(tic - time.perf_counter()))
 
     def showinfo(self, cat, r, d):
         from kivymd.uix.dialog import MDDialog as md33
@@ -4327,7 +4327,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print(v[text_item], "v[text")
         # print(text_item, v2, v, "dumbass")
         if v2 == "name":
-            toast(str(v[text_item][v2]))
+            # toast(str(v[text_item][v2]))
             App.get_running_app().root.current_screen.ids[
                 "last_restore"
             ].secondary_text = str(v[text_item][v2])
@@ -5334,11 +5334,17 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if 1 == 1:
             if 1 == 1:
                 try:
-                    browser.select_form(name="ctl00")
+                    try:
+                        browser.select_form(name="ctl00")
+                    except:
+                        browser.select_form(nr=0)
                     print("USED OLD BROWSER")
                 except:
                     browser = lib_think.openbrowser(ad, x, ios, App)
-                    browser.select_form(name="ctl00")
+                    try:
+                        browser.select_form(name="ctl00")
+                    except:
+                        browser.select_form(nr=0)
                     print("USED NEW BROWSER")
 
                 # print(browser, 'browser 1')
