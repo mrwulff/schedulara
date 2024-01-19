@@ -15,7 +15,7 @@ import profile
 import time
 import sys
 from kivy.metrics import dp
-from kivy.base import ExceptionHandler, ExceptionManager, Logger
+from kivy.base import ExceptionHandler, ExceptionManager
 import logging
 from kivy.utils import platform
 
@@ -28,7 +28,7 @@ from kivymd.uix.list import (
 
 class E(ExceptionHandler):
     def handle_exception(self, inst):
-        Logger.exception("Exception caught by ExceptionHandler")
+        # Logger.exception("Exception caught by ExceptionHandler")
         toast("ERROR!  " + str(inst))
         print(inst)
         return ExceptionManager.PASS
