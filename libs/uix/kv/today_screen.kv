@@ -1,28 +1,28 @@
 <DrawerClickableItem@MDNavigationDrawerItem>
-    focus_color: "#e7e4c0"
-    text_color: "#4a4939"
-    icon_color: "#4a4939"
-    ripple_color: "#c5bdd2"
+    #focus_color: "#e7e4c0"
+    #text_color: "#4a4939"
+    #icon_color: "#4a4939"
+    #ripple_color: "#c5bdd2"
     selected_color: "#0c6c4d"
 
 
 <DrawerLabelItem@MDNavigationDrawerItem>
-    text_color: "#4a4939"
-    icon_color: "#4a4939"
-    focus_behavior: False
-    selected_color: "#4a4939"
+    #text_color: "#4a4939"
+    #icon_color: "#4a4939"
+    #focus_behavior: False
+    #selected_color: "#4a4939"
     _no_ripple_effect: True
 <NavigationDrawer>
     _list: list
     elevation: 0
     canvas:
-        Color:
-            rgba: root.theme_cls.bg_light
+        #Color:
+        #    rgba: root.theme_cls.bg_light
         Rectangle:
             size: root.size
             pos: root.pos
 <TwoLineAvatarListItem>
-    IconLeftWidget:
+    MDListItemLeadingIcon:
 #        icon: root.icon
 
 
@@ -36,10 +36,10 @@
     MDCardSwipeFrontBox:
 
         # Content of card.
-        OneLineListItem:
-            id: content
-            text: root.text
-            _no_ripple_effect: True
+        #MDListItem:
+        #    id: content
+        #    text: root.text
+        #    _no_ripple_effect: True
 <Content>
     orientation: "vertical"
     #spacing: "12dp"
@@ -111,12 +111,12 @@
                     radius: app.cradius
                     pos_hint: {"center_x": .79, "center_y": .5}
                     #background:"images/walls/logo.png" if app.branding True
-                    OneLineListItem:
+                    MDListItem:
 
                         id: name2
                         #text: "OMG IS YOU"
                         #opposite_colors: True
-                        #IconLeftWidget:
+                        #MDListItemLeadingIcon:
                             #icon:"table-account"
 
                 MDCard:
@@ -134,7 +134,7 @@
                     radius: app.cradius
 
 
-                    ThreeLineListItem:
+                    MDListItem:
                         id:stats
 
 
@@ -147,14 +147,14 @@
                     pos_hint: {"center_x": .5, "center_y": .5}
                     on_release: app.pop_new(0)
                     radius: app.cradius
-                    ThreeLineAvatarIconListItem:
+                    MDListItem:
                         id:first
                         #text: "First Show"
                         #secondary_text: "Secondary text here"
-                        IconLeftWidget:
+                        MDListItemLeadingIcon:
                             id:1l
                             #icon: app.find_type(0,"type") 
-                        IconRightWidget:
+                        MDListItemTrailingIcon:
                             #icon: app.find_type(0,"pos")   
                             id:1r
                         
@@ -167,14 +167,14 @@
                     pos_hint: {"center_x": .5, "center_y": .5}
                     on_release: app.pop_new(1)
                     radius: app.cradius
-                    ThreeLineAvatarIconListItem:
+                    MDListItem:
                         id:second
                         #text: "First Show"
                         #secondary_text: "Secondary text here"
-                        IconLeftWidget:
+                        MDListItemLeadingIcon:
                             id:2l
                             #icon: app.find_type(1,"type") 
-                        IconRightWidget:
+                        MDListItemTrailingIcon:
                             #icon: app.find_type(1,"pos")  
                             id:2r 
 
@@ -187,14 +187,14 @@
                     pos_hint: {"center_x": .5, "center_y": .5}
                     on_release: app.pop_new(2)
                     radius: app.cradius
-                    ThreeLineAvatarIconListItem:
+                    MDListItem:
                         id:third
                         #text: "First Show"
                         #secondary_text: "Secondary text here"
-                        IconLeftWidget:
+                        MDListItemLeadingIcon:
                             id:3l
                             #icon: app.find_type(2,"type") 
-                        IconRightWidget:
+                        MDListItemTrailingIcon:
                             #icon: app.find_type(2,"pos")  
                             id:3r 
 
@@ -202,10 +202,10 @@
 
 
 
-                MDSeparator:
+                #MDSeparator:
 
-                    height:dp(50)
-                    color:0,0,0,0
+                #    height:dp(50)
+                #    color:0,0,0,0
                 MDCard:
                     
                     #orientation: "vertical"
@@ -222,7 +222,7 @@
                     radius: app.cradius
                     #padding:10
                     #spacing:10
-                    MDRaisedButton:
+                    MDButton:
                         id:butt
                         #width:butt.width*dp(5)
                         text: "Show All"
@@ -233,21 +233,21 @@
                         #pos_hint: {"center_x": .25, "center_y": .5}
                         #pos:{"center_x": .25, "center_y": .5}
                         #set_radius: app.cradius
-                    MDRaisedButton:
+                    MDButton:
                         id:butt2
                         text: "Past"
                         secondary_text: "Secondary text here"
                         #on_release: app.newstart("",True)
                         on_release: app.show_archive()
                         #pos_hint: {"center_x": .45, "center_y": .5}
-                    MDRaisedButton:
+                    MDButton:
                         id:butt3
                         text: "Update"
                         secondary_text: "Secondary text here"
                         on_release: app.update()
                         #pos_hint: {"center_x": .79, "center_y": .5}
                     
-                TwoLineListItem: 
+                MDListItem: 
 
                 MDCard:
                     orientation: "vertical"
@@ -256,11 +256,11 @@
                     #height:app.mheight/3
                     #spacing: app.mheight
                     #radius: app.cradius
-                    TwoLineListItem: 
+                    MDListItem: 
                         #size_hint:1,.8
                         height: app.mheight/3
                         #width:560
-                        bg_color:self.theme_cls.primary_dark
+                        ##bg_color:self.theme_cls.primary_dark
                         #font_name:"seguiemj"
                         #font_name: "NotoColorEmoji-Regular.ttf"
                         text: 'Paycheck Info:' 
@@ -278,7 +278,7 @@
                     pos_hint: {"center_x": .5, "center_y": .6}
                     radius: app.cradius
                     
-                    ThreeLineAvatarIconListItem:
+                    MDListItem:
                         id:pay
                         #font_name:'NotoColorEmoji.ttf'
                         font_name:"seguiemj"
@@ -286,13 +286,13 @@
                         secondary_text: "Secondary text here"
                         #tertiary_text: "Shows: 50"
                         on_press:(app.do_payperiod_f('YTD'))
-                        IconLeftWidget:
+                        MDListItemLeadingIcon:
                             icon: "menu-left"  
-                            on_press: app.do_pp_sum(-1,'pp')
-                        IconRightWidget:
+                            #on_press: app.do_pp_sum(-1,'pp')
+                        MDListItemTrailingIcon:
                             
                             icon: "menu-right"  
-                            on_press: app.do_pp_sum(1,'pp')
+                            #on_release: app.do_pp_sum(1,'pp')
                 MDBoxLayout:
                     orientation: "vertical"
                     #height:butt.height+dp(59)
@@ -303,7 +303,7 @@
                     md_bg_color:1,0,0,0
                     
                     id:cal_box
-                    TwoLineListItem: 
+                    MDListItem: 
 
                     MDCard:
                         orientation: "vertical"
@@ -312,24 +312,24 @@
                         height:cal_month.height
                         #spacing: app.mheight
                         #radius: app.cradius
-                        OneLineAvatarIconListItem: 
+                        MDListItem: 
                             #size_hint:1,.8
                             height: app.mheight/3
                             #width:560
-                            bg_color:self.theme_cls.primary_dark
+                            ####bg_color:self.theme_cls.primary_dark
                             #font_name:"seguiemj"
                             #font_name: "NotoColorEmoji-Regular.ttf"
                             text: 'Month/Year' 
                             #text: '\U0001F600'
                             id:cal_month
                             on_press: app.reset_cal()
-                            IconLeftWidget:
+                            MDListItemLeadingIcon:
                                 icon: "menu-left"  
-                                on_press: app.do_pp_sum(-1,'cal')
-                            IconRightWidget:
+                                #on_press: app.do_pp_sum(-1,'cal')
+                            MDListItemTrailingIcon:
                                 
                                 icon: "menu-right"  
-                                on_press: app.do_pp_sum(1,'cal')
+                                #on_press: app.do_pp_sum(1,'cal')
                     MDCard:
                         orientation: "horizontal"
                         size_hint: .5, None
@@ -343,7 +343,7 @@
                         radius: app.cradius
                         id:calm
                         text:'month'
-                        md_bg_color:app.cal_bg
+                        #md_bg_color:app.cal_bg
                     MDCard:
                         orientation: "horizontal"
                         size_hint: app.cal_size_hint

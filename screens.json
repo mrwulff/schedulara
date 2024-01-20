@@ -183,5 +183,10 @@
         "import": "from libs.uix.baseclass.graphOrder_screen import graphOrderscreen",
         "object": "graphOrderscreen()",
         "kv": "libs/uix/kv/graphOrder_screen.kv"
+    },
+    "md2": {
+        "import": "from libs.uix.baseclass.md2_screen import md2screen",
+        "object": "md2screen()",
+        "kv": "libs/uix/kv/md2_screen.kv"
     }
 }

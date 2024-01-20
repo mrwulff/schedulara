@@ -2,7 +2,7 @@
 ###
 ### RELEASE 10.2.2023
 ###
-debug = True
+debug = False
 debug_online = False
 print("main debug=" + str(debug))
 print("wtf1006")
@@ -19,18 +19,63 @@ from kivy.base import ExceptionHandler, ExceptionManager
 import logging
 from kivy.utils import platform
 
-from kivymd.uix.list import (
-    ThreeLineAvatarIconListItem,
-    IconLeftWidget,
-    OneLineListItem,
+# from kivymd.uix.list import (
+# ThreeLineAvatarIconListItem,
+# IconLeftWidget,
+# OneLineListItem,
+# )
+
+from kivymd.uix.snackbar import (
+    MDSnackbar,
+    MDSnackbarSupportingText,
+    MDSnackbarButtonContainer,
+    MDSnackbarActionButton,
+    MDSnackbarActionButtonText,
+    MDSnackbarCloseButton,
+    MDSnackbarText,
+)
+from kivymd.uix.divider import MDDivider
+from kivy.uix.widget import Widget
+from kivymd.uix.button import MDButton, MDButtonText
+
+
+from kivymd.uix.dialog import (
+    MDDialog,
+    MDDialogIcon,
+    MDDialogHeadlineText,
+    MDDialogSupportingText,
+    MDDialogButtonContainer,
+    MDDialogContentContainer,
 )
 
 
 class E(ExceptionHandler):
     def handle_exception(self, inst):
         # Logger.exception("Exception caught by ExceptionHandler")
-        toast("ERROR!  " + str(inst))
+        # snackbar("ERROR!  " + str(inst))
         print(inst)
+        MDSnackbar(
+            MDSnackbarText(
+                text="Single-line snackbar",
+            ),
+            MDSnackbarSupportingText(
+                text="with action and close buttons",
+            ),
+            MDSnackbarButtonContainer(
+                MDSnackbarActionButton(
+                    MDSnackbarActionButtonText(text="Action button"),
+                ),
+                MDSnackbarCloseButton(
+                    icon="close",
+                ),
+                pos_hint={"center_y": 0.5},
+            ),
+            y=dp(24),
+            orientation="horizontal",
+            pos_hint={"center_x": 0.5},
+            size_hint_x=0.5,
+        ).open()
+
         return ExceptionManager.PASS
 
 
@@ -77,7 +122,8 @@ useold = False
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.properties import StringProperty, Property
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.list import IRightBodyTouch, ILeftBodyTouch
+
+# from kivymd.uix.list import IRightBodyTouch, ILeftBodyTouch
 from kivy.properties import ObjectProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivymd.app import MDApp
@@ -90,15 +136,15 @@ from kivy.app import App
 from kivy.config import Config
 
 
-from kivymd.uix.snackbar import Snackbar
-from kivymd.toast import toast
-from kivymd.uix.pickers import MDColorPicker
+# from kivymd.uix.snackbar import Snackbar
+# from kivymd.toast import toast
+# from kivymd.uix.pickers import MDColorPicker
 
 # from kivymd.uix.pickers import MDThemePicker
-from kivymd.uix.pickers import MDTimePicker
+from kivymd.uix.pickers import MDTimePickerDialVertical
 
 # from kivymd.uix.picker import MDDatePicker
-from kivymd.uix.pickers.datepicker import MDDatePicker
+from kivymd.uix.pickers.datepicker import MDDockedDatePicker
 
 # from kivymd.uix.pickers import MDTimePicker
 from kivymd_extensions.sweetalert import SweetAlert
@@ -106,24 +152,40 @@ from kivymd_extensions.sweetalert import SweetAlert
 # print("cant do mddatepicker")
 from kivy.uix.popup import Popup
 from kivymd.uix.menu import MDDropdownMenu
+
 from kivymd.uix.list import (
-    OneLineAvatarIconListItem,
-    TwoLineAvatarListItem,
-    TwoLineListItem,
-    ThreeLineListItem,
-    ThreeLineAvatarListItem,
+    #    MDListItem,
+    #    TwoLineAvatarListItem,
+    #    TwoLineListItem,
+    #    ThreeLineListItem,
+    #    ThreeLineAvatarListItem,
+    # )
+    MDList,
+    MDListItem,
+    BaseListItem,
+    BaseListItemText,
+    BaseListItemIcon,
+    MDListItemLeadingIcon,
+    MDListItemTrailingIcon,
+    MDListItemHeadlineText,
+    MDListItemTertiaryText,
+    MDListItemLeadingAvatar,
+    MDListItemSupportingText,
+    MDListItemTrailingCheckbox,
+    MDListItemTrailingSupportingText,
 )
 
-from kivymd.uix.expansionpanel import (
-    MDExpansionPanel,
-    MDExpansionPanelTwoLine,
-    MDExpansionPanelThreeLine,
-)
+# from kivymd.uix.expansionpanel import (
+#    MDExpansionPanel,
+#    MDExpansionPanelTwoLine,
+#    MDExpansionPanelThreeLine,
+# )
 
 
 from kivy.uix.label import Label
-from kivymd.uix.datatables import MDDataTable
-from kivymd.uix.button import MDFlatButton
+
+# from kivymd.uix.datatables import MDDataTable
+# from kivymd.uix.button import MDFlatButton
 from kivymd.uix.segmentedbutton import MDSegmentedButton, MDSegmentedButtonItem
 
 import datetime
@@ -286,21 +348,21 @@ class PayScreen(Screen):
     pass
 
 
-class YourContainer(IRightBodyTouch, MDBoxLayout):
-    adaptive_width = True
-    adaptive_size = True
+# class YourContainer(IRightBodyTouch, MDBoxLayout):
+#    adaptive_width = True
+#    adaptive_size = True
 
 
-class CustomOneLineListItem(MDBoxLayout, OneLineAvatarIconListItem):
-    adaptive_width = True
-    adaptive_size = True
-    # text = True
-    pass
+# class CustomOneLineListItem(MDBoxLayout, MDListItem):
+#    adaptive_width = True
+#    adaptive_size = True
+#    # text = True
+#    pass
 
 
-class OneLineAvatarIconListItem2(IRightBodyTouch, MDBoxLayout):
-    # adaptive_width = True
-    pass
+# class MDListItem2(IRightBodyTouch, MDBoxLayout):
+#    # adaptive_width = True
+#    pass
 
 
 class HistoryItem(Screen):
@@ -488,18 +550,18 @@ class IngredientDialog(MDDialog):
     pass
 
 
-class TwoLineAvatarListItem22(TwoLineAvatarListItem):
-    icon = StringProperty("")
-    # icon2 = StringProperty("android")
-    # icon_color = Property([0, 0, 1, 0])
-    # text_color = Property("")
+# class TwoLineAvatarListItem22(TwoLineAvatarListItem):
+#    icon = StringProperty("")
+#    # icon2 = StringProperty("android")
+#    # icon_color = Property([0, 0, 1, 0])
+#    # text_color = Property("")
 
 
 class Prestore(FloatLayout):
     pass
 
 
-from kivymd.uix.button import MDRaisedButton
+from kivymd.uix.button import MDButton
 
 """
 class MyToggleButton(MDRaisedButton, MDToggleButton):
@@ -1237,7 +1299,7 @@ class Demo3App(MDApp):
 
             self.root.current_screen.ids["box"].add_widget(
                 CustomOneLineListItem(
-                    # OneLineAvatarIconListItem(
+                    # MDListItem(
                     text=chart_list[z]["name"],
                     id="7",
                     # IconRightWidget="lock",
@@ -2005,21 +2067,10 @@ class Demo3App(MDApp):
         return "wow"
 
     def on_start(self):
-        # toast(str(tic - time.perf_counter()))
         global x
         global ad
-        # print("wtf")
         app = App.get_running_app()
         ad = app.user_data_dir
-        # Config.set('kivy', 'log_dir', ad)
-        # Config.write()
-        # if ios == True:
-        if 1 == 2:
-            logger = logging.getLogger("spam_application")
-            logger.setLevel(logging.DEBUG)
-            fh = logging.FileHandler(ad + "/spam.log")
-            fh.setLevel(logging.DEBUG)
-            logger.addHandler(fh)
 
         if 1 == 1:
             config_file = ad
@@ -2035,16 +2086,24 @@ class Demo3App(MDApp):
             libs.lib_makeuserdata.makeuserdata(App, config_file, ios)
             x = libs.lib_readuserdata.readuserdata(App, config_file, ios)
             print("made user data at begining!!!!!")
-        try:
+        if 1 == 2:
+            # try:
             self.theme_cls.theme_style = x["theme"]
             self.theme_cls.primary_palette = x["pcolor"]
             self.theme_cls.accent_palette = x["scolor"]
             self.theme_cls.material_style = "M3"
-        except:
-            pass
+        # except:
+        #    pass
         # print(x, "lol")
 
         # self.do_login("", useold)
+        self.theme_cls.switch_theme()
+        x1 = self.theme_cls.theme_style
+        x2 = self.theme_cls.primary_palette
+        # x3 = self.theme_cls.accent_palette
+        # x4 = self.theme_cls.material_style
+        # self.theme_cls.switch_theme()
+        print(x1, x2, "THEME STUFF")
 
         import subprocess
 
@@ -2066,9 +2125,14 @@ class Demo3App(MDApp):
             if x["today_start"] == True:
                 # toast("Success " + asdf)
                 print("newstart!@!")
-                self.today()
+                # self.today()
+                self.md2()
         # except:
         #    self.today()
+
+    def md2(self):
+        self.root.set_current("md2")
+        print("md2")
 
     def callback(self, instance_button):
         print(
@@ -2103,17 +2167,17 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         b_b = s + "Next", s + "Next", s + "Login"
         b_b2 = s + "Skip", s + "Skip", s + "Demo"
 
-        button_ok = MDRaisedButton(
+        button_ok = MDButton(
             text=b_b[i] + "[size=0]" + str(i),
             font_size=dp(16),
             on_release=self.callback,
         )
-        button_cancel = MDRaisedButton(
+        button_cancel = MDButton(
             text=b_b2[i] + "[size=0]" + "9",
             font_size=dp(16),
             on_release=self.callback,
         )
-        button_login = MDRaisedButton(
+        button_login = MDButton(
             # text=b_b[i] + "[size=0]" + "8",
             text="Login" + "[size=0]" + "8",
             font_size=dp(16),
@@ -2606,11 +2670,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         js = libs.lib_new.get_json_schedule(x, ad)
         import libs.lib_cal
-        from kivymd.uix.button import (
-            MDRectangleFlatIconButton,
-            MDRectangleFlatButton,
-            MDIconButton,
-        )
+
         from datetime import date
 
         now = date.today()
@@ -2619,7 +2679,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         now_day = now.strftime("%d")
         from kivy.uix.button import Button
 
-        t_color = self.theme_cls.bg_dark
+        t_color = self.theme_cls.backgroundColor
 
         for z in range(6):
             self.root.current_screen.ids["cal" + str(z)].clear_widgets()
@@ -2680,8 +2740,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     and int(dd.month) == int(now_month)
                     and int(dd.year) == int(now_year)
                 ):
-                    b_color = self.theme_cls.primary_color
-                    t_color = self.theme_cls.opposite_bg_darkest
+                    b_color = self.theme_cls.onPrimaryContainerColor
+                    t_color = self.theme_cls.secondaryColor
                     # print("its today!", dd.day, now_day, dd.month)
                 try:
                     status, info = self.check_working(
@@ -2692,7 +2752,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 # rint(status, "STATUSSSSS")
                 if status == True:
                     ####GIG COLOR
-                    t_color = self.theme_cls.primary_dark
+                    t_color = self.theme_cls.onPrimaryColor
 
                 self.root.get_screen("today").ids["cal" + str(week)].add_widget(
                     # MDRectangleFlatIconButton(
@@ -2743,7 +2803,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         if y.background_color[0] == 0.0:
             print(".0")
-        if y.background_color[0] == self.theme_cls.primary_color[0]:
+        if y.background_color[0] == self.theme_cls.primaryColor[0]:
             print("red.primary")
             bg = "red"
 
@@ -2826,28 +2886,88 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         b_b = s + "Previous", s + "2", s + "3"
         b_b2 = s + "Close", s + "5", s + "6"
 
-        button_ok = MDRaisedButton(
+        button_ok = MDButton(
             text=b_b[i] + "[size=0]###" + str(int(info) - 1),
-            font_size=dp(16),
+            # theme_font_size=dp(16),
             on_release=self.cal_next,
         )
-        button_cancel = MDRaisedButton(
+        button_cancel = MDButton(
             text=b_b2[i] + "[size=0]" + str(int(info) - 1),
-            font_size=dp(16),
+            # theme_font_size=dp(16),
             on_release=self.cal_close,
         )
 
-        button_login = MDRaisedButton(
+        button_login = MDButton(
             # text=b_b[i] + "[size=0]" + str(int(info-1)),
             text="Next" + "[size=0]###" + str(int(info) + 1),
-            font_size=dp(16),
+            # theme_font_size=dp(16),
             on_release=self.cal_next,
         )
 
         bb = ([button_ok, button_cancel, button_login],)
-        self.alert = SweetAlert()
-        self.alert.window_control_buttons = "close"
-        self.alert.fire(title[i], text[i], buttons=bb[i])
+        # self.alert = SweetAlert()
+        # self.alert.window_control_buttons = "close"
+        # self.alert.fire(title[i], text[i], buttons=bb[i])
+
+        MDDialog(
+            # ----------------------------Icon-----------------------------
+            MDDialogIcon(
+                icon="refresh",
+            ),
+            # -----------------------Headline text-------------------------
+            MDDialogHeadlineText(
+                text="Reset settings?",
+            ),
+            # -----------------------Supporting text-----------------------
+            MDDialogSupportingText(
+                text="This will reset your app preferences back to their "
+                "default settings. The following accounts will also "
+                "be signed out:",
+            ),
+            # -----------------------Custom content------------------------
+            MDDialogContentContainer(
+                MDDivider(),
+                MDListItem(
+                    MDListItemLeadingIcon(
+                        icon="gmail",
+                    ),
+                    MDListItemSupportingText(
+                        text="KivyMD-library@yandex.com",
+                    ),
+                    theme_bg_color="Primary",
+                    md_bg_color=self.theme_cls.transparentColor,
+                ),
+                MDListItem(
+                    MDListItemLeadingIcon(
+                        icon="gmail",
+                    ),
+                    MDListItemSupportingText(
+                        text="kivydevelopment@gmail.com",
+                    ),
+                    theme_bg_color="Primary",
+                    md_bg_color=self.theme_cls.transparentColor,
+                ),
+                MDDivider(),
+                orientation="vertical",
+            ),
+            # ---------------------Button container------------------------
+            MDDialogButtonContainer(
+                Widget(),
+                MDButton(
+                    MDButtonText(text="Cancel"),
+                    theme_text_color="Hint",
+                    md_bg_color=self.theme_cls.transparentColor,
+                    style="text",
+                ),
+                MDButton(
+                    MDButtonText(text="Accept"),
+                    style="text",
+                ),
+                spacing="8dp",
+            ),
+            # -------------------------------------------------------------
+        ).open()
+
         return True
 
     def cal_next(self, instance):
@@ -5287,22 +5407,22 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                             x, l = str.split(x, ")")
                             # print(x)
             except:
-                self.snackbar = Snackbar(
+                self.snackbar = MDSnackbar(
                     text="Not Logged In", bg_color=self.theme_cls.primary_color
                 )
                 self.snackbar.open()
                 # if not self.snackbar:
         if old == True:
-            self.snackbar = Snackbar(text=x, bg_color=self.theme_cls.primary_color)
+            self.snackbar = MDSnackbar(text=x, bg_color=self.theme_cls.primary_color)
             self.snackbar.open()
         if fail == "fail":
-            self.snackbar = Snackbar(
+            self.snackbar = MDSnackbar(
                 text="Already confirmed you dum dum",
                 bg_color=self.theme_cls.primary_color,
             )
             self.snackbar.open()
         if old == False and fail != "fail":
-            self.snackbar = Snackbar(
+            self.snackbar = MDSnackbar(
                 text="Success!", bg_color=self.theme_cls.primary_color
             )
             self.snackbar.open()
@@ -5407,13 +5527,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.dialog = MDDialog(
                 text="Delete All Data?",
                 buttons=[
-                    MDFlatButton(
+                    MDButton(
                         text="CANCEL",
                         theme_text_color="Custom",
                         text_color=self.theme_cls.primary_color,
                         on_press=self.closeDialog,
                     ),
-                    MDFlatButton(
+                    MDButton(
                         text="DELETE",
                         theme_text_color="Custom",
                         text_color=self.theme_cls.primary_color,
@@ -5525,7 +5645,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             ].icon = "sort-ascending"
             print("decend")
 
-        panel3 = ThreeLineListItem(
+        panel3 = MDListItem(
             text="Shows ",
             # + str((listofdicks[z]["date"])),
             secondary_text="Hours11: ",
@@ -5623,7 +5743,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             except:
                 tottime = ""
             realtime, junk, junk = self.format_hours(tottime)
-            panel = ThreeLineListItem(
+            panel = MDListItem(
                 text="Show: " + str((listofdicks[z]["show"])),
                 secondary_text="Date: "
                 + str(listofdicks[z]["date"])
@@ -6012,7 +6132,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             return f
 
         except:
-            self.snackbar = Snackbar(
+            self.snackbar = MDSnackbar(
                 text="Make some show files first", bg_color=self.theme_cls.primary_color
             )
             self.snackbar.open()
@@ -6035,7 +6155,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 f.write(x)
             shutil.unpack_archive(nf2, ad + "/shows")
         except:
-            self.snackbar = Snackbar(
+            self.snackbar = MDSnackbar(
                 text="Not Valid Backup Data", bg_color=self.theme_cls.primary_color
             )
             self.snackbar.open()
@@ -6401,13 +6521,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # self.root.ids.toolbar.md_bg_color = color
         print(color)
 
+    """
     def get_selected_color(
         self,
         instance_color_picker: MDColorPicker,
         type_color: str,
         selected_color: Union[list, str],
     ):
-        """Return selected color."""
+        
 
         print(f"Selected color is {selected_color}")
         print(theme_setting)
@@ -6426,6 +6547,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # a = self.theme_cls.accent_palette
 
         self.save_theme_picker()
+    """
 
     def on_select_color(self, instance_gradient_tab, color: list) -> None:
         """Called when a gradient image is clicked."""
@@ -6605,10 +6727,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def toggle_hidden(self):
         if x["hidden"] == False:
             x["hidden"] = True
-            toast("Hide Personal Data")
+            # toast("Hide Personal Data")
         else:
             x["hidden"] = False
-            toast("Show Personal Data")
+            # toast("Show Personal Data")
         print("toggle_hidden", x["hidden"])
         import libs.lib_updateuserdata as lib_updateuserdata
 
@@ -6716,7 +6838,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print(os.getcwd(), "CWDDDDD")
         self.root.set_current("pay_breakdown")
 
-        panel = ThreeLineListItem(
+        panel = MDListItem(
             text="Paydate: " + str(z["paydate"]),
             secondary_text="Shows: "
             + str(z["days"])
@@ -6758,7 +6880,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             hours_nice = "Hours:" + str(d["tot_hours"])
             if float((d["otH"])) > 0:
                 hours_nice = hours_nice + " Overtime: " + str(d["otH"])
-            panel = ThreeLineListItem(
+            panel = MDListItem(
                 secondary_text=time,
                 text=d["show"],
                 tertiary_text=hours_nice,
@@ -6995,7 +7117,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if v == "notes":
             ttt = mjds[idex][v]
             if len(ttt) < 2:
-                self.snackbar = Snackbar(
+                self.snackbar = MDSnackbar(
                     text="[empty]",
                     bg_color=self.theme_cls.primary_color,
                 )
