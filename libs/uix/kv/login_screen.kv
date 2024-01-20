@@ -28,10 +28,15 @@
         #id:lolz
         orientation: "vertical"
         MDTopAppBar:
-            type: app.mtype
-            title: "Login"
-            height: app.mheight
-            left_action_items: [['chevron-left', lambda screen: app.change_screen('settings', 'left'),'login']]
+#            type: app.mtype
+#           title: "Login"
+            #height: app.mheight
+#            left_action_items: [['chevron-left', lambda screen: app.change_screen('settings', 'left'),'login']]
+            MDTopAppBarLeadingButtonContainer:
+    
+                MDActionTopAppBarButton:
+                    icon: "chevron-left"
+                    on_release: app.change_screen('settings', 'left')
         Screen:
             #id:lolz
             
@@ -43,7 +48,7 @@
                 #size_hint_y: 1
                 #size:dp(20)
             MDTextField:
-                hint_text: "Email"
+                
                 #helper_text: "to join the chat (test mode)"
                 #helper_text_mode: "on_focus"
                 #icon_right: "android"
@@ -53,24 +58,14 @@
                 font_size:dp(20)
                 width:dp(300)
                 id:temail
-            #MDTextField:
-            #    hint_text: "Password"
-            #    #helper_text: "Use website to Rese"
-            #    #helper_text_mode: "on_focus"
-            #    icon_right: "lock"
-            #    icon_left: "lock"
-            #    icon_left_color: app.theme_cls.primary_color
-            #    icon_right_color: app.theme_cls.primary_color
-            #    pos_hint:{'center_x': 0.5, 'center_y': 0.47}
-            #    size_hint_x:None
-            #    font_size:sp(20)
-            #    width:sp(300)
-            #    password:True
-            #    password_mask: "*"
-            #    #required: True
-            #    id:tpassword
-            #    #on_release:
-            #     #   app.toggle_show_pass()
+
+                MDTextFieldHintText:
+                    text: "Email"
+                    text_color_normal:"mediumaquamarine"
+                    text_color_focus:"tan"
+                    pos_hint:{"center_x": 0.5, "center_y": -0.2}
+
+
             ClickableTextFieldRound:
                 size_hint_x: None
                 hint_text: "Password"
@@ -78,12 +73,19 @@
                 width:dp(300)
                 id:pass2
                 pos_hint:{'center_x': 0.5, 'center_y': 0.43}
+                MDTextFieldHintText:
+                    pos_hint:{"center_x": 0.15, "center_y": -0.25}
+                    text: "Password"
+
 
             MDLabel:
-                text: "Select Your Location"
-                pos_hint: {'center_x': .5, 'center_y': .33}
+
+                #pos_hint: {'center_x': .5, 'center_y': .33}
                 halign: "center"
-            MDRoundFlatButton:
+                MDListItemSupportingText:
+                    pos_hint: {'center_x': .5, 'center_y': .33}
+                    text: "Select Your Location"
+            MDButton:
                 id: button4
                 #padding: [15, 15]
 
@@ -94,8 +96,10 @@
                 items: app.sound_effects
                 #id: noise
                 on_release: app.choose_drop(app.locations,'city')
+                MDButtonText:
+                    text: "..."
 
-            MDRoundFlatButton:
+            MDButton:
                 text: "Login!"
                 theme_text_color: "Primary"
                 pos_hint: {"center_x": .5, "center_y": .17}
@@ -104,3 +108,14 @@
                     #app.check_login()
                     app.save_login()
                     #app.today()
+                MDButtonText:
+                    text: "Login"
+
+            MDDropDownItem:
+                id: drop_item
+                pos_hint: {"center_x": .5, "center_y": .05}
+                on_release: app.open_drop_item_menu(self)
+
+                MDDropDownItemText:
+                    id: drop_text
+                    text: "Item"

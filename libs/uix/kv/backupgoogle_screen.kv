@@ -33,7 +33,7 @@
                     on_release: app.do_restore(self.secondary_text)
 
                     YourContainer:
-                        MDRoundFlatButton:
+                        MDButton:
                             id: button4
                             #padding: [15, 15]
 
@@ -50,7 +50,7 @@
 
                     IconLeftWidget:
                         icon: "cloud-download"
-                OneLineAvatarIconListItem:
+                MDListItem:
                     text: 'Auto Backup'
                     YourContainer:
                         MDSwitch:
@@ -61,7 +61,7 @@
                     IconLeftWidget:
                         icon: "google-cloud"
 
-                OneLineAvatarIconListItem:
+                MDListItem:
                     text: 'Backup Shows'
                     YourContainer:
                         MDSwitch:
@@ -71,7 +71,7 @@
                             on_active: app.updatetext("backup_shows")
                     IconLeftWidget:
                         icon: "google-cloud"
-                OneLineAvatarIconListItem:
+                MDListItem:
                     text: 'Backup Config'
                     YourContainer:
                         MDSwitch:
@@ -81,7 +81,7 @@
                             on_active: app.updatetext("backup_config")
                     IconLeftWidget:
                         icon: "google-cloud"
-                OneLineAvatarIconListItem:
+                MDListItem:
                     text: 'Backup Paychecks'
                     YourContainer:
                         MDSwitch:

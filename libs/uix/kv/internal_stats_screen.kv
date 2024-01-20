@@ -17,7 +17,7 @@
 
 
             MDList:
-                OneLineAvatarIconListItem:
+                MDListItem:
                     text: "Share Stats"
                     #on_release:app.makenots("1")
                     YourContainer:
@@ -33,7 +33,7 @@
                     IconLeftWidget:
                         icon: "share" 
                         on_release: app.update_global()
-                OneLineAvatarIconListItem:
+                MDListItem:
                     icon: 'account'
                     text:'Individual Stats:'
                     IconLeftWidget:
@@ -67,7 +67,7 @@
                     id:confirm
                     text:"Shows Confirmed"
                 ThreeLineListItem:
-                OneLineAvatarIconListItem:
+                MDListItem:
                     text:'Global Stats:'
                     IconLeftWidget:
                         on_release: app.update_global()
@@ -98,7 +98,7 @@
                     id:users
                     text:"Users"
                 ThreeLineListItem:
-                OneLineAvatarIconListItem:
+                MDListItem:
                     text:'Local Stats:  (coming soon!)'
                     IconLeftWidget:
                         icon: "map-marker-outline" 

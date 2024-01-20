@@ -56,10 +56,7 @@ class E(ExceptionHandler):
         print(inst)
         MDSnackbar(
             MDSnackbarText(
-                text="Single-line snackbar",
-            ),
-            MDSnackbarSupportingText(
-                text="with action and close buttons",
+                text=str(inst),
             ),
             MDSnackbarButtonContainer(
                 MDSnackbarActionButton(
@@ -348,9 +345,9 @@ class PayScreen(Screen):
     pass
 
 
-# class YourContainer(IRightBodyTouch, MDBoxLayout):
-#    adaptive_width = True
-#    adaptive_size = True
+class YourContainer(MDBoxLayout):
+    adaptive_width = True
+    adaptive_size = True
 
 
 # class CustomOneLineListItem(MDBoxLayout, MDListItem):
@@ -2554,21 +2551,29 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             color = ""
             if shows[i]["canceled"] == True:
                 color = "[color=#ff0000]"
-            self.root.get_screen("today").ids[li[i]].text = (
+            # color = "[color=#ff000055]"
+            self.root.get_screen("today").ids[li[i] + "1"].text = (
                 color + show_date + " " + ntime
             )
             self.root.get_screen("today").ids[li[i]].text = (
                 color + show_date + " " + ntime
             )
-            self.root.get_screen("today").ids[li[i]].secondary_text = (
+            print(li[i] + str(i + 1), "thisistheid")
+            self.root.get_screen("today").ids[li[i] + "2"].text = (
                 color + shows[i]["show"]
             )
-            self.root.get_screen("today").ids[li[i]].tertiary_text = color + fvenue[0]
-            self.root.get_screen("today").ids[li[i]].text
+            self.root.get_screen("today").ids[li[i] + "3"].text = color + fvenue[0]
+            self.root.get_screen("today").ids[li[i]].text_color = "Blue"
             z44 = dir(self.root.get_screen("today").ids[li_l[i]])
             self.root.get_screen("today").ids[li_l[i]].icon = self.find_type(i, "type")
             self.root.get_screen("today").ids[li_r[i]].icon = self.find_type(i, "pos")
             # print(z44, "leftwidget")
+            fff = self.root.get_screen("today").ids[li[i]].children
+            print(fff, dir(fff), "FFFFFFFF")
+            # fff.MDListItemSupportingText.text = "wowwwww"
+            # self.root.get_screen("today").ids["first1"].text = ntime
+            # self.root.get_screen("today").ids["first2"].text = ntime
+            # elf.root.get_screen("today").ids["first3"].text = ntime
         qq = self.root.get_screen("today").ids
         qq.branding.background = "images/logo/logo2.png"
         try:
@@ -2621,10 +2626,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             stat_text2 = "Next show in " + diff3
             stat_text3 = "Last updated " + diff2
 
-            self.root.get_screen("today").ids["stats"].text = stat_text
+            self.root.get_screen("today").ids["s1"].text = stat_text
 
-            self.root.get_screen("today").ids["stats"].secondary_text = stat_text2
-            self.root.get_screen("today").ids["stats"].tertiary_text = stat_text3
+            self.root.get_screen("today").ids["s2"].text = stat_text2
+            self.root.get_screen("today").ids["s3"].text = stat_text3
 
             self.update_today_pp(pp_index)
 
@@ -4496,6 +4501,22 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         lib_updateuserdata.updateuser(x, ad)
         self.menu.dismiss()
 
+    drop_item_menu: MDDropdownMenu = None
+
+    def open_drop_item_menu(self, item):
+        menu_items = [
+            {
+                "text": f"{i}",
+                "on_release": lambda x=f"Item {i}": self.menu_callback(x),
+            }
+            for i in range(5)
+        ]
+        if not self.drop_item_menu:
+            self.drop_item_menu = MDDropdownMenu(
+                caller=item, items=menu_items, position="center"
+            )
+        self.drop_item_menu.open()
+
     def choose_drop(self, v, v2):
         "oll"
         print(v2, v, "THISISTHETHING2")
@@ -4506,7 +4527,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     "text": f"{v[i]}",
                     # "scroll_type": ['bars'],
                     # "effect_cls": "ScrollEffect",
-                    "viewclass": "OneLineListItem",
+                    "viewclass": "MDListItem",
                     "on_release": lambda x=i: self.menu_callback(x, v, v2),
                 }
                 for i in range(len(v) - 1)
@@ -4517,7 +4538,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     "text": f"{v[i][v2]}",
                     # "scroll_type": ['bars'],
                     # "effect_cls": "ScrollEffect",
-                    "viewclass": "OneLineListItem",
+                    "viewclass": "MDListItem",
                     "on_release": lambda x=i: self.menu_callback(x, v, v2),
                 }
                 for i in range(len(v) - 1)
@@ -4528,7 +4549,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     "text": "[color=" + webcolors.name_to_hex(v[i]) + "]" + v[i],
                     # "scroll_type": ['bars'],
                     # "effect_cls": "ScrollEffect",
-                    "viewclass": "OneLineListItem",
+                    "viewclass": "MDListItem",
                     "on_release": lambda x=i: self.menu_callback(x, v, v2),
                 }
                 for i in range(len(v) - 1)
@@ -4539,7 +4560,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     "text": v[i],
                     # "scroll_type": ['bars'],
                     # "effect_cls": "ScrollEffect",
-                    "viewclass": "OneLineListItem",
+                    "viewclass": "MDListItem",
                     "on_release": lambda x=i: self.menu_callback(x, v, v2),
                 }
                 for i in range(len(v) - 1)
@@ -4550,7 +4571,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     "text": f"{v[i]}",
                     # "scroll_type": ['bars'],
                     # "effect_cls": "ScrollEffect",
-                    "viewclass": "OneLineListItem",
+                    "viewclass": "MDListItem",
                     "on_release": lambda x=i: self.menu_callback(x, v, v2),
                 }
                 for i in range(len(v) - 1)
@@ -4561,7 +4582,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     "text": f"{v[i]}",
                     # "scroll_type": ['bars'],
                     # "effect_cls": "ScrollEffect",
-                    "viewclass": "OneLineListItem",
+                    "viewclass": "MDListItem",
                     "on_release": lambda x=i: self.menu_callback(x, v, v2),
                 }
                 for i in range(len(v) - 1)
@@ -4573,7 +4594,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     "text": f"{v[i]}",
                     # "scroll_type": ['bars'],
                     # "effect_cls": "ScrollEffect",
-                    "viewclass": "OneLineListItem",
+                    "viewclass": "MDListItem",
                     "on_release": lambda x=v[i]: self.set_range(x, v, v2),
                     # "on_release": lambda x=1: self.menu_callback(x, v, v2),
                 }
@@ -5112,7 +5133,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         else:
             paystubs, new = lib_ppdownloader.thinkpp(x, ad)
             try:
-                self.snackbar = Snackbar(
+                self.snackbar = MDSnackbar(
                     text="Downloaded " + str(new) + " Paystubs out of " + str(paystubs),
                     bg_color=self.theme_cls.primary_color,
                 )
@@ -5136,7 +5157,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         for i in range(len(confable)):
             print(confable[i], len(confable))
         print(len(confable), "confable")
-        self.snackbar = Snackbar(
+        self.snackbar = MDSnackbar(
             text="Success!" + str(len(confable)), bg_color=self.theme_cls.primary_color
         )
         self.snackbar.open()
@@ -6584,7 +6605,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def change_screen(self, screen, direction):
         self.root.transition.direction = direction
         # self.root.current = screen
-        self.root.set_current(screen)
+        self.root.push(screen)
 
     def do_pp_sum(self, lala, t):
         if t == "pp":
@@ -7087,7 +7108,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         # print("grabtext", inst)
 
-        self.snackbar = Snackbar(
+        self.snackbar = MDSnackbar(
             text="Copied",
             bg_color=self.theme_cls.primary_color,
         )

@@ -4,8 +4,8 @@ from kivymd.app import MDApp
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.list import IRightBodyTouch
 
-KV = '''
-OneLineAvatarIconListItem:
+KV = """
+MDListItem:
     text: "One-line item with avatar"
 
 
@@ -15,7 +15,7 @@ OneLineAvatarIconListItem:
 
         MDSwitch
             icon: "plus"
-'''
+"""
 
 
 class YourContainer(IRightBodyTouch, MDBoxLayout):

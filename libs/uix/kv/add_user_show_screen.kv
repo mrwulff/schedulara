@@ -56,7 +56,7 @@
                     icon_left: "magnify"
                     #on_text: root.set_list_md_icons(self.text, True)
 
-                OneLineAvatarIconListItem:
+                MDListItem:
                     bg_color: app.theme_cls.bg_dark
                     text: "Date"
                     id: startdate
@@ -73,7 +73,7 @@
                             size_hint:app.right_hint
                             width:app.right_width
                             on_release: app.show_date_picker_norange()
-                OneLineAvatarIconListItem:
+                MDListItem:
                     bg_color: app.theme_cls.bg_dark
                     text: "Start Time"
                     id: starttime
@@ -90,7 +90,7 @@
                             size_hint:app.right_hint
                             width:app.right_width
                             on_release: app.show_time_picker("start_time")
-                OneLineAvatarIconListItem:
+                MDListItem:
                     bg_color: app.theme_cls.bg_dark
                     text: "End Time"
                     id: endtime

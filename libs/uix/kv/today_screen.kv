@@ -1,16 +1,16 @@
 <DrawerClickableItem@MDNavigationDrawerItem>
-    #focus_color: "#e7e4c0"
-    #text_color: "#4a4939"
-    #icon_color: "#4a4939"
-    #ripple_color: "#c5bdd2"
+    focus_color: "#e7e4c0"
+    text_color: "#4a4939"
+    icon_color: "#4a4939"
+    ripple_color: "#c5bdd2"
     selected_color: "#0c6c4d"
 
 
 <DrawerLabelItem@MDNavigationDrawerItem>
-    #text_color: "#4a4939"
-    #icon_color: "#4a4939"
-    #focus_behavior: False
-    #selected_color: "#4a4939"
+    text_color: "#4a4939"
+    icon_color: "#4a4939"
+    focus_behavior: False
+    selected_color: "#4a4939"
     _no_ripple_effect: True
 <NavigationDrawer>
     _list: list
@@ -87,11 +87,16 @@
         
         MDTopAppBar:
             #title: "Settings"
-            height: app.mheight
+        #    height: app.mheight
         #    type: "bottom"
-            left_action_items:
-                [['menu', lambda x: nav_drawer.set_state("open")]]
-            right_action_items: [['reload-alert', lambda screen: app.do_graphOrder(),'order']]
+            MDTopAppBarLeadingButtonContainer:
+    
+                MDActionTopAppBarButton:
+                    icon: "menu"
+                    on_release: nav_drawer.set_state("toggle")
+            #left_action_items:
+            #    [['menu', lambda x: nav_drawer.set_state("open")]]
+            #right_action_items: [['reload-alert', lambda screen: app.do_graphOrder(),'order']]
         
         ScrollView:
             MDGridLayout:
@@ -136,6 +141,12 @@
 
                     MDListItem:
                         id:stats
+                        MDListItemSupportingText:
+                            id:s1
+                        MDListItemSupportingText:
+                            id:s2
+                        MDListItemSupportingText:
+                            id:s3
 
 
                 MDCard:
@@ -147,16 +158,31 @@
                     pos_hint: {"center_x": .5, "center_y": .5}
                     on_release: app.pop_new(0)
                     radius: app.cradius
+                    md_bg_color:1,1,1,.5
                     MDListItem:
                         id:first
                         #text: "First Show"
                         #secondary_text: "Secondary text here"
+                        theme_text_color: "Custom"
+                        text_color:"Blue"
                         MDListItemLeadingIcon:
                             id:1l
                             #icon: app.find_type(0,"type") 
+                            pos_hint:{"center_x": 0.5, "center_y": 0.5}
                         MDListItemTrailingIcon:
-                            #icon: app.find_type(0,"pos")   
+                            
                             id:1r
+                            pos_hint:{"center_x": 0.5, "center_y": 0.5}
+                        MDListItemSupportingText:
+                            text:'wow'
+                            id:first1
+                        MDListItemSupportingText:
+                            text:'wow'
+                            id:first2
+                        MDListItemSupportingText:
+                            text:'wow'
+                            id:first3
+
                         
                 MDCard:
                     orientation: "vertical"
@@ -171,12 +197,27 @@
                         id:second
                         #text: "First Show"
                         #secondary_text: "Secondary text here"
+                        text_color:"Error"
                         MDListItemLeadingIcon:
+                            pos_hint:{"center_x": 0.5, "center_y": 0.5}
                             id:2l
                             #icon: app.find_type(1,"type") 
                         MDListItemTrailingIcon:
+                            pos_hint:{"center_x": 0.5, "center_y": 0.5}
                             #icon: app.find_type(1,"pos")  
                             id:2r 
+                        MDListItemSupportingText:
+                            text:'wow'
+                            id:second1
+                        MDListItemSupportingText:
+                            text:'wow'
+                            id:second2
+                        MDListItemSupportingText:
+                            text:'wow'
+                            id:second3
+                        MDListItemLeadingIcon:
+                            #id:1l
+                            #icon: app.find_type(0,"type") 
 
                 MDCard:
                     orientation: "vertical"
@@ -193,11 +234,24 @@
                         #secondary_text: "Secondary text here"
                         MDListItemLeadingIcon:
                             id:3l
+                            pos_hint:{"center_x": 0.5, "center_y": 0.5}
                             #icon: app.find_type(2,"type") 
                         MDListItemTrailingIcon:
                             #icon: app.find_type(2,"pos")  
                             id:3r 
-
+                            pos_hint:{"center_x": 0.5, "center_y": 0.5}
+                        MDListItemSupportingText:
+                            text:'wow'
+                            id:third1
+                        MDListItemSupportingText:
+                            text:'wow'
+                            id:third2
+                        MDListItemSupportingText:
+                            text:'wow'
+                            id:third3
+                        MDListItemLeadingIcon:
+                            #id:1l
+                            #icon: app.find_type(0,"type") 
 
 
 
@@ -402,6 +456,10 @@
                         radius: app.cradius
                         id:cal5
                         md_bg_color:app.cal_bg
+                    MDListItem:
+                        #text:'wow'
+                        MDListItemSupportingText:
+                            text:"Supporting text"
 
 
 
@@ -409,8 +467,8 @@
                 #Label:
     MDNavigationDrawer:
         id: nav_drawer
-        type: "modal"
-        radius: (0, 16, 16, 0)
+        #type: "modal"
+        #radius: (0, 16, 16, 0)
         
 
         ContentNavigationDrawer:
@@ -435,12 +493,28 @@
                 #        app.loading_screen("today")
 
          
-                DrawerClickableItem:
-                    icon: "account-circle"
-                    text: "Login"
-                    on_press:
+                MDNavigationDrawerItem:
+                    on_release:
                         app.close_menu()
                         app.change_screen('login', 'left')
+
+                    MDNavigationDrawerItemLeadingIcon:
+                        icon: "account-circle"
+
+                    MDNavigationDrawerItemText:
+                        text: "Login"
+                MDNavigationDrawerItem:
+                    on_release:
+                        app.close_menu()
+                        app.change_screen('settings', 'left')
+
+                    MDNavigationDrawerItemLeadingIcon:
+                        icon: "cog"
+
+                    MDNavigationDrawerItemText:
+                        text: "Settings"
+
+
                 DrawerClickableItem:
                     icon: "notebook"
                     text: "Notes"

@@ -31,7 +31,7 @@
                     
 
 
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: date
                     #on_release:
                     on_press: app.animate_money()
@@ -57,14 +57,14 @@
                     #    app.save_show()
                     IconLeftWidget:
                         icon: "clipboard-outline"
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: savehours
                     text: 'Save Time'
                     on_release:
                         on_release: app.show_time_picker2()
                     IconLeftWidget:
                         icon: "clipboard-outline"
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: wrench
                     on_press:
                         app.set_rate()
@@ -78,7 +78,7 @@
                             values:app.get_rate()
                             id: rate
 
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: jobid
                     on_release:
                         Clipboard.copy('Data')
@@ -87,36 +87,36 @@
 
 
 
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: show
                     IconLeftWidget:
                         icon: "account-group"
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     on_press:
                         app.maps()
                     id: venue
                     IconLeftWidget:
                         icon: "stadium"
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: location
                     IconLeftWidget:
                         icon: "map-marker"
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: client
                     IconLeftWidget:
                         icon: "account-tie"
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: type
                     IconLeftWidget:
                         icon: "bowling"
 
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: status
                     on_press:
                         app.confirm(self.text)
                     IconLeftWidget:
                         icon: "check-decagram"
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: notes
                     on_press: 
                         #Clipboard.copy(self.text)
@@ -124,22 +124,22 @@
                     IconLeftWidget:
                         icon: "note-search-outline"
                         
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: d10
                     IconLeftWidget:
                         icon: "calendar-clock-outline"
 
 
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: d13
                     text: 'Animate Money!'
                     on_press: app.animate_money()
                     IconLeftWidget:
                         icon: "cash-100"
 
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: d13
-                OneLineAvatarIconListItem: 
+                MDListItem: 
                     id: d12
                     #IconLeftWidget:
                         #icon: "calendar-clock-outline"
