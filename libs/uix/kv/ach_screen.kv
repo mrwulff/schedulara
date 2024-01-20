@@ -34,7 +34,7 @@
                 #height: app.mheight
                 #size_hint: .1,.1
                 
-                MDRaisedButton:
+                MDButton:
                     text: 'All'
                     id: alld
                     #size_hint: .3,None
@@ -42,7 +42,7 @@
                     #md_bg_color: app.theme_cls.primary_light
                     #padding:10
                     on_press:(app.trophys('all'))
-                MDRaisedButton:
+                MDButton:
                     text: 'Done'
                     id: doned
                     #size_hint: .3,None
@@ -50,7 +50,7 @@
                     #md_bg_color: app.theme_cls.primary_light
                     #padding:10
                     on_press:(app.trophys('done'))
-                MDRaisedButton:
+                MDButton:
                     text: 'Not Yet Done'
                     id: ndoned
                     #size_hint: .3,None

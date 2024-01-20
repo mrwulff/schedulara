@@ -564,7 +564,7 @@ class Prestore(FloatLayout):
 from kivymd.uix.button import MDButton
 
 """
-class MyToggleButton(MDRaisedButton, MDToggleButton):
+class MyToggleButton(MDButton, MDToggleButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.background_down = self.theme_cls.primary_light
@@ -868,7 +868,7 @@ class Demo3App(MDApp):
 
     def do_gbackup(self):
         os.chdir(cwd)
-        self.root.set_current("backupgoogle")
+        self.root.push("backupgoogle")
 
         import libs.lib_new
         import datetime
@@ -1276,7 +1276,7 @@ class Demo3App(MDApp):
     }
 
     def do_graphOrder(self):
-        self.root.set_current("graphOrder")
+        self.root.push("graphOrder")
         chart_list = []
         chart_list.append(self.paycheck_amount_chart)
         chart_list.append(self.pos_chart)
@@ -1321,7 +1321,7 @@ class Demo3App(MDApp):
 
         print("omg")
         # self.root.current_screen.ids["newstats"].clear_widgets()
-        self.root.set_current("newstats")
+        self.root.push("newstats")
         import libs.lib_makegraphs
         import libs.lib_parse2
 
@@ -1490,7 +1490,7 @@ class Demo3App(MDApp):
     def do_chat(self, show):
         # print(show)
 
-        self.root.set_current("chat")
+        self.root.push("chat")
         self.root.current_screen.ids["history_list"].clear_widgets()
         # test_message = "hello w2orld with a super long random string and stuff attached to it to make it seem longer"
 
@@ -1545,7 +1545,7 @@ class Demo3App(MDApp):
     def do_profile(self):
         print("profile")
         l = ["bio", "phone", "nick", "button4", "name"]
-        self.root.set_current("profile")
+        self.root.push("profile")
         for i in range(len(l)):
             try:
                 App.get_running_app().root.current_screen.ids[l[i]].text = x[l[i]]
@@ -1626,7 +1626,7 @@ class Demo3App(MDApp):
         # rv = self.root.ids.rv
         # self.data = [self.create_random_input(rv, index) for index in range(20)]
 
-        # self.root.set_current("home")
+        # self.root.push("home")
         # toast("lol")
 
         self.data = {
@@ -1750,11 +1750,13 @@ class Demo3App(MDApp):
                 }
             )
 
-    # fdate, ldate = self.get_dates("YTD")
-    #            self.do_new_stats(fdate, ldate, "YTD")
+        # fdate, ldate = self.get_dates("YTD")
+        #            self.do_new_stats(fdate, ldate, "YTD")
+        self.today()
+
     def keyboard(self, window, key, *args):
         if key == 27:
-            self.root.set_current("today")
+            self.root.push("today")
             return True  # key event consumed by app
         else:
             return False  # key event passed to Android
@@ -1772,13 +1774,11 @@ class Demo3App(MDApp):
 
     def add_event(self):
         print("add_event")
-        self.root.set_current("add_user_show")
+        self.root.push("add_user_show")
 
     def new_search_bad(self):
         # content_cls=Content(),
-        button_ok = MDRaisedButton(
-            text="what!", font_size=16, on_release=self.print_street2
-        )
+        button_ok = MDButton(text="what!", font_size=16, on_release=self.print_street2)
 
         self.alert = SweetAlert()
         self.alert.fire(
@@ -1811,7 +1811,7 @@ class Demo3App(MDApp):
 
     def do_dev(self):
         print("DEV MODE SCREEN")
-        self.root.set_current("dev")
+        self.root.push("dev")
 
     def do_backdoor(self):
         # print ('bla')
@@ -1897,7 +1897,7 @@ class Demo3App(MDApp):
         # street_name="VGK"
         print(street_name)
         self.dialog.dismiss()
-        self.root.set_current("newsearch")
+        self.root.push("newsearch")
 
         lib_makegraphs.make_full_json_pp(ad, "fdate", "ldate", True)
         # datadir and start and end and term,strict
@@ -2066,7 +2066,7 @@ class Demo3App(MDApp):
         print("what in the hell")
         return "wow"
 
-    def on_start(self):
+    def on_start2(self):
         global x
         global ad
         app = App.get_running_app()
@@ -2120,18 +2120,18 @@ class Demo3App(MDApp):
         if 1 == 1:
             if x["today_start"] == False:
                 print("oldstart1!!!")
-                self.newstart("", useold)
+                # self.newstart("", useold)
 
             if x["today_start"] == True:
                 # toast("Success " + asdf)
                 print("newstart!@!")
                 # self.today()
-                self.md2()
+                # self.md2()
         # except:
         #    self.today()
 
     def md2(self):
-        self.root.set_current("md2")
+        self.root.push("md2")
         print("md2")
 
     def callback(self, instance_button):
@@ -2147,7 +2147,7 @@ class Demo3App(MDApp):
             self.alert.dismiss()
         if nb == 8:
             self.alert.dismiss()
-            self.root.set_current("login")
+            self.root.push("login")
 
     def do_onboarding(self, i):
         legal = "While Schedulara is designed to help you stay organized and manage your schedule, we are not responsible for any missed gigs, or other issues that may arise. It is ultimately your responsibility to ensure that you are available for events and to communicate any scheduling conflicts to your team. Use our app at your own risk."
@@ -2297,7 +2297,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print(gg, x)
         self.dialog_close()
         #
-        self.root.set_current("checkin")
+        self.root.push("checkin")
         self.root.current_screen.ids["check_id"].clear_widgets()
 
         import libs.lib_firefriend
@@ -2507,6 +2507,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_new
         import libs.lib_think
 
+        self.on_start2()
+
         # toast("today")
         p = self.piplist()
 
@@ -2515,13 +2517,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         #  libs.lib_think.login_basic(ad, x, App)
 
-        self.update_internal("opened", 1)
+        # self.update_internal("opened", 1)
 
-        self.root.set_current("today")
+        self.root.push("today")
         print(self.root.current_screen.name, "current_screen")
         self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
 
         #####hustle error checks
+        print(x, "this is xxx")
         if 1 == 1:
             js = libs.lib_new.get_json_schedule(x, ad)
         # print("js,wtfiswrong", js)
@@ -3056,7 +3059,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def view_fieldnotes(self, term):
         print("view_fieldnotes", term)
         global note_index
-        self.root.set_current("allfieldnotes")
+        self.root.push("allfieldnotes")
         # self.update_fieldnotes()
 
         import libs.lib_fieldnotes
@@ -3070,7 +3073,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # self.root.current_screen.clear_widgets()
         lpos = pos
         # print(lpos, "lpos")
-        # self.root.set_current("icons")
+        # self.root.push("icons")
         self.root.current_screen.ids["payperiod_list"].clear_widgets()
 
         for z in range(0, len(lpos)):
@@ -3195,7 +3198,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if y == "no":
             # 799 = cable, 2659=tmobile
             y = ("", "", "799")
-        self.root.set_current("fieldnote")
+        self.root.push("fieldnote")
         # self.root.current_screen.ids["what"].clear_widgets()
 
         print(y, "view single fieldnote")
@@ -3290,7 +3293,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         walls = libs.lib_readuserdata.get_wallpapers()
         print("wallpaper screen")
-        self.root.set_current("wallpaper")
+        self.root.push("wallpaper")
         # print(walls, "list of walls")
         if i < 0:
             i = len(walls) - 1
@@ -3318,7 +3321,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.do_wallpaper_screen(i + int(t))
 
     def do_zoom(self, pic):
-        self.root.set_current("zoom")
+        self.root.push("zoom")
 
         print(pic, "PIC")
 
@@ -3393,7 +3396,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # App.get_running_app().root.current_screen.ids["payperiod_list"].clear_widgets()
         # self.root.current_screen.clear_widgets()
         lpos = pos
-        self.root.set_current("icons")
+        self.root.push("icons")
         self.root.current_screen.ids["payperiod_list"].clear_widgets()
 
         for z in range(0, len(lpos)):
@@ -3693,7 +3696,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         ###
 
-        self.root.set_current("internal_stats")
+        self.root.push("internal_stats")
         print("internal stats")
         # self.update_internal("update", "1")
 
@@ -3918,7 +3921,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def newstart(self, search, useold):
         import libs.lib_bonus
 
-        self.root.set_current("newhome")
+        self.root.push("newhome")
         self.root.current_screen.ids["rlist"].clear_widgets()
 
         import libs.lib_new
@@ -4309,7 +4312,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print(x)
         os.chdir(cwd)
         # print(os.getcwd(), "PRINT OMGOMG")
-        self.root.set_current("settings")
+        self.root.push("settings")
         # sm.set_current("settings")
         try:
             self.root.get_screen("notification").ids["slider2"].value = x["not2time"]
@@ -4465,7 +4468,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             App.get_running_app().root.current_screen.ids["button5"].text = str(
                 v[text_item]
             )
-            self.root.set_current("theme")
+            self.root.push("theme")
             self.root.get_screen("theme").ids["pic"].source = self.get_wall("theme")
 
         if v2 == "lunches":
@@ -4477,7 +4480,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 v[text_item]
             )
             # self.edit_show_details(App.get_running_app().root.current_screen.ids["button2"])
-            # self.root.set_current("theme")
+            # self.root.push("theme")
             # self.root.get_screen("editShow").ids["lnch"].text=str(v)
 
         # self.root.get_screen(v2).ids["button4"].text = v[text_item]
@@ -4670,7 +4673,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         global x
         # self.root.current = "notification"
-        self.root.set_current("notification")
+        self.root.push("notification")
         try:
             App.get_running_app().root.current_screen.ids["button4"].text = x[
                 "sound_effects"
@@ -4704,14 +4707,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             print("omg")
 
     def about(self):
-        self.root.set_current("about")
+        self.root.push("about")
 
     def ach_top(self, lol):
         print("achtop", lol)
         from kivy.metrics import dp
         from kivy.uix.anchorlayout import AnchorLayout
 
-        self.root.set_current("achscore")
+        self.root.push("achscore")
         self.root.current_screen.ids["graphs3"].clear_widgets()
         import libs.lib_score
 
@@ -4741,7 +4744,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def ach_info(self, data):
         print("info ach", data)
-        self.root.set_current("achinfo")
+        self.root.push("achinfo")
         self.root.current_screen.ids["ach_info_id"].clear_widgets()
         dd = [
             [data["name"], data["disc"]],
@@ -4899,7 +4902,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # lib_test.n22()
         from kivymd.icon_definitions import md_icons
 
-        self.root.set_current("ach")
+        self.root.push("ach")
         self.root.current_screen.ids["ach_id"].clear_widgets()
         import libs.lib_ach
 
@@ -4938,7 +4941,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             ].text = "Points: " + str(points)
 
     def make_stats(self, start, b, e):
-        self.root.set_current("stats")
+        self.root.push("stats")
         """
         if start == "ytde":
             App.get_running_app().root.current_screen.ids[
@@ -5000,7 +5003,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         # self.root.current = "stats"
         # self.root.current("stats")
-        # self.root.set_current("stats")
+        # self.root.push("stats")
         # self.root.current = "stats"
 
         self.root.current_screen.ids["graphs"].clear_widgets()
@@ -5073,7 +5076,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             SwipeToDeleteItem2(text="wow+0")
         )
 
-        self.root.set_current("stats")
+        self.root.push("stats")
 
     def maketransp(self):
         x = self.theme_cls.primary_color
@@ -5098,7 +5101,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         libs.lib_bonus.create_notification(sh, x, False, ad)
 
     def mainmenuf(self):
-        self.root.set_current("mainmenu")
+        self.root.push("mainmenu")
         # self.root.current_screen.ids["payperiod_list"].clear_widgets()
 
     def dlpp(self):
@@ -5180,7 +5183,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         )
         print(start_time, now, type(start_time), type(now), "showdate")
         if start_time < now:
-            self.root.set_current("animate")
+            self.root.push("animate")
         else:
             toast("Unavalable")
             # return
@@ -5222,7 +5225,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def animate_money(self):
         from kivy.clock import Clock
 
-        self.root.set_current("animate")
+        self.root.push("animate")
         pos = mjds[idex]["pos"]
         App.get_running_app().root.current_screen.ids["top"].text = str("call start")
         App.get_running_app().root.current_screen.ids["moneyinfo"].secondary_text = str(
@@ -5567,7 +5570,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_archive
 
         print("archive")
-        self.root.set_current("archive")
+        self.root.push("archive")
         # self.archive_sort=1
 
         print(
@@ -5865,7 +5868,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         #    toast("failed to find show")
         #    return
         print(show, "SHOW DATA")
-        self.root.set_current("editShow")
+        self.root.push("editShow")
         z = App.get_running_app().root.current_screen.ids["show"]
         z.text = str(show["show"])
         z.secondary_text = show["date"]
@@ -6493,14 +6496,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def do_theme(self):
         specific_text_color = ""
-        self.root.set_current("theme")
+        self.root.push("theme")
         self.root.get_screen("theme").ids["pic"].source = self.get_wall("theme")
         self.save_theme_picker()
 
     theme_settings = ""
 
     def do_old_theme2(self):
-        self.root.set_current("theme_picker")
+        self.root.push("theme_picker")
         self.save_theme_picker()
 
     def show_theme_picker(self, t):
@@ -6735,11 +6738,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
-        self.root.set_current("pay")
+        self.root.push("pay")
         self.prep_stats()
 
     def do_payperiod(self, zz):
-        self.root.set_current("pay")
+        self.root.push("pay")
         self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
         from kivymd.uix.list import ThreeLineListItem
 
@@ -6836,7 +6839,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print(os.getcwd(), "CWDDDDD")
         os.chdir(cwd)
         # print(os.getcwd(), "CWDDDDD")
-        self.root.set_current("pay_breakdown")
+        self.root.push("pay_breakdown")
 
         panel = MDListItem(
             text="Paydate: " + str(z["paydate"]),
@@ -6892,7 +6895,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.root.get_screen("pay_breakdown").ids.pay_gigs.add_widget(panel)
 
     def do_payperiod2(self, ssort, rreverse):
-        self.root.set_current("pay")
+        self.root.push("pay")
         self.root.current_screen.ids["payperiod_list"].clear_widgets()
         listofdicks = self.load_paychecks()
         # self.root.current_screen.ids["payperiod_list"].add_widget(HistoryItem(text='bla1'))
@@ -6957,7 +6960,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print(moneys, "moneys")
 
     def do_history(self):
-        self.root.set_current("history")
+        self.root.push("history")
         self.root.current_screen.ids["history_list"].clear_widgets()
         # self.root.current_screen.ids["history_list"].add_widget(HistoryItem(text='bla'))
         import glob, os
@@ -7199,7 +7202,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 return "fail"
             if success == True:
                 self.delete_demo()
-                self.root.set_current("today")
+                self.root.push("today")
                 self.update()
                 toast(str(js))
 

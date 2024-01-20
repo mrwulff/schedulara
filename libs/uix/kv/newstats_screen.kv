@@ -30,22 +30,22 @@
             #height:dp(42)
             
 
-            #MDRaisedButton:
+            #MDButton:
                 #text: 'YTD'
                 #id: YTD
 
                 #on_press:(app.do_new_stats_format('YTD'))
-            #MDRaisedButton:
+            #MDButton:
                 #text: 'Year'
                 #id: Year
 
                 #on_press:(app.do_new_stats_format('Year'))
-            #MDRaisedButton:
+            #MDButton:
                 #text: 'All'
                 #id: All
 
                 #on_press:(app.do_new_stats_format('All'))
-            #MDRaisedButton:
+            #MDButton:
                 #text: 'Custom'
                 #id: Custom
 
@@ -102,7 +102,7 @@
             size_hint: 1.1,None
             height: app.mheight
             height: dp(42)
-            MDRaisedButton:
+            MDButton:
                 text: 'All'
                 id: dstart
                 #size_hint: .5,None
@@ -111,7 +111,7 @@
                 #md_bg_color: app.theme_cls.primary_light
                 #padding:10
                 #on_press:(app.show_date_picker())
-            MDRaisedButton:
+            MDButton:
                 text: 'All'
                 #size_hint: .5,None
                 #height: app.mheight

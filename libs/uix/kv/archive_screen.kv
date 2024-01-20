@@ -19,17 +19,17 @@
             #orientation: 'horizontal'
             size_hint: 1,None
             height:dp(42)
-            MDRaisedButton:
+            MDButton:
                 text: 'Date'
                 id: date
 
                 on_press:(app.do_sort_all('date','archive'))
-            MDRaisedButton:
+            MDButton:
                 text: 'hours'
 
                 id: hours
                 on_press:app.do_sort_all('hours','archive')
-            MDRaisedButton:
+            MDButton:
                 text: 'pay'
 
                 id: pay
@@ -50,27 +50,27 @@
 
             
 
-            MDRaisedButton:
+            MDButton:
                 text: 'Current'
                 id: Current
 
                 on_press:(app.do_trim_all('Current','archive'))
-            MDRaisedButton:
+            MDButton:
                 text: 'Next'
                 id: Next
 
                 on_press:(app.do_trim_all('Next','archive'))
-            MDRaisedButton:
+            MDButton:
                 text: 'Last'
                 id: Last
 
                 on_press:(app.do_trim_all('Last','archive'))
-            MDRaisedButton:
+            MDButton:
                 text: 'All'
                 id: All
 
                 on_press:(app.do_trim_all('All','archive'))
-            MDRaisedButton:
+            MDButton:
                 text: 'Custom'
                 id: Custom
 
@@ -81,7 +81,7 @@
             orientation: 'horizontal'
             size_hint: 1,None
             height:dp(42)
-            MDRaisedButton:
+            MDButton:
                 text: 'All'
                 id: dstart
                 #size_hint: .5,None
@@ -90,7 +90,7 @@
                 #md_bg_color: app.theme_cls.primary_light
                 #padding:10
                 #on_press:(app.show_date_picker())
-            MDRaisedButton:
+            MDButton:
                 text: 'All'
                 #size_hint: .5,None
                 #height: app.mheight

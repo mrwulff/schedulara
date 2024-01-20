@@ -20,17 +20,17 @@
             #orientation: 'horizontal'
             size_hint: 1,None
             height:dp(42)
-            MDRaisedButton:
+            MDButton:
                 text: 'Date'
                 id: timeIn
 
                 on_press:(app.do_payperiod_trim('timeIn','search'))
-            MDRaisedButton:
+            MDButton:
                 text: '$$$'
 
                 id: Total
                 on_press:app.do_payperiod_trim('Total','search')
-            MDRaisedButton:
+            MDButton:
                 text: 'Hours'
 
                 id: tot_hours
@@ -61,22 +61,22 @@
 
             
 
-            #MDRaisedButton:
+            #MDButton:
                 #text: 'YTD'
                 #id: YTD
 
                 #on_press:(app.do_payperiod_f('YTD'))
-            #MDRaisedButton:
+            #MDButton:
                 #text: 'Year'
                 #id: Year
 
                 #on_press:(app.do_payperiod_f('Year'))
-            #MDRaisedButton:
+            #MDButton:
                 #text: 'All'
                 #id: All
 
                 #on_press:(app.do_payperiod_f('All'))
-            #MDRaisedButton:
+            #MDButton:
                 #text: 'Custom'
                 #id: Custom
 
@@ -87,11 +87,11 @@
         #    orientation: 'horizontal'
         #    size_hint: 1,None
         #    height:dp(42)
-        #    MDRaisedButton:
+        #    MDButton:
         #        text: 'All'
         #        id: dstart
 
-        #    MDRaisedButton:
+        #    MDButton:
         #        text: 'All'#
 
         #        id: dend

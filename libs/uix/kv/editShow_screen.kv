@@ -39,7 +39,7 @@
                     id: lunches
                     YourContainer:
                         id: button3
-                        MDRaisedButton:
+                        MDButton:
                             id: button4
                             padding: [15, 15]
 
@@ -63,7 +63,7 @@
                     YourContainer:
                         id: button3
                         text:'wow'
-                        MDRaisedButton:
+                        MDButton:
                             padding: [15, 15]
                             size_hint:app.right_hint
                             width:app.right_width
@@ -89,7 +89,7 @@
                     YourContainer:
                         id: container
 
-                        MDRaisedButton:
+                        MDButton:
                             text:"Time"
                             id:newhours
                             padding: [15, 15]
@@ -187,16 +187,16 @@
                     size_hint: 1, None
                     width:update.width*5
                     
-                    MDRaisedButton:
+                    MDButton:
                         text:"Update"
                         id:update
                         spacing: app.cspacing/2
                         on_release: app.update_show()
-                    MDRaisedButton:
+                    MDButton:
                         text:"Hide"
                         spacing: app.cspacing/2
                         on_release: app.hide_show()
-                    MDRaisedButton:
+                    MDButton:
                         text:"Delete"
                         spacing: app.cspacing/2
                         on_release: app.delete_show()

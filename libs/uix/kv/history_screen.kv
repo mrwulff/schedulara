@@ -75,7 +75,7 @@
             #orientation: 'horizontal'
             size_hint: 1,None
             height: app.mheight
-            MDRaisedButton:
+            MDButton:
                 text: 'Current'
                 id: scurrent
                 #size_hint: .3,None
@@ -83,7 +83,7 @@
                 #md_bg_color: app.theme_cls.primary_light
                 #padding:10
                 on_press:(app.set_pp('current'))
-            MDRaisedButton:
+            MDButton:
                 text: 'Last '
                 #size_hint: .3,None
                 #height: app.mheight
@@ -92,7 +92,7 @@
                 #spacing:10,10
                 id: slast
                 on_press:(app.set_pp('last'))
-            MDRaisedButton:
+            MDButton:
                 text: 'Custom'
                 #size_hint: .3,None
                 #height: app.mheight
@@ -103,7 +103,7 @@
                 on_press:
                     (app.show_date_picker())
                     (app.set_pp('custom'))
-            MDRaisedButton:
+            MDButton:
                 text: 'All'
                 id: sall
                 on_press:(app.set_pp('all'))
@@ -112,7 +112,7 @@
             orientation: 'horizontal'
             size_hint: 1,None
             height: app.mheight
-            MDRaisedButton:
+            MDButton:
                 text: 'All'
                 id: dstart
                 #size_hint: .5,None
@@ -121,7 +121,7 @@
                 #md_bg_color: app.theme_cls.primary_light
                 #padding:10
                 #on_press:(app.show_date_picker())
-            MDRaisedButton:
+            MDButton:
                 text: 'All'
                 #size_hint: .5,None
                 #height: app.mheight

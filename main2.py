@@ -1,3 +1,7 @@
+from kivy.core.window import Window
+
+from libs.uix.root import Root
+
 from kivymd.app import MDApp
 from kivy.app import App
 from libs.uix.root import Root
@@ -40,12 +44,15 @@ class Demo3App(MDApp):
         self,
     ):
         self.root = Root()
+        self.md2()
 
     def md2(self):
-        self.root.set_current("md2")
+        # self.root.set_current("md2")'
+        print(dir(self.root))
+        self.root.push("md2")
         print("md2")
 
-    def on_start(self):
+    def on_start2(self):
         global x
         global ad
         app = App.get_running_app()
@@ -65,7 +72,7 @@ class Demo3App(MDApp):
             libs.lib_makeuserdata.makeuserdata(App, config_file, False)
             x = libs.lib_readuserdata.readuserdata(App, config_file, False)
             print("made user data at begining!!!!!")
-        if 1 == 1:
+        if 1 == 2:
             # try:
             self.theme_cls.theme_style = x["theme"]
             self.theme_cls.primary_palette = x["pcolor"]
