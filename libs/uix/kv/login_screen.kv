@@ -90,14 +90,15 @@
                 #padding: [15, 15]
 
                 width: 50
-                text: "..."
+                text: "Select Location"
                 pos_hint: {'center_x': .5, 'center_y': .28}
                 values: app.sound_effects
                 items: app.sound_effects
                 #id: noise
-                on_release: app.choose_drop(app.locations,'city')
+                on_release: app.open_drop_item_menu(app.locations,'city')
                 MDButtonText:
-                    text: "..."
+                    id:lol
+                    text: "Select Location"
 
             MDButton:
                 text: "Login!"
@@ -111,11 +112,13 @@
                 MDButtonText:
                     text: "Login"
 
-            MDDropDownItem:
-                id: drop_item
-                pos_hint: {"center_x": .5, "center_y": .05}
-                on_release: app.open_drop_item_menu(self)
-
-                MDDropDownItemText:
-                    id: drop_text
-                    text: "Item"
+            #MDButton:#
+#
+#                id: drop_item
+#                pos_hint: {"center_x": .5, "center_y": .05}
+#                on_release: app.open_drop_item_menu(app.locations,'city')##
+#
+#                MDDropDownItemText:
+#                    id: drop_text
+#                    text: "Item"
+                    

@@ -685,6 +685,7 @@ class Demo3App(MDApp):
     cpadding = 20
     cradius = 0
     cradius4 = 0, 0, 0, 0
+    c_top = 3
     sound_effects = ["Ding", "Bang", "Lol"]
     custom_range = [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017]
     lunches = ["0", "1", "2", "3"]
@@ -1014,17 +1015,14 @@ class Demo3App(MDApp):
         return x
 
     def snackbarx(self, text1):
-        from kivymd.uix.snackbar import MDSnackbar
-        from kivymd.uix.label import MDLabel
-
-        if 1 == 1:
-            MDSnackbar(
-                MDLabel(
-                    text=text1,
-                ),
-            ).open()
-        # except:
-        #    print (text1,'FAILED SNACKBAR')
+        MDSnackbar(
+            MDSnackbarText(
+                text=text1,
+            ),
+            y=dp(24),
+            pos_hint={"center_x": 0.5},
+            size_hint_x=0.5,
+        ).open()
 
     def add_google_calendar(self, y):
         import libs.lib_google2 as lib_google
@@ -2526,6 +2524,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             js = libs.lib_new.get_json_schedule(x, ad)
         # print("js,wtfiswrong", js)
         # except:
+
+        self.root.get_screen("today").ids["pay1"].text = "blue"
+        self.root.get_screen("today").ids["pay2"].text = "green"
+        self.root.get_screen("today").ids["pay3"].text = "red"
+
         #    toast("login failed5")
         #    return "fail"
         try:
@@ -2584,7 +2587,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 # qq.name2.secondary_text='Schedulara'
         except:
             # qq.branding.background="images/wordart2.png"
-            qq.name2.text = "Schedulara"
+            qq.name3.text = "Schedulara"
             print("sch5")
         # if x['branding']== False:
         #    qq.name2.text="NOOOOOO"
@@ -2635,11 +2638,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
             paydate, payperiod = self.find_pay_date(pp_index)
 
-            paylist = self.root.get_screen("today").ids["pay"]
+            paylist = self.root.get_screen("today").ids["pay1"]
             paylist.text = "Payday:  " + paydate
-            paylist.secondary_text = "Payperiod: " + payperiod
+
         except:
-            toast("failed to get times")
+            self.snackbarx("failed to get times")
             print("failed to get times")
             self.root.get_screen("today").ids["stats"].text = "Invalid Show Data. "
             self.root.get_screen("today").ids[
@@ -2650,7 +2653,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         except:
             # paylist.tertiary_text = "third" + payperiod
             1
-
+        paylist2 = self.root.get_screen("today").ids["pay2"]
+        paylist2.text = "Payperiod: " + payperiod
         #####ALWAYS ONBOARD
         if x.get("onboarding") == None:
             b = self.do_onboarding(0)
@@ -3051,10 +3055,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 # print(shows[i]["earnings"], "endtime")
 
             # print(min_date, show_date.date(), max_date)
-            paylist = self.root.get_screen("today").ids["pay"]
-        paylist.tertiary_text = (
-            "Saved Times: " + str(complete_shows) + " / " + str((tot_shows))
-        )
+            paylist = self.root.get_screen("today").ids["pay3"]
+        paylist.text = "Saved Times: " + str(complete_shows) + " / " + str((tot_shows))
 
     def update_fieldnotes(self):
         import libs.lib_fieldnotes
@@ -3829,7 +3831,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             libs.lib_new.make_json_schedule(x, ad)
             print("updated schedule")
             self.update_internal("update", 1)
-            toast("Success")
+            self.snackbarx("Success")
 
         # except:
         ##    print("login failed")
@@ -4453,14 +4455,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # print(location[text_item])
         # print (text_item,type(text_item))
         # print(v[text_item], "v[text")
-        # print(text_item, v2, v, "dumbass")
+        print(text_item, v2, v, "dumbass")
         if v2 == "name":
             # toast(str(v[text_item][v2]))
             App.get_running_app().root.current_screen.ids[
                 "last_restore"
             ].secondary_text = str(v[text_item][v2])
         if v2 == "city":
-            App.get_running_app().root.current_screen.ids["button4"].text = str(
+            App.get_running_app().root.current_screen.ids["lol"].text = str(
                 v[text_item]
             )
         if v2 == "pcolor":
@@ -4503,19 +4505,33 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     drop_item_menu: MDDropdownMenu = None
 
-    def open_drop_item_menu(self, item):
+    def open_drop_item_menu(self, v, v2):
+        # v2 = "wow"
+        print(v, "what is v")
+
+        # menu_items = [
+        #     {
+        #         "text": f"{v[i]}",
+        #         "on_release": lambda x=f"Item {i}": self.menu_callback(x, v, v2),
+        #     }
+        #     for i in range(len(v) - 1)
+        # ]
         menu_items = [
             {
-                "text": f"{i}",
-                "on_release": lambda x=f"Item {i}": self.menu_callback(x),
+                "text": f"{v[i]}",
+                "on_release": lambda x=i: self.menu_callback(x, v, v2),
             }
-            for i in range(5)
+            for i in range(len(v) - 1)
         ]
-        if not self.drop_item_menu:
-            self.drop_item_menu = MDDropdownMenu(
-                caller=item, items=menu_items, position="center"
-            )
-        self.drop_item_menu.open()
+        self.menu = MDDropdownMenu(
+            caller=App.get_running_app().root.current_screen.ids["button4"],
+            items=menu_items,
+            max_height=dp(4000),
+            height=dp(154),
+            ##position="center",
+            width_mult=4,
+        )
+        self.menu.open()
 
     def choose_drop(self, v, v2):
         "oll"
@@ -5585,7 +5601,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_archive
 
         listofdicks = libs.lib_archive.delete_demo_files("/future_shows", ad)
-        toast("deleted shows")
+        self.snackbarx("deleted  demo shows")
 
     def show_archive(self):
         import libs.lib_archive
@@ -6617,9 +6633,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             # zz=self.find_pay_date(pp_index)
             # print (zz)
 
-            paylist = self.root.get_screen("today").ids["pay"]
+            paylist = self.root.get_screen("today").ids["pay1"]
             paylist.text = "Payday:  " + paydate + " "
-            paylist.secondary_text = "Payperiod: " + payperiod
+            paylist2 = self.root.get_screen("today").ids["pay2"]
+            paylist.text = "Payperiod: " + payperiod
             self.update_today_pp(pp_index)
         if t == "cal":
             global cal_index
@@ -6765,7 +6782,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def do_payperiod(self, zz):
         self.root.push("pay")
         self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
-        from kivymd.uix.list import ThreeLineListItem
+        # from kivymd.uix.list import ThreeLineListItem
 
         ssort = self.sort_pp
         rreverse = self.rreverse
@@ -6777,6 +6794,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         bu = ["YTD", "Year", "All", "Custom"]
         bu2 = ["paydate", "moneytotal", "totalhours"]
+        """
         for i in range(len(bu)):
             if self.date_range_pp == bu[i]:
                 App.get_running_app().root.current_screen.ids[
@@ -6807,6 +6825,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # App.get_running_app().root.current_screen.ids[
         #        "sall"
         #    ].size=2
+        """
 
         App.get_running_app().root.current_screen.ids["dstart"].text = (
             self.format_date(self.fday, "full") + "     to"
@@ -7175,15 +7194,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     # self.root.current = "home"
 
     def save_login(self):
-        loc = App.get_running_app().root.current_screen.ids["button4"].text
+        loc = App.get_running_app().root.current_screen.ids["lol"].text
         print(loc, "LOC")
         blank = False
-        if loc == "...":
-            toast("Please Enter Location")
+        if loc == "Select Location":
+            self.snackbarx("Please Enter Location")
             blank = True
             print(blank, "locc")
         if App.get_running_app().root.current_screen.ids["temail"].text == "":
-            toast("Please Enter Email")
+            self.snackbarx("Please Enter Email")
             blank = True
             print(blank, "emailloc")
         zz = App.get_running_app().root.current_screen.ids
@@ -7193,7 +7212,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             App.get_running_app().root.current_screen.ids["pass2"].ids["tpassword"].text
         )
         if passw == "":
-            toast("Please Enter Password")
+            self.snackbarx("Please Enter Password")
             blank = True
             print(blank, "passwordloc")
         print(blank, "BLANK")
@@ -7207,7 +7226,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             x["username"] = App.get_running_app().root.current_screen.ids["temail"].text
             x["usecache"] = False
             x["password"] = str(libs.lib_enc.make_password(passw))
-            x["city"] = App.get_running_app().root.current_screen.ids["button4"].text
+            x["city"] = App.get_running_app().root.current_screen.ids["lol"].text
 
             import libs.lib_updateuserdata as lib_updateuserdata
 
@@ -7216,16 +7235,16 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
             try:
                 print(js, "JesusCh")
-                toast(str(js))
+                self.snackbarx(str(js))
                 success = True
             except:
-                toast("login failed...")
+                self.snackbarx("login failed...")
                 return "fail"
             if success == True:
                 self.delete_demo()
                 self.root.push("today")
                 self.update()
-                toast(str(js))
+                self.snackbarx(str(js))
 
     # btnState2 = StringProperty("false")
 
