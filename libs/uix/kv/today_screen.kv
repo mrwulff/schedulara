@@ -95,11 +95,15 @@
             #title: "Settings"
         #    height: app.mheight
         #    type: "bottom"
+            bg_color:self.theme_cls.primary_palette
             MDTopAppBarLeadingButtonContainer:
     
                 MDActionTopAppBarButton:
                     icon: "menu"
                     on_release: nav_drawer.set_state("toggle")
+                MDActionTopAppBarButton:
+                    icon: "shape"
+                    on_release: app.do_theme()
             #left_action_items:
             #    [['menu', lambda x: nav_drawer.set_state("open")]]
             #right_action_items: [['reload-alert', lambda screen: app.do_graphOrder(),'order']]
@@ -114,23 +118,22 @@
                 radius: app.cradius
                 #text_color:app.theme_cls.primary_color
                 MDCard:
-                    size_hint: .9,None
-                    #height: stats.height/1.5 
-                    height: self.minimum_height
-                    #width:dp(250)
+                    size_hint: None,None
+                    height: stats.height
+                    #height: self.minimum_height
+                    width:stats.width
                     id:branding
-                    radius: app.cradius
-                    pos_hint: {"center_x": .79, "center_y": .5}
+                    #radius: app.cradius
+                    #pos_hint: {"center_x": .79, "center_y": .5}
                     #background:"images/walls/logo.png" if app.branding True
-                    MDListItem:
+                    md_bg_color:1,1,1,1
+                    Image:
+                        bg_color:1,1,1,1
+                        md_bg_color:1,1,1,1
+                        #size_hint_y: first.width
+                        #width:stats.width
+                        id:branding_f
 
-                        id: name2
-                        MDListItem:
-                            id:name3
-                        #text: "OMG IS YOU"
-                        #opposite_colors: True
-                        #MDListItemLeadingIcon:
-                            #icon:"table-account"
 
                 MDCard:
                     orientation: "vertical"
@@ -164,10 +167,11 @@
                     focus_behavior: True
                     ripple_behavior: True
                     #pos_hint: {"center_x": .5, "center_y": .5}
-                    on_release: app.pop_new(0)
+                    
                     radius: app.cradius
                     #md_bg_color:1,1,1,.5
                     MDListItem:
+                        on_release: app.pop_new(0)
                         id:first
                         #text: "First Show"
                         #secondary_text: "Secondary text here"
@@ -177,10 +181,12 @@
                             id:1l
                             #icon: app.find_type(0,"type") 
                             pos_hint:{"center_x": 0.5, "center_y": 0.5}
+                            icon_color:app.theme_cls.primaryColor
                         MDListItemTrailingIcon:
                             
                             id:1r
                             pos_hint:{"center_x": 0.5, "center_y": 0.5}
+                            icon_color:app.theme_cls.primaryColor
                         MDListItemSupportingText:
                             text:'wow'
                             id:first1
@@ -211,10 +217,12 @@
                             pos_hint:{"center_x": 0.5, "center_y": 0.5}
                             id:2l
                             #icon: app.find_type(1,"type") 
+                            icon_color:app.theme_cls.primaryColor
                         MDListItemTrailingIcon:
                             pos_hint:{"center_x": 0.5, "center_y": 0.5}
                             #icon: app.find_type(1,"pos")  
                             id:2r 
+                            icon_color:app.theme_cls.primaryColor
                         MDListItemSupportingText:
                             text:'wow'
                             id:second1
@@ -246,10 +254,12 @@
                             id:3l
                             pos_hint:{"center_x": 0.5, "center_y": 0.5}
                             #icon: app.find_type(2,"type") 
+                            icon_color:app.theme_cls.primaryColor
                         MDListItemTrailingIcon:
                             #icon: app.find_type(2,"pos")  
                             id:3r 
                             pos_hint:{"center_x": 0.5, "center_y": 0.5}
+                            icon_color:app.theme_cls.secondaryColor
                         MDListItemSupportingText:
                             text:'wow'
                             id:third1
@@ -368,18 +378,16 @@
 
                 MDBoxLayout:
                     orientation: "vertical"
-                    height:cal_box.height
-                    #size_hint:.9,.9
+                    
+                    size_hint:.9,.9
                     size_hint_y: None
                     height: self.minimum_height
                     #pos_hint:None,None
                     md_bg_color:1,0,0,0
+                    #height:cal_box.height
 
                     
-                    id:cal_box
-                    MDListItem: 
-                        MDListItemSupportingText:
-                            text: " Info"
+
 
                     MDCard:
                         orientation: "vertical"
@@ -399,13 +407,15 @@
                             #text: '\U0001F600'
                             id:cal_month
                             on_press: app.reset_cal()
-                            MDListItemLeadingIcon:
+                            MDIconButton:
                                 icon: "menu-left"  
-                                #on_press: app.do_pp_sum(-1,'cal')
-                            MDListItemTrailingIcon:
+                                on_press: app.do_pp_sum(-1,'cal')
+                            MDIconButton:
                                 
                                 icon: "menu-right"  
-                                #on_press: app.do_pp_sum(1,'cal')
+                                on_press: app.do_pp_sum(1,'cal')
+                            MDListItemHeadlineText:
+                                id:cal_month_text
                     MDCard:
                         orientation: "horizontal"
                         size_hint: .5, None
@@ -477,11 +487,8 @@
                         width:app.cal_width
                         radius: app.cradius
                         id:cal5
-                        md_bg_color:app.cal_bg
-                    MDListItem:
-                        #text:'wow'
-                        MDListItemSupportingText:
-                            text:"Supporting text"
+                        md_bg_color: self.theme_cls.backgroundColor
+
 
 
 

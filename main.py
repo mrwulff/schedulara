@@ -8,6 +8,7 @@ print("main debug=" + str(debug))
 print("wtf1006")
 from ast import Pass
 from asyncio import queues
+from kivy.utils import hex_colormap
 
 # from audioop import reverse\
 # from curses import A_REVERSE
@@ -18,6 +19,10 @@ from kivy.metrics import dp
 from kivy.base import ExceptionHandler, ExceptionManager
 import logging
 from kivy.utils import platform
+from kivymd.uix.button import MDFabButton
+
+import libs.lib_positions
+import libs.lib_readuserdata
 
 # from kivymd.uix.list import (
 # ThreeLineAvatarIconListItem,
@@ -34,6 +39,16 @@ from kivymd.uix.snackbar import (
     MDSnackbarCloseButton,
     MDSnackbarText,
 )
+from kivymd.uix.textfield import (
+    MDTextField,
+    MDTextFieldLeadingIcon,
+    MDTextFieldHintText,
+    MDTextFieldHelperText,
+    MDTextFieldTrailingIcon,
+    MDTextFieldMaxLengthText,
+)
+
+
 from kivymd.uix.divider import MDDivider
 from kivy.uix.widget import Widget
 from kivymd.uix.button import MDButton, MDButtonText
@@ -655,10 +670,10 @@ class Demo3App(MDApp):
 
     import os
 
-    cal_width = dp(7)
+    cal_width = dp(0)
     cal_height = dp(50)
     cal_font_size = 3
-    cal_size_hint = (0.5, None)
+    cal_size_hint = (0.0, None)
     cal_bg = (0, 0, 0, 0)
 
     cwd = os.getcwd()
@@ -750,6 +765,8 @@ class Demo3App(MDApp):
         "Gray",
         "BlueGray",
     ]
+    pcolor = [name_color.capitalize() for name_color in hex_colormap.keys()]
+
     icons_height = dp(40)
     right_hint = None, 0.9
     right_width = dp(70)
@@ -1603,6 +1620,7 @@ class Demo3App(MDApp):
         self,
     ):
         self.root = Root()
+        self.theme_cls.theme_style_switch_animation = True
         # self.update_internal("opened", 1)
 
         # from kivy.config import Config
@@ -2344,12 +2362,275 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # (lambda x, y=d,: self.print_id(y))
         self.root.current_screen.ids["check_id"].add_widget(tables)
 
+    def click_cal(self, info, js):
+        self.pop_new([info, js])
+        """
+        print(type(info), info, "infooooo")
+        print(js[info], "full thingy", str(js[info]["date"]))
+        title5 = js[info]["show"]
+        text55 = (
+            str(js[info]["date"])
+            + " "
+            + str(js[info]["time"])
+            + "\n\n"
+            + str(js[info]["status"])
+            + "   "
+            + str(js[info]["pos"])
+            + "   "
+            + str(js[info]["type"])
+            + "\n"
+            + str(js[info]["venue"])
+            + "\n"
+            + str(js[info]["location"])
+            + "\n"
+            + "\n"
+            + str(js[info]["job"])
+            + "\n"
+            + str(js[info]["client"])
+            + "\n\n"
+            + str(js[info]["notes"])
+        )
+
+        # self.alert2 = SweetAlert()
+        # self.alert2.fire(
+        #    title5,
+        #    text55,
+        #    buttons=([button_ok]),
+        # )
+        i = 0
+        welcome = "welcome"
+        legal = "bla"
+        demo = "demo"
+        s = "[size=19dp]"
+        title = [title5, "Legal:", "Extras:"]
+        text = [
+            s + text55,
+            s + legal,
+            s + demo,
+        ]
+        b_b = s + "Previous", s + "2", s + "3"
+        b_b2 = s + "Close", s + "5", s + "6"
+
+        button_ok = MDButton(
+            text=b_b[i] + "[size=0]###" + str(int(info) - 1),
+            # theme_font_size=dp(16),
+            on_release=self.cal_next,
+        )
+        button_cancel = MDButton(
+            text=b_b2[i] + "[size=0]" + str(int(info) - 1),
+            # theme_font_size=dp(16),
+            on_release=self.cal_close,
+        )
+
+        button_login = MDButton(
+            # text=b_b[i] + "[size=0]" + str(int(info-1)),
+            text="Next" + "[size=0]###" + str(int(info) + 1),
+            # theme_font_size=dp(16),
+            on_release=self.cal_next,
+        )
+
+        bb = ([button_ok, button_cancel, button_login],)
+        # self.alert = SweetAlert()
+        # self.alert.window_control_buttons = "close"
+        # self.alert.fire(title[i], text[i], buttons=bb[i])
+
+        MDDialog(
+            # ----------------------------Icon-----------------------------
+            MDDialogIcon(
+                icon="refresh",
+            ),
+            # -----------------------Headline text-------------------------
+            MDDialogHeadlineText(
+                text="Reset settings?",
+            ),
+            # -----------------------Supporting text-----------------------
+            MDDialogSupportingText(
+                text="This will reset your app preferences back to their "
+                "default settings. The following accounts will also "
+                "be signed out:",
+            ),
+            # -----------------------Custom content------------------------
+            MDDialogContentContainer(
+                MDDivider(),
+                MDListItem(
+                    MDListItemLeadingIcon(
+                        icon="gmail",
+                    ),
+                    MDListItemSupportingText(
+                        text="KivyMD-library@yandex.com",
+                    ),
+                    theme_bg_color="Primary",
+                    md_bg_color=self.theme_cls.transparentColor,
+                ),
+                MDListItem(
+                    MDListItemLeadingIcon(
+                        icon="gmail",
+                    ),
+                    MDListItemSupportingText(
+                        text="kivydevelopment@gmail.com",
+                    ),
+                    theme_bg_color="Primary",
+                    md_bg_color=self.theme_cls.transparentColor,
+                ),
+                MDDivider(),
+                orientation="vertical",
+            ),
+            # ---------------------Button container------------------------
+            MDDialogButtonContainer(
+                Widget(),
+                MDButton(
+                    MDButtonText(text="Cancel"),
+                    theme_text_color="Hint",
+                    md_bg_color=self.theme_cls.transparentColor,
+                    style="text",
+                ),
+                MDButton(
+                    MDButtonText(text="Accept"),
+                    style="text",
+                ),
+                spacing="8dp",
+            ),
+            # -------------------------------------------------------------
+        ).open()
+
+        return True
+        """
+
     def pop_new(self, d):
         global today_index
         today_index = d
 
         import libs.lib_new
         import libs.lib_makeuserdata
+
+        from kivymd.uix.dialog import MDDialog as md33
+
+        import libs.lib_positions
+
+        if isinstance(d, list):
+            gg = d[1][d[0]]
+            d = d[0]
+        else:
+            js = libs.lib_new.get_json_schedule_1(x, ad)
+            gg = js["shows"][d]
+
+        pos = libs.lib_positions.get_position_name(ad, gg["pos"])
+        # type = libs.lib_positions.get_position_name(ad, gg["type"])
+        print
+        self.find_type(d, "type")
+        print(
+            pos,
+            # type,
+            "whthththht",
+            self.find_type(d, "type"),
+            self.find_type(d, "pos"),
+            d,
+        )
+        self.menu = MDDialog(
+            # type=simple,
+            # ----------------------------Icon-----------------------------
+            # MDDialogIcon(
+            #    icon=self.find_type(d, "type"),
+            # ),
+            # -----------------------Headline text-------------------------
+            MDDialogHeadlineText(
+                text=gg["show"],
+            ),
+            # -----------------------Supporting text-----------------------
+            MDDialogSupportingText(
+                text=gg["date"],
+            ),
+            MDDialogSupportingText(
+                text=gg["time"],
+            ),
+            # -----------------------Custom content------------------------
+            MDDialogContentContainer(
+                MDDivider(),
+                MDListItem(
+                    MDListItemLeadingIcon(
+                        icon=self.find_type(d, "type"),
+                    ),
+                    MDListItemSupportingText(
+                        text=gg["venue"],
+                    ),
+                    MDListItemSupportingText(
+                        text=gg["location"],
+                    ),
+                    MDListItemSupportingText(
+                        text=gg["job"],
+                    ),
+                    MDListItemLeadingIcon(
+                        icon=self.find_type(d, "pos"),
+                        theme_bg_color="Primary",
+                    ),
+                    md_bg_color=self.theme_cls.primaryColor,
+                ),
+                MDListItem(
+                    MDListItemLeadingIcon(
+                        icon=self.find_type(d, "pos"),
+                    ),
+                    MDListItemSupportingText(
+                        text=gg["status"],
+                    ),
+                    MDListItemSupportingText(
+                        text=gg["client"],
+                    ),
+                    MDListItemSupportingText(
+                        text=gg["type"] + " " + pos,
+                    ),
+                    theme_bg_color="Primary",
+                    # md_bg_color=self.theme_cls.transparentColor,
+                ),
+                MDDivider(),
+                MDTextField(text=gg["notes"], multiline=True),
+                orientation="vertical",
+            ),
+            # ---------------------Button container------------------------
+            MDDialogButtonContainer(
+                Widget(),
+                # MDFabButton(icon="arrow-right-bold", style="small"),
+                MDFabButton(
+                    style="small",
+                    icon="arrow-left-bold",
+                    on_release=lambda x, y=(gg): self.cal_next(d - 1),
+                ),
+                MDFabButton(icon="content-save", style="small"),
+                MDFabButton(
+                    style="small",
+                    icon="microsoft-xbox-controller-menu",
+                    on_release=lambda x, y=(gg): self.open_menu("item", gg),
+                ),
+                MDFabButton(
+                    icon="close-box",
+                    style="small",
+                    on_release=lambda x, y=(gg): self.menu.dismiss(),
+                ),
+                MDFabButton(
+                    icon="arrow-right-bold",
+                    style="small",
+                    on_release=lambda x, y=(gg): self.cal_next(d + 1),
+                ),
+                spacing="20dp",
+                # cent2er=(50, 0),
+                right=False,
+                size_hint=(None, None),
+                pos_hint={"center_x": 0.5, "center_y": 0.5},
+                center_y=2100,
+            ),
+            # -------------------------------------------------------------
+        )
+
+        App.get_running_app().root.current_screen.ids["test"] = self.menu
+        self.menu.open()
+
+    def pop_new2(self, d):
+        print("pop_new")
+        global today_index
+        today_index = d
+
+        import libs.lib_new
+        import libs.lib_makeuserdata
+
         from kivymd.uix.dialog import MDDialog as md33
 
         js = libs.lib_new.get_json_schedule_1(x, ad)
@@ -2467,7 +2748,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def find_type(self, a, b):
         import libs.lib_new
-        import libs.lib_positions
 
         # z=self.root.get_screen("today").ids["first"].text
         js = libs.lib_new.get_json_schedule(x, ad)
@@ -2578,17 +2858,20 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             # self.root.get_screen("today").ids["first2"].text = ntime
             # elf.root.get_screen("today").ids["first3"].text = ntime
         qq = self.root.get_screen("today").ids
-        qq.branding.background = "images/logo/logo2.png"
+
+        # qq.branding_f.source = "images/logo/logo2.png"
         try:
             if x["branding"] == True:
-                qq.branding.background = "images/logo/logo.png"
+                qq.branding_f.source = "images/logo/logo.png"
 
                 # qq.name2.text='Schedulara'
                 # qq.name2.secondary_text='Schedulara'
+                pass
         except:
-            # qq.branding.background="images/wordart2.png"
-            qq.name3.text = "Schedulara"
+            qq.branding_f.source = "images/logo/logo2.png"
+            # qq.name3.text = "Schedulara"
             print("sch5")
+        qq.branding_f.source = "images/logo/logo.png"
         # if x['branding']== False:
         #    qq.name2.text="NOOOOOO"
         # print(qq, "BRANDING")
@@ -2794,7 +3077,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         on_release=self.find_cal,
                     )
                 )
-        callist = self.root.get_screen("today").ids["cal_month"]
+        callist = self.root.get_screen("today").ids["cal_month_text"]
         callist.text = mmonth + " " + year
 
     def find_cal(self, y):
@@ -2851,151 +3134,20 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if len(pops) > 0:
             self.click_cal(pops[0], js)
 
-    def click_cal(self, info, js):
-        print(type(info), info, "infooooo")
-        print(js[info], "full thingy", str(js[info]["date"]))
-        title5 = js[info]["show"]
-        text55 = (
-            str(js[info]["date"])
-            + " "
-            + str(js[info]["time"])
-            + "\n\n"
-            + str(js[info]["status"])
-            + "   "
-            + str(js[info]["pos"])
-            + "   "
-            + str(js[info]["type"])
-            + "\n"
-            + str(js[info]["venue"])
-            + "\n"
-            + str(js[info]["location"])
-            + "\n"
-            + "\n"
-            + str(js[info]["job"])
-            + "\n"
-            + str(js[info]["client"])
-            + "\n\n"
-            + str(js[info]["notes"])
-        )
-
-        # self.alert2 = SweetAlert()
-        # self.alert2.fire(
-        #    title5,
-        #    text55,
-        #    buttons=([button_ok]),
-        # )
-        i = 0
-        welcome = "welcome"
-        legal = "bla"
-        demo = "demo"
-        s = "[size=19dp]"
-        title = [title5, "Legal:", "Extras:"]
-        text = [
-            s + text55,
-            s + legal,
-            s + demo,
-        ]
-        b_b = s + "Previous", s + "2", s + "3"
-        b_b2 = s + "Close", s + "5", s + "6"
-
-        button_ok = MDButton(
-            text=b_b[i] + "[size=0]###" + str(int(info) - 1),
-            # theme_font_size=dp(16),
-            on_release=self.cal_next,
-        )
-        button_cancel = MDButton(
-            text=b_b2[i] + "[size=0]" + str(int(info) - 1),
-            # theme_font_size=dp(16),
-            on_release=self.cal_close,
-        )
-
-        button_login = MDButton(
-            # text=b_b[i] + "[size=0]" + str(int(info-1)),
-            text="Next" + "[size=0]###" + str(int(info) + 1),
-            # theme_font_size=dp(16),
-            on_release=self.cal_next,
-        )
-
-        bb = ([button_ok, button_cancel, button_login],)
-        # self.alert = SweetAlert()
-        # self.alert.window_control_buttons = "close"
-        # self.alert.fire(title[i], text[i], buttons=bb[i])
-
-        MDDialog(
-            # ----------------------------Icon-----------------------------
-            MDDialogIcon(
-                icon="refresh",
-            ),
-            # -----------------------Headline text-------------------------
-            MDDialogHeadlineText(
-                text="Reset settings?",
-            ),
-            # -----------------------Supporting text-----------------------
-            MDDialogSupportingText(
-                text="This will reset your app preferences back to their "
-                "default settings. The following accounts will also "
-                "be signed out:",
-            ),
-            # -----------------------Custom content------------------------
-            MDDialogContentContainer(
-                MDDivider(),
-                MDListItem(
-                    MDListItemLeadingIcon(
-                        icon="gmail",
-                    ),
-                    MDListItemSupportingText(
-                        text="KivyMD-library@yandex.com",
-                    ),
-                    theme_bg_color="Primary",
-                    md_bg_color=self.theme_cls.transparentColor,
-                ),
-                MDListItem(
-                    MDListItemLeadingIcon(
-                        icon="gmail",
-                    ),
-                    MDListItemSupportingText(
-                        text="kivydevelopment@gmail.com",
-                    ),
-                    theme_bg_color="Primary",
-                    md_bg_color=self.theme_cls.transparentColor,
-                ),
-                MDDivider(),
-                orientation="vertical",
-            ),
-            # ---------------------Button container------------------------
-            MDDialogButtonContainer(
-                Widget(),
-                MDButton(
-                    MDButtonText(text="Cancel"),
-                    theme_text_color="Hint",
-                    md_bg_color=self.theme_cls.transparentColor,
-                    style="text",
-                ),
-                MDButton(
-                    MDButtonText(text="Accept"),
-                    style="text",
-                ),
-                spacing="8dp",
-            ),
-            # -------------------------------------------------------------
-        ).open()
-
-        return True
-
     def cal_next(self, instance):
-        print("cal next", instance.text)
+        print("cal next", instance)
         import libs.lib_new
 
-        info = instance.text
-        junk, info = str.split(info, "###")
-        info = int(info)
+        # info = instance.text
+        # junk, info = str.split(info, "###")
+        info = int(instance)
 
         js = libs.lib_new.get_json_schedule(x, ad)
         # print(js[info])
         js = js["shows"]
 
         if info > -1 and info < len(js):
-            self.alert.dismiss()
+            self.menu.dismiss()
             self.click_cal(info, js)
 
     def cal_close(self, instance):
@@ -3388,8 +3540,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.view_icons(wow)
 
     def view_icons(self, term):
-        import libs.lib_positions
-
         pos = libs.lib_positions.get_positions(ad, term)
         # self.load_positions()
 
@@ -4131,8 +4281,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             )
             # fail = self.confirm_real(asdf)
 
-    def email_time(self, x2):
-        print("save_time", xx9, x)
+    def email_time(self, gg):
+        # print("save_time", x)
 
         try:
             endtime = str(x["endtime"])
@@ -4148,30 +4298,98 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             lunches = "??"
             ##TODO MAKE LUNCHES
             es = ""
-
+        xx9 = gg
         # ee = f"Hi,\nI worked {str(xx9["show"])}  {str(xx9["job"])} at {str(xx9["venue"])} on {str(xx9["date"])} from {str(xx9["venue"])} to {str(xx9["endtime"])}\n Thanks,\n{str(x["name"])}"
         ee = f"Hi,\nI worked {str(xx9['show'])}  ({str(xx9['job'])}) at {str(xx9['venue'])} on {str(xx9['date'])} from {str(xx9['time'])} to {endtime} with {lunches} walkaway lunch{es}\nThanks, {str(x['name'])}"
         # print(ee)
         from kivymd.uix.dialog import MDDialog as md33
         from kivy.core.clipboard import Clipboard
 
-        if not self.dialog3:
-            self.dialog3 = md33(
-                text=ee,
-                type="custom",
-                #
-                # content_cls=Content(),
-                buttons=[
-                    MDFlatButton(
-                        text="Copy",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=lambda x, y=(ee): Clipboard.copy(ee),
-                    ),
-                ],
-            )
+        self.menu.dismiss()
 
-        self.dialog3.open()
+        self.menu2 = MDDialog(
+            # type=simple,
+            # ----------------------------Icon-----------------------------
+            # MDDialogIcon(
+            #    icon=self.find_type(d, "type"),
+            # ),
+            # -----------------------Headline text-------------------------
+            MDDialogHeadlineText(
+                text=gg["date"],
+            ),
+            # -----------------------Supporting text-----------------------
+            MDDialogSupportingText(
+                text=gg["date"],
+            ),
+            MDDialogSupportingText(
+                text=gg["time"],
+            ),
+            # -----------------------Custom content------------------------
+            MDDialogContentContainer(
+                MDDivider(),
+                MDListItem(
+                    MDListItemSupportingText(
+                        text=gg["venue"],
+                    ),
+                    MDListItemSupportingText(
+                        text=gg["location"],
+                    ),
+                    MDListItemSupportingText(
+                        text=gg["job"],
+                    ),
+                    md_bg_color=self.theme_cls.primaryColor,
+                ),
+                MDListItem(
+                    MDListItemSupportingText(
+                        text=gg["status"],
+                    ),
+                    MDListItemSupportingText(
+                        text=gg["client"],
+                    ),
+                    theme_bg_color="Primary",
+                    # md_bg_color=self.theme_cls.transparentColor,
+                ),
+                MDDivider(),
+                MDTextField(text=ee, multiline=True),
+                orientation="vertical",
+            ),
+            # ---------------------Button container------------------------
+            MDDialogButtonContainer(
+                Widget(),
+                # MDFabButton(icon="arrow-right-bold", style="small"),
+                MDFabButton(
+                    style="small",
+                    icon="arrow-left-bold",
+                    # on_release=lambda x, y=(gg): self.cal_next(d - 1),
+                ),
+                MDFabButton(icon="content-save", style="small"),
+                MDFabButton(
+                    style="small",
+                    icon="microsoft-xbox-controller-menu",
+                    on_release=lambda x, y=(gg): self.open_menu("item", gg),
+                ),
+                MDFabButton(
+                    icon="close-box",
+                    style="small",
+                    on_release=lambda x, y=(gg): self.menu.dismiss(),
+                ),
+                MDFabButton(
+                    icon="arrow-right-bold",
+                    style="small",
+                    # on_release=lambda x, y=(gg): self.cal_next(d + 1),
+                ),
+                spacing="20dp",
+                # cent2er=(50, 0),
+                right=False,
+                size_hint=(None, None),
+                pos_hint={"center_x": 0.5, "center_y": 0.5},
+                center_y=2100,
+            ),
+            # -------------------------------------------------------------
+        )
+
+        App.get_running_app().root.current_screen.ids["test2"] = self.menu2
+        self.menu2.open()
 
     def copy_email(self, eee):
         print("email_times", eee)
@@ -4466,7 +4684,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 v[text_item]
             )
         if v2 == "pcolor":
-            App.get_running_app().root.current_screen.ids["button4"].text = str(
+            App.get_running_app().root.current_screen.ids["button_t"].text = str(
                 v[text_item]
             )
             self.theme_cls.primary_palette = v[text_item]
@@ -4504,6 +4722,28 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.menu.dismiss()
 
     drop_item_menu: MDDropdownMenu = None
+
+    def open_menu(self, item, gg):
+        it = ["Email", "Field Guide", "Save Times", "Share", "Other?"]
+        menu_items = [
+            {
+                "text": it[i],
+                "on_release": lambda x=it[i]: self.menu_callback2(x, gg),
+            }
+            for i in range(len(it))
+        ]
+        self.menu_items = MDDropdownMenu(
+            caller=App.get_running_app().root.current_screen.ids["test"],
+            items=menu_items,
+        )
+        self.menu_items.open()
+
+    def menu_callback2(self, item, gg):
+        print(item, gg, "callback2")
+        # self.root.ids.drop_text.text = text_item
+        self.menu_items.dismiss()
+        if item == "Email":
+            self.email_time(gg)
 
     def open_drop_item_menu(self, v, v2):
         # v2 = "wow"
@@ -4905,6 +5145,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # if data["name"] == "Hustle and Grind":
         # self.root.current_screen.ids["ach_info_id"].add_widget(items)
 
+    def rainbow(self):
+        # hex_colormap
+        print(dir(hex_colormap), x, self.theme_cls.secondaryColor, "what is this color")
+        # return self.theme_cls.secondaryColor
+
     def ach_reset(self):
         print("reset ach")
         import libs.lib_ach
@@ -5194,7 +5439,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def animate_money_new(self, y):
         global gshow
         import libs.lib_new
-        import libs.lib_readuserdata
 
         global x
         xx9 = x
@@ -6533,8 +6777,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def do_theme(self):
         specific_text_color = ""
+        print(x, "pcolor")
+        if x["pcolor"] == None:
+            x["pcolor"] = "Blue"
         self.root.push("theme")
         self.root.get_screen("theme").ids["pic"].source = self.get_wall("theme")
+        self.root.get_screen("theme").ids["button_t"].text = x["pcolor"]
         self.save_theme_picker()
 
     theme_settings = ""
@@ -6595,7 +6843,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def save_theme_picker(self):
         s = self.theme_cls.theme_style
         p = self.theme_cls.primary_palette
-        a = self.theme_cls.accent_palette
+        # a = self.theme_cls.accent_palette
+        a = "CRAP"
         import libs.lib_readuserdata as lib_readuserdata
 
         x = lib_readuserdata.readuserdata(App, ad, ios)
@@ -6616,7 +6865,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
-        print(x)
+        # print(x)
 
     def change_screen(self, screen, direction):
         self.root.transition.direction = direction
@@ -6764,6 +7013,16 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         self.do_payperiod("None")
         return fdate, ldate
+
+    def toggle_any(self, stat):
+        if x[stat] == False:
+            x[stat] = True
+            # toast("Hide Personal Data")
+        else:
+            x[stat] = False
+        import libs.lib_updateuserdata as lib_updateuserdata
+
+        lib_updateuserdata.updateuser(x, ad)
 
     def toggle_hidden(self):
         if x["hidden"] == False:
