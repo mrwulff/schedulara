@@ -219,10 +219,24 @@ def load_archive_json(ad, x):
     # print (x)
     flag = 0
     job = ""
+    d = "future_shows"
+    try:
+        space = " "
+        fname = (
+            format_textt(x["date"])
+            + space
+            + format_textt(x["time"])
+            + space
+            + x["job"]
+            + space
+            + format_textt(x["show"])
+        )
+    except:
+        pass
     try:
         junk, date, time, job, show = str.split(x, "%%%")
         space = " "
-        d = "future_shows"
+
         fname = (
             format_textt(date)
             + space

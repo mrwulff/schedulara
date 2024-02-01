@@ -168,7 +168,6 @@ from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.list import (
     #    MDListItem,
     #    TwoLineAvatarListItem,
-    #    TwoLineListItem,
     #    ThreeLineListItem,
     #    ThreeLineAvatarListItem,
     # )
@@ -2099,11 +2098,11 @@ class Demo3App(MDApp):
             libs.lib_makeuserdata.makeuserdata(App, config_file, ios)
             x = libs.lib_readuserdata.readuserdata(App, config_file, ios)
             print("made user data at begining!!!!!")
-        if 1 == 2:
+        if 1 == 1:
             # try:
             self.theme_cls.theme_style = x["theme"]
             self.theme_cls.primary_palette = x["pcolor"]
-            self.theme_cls.accent_palette = x["scolor"]
+            # self.theme_cls.accent_palette = x["scolor"]
             self.theme_cls.material_style = "M3"
         # except:
         #    pass
@@ -2116,7 +2115,13 @@ class Demo3App(MDApp):
         # x3 = self.theme_cls.accent_palette
         # x4 = self.theme_cls.material_style
         # self.theme_cls.switch_theme()
-        print(x1, x2, "THEME STUFF")
+        print(
+            x1,
+            x2,
+            "THEME STUFF",
+            self.theme_cls.secondaryColor,
+            self.theme_cls.primaryColor,
+        )
 
         import subprocess
 
@@ -2507,6 +2512,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         import libs.lib_positions
 
+        if isinstance(d, str):
+            print(d, "this is ddd")
+            junk, d = str.split(d, "#####")
+            d = int(d)
         if isinstance(d, list):
             gg = d[1][d[0]]
             d = d[0]
@@ -2594,7 +2603,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     icon="arrow-left-bold",
                     on_release=lambda x, y=(gg): self.cal_next(d - 1),
                 ),
-                MDFabButton(icon="content-save", style="small"),
+                MDFabButton(
+                    icon="content-save",
+                    style="small",
+                    on_release=lambda x, y=(gg): self.edit_show_details(gg),
+                ),
                 MDFabButton(
                     style="small",
                     icon="microsoft-xbox-controller-menu",
@@ -2957,6 +2970,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         mmonth = now.strftime("%B")
         print(now, "NOW NOW NOW")
         self.make_calendar_today(month, year, mmonth)
+        self.do_pp_sum(0, "cal")
 
     def make_calendar_today(self, month, year, mmonth):
         ###do calendar!!
@@ -2974,7 +2988,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         now_day = now.strftime("%d")
         from kivy.uix.button import Button
 
-        t_color = self.theme_cls.backgroundColor
+        # t_color = self.theme_cls.backgroundColor
 
         for z in range(6):
             self.root.current_screen.ids["cal" + str(z)].clear_widgets()
@@ -3014,7 +3028,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
                 # print(dd, type(dd), dd.day, "c sub week")
                 b_color = "black"
-                t_color = "white"
+                # t_color = "white"
+                status = "false"
 
                 ic = ""
                 gray = "EEEEEE"
@@ -3035,19 +3050,38 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     and int(dd.month) == int(now_month)
                     and int(dd.year) == int(now_year)
                 ):
-                    b_color = self.theme_cls.onPrimaryContainerColor
-                    t_color = self.theme_cls.secondaryColor
-                    # print("its today!", dd.day, now_day, dd.month)
-                try:
-                    status, info = self.check_working(
-                        dd.day, dd.month, dd.year, js["shows"]
+                    b_color = self.theme_cls.primaryColor
+                    # t_color = self.theme_cls.secondaryColor
+                    print(
+                        "its today!",
+                        dd.day,
+                        now_day,
+                        dd.month,
+                        b_color,
+                        self.theme_cls.primary_palette,
+                        self.theme_cls.primaryColor,
                     )
-                except:
-                    status = False
+
+                status, info = self.check_working(
+                    dd.day, dd.month, dd.year, js["shows"]
+                )
+
                 # rint(status, "STATUSSSSS")
                 if status == True:
+                    # self.theme_cls.primary_palette = x["pcolor"]
                     ####GIG COLOR
-                    t_color = self.theme_cls.onPrimaryColor
+                    t_color = "blue"
+                    # t_color = self.theme_cls.primaryColor
+                    print(
+                        "calenar status===",
+                        status,
+                        t_color,
+                        self.theme_cls.primaryColor,
+                        self.theme_cls.primary_palette,
+                        self.theme_cls.primaryColor,
+                    )
+                if status == False:
+                    t_color = "gray"
 
                 self.root.get_screen("today").ids["cal" + str(week)].add_widget(
                     # MDRectangleFlatIconButton(
@@ -3155,7 +3189,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.alert.dismiss()
 
     def check_working(self, day, month, year, js):
-        # print(day, month, year,'daymonthyear!')
+        # print(day, month, year, "daymonthyear!")
         found = False
         for xy in range(len(js)):
             d = js[xy]["date"]
@@ -4077,6 +4111,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def newstart(self, search, useold):
         import libs.lib_bonus
+        from datetime import datetime, timedelta
 
         self.root.push("newhome")
         self.root.current_screen.ids["rlist"].clear_widgets()
@@ -4089,6 +4124,58 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if useold == True:
             shows = js["old_shows"]
         rshows = (len(shows)) - (js["num_shows"])
+        """
+        self.root.get_screen("today").ids[li[i] + "1"].text = (
+                color + show_date + " " + ntime
+            )
+            self.root.get_screen("today").ids[li[i]].text = (
+                color + show_date + " " + ntime
+            )
+            print(li[i] + str(i + 1), "thisistheid")
+            self.root.get_screen("today").ids[li[i] + "2"].text = (
+                color + shows[i]["show"]
+            )
+            self.root.get_screen("today").ids[li[i] + "3"].text = color + fvenue[0]
+        
+        """
+
+        for i in range(len(shows)):
+            show_date = datetime.strptime(shows[i]["date"], "%m/%d/%Y")
+            show_date = show_date.strftime("%A, %m/%d")
+            z = shows[i]["time"]
+            ntime = self.ampm(z)
+            fvenue = shows[i]["venue"]
+            color = ""
+            if shows[i]["canceled"] == True:
+                color = "[color=#ff0000]"
+            # color = "[color=#ff000055]"
+
+            # if "las vegas" in fvenue:
+            #   fvenue = str.split(fvenue, "las vegas")
+            self.root.get_screen("newhome").ids.rlist.add_widget(
+                MDListItem(
+                    MDListItemLeadingIcon(
+                        icon=self.find_type(i, "type"),
+                        pos_hint={"center_x": 0.5, "center_y": 0.5},
+                        icon_color=self.theme_cls.primaryColor,
+                    ),
+                    MDListItemTrailingIcon(
+                        icon=self.find_type(i, "pos"),
+                        icon_color=self.theme_cls.errorColor,
+                        pos_hint={"center_x": 0.5, "center_y": 0.5},
+                    ),
+                    MDListItemHeadlineText(text=color + show_date + " " + ntime),
+                    MDListItemSupportingText(
+                        text=color + shows[i]["show"],
+                    ),
+                    MDListItemTertiaryText(
+                        text=color + fvenue,
+                    ),
+                    on_release=lambda x, y=(i): self.pop_new(y),
+                )
+            )
+
+        """
         if useold == False:
             if js["num_shows"] > 0:
                 ttt = str(rshows) + "/" + str(len(shows)) + " shows 1confirmed"
@@ -4206,6 +4293,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 if 1 == 1:
                     self.root.get_screen("newhome").ids.rlist.add_widget(panel)
         # toast(str(tic - time.perf_counter()))
+        '''"""
 
     def showinfo(self, cat, r, d):
         from kivymd.uix.dialog import MDDialog as md33
@@ -4315,7 +4403,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             # ),
             # -----------------------Headline text-------------------------
             MDDialogHeadlineText(
-                text=gg["date"],
+                text=gg["show"],
             ),
             # -----------------------Supporting text-----------------------
             MDDialogSupportingText(
@@ -4327,29 +4415,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             # -----------------------Custom content------------------------
             MDDialogContentContainer(
                 MDDivider(),
-                MDListItem(
-                    MDListItemSupportingText(
-                        text=gg["venue"],
-                    ),
-                    MDListItemSupportingText(
-                        text=gg["location"],
-                    ),
-                    MDListItemSupportingText(
-                        text=gg["job"],
-                    ),
-                    md_bg_color=self.theme_cls.primaryColor,
-                ),
-                MDListItem(
-                    MDListItemSupportingText(
-                        text=gg["status"],
-                    ),
-                    MDListItemSupportingText(
-                        text=gg["client"],
-                    ),
-                    theme_bg_color="Primary",
-                    # md_bg_color=self.theme_cls.transparentColor,
-                ),
-                MDDivider(),
                 MDTextField(text=ee, multiline=True),
                 orientation="vertical",
             ),
@@ -4359,24 +4424,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 # MDFabButton(icon="arrow-right-bold", style="small"),
                 MDFabButton(
                     style="small",
-                    icon="arrow-left-bold",
-                    # on_release=lambda x, y=(gg): self.cal_next(d - 1),
+                    icon="content-copy",
+                    on_release=lambda x, y=(ee): self.grabText(ee),
                 ),
-                MDFabButton(icon="content-save", style="small"),
-                MDFabButton(
-                    style="small",
-                    icon="microsoft-xbox-controller-menu",
-                    on_release=lambda x, y=(gg): self.open_menu("item", gg),
-                ),
+                MDFabButton(icon="share", style="small"),
                 MDFabButton(
                     icon="close-box",
                     style="small",
                     on_release=lambda x, y=(gg): self.menu.dismiss(),
-                ),
-                MDFabButton(
-                    icon="arrow-right-bold",
-                    style="small",
-                    # on_release=lambda x, y=(gg): self.cal_next(d + 1),
                 ),
                 spacing="20dp",
                 # cent2er=(50, 0),
@@ -4700,10 +4755,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             App.get_running_app().root.current_screen.ids["button4"].text = str(
                 v[text_item]
             )
+            self.update_show()
         if v2 == "oth":
             App.get_running_app().root.current_screen.ids["button5"].text = str(
                 v[text_item]
             )
+            self.update_show()
             # self.edit_show_details(App.get_running_app().root.current_screen.ids["button2"])
             # self.root.push("theme")
             # self.root.get_screen("editShow").ids["lnch"].text=str(v)
@@ -6137,13 +6194,18 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         return hours + minutes
 
     def edit_show_details(self, b):
+        self.menu.dismiss()
         import libs.lib_new
         import libs.lib_positions
 
         # try:
+        flag = False
         if 1 == 1:
-            print(b.tertiary_text, "third_text")
-            show, filee = libs.lib_new.load_archive_json(ad, b.tertiary_text)
+            print(b, "third_text")
+            show, filee = libs.lib_new.load_archive_json(ad, b)
+            flag = True
+        if 1 == 1 and flag == False:
+            show = b
         # except:
         #    print("old show data")
         #    toast("failed to find show")
@@ -6152,7 +6214,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.push("editShow")
         z = App.get_running_app().root.current_screen.ids["show"]
         z.text = str(show["show"])
-        z.secondary_text = show["date"]
+        z2 = App.get_running_app().root.current_screen.ids["show2"]
+        z2.text = str(show["date"]) + " " + str(show["time"])
+        z3 = App.get_running_app().root.current_screen.ids["show3"]
+
         three = show["time"]
         try:
             App.get_running_app().root.current_screen.ids["newhoursplus"].text = str(
@@ -6191,7 +6256,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         except:
             print("THREE IS GOOD")
             pass
-        z.tertiary_text = (
+        z3.text = (
             three
             + "[size=-0]"
             + "%%%"
@@ -6210,6 +6275,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         b5 = ["button4", "newhours", "rate", "user_notes"]
 
         for q in range(len(id)):
+            # if 1 == 1:
             try:
                 if str(show[id[q]]) == "":
                     show[id[q]] = "0"
@@ -6218,6 +6284,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
                 za.ids[b5[q]].text = str(show[id[q]])
                 print("setting!", str(show[id[q]]), " to bla")
+
             except:
                 # za.ids[b5[q]].text='?'
                 print("not able to set " + id[q])
@@ -6230,6 +6297,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 if id[q] == "lunches":
                     print("setting lunches!!!!")
                     za.ids[b5[q]].text = str(0)
+
+        self.update_show()
 
     def update_show_single(self, f):
         import libs.lib_new
@@ -6291,7 +6360,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         z = App.get_running_app().root.current_screen
         import libs.lib_new
 
-        show, filee = libs.lib_new.load_archive_json(ad, z.ids["show"].tertiary_text)
+        show, filee = libs.lib_new.load_archive_json(ad, z.ids["show3"].text)
         show["endtime"] = z.ids["newhours"].text
         show["lunches"] = z.ids["button4"].text
         show["ota"] = z.ids["button5"].text
@@ -6305,65 +6374,69 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         datetime_str_end = z.ids["newhours"].text
         datetime_str_start = show["time"]
         start = datetime.strptime(datetime_str_start, "%H:%M")
+        flag = True
         try:
             end = datetime.strptime(datetime_str_end, "%H:%M")
 
         except:
-            toast("PLEASE SET OUT TIME")
-            end = datetime.strptime("00:00", "%H:%M")
+            # self.snackbarx("PLEASE SET OUT TIME")
+            # end = datetime.strptime("00:00", "%H:%M")
+            flag = False
+        if flag == True:
+            tot = end - start
+            print(end, start, type(end), "END", tot, type(tot))
+            end = str(end)
+            ehour, eminute, escond = str.split(end, ":")
+            print(eminute, "eminute")
+            eminute = float(eminute) / 60
+            junk, ehour = str.split(ehour, " ")
+            ehour = str(ehour)
+            print(ehour, "ehour!!")
+            print(eminute, ehour, "eminute2")
+            dtimeout = float(ehour) + float(eminute)
+            # -z.ids['lunches']
+            # show['rate']=z.ids['rate'].text
+            # print(show['totaltime'],"totaltim")
+            dstart_h, dstart_m = str.split(show["time"], ":")
+            dstart_m = float(dstart_m) / 60
+            dstart = float(dstart_h) + dstart_m
 
-        tot = end - start
-        print(end, start, type(end), "END", tot, type(tot))
-        end = str(end)
-        ehour, eminute, escond = str.split(end, ":")
-        print(eminute, "eminute")
-        eminute = float(eminute) / 60
-        junk, ehour = str.split(ehour, " ")
-        ehour = str(ehour)
-        print(ehour, "ehour!!")
-        print(eminute, ehour, "eminute2")
-        dtimeout = float(ehour) + float(eminute)
-        # -z.ids['lunches']
-        # show['rate']=z.ids['rate'].text
-        # print(show['totaltime'],"totaltim")
-        dstart_h, dstart_m = str.split(show["time"], ":")
-        dstart_m = float(dstart_m) / 60
-        dstart = float(dstart_h) + dstart_m
+            show["totaltime"] = dtimeout - dstart
+            if show["totaltime"] < 0:
+                show["totaltime"] = show["totaltime"] + 24
+            print(show, "SHOW!!")
+            print(show["totaltime"], "titaltime")
 
-        show["totaltime"] = dtimeout - dstart
-        if show["totaltime"] < 0:
-            show["totaltime"] = show["totaltime"] + 24
-        print(show, "SHOW!!")
-        print(show["totaltime"], "titaltime")
+            time = show["totaltime"]
+            time = show["totaltime"] - int(show["lunches"])
+            formatted_hours, junk, junk = self.format_hours(time)
+            # print(hours, minutes, "whatttttt")
 
-        time = show["totaltime"]
-        time = show["totaltime"] - int(show["lunches"])
-        formatted_hours, junk, junk = self.format_hours(time)
-        # print(hours, minutes, "whatttttt")
+            App.get_running_app().root.current_screen.ids[
+                "newhoursplus"
+            ].text = formatted_hours
 
-        App.get_running_app().root.current_screen.ids[
-            "newhoursplus"
-        ].text = formatted_hours
-
-        # print(show["rate"], (show["totaltime"], float(show["lunches"])), "maths")
-        show["earnings"] = float(show["rate"]) * float(
-            (show["totaltime"]) - float(show["lunches"])
-        )
-        otearnings = 0
-        if float(((show["totaltime"]) - float(show["lunches"])) > float(show["ota"])):
-            ot = float(
-                ((show["totaltime"]) - float(show["lunches"])) - float(show["ota"])
+            # print(show["rate"], (show["totaltime"], float(show["lunches"])), "maths")
+            show["earnings"] = float(show["rate"]) * float(
+                (show["totaltime"]) - float(show["lunches"])
             )
-            print(ot, "boo ya, overtime")
-            otearnings = float(show["rate"]) * 0.5 * ot
+            otearnings = 0
+            if float(
+                ((show["totaltime"]) - float(show["lunches"])) > float(show["ota"])
+            ):
+                ot = float(
+                    ((show["totaltime"]) - float(show["lunches"])) - float(show["ota"])
+                )
+                print(ot, "boo ya, overtime")
+                otearnings = float(show["rate"]) * 0.5 * ot
 
-        show["earnings"] = show["earnings"] + otearnings
-        # show['earnings']=self.format_money(show['earnings'])
-        App.get_running_app().root.current_screen.ids[
-            "earningsl"
-        ].text = self.format_money(show["earnings"])
+            show["earnings"] = show["earnings"] + otearnings
+            # show['earnings']=self.format_money(show['earnings'])
+            App.get_running_app().root.current_screen.ids[
+                "earningsl"
+            ].text = self.format_money(show["earnings"])
 
-        # print (timeout,lunches,ota,rate,notes,show,'THISISTHEINFO')
+            # print (timeout,lunches,ota,rate,notes,show,'THISISTHEINFO')
 
         libs.lib_new.update_archive_json(ad, show)
 
@@ -6720,29 +6793,36 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         libs.lib_makeuserdata.makeshowfile(App, xxx[idex], config_file, ios)
 
-    def show_time_picker(self, inst):
-        b = App.get_running_app().root.current_screen.name
-        print(b, dir(b), "BBBBBBBBB")
-        # if App.get_running_app().root.current_screen.ids['newhours'].text=='Set Worked Hours':
+    def show_time_picker_vertical(self, *args):
+        time_picker_vertical = MDTimePickerDialVertical()
+        time_picker_vertical.bind(on_ok=self.on_ok)
+        time_picker_vertical.open()
 
-        y = time_dialog1 = MDTimePicker()
-        # if b=='editShow':
-        if inst == "start_time":
-            x = time_dialog1.bind(time=self.get_time_start)
-        if inst == "end_time":
-            x = time_dialog1.bind(time=self.get_time_end)
-        z = time_dialog1.open()
+    def on_edit_time_picker_input(self, time_picker_input):
+        time_picker_input.dismiss()
 
-    def get_time(self, instance, time):
-        temp = str.split(time, ":")
-        time = temp[0] + ":" + temp[1]
+        # Clock.schedule_once(self.show_time_picker_vertical, 0.2)
+
+    def get_time(self, instance):
+        print(instance, dir(instance), "thisisinstance")
+        time = instance.time
+        # temp = str.split(instance.time, ":")
+        # time = temp[0] + ":" + temp[1]
         print(time)
 
-        App.get_running_app().root.current_screen.ids["newhours"].text = str(time)
-        return time
+        # App.get_running_app().root.current_screen.ids["newhours"].text = str(time)
+        # return time
+
+    def on_ok(self, time_picker_vertical: MDTimePickerDialVertical):
+        ttt = time_picker_vertical.time.strftime("%H:%M")
+
+        App.get_running_app().root.current_screen.ids["newhours"].text = str(ttt)
+        time_picker_vertical.dismiss()
+        self.update_show()
 
     def get_time_start(self, instance, time):
         temp = str.split(str(time), ":")
+
         time = temp[0] + ":" + temp[1]
         App.get_running_app().root.current_screen.ids["start_time"].text = str(time)
         return time
@@ -7382,15 +7462,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def grabText(self, inst):
         from kivy.core.clipboard import Clipboard
 
+        print(inst, "inst!!!!")
+
         Clipboard.copy(inst)
 
         # print("grabtext", inst)
 
-        self.snackbar = MDSnackbar(
-            text="Copied",
-            bg_color=self.theme_cls.primary_color,
-        )
-        self.snackbar.open()
+        self.snackbarx("Copied")
 
     task_list_dialog = None
 

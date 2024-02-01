@@ -175,8 +175,8 @@
                         id:first
                         #text: "First Show"
                         #secondary_text: "Secondary text here"
-                        theme_text_color: "Custom"
-                        text_color:"Blue"
+                        #theme_text_color: "Custom"
+                        #text_color:"Blue"
                         MDListItemLeadingIcon:
                             id:1l
                             #icon: app.find_type(0,"type") 
@@ -206,9 +206,10 @@
                     focus_behavior: True
                     ripple_behavior: True
                     #pos_hint: {"center_x": .5, "center_y": .5}
-                    on_release: app.pop_new(1)
+                    
                     radius: app.cradius
                     MDListItem:
+                        on_release: app.pop_new(1)
                         id:second
                         #text: "First Show"
                         #secondary_text: "Secondary text here"
@@ -244,9 +245,10 @@
                     focus_behavior: True
                     ripple_behavior: True
                     #pos_hint: {"center_x": .5, "center_y": .5}
-                    on_release: app.pop_new(2)
+                    
                     radius: app.cradius
                     MDListItem:
+                        on_release: app.pop_new(2)
                         id:third
                         #text: "First Show"
                         #secondary_text: "Secondary text here"
@@ -259,7 +261,7 @@
                             #icon: app.find_type(2,"pos")  
                             id:3r 
                             pos_hint:{"center_x": 0.5, "center_y": 0.5}
-                            icon_color:app.theme_cls.secondaryColor
+                            icon_color:app.theme_cls.primaryColor
                         MDListItemSupportingText:
                             text:'wow'
                             id:third1
@@ -487,7 +489,7 @@
                         width:app.cal_width
                         radius: app.cradius
                         id:cal5
-                        md_bg_color: self.theme_cls.backgroundColor
+                        #md_bg_color: self.theme_cls.backgroundColor
 
 
 

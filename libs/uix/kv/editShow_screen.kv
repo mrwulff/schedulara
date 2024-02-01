@@ -1,23 +1,25 @@
 <editShowscreen>
-    #:import Clipboard kivy.core.clipboard.Clipboard
-    #:import Snackbar kivymd.uix.snackbar.Snackbar
+
     name: "editShow"
-    FitImage:
-        #source: 'images/rh.jpg'
-        id: pic
-        source: app.get_wall("today")
-        size: self.width,self.height
+    #FitImage:
+    #    #source: 'images/rh.jpg'
+    #    id: pic
+    #    source: app.get_wall("today")
+    #    size: self.width,self.height
     BoxLayout:
         orientation: "vertical"
         MDTopAppBar:
             #title: "Settings"
-            height: app.mheight
-            left_action_items: [['chevron-left', lambda screen: app.change_screen('archive','left'),'home']]
+        #    height: app.mheight
+            #left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
 
 
-
-
-
+            MDTopAppBarLeadingButtonContainer:
+    
+                MDActionTopAppBarButton:
+                    icon: "chevron-left"
+                    on_release: app.change_screen('newhome','left')
+                    pos_hint:{"center_x": 0.5, "center_y": 0.5}
         ScrollView:
             #id: history_view
 
@@ -25,143 +27,171 @@
             MDList:
                 spacing: app.cspacing/2
                 padding: app.cpadding/2,app.cpadding/2
-                bg_color:app.theme_cls.bg_dark
+                #bg_color:app.theme_cls.bg_dark
                 id: archive
-                ThreeLineAvatarIconListItem:
-                    bg_color: app.theme_cls.bg_dark
-                    id:show
+                MDListItem:
+                    id: show3
+                    #bg_color: app.theme_cls.bg_dark
+                    #id:show
                     text:'bla'
-                    IconLeftWidget:
+                    MDListItemSupportingText:
+                        id:show
+                    MDListItemSupportingText:
+                        id:show2
+
+
+
+                    MDListItemLeadingIcon:
                         icon:"calendar-star"
                 MDListItem:
-                    bg_color: app.theme_cls.bg_dark
-                    text: "Hour Unpaid Lunches"
+                    #bg_color: app.theme_cls.bg_dark
+                    
                     id: lunches
-                    YourContainer:
-                        id: button3
-                        MDButton:
-                            id: button4
-                            padding: [15, 15]
 
-                            #width: 5
-                            text: "3"
-                            trailing_text:'wat'
-                            pos_hint: {'center_x': .5, 'center_y': .5}
-                            values: app.lunches
-                            items: app.lunches
+                    MDListItemSupportingText:
+                        text: "Hour Unpaid Lunches"
+                    MDButton:
+                        id: button4
+                        padding: [15, 15]
+
+                        #width: 5
+                        text: "3"
+                        trailing_text:'wat'
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+                        values: app.lunches
+                        items: app.lunches
+                        id: button4
+                        on_release: app.open_drop_item_menu(app.lunches,'lunches')
+                        size_hint:app.right_hint
+                        width:app.right_width
+                        MDButtonText:
                             id: button4
-                            on_release: app.choose_drop(app.lunches,'lunches')
-                            size_hint:app.right_hint
-                            width:app.right_width
-                    IconLeftWidget:
+                    MDListItemLeadingIcon:
                         icon: "food"
 
                 MDListItem:
-                    bg_color: app.theme_cls.bg_dark
-                    text: "OverTime After"
+                    #bg_color: app.theme_cls.bg_dark
+                    
                     id: ota
-                    YourContainer:
-                        id: button3
-                        text:'wow'
-                        MDButton:
-                            padding: [15, 15]
-                            size_hint:app.right_hint
-                            width:app.right_width
 
-                            #width: 5
-                            
-                            pos_hint: {'center_x': .5, 'center_y': .5}
-                            #values: app.oth
-                            items: app.oth
+                    MDButton:
+                        padding: [15, 15]
+                        size_hint:app.right_hint
+                        width:app.right_width
+
+                        #width: 5
+                        
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+                        #values: app.oth
+                        items: app.oth
+                        id: button5
+                        on_release: app.open_drop_item_menu(app.oth,'oth')
+                        text: "8"
+                        MDButtonText:
                             id: button5
-                            on_release: app.choose_drop(app.oth,'oth')
-                            text: "8"
+                    MDListItemSupportingText:
+                        text: "OverTime After"
                             
-                    IconLeftWidget:
+                    MDListItemLeadingIcon:
                         icon: "one-up"
 
                 MDListItem:
-                    bg_color: app.theme_cls.bg_dark
-                    text: "Time Out"
+                    #bg_color: app.theme_cls.bg_dark
                     id: endtime
-                    IconLeftWidget:
+                    MDListItemLeadingIcon:
                         icon: "clock"
-                    YourContainer:
-                        id: container
 
-                        MDButton:
-                            text:"Time"
+
+                    MDButton:
+                        text:"Time"
+                        #id:newhours
+                        padding: [15, 15]
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+                        size_hint:app.right_hint
+                        width:app.right_width
+                        on_release: app.show_time_picker_vertical()
+                        MDButtonText:  
                             id:newhours
-                            padding: [15, 15]
-                            pos_hint: {'center_x': .5, 'center_y': .5}
-                            size_hint:app.right_hint
-                            width:app.right_width
-                            on_release: app.show_time_picker("end_time")                
+
+                    MDListItemSupportingText:  
+                        text: "Time Out"          
 
                 MDListItem:
-                    bg_color: app.theme_cls.bg_dark
-                    text: "Total Hours"
+                    #bg_color: app.theme_cls.bg_dark
+                    
                     id: endtime
-                    IconLeftWidget:
+                    MDListItemLeadingIcon:
                         icon: "update"
-                    YourContainer:
-                        id: container
 
-                        MDLabel:
-                            text:"Time"
-                            id:newhoursplus
-                            padding: [15, 15]
-                            pos_hint: {'center_x': .5, 'center_y': .5}
-                            size_hint:app.right_hint
-                            width:app.right_width
-                            #on_release: app.show_time_picker("end_time")
+
+                    MDButton:
+                        text:"Time"
+                        
+                        #id:newhoursplus
+                        #padding: [15, 15]
+                        #pos_hint: {'center_x': .5, 'center_y': .5}
+                        #size_hint:app.right_hint
+                        #width:app.right_width
+                        #size_hint:None,None
+                        #width:app.right_width*1.5
+                        #size_hint:app.right_hint
+                        
+                        #on_release: app.show_time_picker("end_time")
+                        MDButtonText:
+                            id: newhoursplus
+                            text:'wow'
+                    MDListItemSupportingText:
+                        text: "Total Hours"
 
                 MDListItem:
-                    bg_color: app.theme_cls.bg_dark
+                    #bg_color: app.theme_cls.bg_dark
                     #text: "Rate"
                     id: rat
                     #on_release: app.tokast('wow')
                     on_release: app.set_rate()
-                    IconLeftWidget:
+                    MDListItemLeadingIcon:
                         icon: "cash"
-                    YourContainer:
-                        id: container
 
-                        MDTextField:
-                            color_mode: 'accent'
-                            #text:"28.5"
-                            #padding: [15, 15]
-                            #pos_hint: {'center_x': .5, 'center_y': .5}
-                            pos_hint: {.9: .5}
-                            
-                            id:rate
-                            #size_hint:app.right_hint
-                            width:app.right_width
-                            #id:newhours
+                    #MDTextField:
+                    TextInput:
+                        color_mode: 'accent'
+                        #text:"28.5"
+                        #padding: [15, 15]
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+                        #pos_hint: {.9: .5}
+                        size_hint:.3,.8
+                        
+                        id:rate
+                        #size_hint:app.right_hint
+                        #width:app.right_width
+                        #id:newhours
+                    MDListItemSupportingText:
+                        text: "Rate"
                             
                 MDListItem:
-                    bg_color: app.theme_cls.bg_dark
-                    text: "Earnings"
+                    #bg_color: app.theme_cls.bg_dark
+                    
                     id: rate1
                     #on_release: app.tokast('wow')
-                    IconLeftWidget:
+                    MDListItemLeadingIcon:
                         icon: "cash-multiple"
-                    YourContainer:
-                        id: earnings
 
-                        MDLabel:
-                            #text:"28.5"
-                            padding: [15, 15]
-                            pos_hint: {'center_x': .5, 'center_y': .5}
-                            
+                    MDListItemSupportingText:
+                        text: "Earnings"
+                    MDButton:
+                        #text:"28.5"
+                        #padding: [15, 15]
+                        #pos_hint: {'center_x': .5, 'center_y': .5}
+                        MDButtonText
                             id:earningsl
-                            size_hint:app.right_hint
-                            width:app.right_width+200
-                            #id:newhours
-                            #on_release: app.show_time_picker()
+                        #size_hint:app.right_hint
+                        #width:app.right_width+200
+                        #id:newhours
+                        #on_release: app.show_time_picker()
 
 
-                TextInput:
+
+                MDTextField:
 
                     id: user_notes
                     valign: 'middle'
@@ -173,10 +203,10 @@
                     height: dp(70)
                     #height: scrlv.height
                     text:''
-                    background_color: app.theme_cls.bg_dark
-                    hint_text_color:app.theme_cls.opposite_bg_dark
-                    text_color:app.theme_cls.opposite_bg_dark
-                    foreground_color:app.theme_cls.opposite_bg_dark
+                    background_color: app.theme_cls.backgroundColor
+                    hint_text_color:app.theme_cls.onBackgroundColor
+                    text_color:app.theme_cls.onBackgroundColor
+                    #foreground_color:app.theme_cls.opposite_bg_dark
 
                 BoxLayout:
                     pos_hint: {"center_x": .8, "center_y": .5}
@@ -188,15 +218,21 @@
                     width:update.width*5
                     
                     MDButton:
-                        text:"Update"
+                        
                         id:update
                         spacing: app.cspacing/2
                         on_release: app.update_show()
+                        MDButtonText:
+                            text:"Update"
                     MDButton:
                         text:"Hide"
                         spacing: app.cspacing/2
                         on_release: app.hide_show()
+                        MDButtonText:
+                            text:"Hide"
                     MDButton:
                         text:"Delete"
                         spacing: app.cspacing/2
                         on_release: app.delete_show()
+                        MDButtonText:
+                            text:"Delete"
