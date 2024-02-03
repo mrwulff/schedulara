@@ -16,4 +16,5 @@ def basic_cal(month, year):
 
 
 if __name__ == "__main__":
-    basic_cal(2023, 12)
+    l = basic_cal(12, 23)
+    print(l)

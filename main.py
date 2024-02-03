@@ -19,7 +19,7 @@ from kivy.metrics import dp
 from kivy.base import ExceptionHandler, ExceptionManager
 import logging
 from kivy.utils import platform
-from kivymd.uix.button import MDFabButton
+from kivymd.uix.button import MDFabButton,MDExtendedFabButton,MDExtendedFabButtonText,MDExtendedFabButtonIcon
 
 import libs.lib_positions
 import libs.lib_readuserdata
@@ -1425,9 +1425,9 @@ class Demo3App(MDApp):
                 except:
                     print("why are you trying to do this")
 
-            App.get_running_app().root.current_screen.ids[
-                chart_list[i]["id"]
-            ].width = dp(80) * len(pos_v2)
+            App.get_running_app().root.current_screen.ids[chart_list[i]["id"]].width = (
+                dp(80) * len(pos_v2)
+            )
 
             App.get_running_app().root.current_screen.ids[
                 chart_list[i]["id"] + "d"
@@ -1641,42 +1641,7 @@ class Demo3App(MDApp):
         # self.root.push("home")
         # toast("lol")
 
-        self.data = {
-            "Settings": [
-                "cog-outline",
-                "on_press",
-                lambda x: print("settings"),
-                "on_release",
-                lambda x: self.do_settings(),
-            ],
-            #'Backup': [
-            #        'backup-restore',
-            #        "on_press", lambda x: print("backup"),
-            #        "on_release", lambda x: self.do_gbackup()
-            # ],
-            # ],
-            "Paystubs": [
-                "cash-100",
-                "on_press",
-                lambda x: toast("loading paystubs"),
-                "on_release",
-                lambda x: self.do_payperiod_f("YTD"),
-            ],
-            "Stats": [
-                "chart-areaspline",
-                # "on_press", lambda x: toast("loading charts"),
-                "on_release",
-                lambda x: self.prep_stats(),
-            ],
-            ####BROKEN PLEASE FIX SOON
-            # 'Search': [
-            #         'magnify',
-            #         #"on_press", lambda x: toast("loading charts"),
-            #         "on_release", lambda x: self.new_search()
-            #
-            # ],
-            # "Stats": "chart-areaspline",
-        }
+
         zz = False
         if 1 == 1:
             try:
@@ -2166,9 +2131,85 @@ class Demo3App(MDApp):
         if nb == 8:
             self.alert.dismiss()
             self.root.push("login")
-
-    def do_onboarding(self, i):
+    def pre_login(self):
+        self.menu3.dismiss()
+        self.root.push("login")
+    def do_onboarding(self,i):
         legal = "While Schedulara is designed to help you stay organized and manage your schedule, we are not responsible for any missed gigs, or other issues that may arise. It is ultimately your responsibility to ensure that you are available for events and to communicate any scheduling conflicts to your team. Use our app at your own risk."
+        ee='wat'
+        #legal=legal*5
+        gg='what2'
+        self.menu3 = MDDialog(
+            # type=simple,
+            # ----------------------------Icon-----------------------------
+            # MDDialogIcon(
+            #    icon=self.find_type(d, "type"),
+            # ),
+            # -----------------------Headline text-------------------------
+            MDDialogHeadlineText(
+                text="Welcome to Schedulara",
+            ),
+            # -----------------------Supporting text-----------------------
+            MDDialogSupportingText(
+                text="created by Kevin Wulff",
+            ),
+            MDDialogSupportingText(
+                text='@kevlights',
+            ),
+            # -----------------------Custom content------------------------
+            MDDialogContentContainer(
+                MDDivider(),
+                MDTextField(text=legal, multiline=True),
+                orientation="vertical",
+            ),
+            # ---------------------Button container------------------------
+            MDDialogButtonContainer(
+                Widget(),
+                # MDFabButton(icon="arrow-right-bold", style="small"),
+                MDExtendedFabButton(
+                    MDExtendedFabButtonText(
+                        text="Accept and Continue",
+                    ),
+                    #MDExtendedFabButtonIcon(
+                    #    icon="check-circle",
+                    #),
+
+
+
+                    #style="small",
+                    #icon="content-copy",
+                    #text='View Demo',
+                    #MDExtendedFabButtonText(text=)
+
+                    on_release=lambda x, y=(ee): self.pre_login(),
+
+                ),
+                MDExtendedFabButton(
+                    MDExtendedFabButtonText(
+                        text="Demo",
+                    ),
+                    #icon="close-box",
+                    style="small",
+                    #text='Accept and Continue',
+                    on_release=lambda x, y=(gg): self.menu3.dismiss(),
+                ),
+                spacing="20dp",
+                # cent2er=(50, 0),
+                right=False,
+                size_hint=(None, None),
+                pos_hint={"center_x": 0.5, "center_y": 0.5},
+                center_y=2100,
+            ),\
+            # -------------------------------------------------------------
+        )
+
+        App.get_running_app().root.current_screen.ids["test2"] = self.menu3
+        self.menu3.open()
+
+
+
+    def do_onboarding2(self, i):
+
         welcome = "Welcome to our Schedulara! Manage your schedule with ease and view upcoming events Let's get started!"
         demo = """To get started, please select one of the following options:
 
@@ -2207,7 +2248,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             [button_login, button_cancel],
         )
         self.alert = SweetAlert()
-        self.alert.fire(title[i], text[i], buttons=bb[i])
+        #self.alert.fire(title[i], text[i], buttons=bb[i])
         return True
 
     def soon(self, b):
@@ -2952,6 +2993,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         paylist2 = self.root.get_screen("today").ids["pay2"]
         paylist2.text = "Payperiod: " + payperiod
         #####ALWAYS ONBOARD
+        #self.do_onboarding(0)
         if x.get("onboarding") == None:
             b = self.do_onboarding(0)
             x["onboarding"] = True
@@ -2971,6 +3013,23 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         print(now, "NOW NOW NOW")
         self.make_calendar_today(month, year, mmonth)
         self.do_pp_sum(0, "cal")
+
+    def share_calendar(self):
+        import libs.lib_pdf
+
+        js = libs.lib_new.get_json_schedule(x, ad)
+        day = self.root.get_screen("today").ids["cal_month_text"].text
+        # %B
+        dd = datetime.datetime.strptime(day, "%B %Y")
+        di = {}
+        for z in range(31):
+
+            status, info = self.check_working(z, dd.month, dd.year, js["shows"])
+            #print(status, info, z)
+            di.update(info)
+            # print(type(dd.month), type(dd.year), "wtfff")
+        # print(day)
+        libs.lib_pdf.alt(x['name'],ad, di, dd.month, dd.year)
 
     def make_calendar_today(self, month, year, mmonth):
         ###do calendar!!
@@ -3044,7 +3103,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         # print("changing it to primamary")
                     else:
                         b_color = gray
-                        print("changing it to black")
+                        # print("changing it to black")
                 if (
                     int(dd.day) == int(now_day)
                     and int(dd.month) == int(now_month)
@@ -3072,14 +3131,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     ####GIG COLOR
                     t_color = "blue"
                     # t_color = self.theme_cls.primaryColor
-                    print(
-                        "calenar status===",
-                        status,
-                        t_color,
-                        self.theme_cls.primaryColor,
-                        self.theme_cls.primary_palette,
-                        self.theme_cls.primaryColor,
-                    )
+
                 if status == False:
                     t_color = "gray"
 
@@ -3191,6 +3243,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def check_working(self, day, month, year, js):
         # print(day, month, year, "daymonthyear!")
         found = False
+        data = {}
+        data2 = {}
+        dlist = []
+        multi = 0
+        vlist = []
+        tlist = []
+        slist = []
         for xy in range(len(js)):
             d = js[xy]["date"]
             smonth, sdate, syear = str.split(d, "/")
@@ -3198,12 +3257,42 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             sdate = int(sdate)
             syear = int(syear)
             if smonth == month and sdate == day and syear == year:
+                # multi = multi + 1
                 # print("OMG YOU FOUND IT on ", js[xy])
                 found = True
+                show = js[xy]["show"]
+                show = str.replace(show, "\n", "")
+                if len(show) > 31:
+                    show = show[:31]
+                    show = show + "..."
+                venue = str.split(js[xy]["venue"], "\n")
+                try:
+                    venue = venue[1]
+                except:
+                    venue = venue[0]
+                data = {
+                    day: {
+                        "venue" + str(multi): venue,
+                        "show" + str(multi): show,
+                        "time" + str(multi): js[xy]["time"],
+                    }
+                }
 
+                vlist.append(venue)
+                slist.append(show)
+                tlist.append(js[xy]["time"])
+                # dlist.append(data)
+        #print(len(vlist), "lenvlist")
+        if len(vlist) > 1:
+            for i in range(len(vlist)):
+                data[day]["venue" + str(i)] = vlist[i]
+                data[day]["show" + str(i)] = slist[i]
+                data[day]["time" + str(i)] = tlist[i]
+
+        # print(data2, "multi")
         from datetime import datetime, timedelta
 
-        return (found, "vgk stuff")
+        return (found, data)
 
     def update_today_pp(self, pp):
         print(pp, "update_today_pp")
@@ -5212,9 +5301,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_ach
 
         libs.lib_ach.make_ach(ad)
-        App.get_running_app().root.current_screen.ids[
-            "ach_points"
-        ].text = "Points: " + str(0)
+        App.get_running_app().root.current_screen.ids["ach_points"].text = (
+            "Points: " + str(0)
+        )
 
         self.trophys("all")
 
@@ -5275,9 +5364,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             # items.icon_color = [1, 1, 0, 1]
             # items = items.text_color = self.theme_cls.text_color
             self.root.current_screen.ids["ach_id"].add_widget(items)
-            App.get_running_app().root.current_screen.ids[
-                "ach_points"
-            ].text = "Points: " + str(points)
+            App.get_running_app().root.current_screen.ids["ach_points"].text = (
+                "Points: " + str(points)
+            )
 
     def make_stats(self, start, b, e):
         self.root.push("stats")
@@ -6432,9 +6521,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
             show["earnings"] = show["earnings"] + otearnings
             # show['earnings']=self.format_money(show['earnings'])
-            App.get_running_app().root.current_screen.ids[
-                "earningsl"
-            ].text = self.format_money(show["earnings"])
+            App.get_running_app().root.current_screen.ids["earningsl"].text = (
+                self.format_money(show["earnings"])
+            )
 
             # print (timeout,lunches,ota,rate,notes,show,'THISISTHEINFO')
 
