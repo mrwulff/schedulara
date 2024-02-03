@@ -7,4 +7,9 @@ updated to new pp format
 Added Presets,Segmented buttons,Shift length graph
 1.1.9 (1.1.24)
 added calendar,icons,field notes,picture viewer
+1.2(2/2/24)
+Working on KivyMD2.x
+PDF Calendar
+Fixed Themes
+possible good themes
 

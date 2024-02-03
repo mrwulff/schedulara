@@ -1667,6 +1667,11 @@ class Demo3App(MDApp):
                 # self.snackbar.open()
         # toast("what")
         print(zz, " BACKDOOR true or false")
+        self.theme_cls.primary_palette = x["pcolor"]
+        if x['theme']=='Light':
+            print ('switching to light mode')
+        else:
+            self.theme_cls.switch_theme()
         # if zz == True:
         if 1 == 2:
             self.data.update(
@@ -2074,12 +2079,11 @@ class Demo3App(MDApp):
         # print(x, "lol")
 
         # self.do_login("", useold)
-        self.theme_cls.switch_theme()
         x1 = self.theme_cls.theme_style
         x2 = self.theme_cls.primary_palette
         # x3 = self.theme_cls.accent_palette
         # x4 = self.theme_cls.material_style
-        # self.theme_cls.switch_theme()
+        self.theme_cls.update_theme_colors()
         print(
             x1,
             x2,
@@ -3129,8 +3133,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 if status == True:
                     # self.theme_cls.primary_palette = x["pcolor"]
                     ####GIG COLOR
-                    t_color = "blue"
-                    # t_color = self.theme_cls.primaryColor
+                    #t_color = "blue"
+                    t_color = self.theme_cls.primaryColor
 
                 if status == False:
                     t_color = "gray"
@@ -6952,6 +6956,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.push("theme")
         self.root.get_screen("theme").ids["pic"].source = self.get_wall("theme")
         self.root.get_screen("theme").ids["button_t"].text = x["pcolor"]
+        self.theme_cls.update_theme_colors()
         self.save_theme_picker()
 
     theme_settings = ""
