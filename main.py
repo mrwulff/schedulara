@@ -62,7 +62,7 @@ from kivymd.uix.dialog import (
     MDDialogButtonContainer,
     MDDialogContentContainer,
 )
-
+import libs.lib_archive
 
 class E(ExceptionHandler):
     def handle_exception(self, inst):
@@ -153,7 +153,7 @@ from kivy.config import Config
 # from kivymd.uix.pickers import MDColorPicker
 
 # from kivymd.uix.pickers import MDThemePicker
-from kivymd.uix.pickers import MDTimePickerDialVertical
+from kivymd.uix.pickers import MDTimePickerDialVertical,MDModalDatePicker
 
 # from kivymd.uix.picker import MDDatePicker
 from kivymd.uix.pickers.datepicker import MDDockedDatePicker
@@ -1375,7 +1375,7 @@ class Demo3App(MDApp):
 
             if x["hidden"] == False:
                 if chart_list[i]["name"] == "Shift Length":
-                    print("WOWOWOW")
+                    print("WOWOWOW2")
                     pos_k2, pos_v2, pos_v3, tot = libs.lib_parse2.load_full_pp(
                         ad, chart_list[i]["file"], chart_list[i]["filter"]
                     )
@@ -2018,16 +2018,17 @@ class Demo3App(MDApp):
         #    ''
 
     def delete_show(self):
-        z = App.get_running_app().root.current_screen.ids["show"].tertiary_text
+        z = App.get_running_app().root.current_screen.ids["rat"].text
         print("DELETE SHOW", z)
 
         import libs.lib_new
 
         try:
             show, f = libs.lib_new.load_archive_json(ad, z)
+            self.snackbarx("Delete Show")
         except:
             print("old show data")
-            toast("failed to find show")
+            self.snackbarx("failed to find show")
             return
         print(f, "DELETESHOW DATA?")
         import os
@@ -5992,55 +5993,22 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         App.get_running_app().root.ids.result.text = str(self.selection)
 
     def delete_demo(self):
-        import libs.lib_archive
+        
 
         listofdicks = libs.lib_archive.delete_demo_files("/future_shows", ad)
         self.snackbarx("deleted  demo shows")
-
     def show_archive(self):
-        import libs.lib_archive
-
-        print("archive")
         self.root.push("archive")
-        # self.archive_sort=1
-
-        print(
-            self.archive_sort,
-            self.archive_reverse,
-            self.archive_trim,
-            "archive details",
-        )
-
         z, z1, f1, f2 = self.find_pay_date(self.archive_trim)
+        listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
+        #ntime='wow'
+        ntime='wow2'
+        #color='bob3'
+        #show_date='now'
+        #print (len(listofdicks),'listofdicks')
         App.get_running_app().root.current_screen.ids["dend"].text = str(z1)
         App.get_running_app().root.current_screen.ids["dstart"].text = str(z)
-
         self.root.current_screen.ids["archive"].clear_widgets()
-        listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
-        listofcustomdicks = libs.lib_archive.load("/custom_shows", ad, f1, f2)
-        # listofdicks.update(listofcustomdicks)
-        for q in range(len(listofcustomdicks)):
-            listofdicks.append(listofcustomdicks[q])
-
-        for nan in range(len(listofdicks)):
-            print(listofdicks[nan].get(self.archive_sort))
-            if listofdicks[nan].get(self.archive_sort) == None:
-                listofdicks[nan][self.archive_sort] = 0.0
-            if listofdicks[nan][self.archive_sort] == "-":
-                listofdicks[nan][self.archive_sort] = 0.0
-        if self.archive_sort == "date":
-            listofdicks = sorted(
-                listofdicks,
-                key=lambda i: i[self.archive_sort],
-                reverse=self.archive_reverse,
-            )
-        else:
-            listofdicks = sorted(
-                listofdicks,
-                key=lambda i: i[self.archive_sort],
-                reverse=not self.archive_reverse,
-            )
-        # print (len(listofdicks),'lenlistofdicts',listofdicks)
         tot_hours = 0
         ot_hours = 0
         reg_hours = 0
@@ -6049,54 +6017,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         earnings_all = 0
         bu = ["Current", "Next", "Last", "All", "Custom"]
         bu2 = ["date", "hours", "pay"]
-        for i in range(len(bu)):
-            if self.archive_trim == bu[i]:
-                App.get_running_app().root.current_screen.ids[
-                    bu[i]
-                ].md_bg_color = self.theme_cls.primary_dark
-            else:
-                App.get_running_app().root.current_screen.ids[
-                    bu[i]
-                ].md_bg_color = self.theme_cls.primary_light
-
-        for i in range(len(bu2)):
-            if self.archive_sort == bu2[i]:
-                App.get_running_app().root.current_screen.ids[
-                    bu2[i]
-                ].md_bg_color = self.theme_cls.primary_dark
-            else:
-                App.get_running_app().root.current_screen.ids[
-                    bu2[i]
-                ].md_bg_color = self.theme_cls.primary_light
-        if self.archive_reverse == False:
-            App.get_running_app().root.current_screen.ids[
-                "sall"
-            ].icon = "sort-descending"
-            print("acend")
-        else:
-            App.get_running_app().root.current_screen.ids[
-                "sall"
-            ].icon = "sort-ascending"
-            print("decend")
-
-        panel3 = MDListItem(
-            text="Shows ",
-            # + str((listofdicks[z]["date"])),
-            secondary_text="Hours11: ",
-            # + str(listofdicks[z]["show"]),
-            # + " Hours: "
-            # + str(listofdicks[z]["totalhours"]),
-            # + " Overtime: "
-            # + str(listofdicks[z]["othours"]),
-            # tertiary_text="Other Stuff",
-            bg_color=self.theme_cls.bg_dark,
-            radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
-            on_release=self.edit_show_details,
-        )
-
-        self.root.get_screen("archive").ids.archive.add_widget(panel3)
-        listofdicks_copy = listofdicks
-
         for z in range(len(listofdicks)):
             three = "Lunches!"
             # print (listofdicks[z],'LISTOFDICKS')
@@ -6109,10 +6029,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
             if listofdicks[z].get("totaltime") != None:
                 tottime_all = tottime_all + listofdicks[z].get("totaltime")
-                print(tottime_all, "tottime_all")
+                #print(tottime_all, "tottime_all")
             if listofdicks[z].get("earnings") != None:
                 earnings_all = earnings_all + listofdicks[z].get("earnings")
-                print(earnings_all, "earnings_all")
+                #print(earnings_all, "earnings_all")
 
             if listofdicks[z].get("pay") == None:
                 allhours, reg, over = self.calc_time(listofdicks[z])
@@ -6155,28 +6075,204 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 # if money[0]!='0':
                 three = three + " $" + str(money)
 
-            # except:
-            #    three='error'
-            three = (
-                three
-                + "[size=-50]"
-                + "%%%"
-                + listofdicks[z]["date"]
-                + "%%%"
-                + listofdicks[z]["time"]
-                + "%%%"
-                + listofdicks[z]["job"]
-                + "%%%"
-                + listofdicks[z]["show"]
+
+
+
+    
+        for nan in range(len(listofdicks)):
+            print(listofdicks[nan].get(self.archive_sort))
+            if listofdicks[nan].get(self.archive_sort) == None:
+                listofdicks[nan][self.archive_sort] = 0.0
+            if listofdicks[nan][self.archive_sort] == "-":
+                listofdicks[nan][self.archive_sort] = 0.0
+        if self.archive_sort == "date":
+            listofdicks = sorted(
+                listofdicks,
+                key=lambda i: i[self.archive_sort],
+                reverse=self.archive_reverse,
             )
-            # print (listofdicks[z],"WOWZERS")
-            try:
-                tottime = str(
-                    listofdicks[z]["totaltime"] - int(listofdicks[z]["lunches"])
+        else:
+            listofdicks = sorted(
+                listofdicks,
+                key=lambda i: i[self.archive_sort],
+                reverse=not self.archive_reverse,
+            )
+        self.root.get_screen("archive").ids.archive.add_widget(
+            MDListItem(
+                MDListItemLeadingIcon(
+                    #icon=self.find_type(i, "type"),
+                    pos_hint={"center_x": 0.5, "center_y": 0.5},
+                    icon_color=self.theme_cls.onPrimaryColor,
+                ),
+                MDListItemTrailingIcon(
+                    #icon=self.find_type(i, "pos"),
+                    icon_color=self.theme_cls.errorColor,
+                    pos_hint={"center_x": 0.5, "center_y": 0.5},
+                ),
+                MDListItemHeadlineText(text=str(len(listofdicks))+' Shows Total'),
+                MDListItemSupportingText(text="Hours: "+str(tottime_all)+"    Earnings: "+str(earnings_all))))
+        for z in range(len(listofdicks)):
+
+            #text5="Show: " + str((listofdicks[z]["show"])),
+            #    secondary_text="Date: "
+            #    + str(listofdicks[z]["date"])
+            #    + " Hours: "
+            #    + realtime,
+        
+            #show_date = datetime.datetime.strptime(date, "%m/%d/%Y")
+            ntime=self.ampm(listofdicks[z]['time'])
+            hours=''
+            if listofdicks[z].get('totaltime'):
+                hours=" Hours: " +str(listofdicks[z].get('totaltime'))
+            earnings=''
+            if listofdicks[z].get('earnings'):
+                earnings=' Earnings: '+str(listofdicks[z].get('earnings'))
+            thing='Please Set Time'
+            if listofdicks[z].get('endtime') and listofdicks[z].get('earnings') and listofdicks[z].get('totaltime'):
+            
+                thing=listofdicks[z]['time'] + "-" +hours+earnings
+            self.root.get_screen("archive").ids.archive.add_widget(
+                MDListItem(
+                    
+                    MDListItemLeadingIcon(
+                        #icon=self.find_type(i, "type"),
+                        pos_hint={"center_x": 0.5, "center_y": 0.5},
+                        icon_color=self.theme_cls.primaryColor,
+                    ),
+                    MDListItemTrailingIcon(
+                        #icon=self.find_type(i, "pos"),
+                        icon_color=self.theme_cls.errorColor,
+                        pos_hint={"center_x": 0.5, "center_y": 0.5},
+                    ),
+                    MDListItemHeadlineText(text=listofdicks[z]['show']),
+                    MDListItemSupportingText(text=listofdicks[z]['date'] + " " + listofdicks[z]['pos'] + " " +listofdicks[z]['type']  ),
+                    
+                    MDListItemSupportingText(text= thing ),
+                    #MDListItemHeadlineText(listofdicks[z]['show']),
+                    #MDListItemHeadlineText(text=str(len(listofdicks))+' Shows Total'),
+                    #MDListItemSupportingText(text=color + show_date + " " + ntime),))
+                    #on_release=self.edit_show_details()))
+                    on_release=lambda x, y=(listofdicks[z]): self.edit_show_details(y)
                 )
-            except:
-                tottime = ""
-            realtime, junk, junk = self.format_hours(tottime)
+            )
+
+    def show_archiveold(self):
+        import libs.lib_archive
+
+        print("archive")
+        self.root.push("archive")
+        # self.archive_sort=1
+
+        print(
+            self.archive_sort,
+            self.archive_reverse,
+            self.archive_trim,
+            "archive details",
+        )
+
+        z, z1, f1, f2 = self.find_pay_date(self.archive_trim)
+        App.get_running_app().root.current_screen.ids["dend"].text = str(z1)
+        App.get_running_app().root.current_screen.ids["dstart"].text = str(z)
+
+        if self.archive_reverse == False:
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].icon = "sort-descending"
+            print("acend")
+        else:
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].icon = "sort-ascending"
+            print("decend")
+        
+
+
+        self.root.current_screen.ids["archive"].clear_widgets()
+        listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
+        listofcustomdicks = libs.lib_archive.load("/custom_shows", ad, f1, f2)
+        # listofdicks.update(listofcustomdicks)
+        for q in range(len(listofcustomdicks)):
+            listofdicks.append(listofcustomdicks[q])
+
+        for nan in range(len(listofdicks)):
+            print(listofdicks[nan].get(self.archive_sort))
+            if listofdicks[nan].get(self.archive_sort) == None:
+                listofdicks[nan][self.archive_sort] = 0.0
+            if listofdicks[nan][self.archive_sort] == "-":
+                listofdicks[nan][self.archive_sort] = 0.0
+        if self.archive_sort == "date":
+            listofdicks = sorted(
+                listofdicks,
+                key=lambda i: i[self.archive_sort],
+                reverse=self.archive_reverse,
+            )
+        else:
+            listofdicks = sorted(
+                listofdicks,
+                key=lambda i: i[self.archive_sort],
+                reverse=not self.archive_reverse,
+            )
+        # print (len(listofdicks),'lenlistofdicts',listofdicks)
+        tot_hours = 0
+        ot_hours = 0
+        reg_hours = 0
+        tot_money = 0
+        tottime_all = 0
+        earnings_all = 0
+        bu = ["Current", "Next", "Last", "All", "Custom"]
+        bu2 = ["date", "hours", "pay"]
+        """
+        for i in range(len(bu)):
+            if self.archive_trim == bu[i]:
+                App.get_running_app().root.current_screen.ids[
+                    bu[i]
+                ].md_bg_color = self.theme_cls.primary_dark
+            else:
+                App.get_running_app().root.current_screen.ids[
+                    bu[i]
+                ].md_bg_color = self.theme_cls.primary_light
+
+        for i in range(len(bu2)):
+            if self.archive_sort == bu2[i]:
+                App.get_running_app().root.current_screen.ids[
+                    bu2[i]
+                ].md_bg_color = self.theme_cls.primary_dark
+            else:
+                App.get_running_app().root.current_screen.ids[
+                    bu2[i]
+                ].md_bg_color = self.theme_cls.primary_light
+        """
+        if self.archive_reverse == False:
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].icon = "sort-descending"
+            print("acend")
+        else:
+            App.get_running_app().root.current_screen.ids[
+                "sall"
+            ].icon = "sort-ascending"
+            print("decend")
+
+        panel3 = MDListItem(
+            text="Shows ",
+            # + str((listofdicks[z]["date"])),
+            secondary_text="Hours11: ",
+            # + str(listofdicks[z]["show"]),
+            # + " Hours: "
+            # + str(listofdicks[z]["totalhours"]),
+            # + " Overtime: "
+            # + str(listofdicks[z]["othours"]),
+            # tertiary_text="Other Stuff",
+            #bg_color=self.theme_cls.bg_dark,
+            radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
+            on_release=self.edit_show_details,
+        )
+
+        self.root.get_screen("archive").ids.archive.add_widget(panel3)
+        listofdicks_copy = listofdicks
+
+
+        if 1==1:
             panel = MDListItem(
                 text="Show: " + str((listofdicks[z]["show"])),
                 secondary_text="Date: "
@@ -6185,8 +6281,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 + realtime,
                 # + " Overtime: ",
                 # + str(listofdicks[z]["othours"]),
-                tertiary_text=three,
-                bg_color=self.theme_cls.bg_dark,
+                #tertiary_text=three,
+                #bg_color=self.theme_cls.bg_dark,
                 radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
                 on_release=self.edit_show_details,
             )
@@ -6198,8 +6294,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         bbl = len(bb)
         bb = bb[bbl - 1]
         bb.text = "Shows!: " + str(bbl - 1)
-        bb.secondary_text = "Hours: " + str(self.format_hours(tottime_all)[0])
-        bb.tertiary_text = "Pay: " + str(self.format_money(earnings_all))
+        #bb.secondary_text = "Hours: " + str(self.format_hours(tottime_all)[0])
+        #bb.tertiary_text = "Pay: " + str(self.format_money(earnings_all))
         try:
             ratee = "   Rate: $%.2f" % (tot_money / tot_hours)
             # ratee="    Rate: $"+str(tot_money/tot_hours)
@@ -6287,13 +6383,18 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         return hours + minutes
 
     def edit_show_details(self, b):
-        self.menu.dismiss()
+        try:
+            self.menu.dismiss()
+        except:
+            pass
+        
         import libs.lib_new
         import libs.lib_positions
 
         # try:
         flag = False
         if 1 == 1:
+            
             print(b, "third_text")
             show, filee = libs.lib_new.load_archive_json(ad, b)
             flag = True
@@ -6390,7 +6491,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 if id[q] == "lunches":
                     print("setting lunches!!!!")
                     za.ids[b5[q]].text = str(0)
-
+        App.get_running_app().root.current_screen.ids["rat"].text = "%%%"+ show["date"]+ "%%%"+ show["time"]+ "%%%"+ show["job"]+ "%%%"+ show["show"]
         self.update_show()
 
     def update_show_single(self, f):
@@ -6459,8 +6560,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         show["ota"] = z.ids["button5"].text
         show["rate"] = z.ids["rate"].text
         show["user_notes"] = z.ids["user_notes"].text
-        # show['totalhoursplus']=z.ids['totalhours'].text
-        # show['total_hours']=z.ids['newhours'].text-show['time']-z.ids['lunches'].text
+        #show['totalhoursplus']=z.ids['totalhours'].text
+        #show['total_hours']=z.ids['newhours'].text-show['time']-z.ids['lunches'].text
+        #show['ot']=z.ids['ot'].text
+        
 
         from datetime import datetime
 
@@ -6522,6 +6625,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 )
                 print(ot, "boo ya, overtime")
                 otearnings = float(show["rate"]) * 0.5 * ot
+                show['ot']=ot
 
             show["earnings"] = show["earnings"] + otearnings
             # show['earnings']=self.format_money(show['earnings'])
@@ -6801,8 +6905,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.do_history()
 
     def show_date_picker(self):
-        date_dialog = MDDatePicker(mode="range")
-        date_dialog.bind(on_save=self.on_save, on_cancel=self.on_cancel)
+        date_dialog = MDModalDatePicker(mode="range")
+        date_dialog.bind(on_ok=self.on_save, on_cancel=self.on_cancel)
         date_dialog.open()
         # App.get_running_app().root.current_screen.ids['send'].md_bg_color= self.theme_cls.primary_light
         # App.get_running_app().root.current_screen.ids['sstart'].md_bg_color= self.theme_cls.primary_light
@@ -6824,11 +6928,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def send_dates(self, dates):
         print("SEND DATES,", dates)
 
-    def on_save(self, instance, value, date_range):
-        from datetime import datetime
+    def on_save(self, instance_date_picker):
+        date_range=(instance_date_picker.get_date())
+        #from datetime import datetime
 
-        print(self.root.current, "CURRENT SCREEEEEEN")
-        print(date_range, "wowowow")
+        #print(self.root.current, "CURRENT SCREEEEEEN")
+        #print(date_range, "wowowow")
         # self.root.ids.date_label.text = str(value)
         # self.root.ids.date_label.text = f'{str(date_range[0])} - {str(date_range[-1])}'
         try:
@@ -6841,7 +6946,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         except:
             App.get_running_app().root.current_screen.ids["dstart"].text = str("")
             App.get_running_app().root.current_screen.ids["dend"].text = str("")
-        print(self.root.current, "CURRENT SCREEN===:")
+        #print(self.root.current, "CURRENT SCREEN===:")
         if self.root.current == "stats":
             # self.make_stats("custom", "custom")
             self.make_stats("custom", date_range[-1], date_range[0])
@@ -6856,7 +6961,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.lday = datetime.combine(date_range[-1], datetime.min.time())
             self.fday = datetime.combine(date_range[0], datetime.min.time())
             self.do_payperiod("x")
-
+        instance_date_picker.dismiss()
     def updatetext(self, box):
         app = App.get_running_app()
         ad = app.user_data_dir

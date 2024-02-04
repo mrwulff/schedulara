@@ -18,7 +18,7 @@
     
                 MDActionTopAppBarButton:
                     icon: "chevron-left"
-                    on_release: app.change_screen('newhome','left')
+                    on_release: app.root.pop()
                     pos_hint:{"center_x": 0.5, "center_y": 0.5}
         ScrollView:
             #id: history_view
@@ -28,7 +28,8 @@
                 spacing: app.cspacing/2
                 padding: app.cpadding/2,app.cpadding/2
                 #bg_color:app.theme_cls.bg_dark
-                id: archive
+                #id: archive
+                id: show5
                 MDListItem:
                     id: show3
                     #bg_color: app.theme_cls.bg_dark

@@ -12,4 +12,6 @@ Working on KivyMD2.x
 PDF Calendar
 Fixed Themes
 possible good themes
+fixed 'past shows'
 
+todo: add past to calendar

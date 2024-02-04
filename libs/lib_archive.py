@@ -35,25 +35,32 @@ def load(cd, ad, last, first):
     z = glob.glob(ad + cd + "/*.json")
     # print (z)
     for i in range(len(z)):
+        flag=True
         with open(z[i]) as d:
+            #print (z[i],'try jzon')
             # print(z[i], "TRY JSON")
-            dictData = json.load(d)
-            c = dictData["date"]
             try:
-                show_date = datetime.strptime(c, "%m/%d/%Y")
+                dictData = json.load(d)
             except:
+                print ('failed to load '+ z[i])
+                flag=False
+            if flag==True:
+                c = dictData["date"]
                 try:
-                    show_date = datetime.strptime(c, "%Y-%m-%d")
+                    show_date = datetime.strptime(c, "%m/%d/%Y")
                 except:
-                    show_date = datetime.strptime("1999-01-01", "%Y-%m-%d")
-            show_date = show_date.date()
-            # print (first,show_date,last)
-            # print (type(first),type(show_date),type(last))
-            if type(last) == int or type(last) == str:
-                all_shows.append(dictData)
-            else:
-                if first <= show_date and show_date <= last:
+                    try:
+                        show_date = datetime.strptime(c, "%Y-%m-%d")
+                    except:
+                        show_date = datetime.strptime("1999-01-01", "%Y-%m-%d")
+                show_date = show_date.date()
+                # print (first,show_date,last)
+                # print (type(first),type(show_date),type(last))
+                if type(last) == int or type(last) == str:
                     all_shows.append(dictData)
+                else:
+                    if first <= show_date and show_date <= last:
+                        all_shows.append(dictData)
 
     # print (all_shows)
     return all_shows
