@@ -300,6 +300,7 @@
                     #spacing:10
                     MDButton:
                         size_hint: 6.9, None
+                        style: "tonal"
                         #height: second.height +app.c_top
                         id:butt
                         #height: self.minimum_height
@@ -316,6 +317,7 @@
                             text: "Show All"
                     MDButton:
                         id:butt2
+                        style: "tonal"
                         text: "Past"
                         #secondary_text: "Secondary text here"
                         #on_release: app.newstart("",True)
@@ -326,8 +328,10 @@
                         MDButtonText:
                             text: "Past"
                     MDButton:
+                        style: "tonal"
                         id:butt3
                         text: "Update"
+                        radius: app.cradius
                         #secondary_text: "Secondary text here"
                         on_release: app.update()
                         #pos_hint: {"center_x": .79, "center_y": .5}

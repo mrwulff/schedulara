@@ -39,7 +39,7 @@ def get_position_name(ad, name):
         # logging.info("opened json file")
     data = json.load(o)
     data = data["positions"]
-    logging.info(data, "data")
+    # logging.info(data, "data")
     # x3 = search(data, name)
     # logging.info(x3)
     for x in range(len(data)):

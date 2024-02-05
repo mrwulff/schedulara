@@ -4,9 +4,30 @@
 ###
 debug = False
 debug_online = False
-import logging
 
-logging.info("What")
+import logging
+# from kivy.logger import Logger
+
+if 1 == 2:
+    logging.basicConfig(
+        format="%(asctime)s,%(msecs)d %(levelname)-8s [%(pathname)s:%(lineno)d in "
+        "function %(funcName)s] %(message)s",
+        datefmt="%Y-%m-%d:%H:%M:%S",
+        level=logging.DEBUG,
+    )
+
+
+from kivy.config import Config
+
+Config.set("kivy", "log_name", "my_file.log")
+
+Config.set("kivy", "log_level", "info")
+
+Config.write()
+
+
+print("what")
+
 
 # import logging
 # logging.basicConfig(
@@ -43,7 +64,7 @@ import libs.lib_readuserdata
 # IconLeftWidget,
 # OneLineListItem,
 # )
-
+logging.info("What")
 
 from kivymd.uix.snackbar import (
     MDSnackbar,
@@ -161,12 +182,12 @@ from kivymd.app import MDApp
 
 from kivy.core.window import Window
 from kivy.app import App
-from kivy.config import Config
+# from kivy.config import Config
 
-Config.set("kivy", "log_level", "all")
+# Config.set("kivy", "log_level", "all")
 
 # apply all these changes
-Config.write()
+# Config.write()
 
 
 # from kivymd.uix.snackbar import Snackbar
@@ -265,20 +286,8 @@ if platform == "win":
 # if platform not in ["android", "ios"]:
 #    Window.size = (320,640)
 
-# from kivy.logger import Logger
-# from kivy.config import Config
 App.get_running_app()
-# Config.get
 
-# Config.set('kivy', 'log_enable', 1)
-# Config.set('kivy', 'log_level', 'debug')
-# Config.set('kivy', 'log_name', 'my_file.log')
-##Config.set('kivy', 'log_dir', '/home/dude/folder')
-
-# Config.write()
-# Logger.debug('main:switching stuff on')
-# Logger.info('socket:send command to raspberry')
-# Logger
 
 if platform == "android":
     from kivy.config import Config
@@ -324,7 +333,7 @@ if platform == "android5":
 
 
 toc1 = time.perf_counter()
-logging.info(tic - toc1, "firsttimer")
+logging.info(str(tic - toc1) + "firsttimer")
 from kivy.utils import platform
 import urllib.request
 
@@ -704,7 +713,7 @@ class Demo3App(MDApp):
     sp = True
 
     i = 0
-    logging.info(tic - time.perf_counter(), "supershort")
+    logging.info(str(tic - time.perf_counter()) + "supershort")
     cspacing = 10
 
     mtype = "top"
@@ -1574,11 +1583,11 @@ class Demo3App(MDApp):
         import libs.lib_updateuserdata
 
         try:
-            logging.info("already set")
+            # logging.info("already set")
             return x[b]
 
         except:
-            logging.info("not set yet")
+            # logging.info("not set yet")
 
             x[b] = "False"
             libs.lib_updateuserdata.updateuser(x, ad)
@@ -1645,7 +1654,7 @@ class Demo3App(MDApp):
                 # toast('backdoor=unknown')
                 # self.snackbar = Snackbar(text="bla", bg_color=self.theme_cls.primary_color)
                 # self.snackbar.open()
-        logging.info(zz, " BACKDOOR true or false")
+        logging.info(str(zz) + " BACKDOOR true or false")
         self.theme_cls.primary_palette = x["pcolor"]
         if x["theme"] == "Light":
             logging.info("switching to light mode")
@@ -1791,15 +1800,15 @@ class Demo3App(MDApp):
             self.do_dev()
 
         if x["demo_count"] == 5:
-            toast("almost there")
+            self.snackbarx("almost there")
         if x["demo_count"] == 10:
-            toast("dev mode enabled")
+            self.snackbarx("dev mode enabled")
             x["backdoor"] = True
         if x["demo_count"] > 10:
             x["backdoor"] = False
             x["demo_count"] = 1
-            toast("dev mode disabled")
-        logging.info(x)
+            self.snackbarx("dev mode disabled")
+        logging.info("backdoor: " + x["backdoor"])
 
         import libs.lib_updateuserdata as lib_updateuserdata
 
@@ -2038,7 +2047,7 @@ class Demo3App(MDApp):
 
         if 1 == 1:
             config_file = ad
-        logging.info(tic - time.perf_counter(), "on start !!!")
+        logging.info(str(tic - time.perf_counter()) + "on start !!!")
         import libs.lib_readuserdata
 
         try:
@@ -2066,13 +2075,6 @@ class Demo3App(MDApp):
         # x3 = self.theme_cls.accent_palette
         # x4 = self.theme_cls.material_style
         self.theme_cls.update_theme_colors()
-        logging.info(
-            x1,
-            x2,
-            "THEME STUFF",
-            self.theme_cls.secondaryColor,
-            self.theme_cls.primaryColor,
-        )
 
         import subprocess
 
@@ -2548,14 +2550,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # type = libs.lib_positions.get_position_name(ad, gg["type"])
         logging.info
         self.find_type(d, "type")
-        logging.info(
-            pos,
-            # type,
-            "whthththht",
-            self.find_type(d, "type"),
-            self.find_type(d, "pos"),
-            d,
-        )
+
         self.menu = MDDialog(
             # type=simple,
             # ----------------------------Icon-----------------------------
@@ -2717,7 +2712,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def ampm(self, z):
         h, m = str.split(z, ":")
         h = int(h)
-        logging.info(h)
+        # logging.info(h)
         ppp = " AM"
         h2 = h
         if h == 12 and m == "00":
@@ -2804,10 +2799,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import pkg_resources
 
         x = pkg_resources.get_distribution("kivymd").version
-        logging.info(x, "listofkivymd")
+        # logging.info(x, "listofkivymd")
 
         y = pkg_resources.get_distribution("kivy").version
-        logging.info(y, "listofkivy")
+        # logging.info(y, "listofkivy")
         return x, y
 
     def today(self):
@@ -2822,14 +2817,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         p = self.piplist()
 
         # toast(str(p))
-        logging.info(str(p), "piplistggggg")
+        # logging.info(str(p), "piplistggggg")
 
         #  libs.lib_think.login_basic(ad, x, App)
 
         # self.update_internal("opened", 1)
 
         self.root.push("today")
-        logging.info(self.root.current_screen.name, "current_screen")
         self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
 
         #####hustle error checks
@@ -2994,7 +2988,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         month = now.strftime("%m")
         year = now.strftime("%Y")
         mmonth = now.strftime("%B")
-        logging.info(now, "NOW NOW NOW")
+        # logging.info(now, "NOW NOW NOW")
         self.make_calendar_today(month, year, mmonth)
         self.do_pp_sum(0, "cal")
 
@@ -3011,9 +3005,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         z, z1, f1, f2 = self.find_pay_date(dd.date())
 
         listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
-        # logging.info (listofdicks,'listofdicks for calendar')
-
-        logging.info(len(listofdicks), "listofdicks2234", f1, f2, day)
 
         for z in range(31):
             status, info = self.check_working(z, dd.month, dd.year, js["shows"])
@@ -3021,19 +3012,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             # logging.info(status, info_old, z)
             di.update(info)
             di.update(info_old)
-            # logging.info(type(dd.month), type(dd.year), "wtfff")
-        # logging.info(day)
         libs.lib_pdf.alt(x["name"], ad, di, dd.month, dd.year)
 
     def make_calendar_today(self, month, year, mmonth):
         ###do calendar!!
         import libs.lib_archive
 
-        # logging.info("make calendar", month, year,mmonth)
-        # logging.info (self.archive_trim,'archive_trim')
         z, z1, f1, f2 = self.find_pay_date(month + "-" + year)
         listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
-        # logging.info (str(len(listofdicks))+'listofdicks55 '+str(f1)+' '+str(f2))
 
         js = libs.lib_new.get_json_schedule(x, ad)
 
@@ -3165,7 +3151,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def find_cal(self, y):
         import libs.lib_archive
 
-        logging.info(self, y, y.text, "this is a calendar click")
         from dateutil.relativedelta import relativedelta
 
         # logging.info(y.background_color, y.color, "bg color")
@@ -3187,12 +3172,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             bg = "red"
 
         callist = self.root.get_screen("today").ids["cal_month"].text
-        logging.info(callist, "callist")
         # callist = callist + " " + str(y.text)
 
         cur_month = datetime.datetime.strptime(callist, "%B %Y").date()
         cur_month = cur_month + relativedelta(months=+offset)
-        logging.info(cur_month, "monthttasadf")
         y1, m1, d1 = str.split(str(cur_month), "-")
         cur_month = y1 + "-" + m1
         cur_month = datetime.datetime.strptime(
@@ -3201,7 +3184,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         z, z1, f1, f2 = self.find_pay_date(cur_month)
         listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
 
-        logging.info(cur_month, "curmonth", str(y.background_color), offset)
         dd = cur_month
         import libs.lib_new
 
@@ -3212,25 +3194,25 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         js = libs.lib_new.get_json_schedule(x, ad)
         try:
             status, info = self.check_working(dd.day, dd.month, dd.year, js["shows"])
-            logging.info(status, "NEW STATUS")
+            # logging.info(status, "NEW STATUS")
         except:
             status = False
         try:
             status_old, info_old = self.check_working(
                 dd.day, cur_month.month, dd.year, listofdicks
             )
-            logging.info(status_old, "oldstatus")
+            # logging.info(str(status_old), "oldstatus")
         except:
             status_old = False
         js = js["shows"]
         pops = []
         done = False
         for x4 in range(len(js)):
-            logging.info(js[x4]["date"], "jsdate")
+            # logging.info(js[x4]["date"], "jsdate")
             show_date = datetime.datetime.strptime(js[x4]["date"], "%m/%d/%Y").date()
             # logging.info(show_date, cur_month, "asdfasdf")
             if show_date == cur_month and done == False:
-                logging.info("omg you found a real date", js[x4]["show"])
+                # logging.info("omg you found a real date", js[x4]["show"])
                 pops.append(x4)
                 if len(pops) > 0:
                     done = True
@@ -3239,16 +3221,16 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             show_date = datetime.datetime.strptime(
                 listofdicks[x5]["date"], "%m/%d/%Y"
             ).date()
-            logging.info(show_date, cur_month, "showandmonth")
+            # logging.info(show_date, cur_month, "showandmonth")
             if show_date == cur_month and done == False:
-                logging.info("omg you found an old date", listofdicks[x5]["show"])
+                # logging.info("omg you found an old date", listofdicks[x5]["show"])
                 pops.append(x5)
                 if len(pops) > 0:
                     done = True
                     self.click_cal(pops[0], listofdicks)
 
     def cal_next(self, instance):
-        logging.info("cal next", instance)
+        # logging.info("cal next")
         import libs.lib_new
 
         # info = instance.text
@@ -3357,7 +3339,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 # logging.info(bb, "bb")
                 # logging.info(bb.get("earnings"))
                 if (bb.get("earnings")) != None:
-                    logging.info(bb["earnings"], "         earnings!@!!")
+                    logging.warning(str(bb["earnings"]) + "         earnings!@!!")
                     complete_shows = complete_shows + 1
                 # if shows[i].get("earnings") != None:
                 # logging.info(shows[i]["earnings"], "endtime")
@@ -3811,7 +3793,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         l2 = self.format_date(lastdate1, "short")
         a = self.format_date(firstdate, "full")
         # logging.info (c,'TRIM')
-        logging.info(l2, l, lastdate, lastdate1, "dates and stuff")
+        # logging.info(l2, l, lastdate, lastdate1, "dates and stuff")
         if c == "All":
             return ("All", "", "", "")
         if type(c) != int:
@@ -4135,7 +4117,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
             libs.lib_makeuserdata.makeuserdata_extra(App, ad, ios)
             ex = libs.lib_readuserdata.readuserdata_extra(App, ad, ios)
-        logging.info(ex, "EXTRA EXTRA111", kind)
+        logging.info(str(ex) + "EXTRA EXTRA111" + str(kind))
         if (
             kind == "update"
             or kind == "confirm"
@@ -4862,12 +4844,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.root.get_screen("theme").ids["pic"].source = b
             logging.info("success set image")
         except:
-            logging.info("fail to set image")
+            logging.warning("fail to set image")
             pass
         try:
             self.root.get_screen("theme").ids["pic"].source = b
         except:
-            logging.info("coundnt find the theme page")
+            logging.warning("coundnt find the theme page")
 
         return b
 
@@ -4877,7 +4859,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # logging.info(location[text_item])
         # logging.info (text_item,type(text_item))
         # logging.info(v[text_item], "v[text")
-        logging.info(text_item, v2, v, "dumbass")
+        # logging.info(text_item, v2, v, "dumbass")
         if v2 == "name":
             # toast(str(v[text_item][v2]))
             App.get_running_app().root.current_screen.ids[
@@ -4945,7 +4927,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.menu_items.open()
 
     def menu_callback2(self, item, gg):
-        logging.info(item, gg, "callback2")
         # self.root.ids.drop_text.text = text_item
         self.menu_items.dismiss()
         if item == "Email":
@@ -4953,7 +4934,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def open_drop_item_menu(self, v, v2):
         # v2 = "wow"
-        logging.info(v, "what is v")
+        logging.info(str(v) + "what is v")
 
         # menu_items = [
         #     {
@@ -5598,18 +5579,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_ppdownloader as lib_ppdownloader
 
         if x["name"] == "Test McDemo":
-            toast(str("No Paychecks found for ") + x["name"])
+            self.snackbarx(str("No Paychecks found for ") + x["name"])
         else:
             paystubs, new = lib_ppdownloader.thinkpp(x, ad)
-            try:
-                self.snackbar = MDSnackbar(
-                    text="Downloaded " + str(new) + " Paystubs out of " + str(paystubs),
-                    bg_color=self.theme_cls.primary_color,
-                )
-                self.snackbar.open()
-            except:
-                logging.info("failed to dl paystubs", new, paystubs)
-                toast(str(new) + " out of  " + str(paystubs))
+
+            logging.info("Downloaded  " + str(new) + " out of  " + str(paystubs))
+            self.snackbarx("Downloaded  " + str(new) + " out of  " + str(paystubs))
 
     def ccc(self):
         logging.info(mjds)
@@ -6132,7 +6107,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 three = three + " $" + str(money)
 
         for nan in range(len(listofdicks)):
-            logging.info(listofdicks[nan].get(self.archive_sort))
+            # logging.info(listofdicks[nan].get(self.archive_sort))
             if listofdicks[nan].get(self.archive_sort) == None:
                 listofdicks[nan][self.archive_sort] = 0.0
             if listofdicks[nan][self.archive_sort] == "-":
@@ -6435,17 +6410,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         # try:
         flag = False
-        if 1 == 1:
-            logging.info(b, "third_text")
-            show, filee = libs.lib_new.load_archive_json(ad, b)
-            flag = True
+
+        show, filee = libs.lib_new.load_archive_json(ad, b)
+        flag = True
         if 1 == 1 and flag == False:
             show = b
         # except:
         #    logging.info("old show data")
         #    toast("failed to find show")
         #    return
-        logging.info(show, "SHOW DATA")
         self.root.push("editShow")
         z = App.get_running_app().root.current_screen.ids["show"]
         z.text = str(show["show"])
@@ -6504,7 +6477,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             + show["show"]
         )
 
-        logging.info(z, "button4")
+        logging.info(str(z) + "button4")
         za = App.get_running_app().root.current_screen
         id = ["lunches", "endtime", "rate", "user_notes"]
         b5 = ["button4", "newhours", "rate", "user_notes"]
@@ -6518,7 +6491,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         show[id[q]] = ""
 
                 za.ids[b5[q]].text = str(show[id[q]])
-                logging.info("setting!", str(show[id[q]]), " to bla")
+                logging.info("setting! " + str(str(show[id[q]])) + " to bla")
 
             except:
                 # za.ids[b5[q]].text='?'
@@ -6527,10 +6500,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 if id[q] == "rate":
                     logging.info("FINDING RATE RIGHT NOW for " + show["pos"])
                     rate = libs.lib_positions.get_single_rate(ad, show["pos"])
-                    logging.info(rate, "found the rate for", show["pos"])
+                    logging.info(str(rate), "found the rate for", str(show["pos"]))
                     za.ids[b5[q]].text = str(rate)
                 if id[q] == "lunches":
-                    logging.info("setting lunches!!!!")
+                    # logging.info("setting lunches!!!!")
                     za.ids[b5[q]].text = str(0)
         App.get_running_app().root.current_screen.ids["rat"].text = (
             "%%%"
@@ -6582,7 +6555,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             return "", "", ""
 
         time = float(time)
-        logging.info(int(time), "zzzzzzzzzzzzzzzz")
+        # logging.info(int(time), "zzzzzzzzzzzzzzzz")
         woop = "zz"
         hours = "5"
         minutes = "wow"
@@ -6629,19 +6602,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             flag = False
         if flag == True:
             tot = end - start
-            logging.info(end, start, type(end), "END", tot, type(tot))
             end = str(end)
             ehour, eminute, escond = str.split(end, ":")
-            logging.info(eminute, "eminute")
             eminute = float(eminute) / 60
             junk, ehour = str.split(ehour, " ")
             ehour = str(ehour)
-            logging.info(ehour, "ehour!!")
-            logging.info(eminute, ehour, "eminute2")
+            logging.info(str(eminute) + str(ehour) + "eminute2")
             dtimeout = float(ehour) + float(eminute)
             # -z.ids['lunches']
             # show['rate']=z.ids['rate'].text
-            # logging.info(show['totaltime'],"totaltim")
             dstart_h, dstart_m = str.split(show["time"], ":")
             dstart_m = float(dstart_m) / 60
             dstart = float(dstart_h) + dstart_m
@@ -6649,8 +6618,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             show["totaltime"] = dtimeout - dstart
             if show["totaltime"] < 0:
                 show["totaltime"] = show["totaltime"] + 24
-            logging.info(show, "SHOW!!")
-            logging.info(show["totaltime"], "titaltime")
+            logging.info(str(show["totaltime"]) + "titaltime")
 
             time = show["totaltime"]
             time = show["totaltime"] - int(show["lunches"])
@@ -6672,7 +6640,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 ot = float(
                     ((show["totaltime"]) - float(show["lunches"])) - float(show["ota"])
                 )
-                logging.info(ot, "boo ya, overtime")
+                logging.info(str(ot) + "boo ya, overtime")
                 otearnings = float(show["rate"]) * 0.5 * ot
                 show["ot"] = ot
 
@@ -7205,10 +7173,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def do_pp_sum(self, lala, t):
         if t == "pp":
-            logging.info("cc", lala)
+            # logging.info("cc", lala)
             global pp_index
             pp_index = pp_index + lala
-            logging.info(pp_index, "INDEXXX")
+            # logging.info(pp_index, "INDEXXX")
             paydate, payperiod = self.find_pay_date(pp_index)
             # zz=self.find_pay_date(pp_index)
             # logging.info (zz)
@@ -7222,7 +7190,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             global cal_index
             cal_index = cal_index + lala
             month, year, mmonth = self.find_month(cal_index)
-            logging.info(month, year, "cal in pp")
+            # logging.info(month, year, "cal in pp")
             self.make_calendar_today(month, year, mmonth)
 
     def find_month(self, i):
@@ -7376,7 +7344,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         ssort = self.sort_pp
         rreverse = self.rreverse
-        logging.info(rreverse, "REVERSE")
+        logging.info(str(rreverse) + "REVERSE")
 
         self.root.current_screen.ids["payperiod_list"].clear_widgets()
         listofdicks = self.load_paychecks()
@@ -7846,10 +7814,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 # Config.set('kivy', 'log_maxfiles', 1000)
 
 # minimum log level which is what you need to not see kivy's default info logs
-Config.set("kivy", "log_level", "error")
+# Config.set("kivy", "log_level", "error")
 
 # apply all these changes
-Config.write()
+# Config.write()
 
 
 Demo3App().run()

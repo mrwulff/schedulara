@@ -43,7 +43,7 @@ def load(cd, ad, last, first):
             try:
                 dictData = json.load(d)
             except:
-                logging.info("failed to load " + z[i])
+                logging.warning("failed to load " + z[i])
                 flag = False
             if flag == True:
                 c = dictData["date"]

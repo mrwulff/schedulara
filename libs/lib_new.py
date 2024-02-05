@@ -1,3 +1,6 @@
+import logging
+
+
 def make_json_schedule(x, ad):
     logging.info("make_json_schedule")
     from bs4 import BeautifulSoup
@@ -15,7 +18,7 @@ def make_json_schedule(x, ad):
         logging.info("WHY YOU NOT WORK")
 
     encoding = "utf8"
-    logging.info(cache, "CACHE IN NEW")
+    logging.info(cache + "CACHE IN NEW")
 
     if 1 == 1:
         if cache == True:
@@ -49,7 +52,7 @@ def make_json_schedule(x, ad):
     except:
         logging.info("emp not found")
         return
-    logging.info(name.get_text(), "YOUR NAME HERE")
+    logging.info(name.get_text() + " YOUR NAME HERE")
     try:
         name = str.split(name.get_text(), ", ")
     except:
@@ -188,7 +191,6 @@ def get_archive_json(ad, thisdict):
     # logging.info(thisdict, "success")
     with open(z) as json_file:
         data = json.load(json_file)
-    logging.info(data, "datadata")
     return data
 
 

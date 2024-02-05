@@ -26,7 +26,7 @@ def nonzero(row):
 def createCalendar(
     name, a, month, year=NOW.year, canvas=None, filename=None, size=SIZE
 ):
-    logging.info(month, "month", year, "year")
+    # logging.info(month, "month", year, "year")
     """
     Create a one-month pdf calendar, and return the canvas
 
@@ -136,8 +136,8 @@ def createCalendar(
                                 si = "- " + a[day].get("out" + str(i))
                             canvas.setFont("Helvetica", s)
                             canvas.drawString(x + 15, y - 10 - i * 40, str(si))
-                            logging.info("found endtime", a[day].get("out" + str(i)))
-                        logging.info(a[day], "aday")
+
+                        # logging.info(str(a[day]) + "aday")
 
                         try:
                             canvas.setFont("Helvetica", s)
@@ -190,7 +190,7 @@ def createCalendar(
 def alt(name, ad, a, m, y):
     # create a December, 2005 PDF
     s = 5
-    logging.info(m, "month", y, "year")
+    # logging.info(m, "month", y, "year")
     c = createCalendar(name, a, m, y, filename=ad + "/blog_calendar.pdf")
     # now add January, 2006 to the end
     # createCalendar(1, 2006, canvas=c)

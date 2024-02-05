@@ -11,7 +11,7 @@ def basic_cal(month, year):
     month = int(month)
     # logging.info(year, month, "year month in basic cal")
     l = cal.monthdatescalendar(year, month)
-    logging.info(len(l))
+    # logging.info(len(l))
     # logging.info(l)
     return l
 
