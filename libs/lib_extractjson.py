@@ -29,7 +29,7 @@ def extract_show(App, f, config_file):
 
         try:
             worked_hours = worked_hours - timedelta(hours=lunch)
-            print("its not good")
+            logging.info("its not good")
         except:
             good = False
         worked_hours = str(worked_hours)
@@ -71,7 +71,7 @@ def extract_show(App, f, config_file):
 
         # except:
         #    'pass'
-        print(good, "wasitgood?")
+        logging.info(good, "wasitgood?")
         start = str(start)
         end = str(end)
         if earnings > 0:

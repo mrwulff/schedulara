@@ -11,7 +11,7 @@ def readrate(ad, pos):
         return ""
 
     # dictionary = json.loads(data2)
-    # print (data2[pos],'dictpos')
+    # logging.info (data2[pos],'dictpos')
     return data2[pos]
 
 
@@ -22,7 +22,7 @@ def get_wallpapers():
     l = []
     desktop = pathlib.Path("images/walls")
     for item in desktop.iterdir():
-        # print(item)
+        # logging.info(item)
         l.append(item.name)
     return l
 
@@ -54,7 +54,7 @@ def readuserdata(App, config_file, ios):
         pcolor = data["pcolor"]
         scolor = data["scolor"]
         debug = data["debug"]
-        # print("readuserdataOMG")
+        # logging.info("readuserdataOMG")
         # return username,password,location,usecache,pcolor,scolor,debug
-        # print(ad, "lib_readuserdata ad", ios)
+        # logging.info(ad, "lib_readuserdata ad", ios)
         return data

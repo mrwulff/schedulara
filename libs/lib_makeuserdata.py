@@ -16,7 +16,7 @@ def makeuserdata_extra(App, config_file, ios):
     y = json.loads(x)
     with open(ad + "/userdata_extra.json.txt", "w") as outfile:
         json.dump(y, outfile)
-    # print("writedata")
+    # logging.info("writedata")
 
 
 def makeuserdata(App, config_file, ios):
@@ -34,7 +34,7 @@ def makeuserdata(App, config_file, ios):
     y = json.loads(x)
     with open(ad + "/userdata.json.txt", "w") as outfile:
         json.dump(y, outfile)
-    # print("writedata")
+    # logging.info("writedata")
 
 
 def format_textt(name):
@@ -54,7 +54,7 @@ def makeshowfile(App, x, config_file, ios):
         ad = config_file
         app = App.get_running_app()
         ad = app.user_data_dir
-    # print(x, "whathwat")
+    # logging.info(x, "whathwat")
     try:
         fdate = format_textt(x[0])
         ftime = format_textt(x[1])
@@ -66,12 +66,12 @@ def makeshowfile(App, x, config_file, ios):
     try:
         newhours = App.get_running_app().root.current_screen.ids["newhours"].text
     except:
-        # print("newhours not found")
+        # logging.info("newhours not found")
         newhours = "0"
     try:
         lunch = App.get_running_app().root.current_screen.ids["lunches"].text
     except:
-        print("failed to find lunches")
+        logging.info("failed to find lunches")
         lunch = "0"
     try:
         fname = fdate + " " + ftime + " " + x["2"] + " " + fshow
@@ -129,7 +129,7 @@ def makeshowfile(App, x, config_file, ios):
             + lunch
             + '"}'
         )
-    # print (x,'jsonfile')
+    # logging.info (x,'jsonfile')
     y = json.loads(x, strict=False)
     try:
         with open(ad + "/shows/" + fname + ".json", "w") as outfile:
@@ -154,23 +154,23 @@ def makeratefile(ad, rate, pos):
         # json_file.close()
     except:
         data2 = {}
-    # print(data2, "POSITIONS!!!")
+    # logging.info(data2, "POSITIONS!!!")
     dictionary = data2["positions"]
     #    dictionary = json.loads(dictionary)
     for z in range(len(dictionary)):
-        print((dictionary[z]["abv"]), pos, "wow")
+        logging.info((dictionary[z]["abv"]), pos, "wow")
         if (dictionary[z]["abv"]) == pos:
-            print("omg")
+            logging.info("omg")
             dictionary[z]["rate"] = rate
 
-    # print(dictionary, "rateposad", type(dictionary))
+    # logging.info(dictionary, "rateposad", type(dictionary))
     import json
     import os
 
     new_rate = {pos: rate}
     # dictionary.update(new_rate)
 
-    print(ad, "AFUCKINGD")
+    logging.info(ad, "AFUCKINGD")
 
     with open(ad + "/position_list.json", "w") as outfile:
         json.dump(data2, outfile)
@@ -194,12 +194,12 @@ def makeposfile(App, x, config_file, ios, rate):
     try:
         with open(ad + "/pos/" + x + ".json", "w") as outfile:
             json.dump(y, outfile)
-        print("wrote pos file")
+        logging.info("wrote pos file")
     except:
         os.mkdir(ad + "/pos")
         with open(ad + "/pos/" + x + ".json", "w") as outfile:
             json.dump(y, outfile)
-        print("updated pos file")
+        logging.info("updated pos file")
 
 
 if __name__ == "__main__":

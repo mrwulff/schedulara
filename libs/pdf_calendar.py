@@ -34,7 +34,7 @@ def nonzero(row):
     return len([x for x in row if x != 0])
 
 
-def createCalendar(s,a, month, year=NOW.year, canvas=None, filename=None, size=SIZE):
+def createCalendar(s, a, month, year=NOW.year, canvas=None, filename=None, size=SIZE):
     """
     Create a one-month pdf calendar, and return the canvas
 
@@ -111,10 +111,10 @@ def createCalendar(s,a, month, year=NOW.year, canvas=None, filename=None, size=S
             if day:
                 for i in range(3):
                     try:
-                        print(a[day][i], day, "asdf")
+                        logging.info(a[day][i], day, "asdf")
                         event = True
                     except:
-                        print("no event")
+                        logging.info("no event")
                     canvas.drawString(x, y, str(day))
                     if event == True:
                         canvas.setFont("Helvetica", s)

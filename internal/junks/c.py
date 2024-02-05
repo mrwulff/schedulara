@@ -7,6 +7,6 @@ def basic_cal(year, month):
     year = 2023
     month = 12
     l = cal.monthdatescalendar(year, month)
-    print(len(l))
-    print(l)
+    logging.info(len(l))
+    logging.info(l)
     return l

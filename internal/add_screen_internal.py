@@ -1,6 +1,6 @@
 import os
 
-# print(dir(os))
+# logging.info(dir(os))
 cwd = os.getcwd()
 sn = input("what screen name do you want? ")
 # sn = ""
@@ -12,15 +12,15 @@ exists = False
 try:
     kv_new = open(cwd + "/libs/uix/kv/" + sn + "kv", "r")
     # exists = True
-    print("page already exists")
+    logging.info("page already exists")
     kv_new.close()
 except:
-    print("making new")
+    logging.info("making new")
 if exists == False:
-    print(exists)
+    logging.info(exists)
 
     kv_new = open(cwd + "/libs/uix/kv/" + sn + "_screen.kv", "w")
-    print(kv)
+    logging.info(kv)
 
     for line in kv.readlines():
         if "Screen>" in line:
@@ -28,7 +28,7 @@ if exists == False:
         if 'name: "' in line:
             line = '    name: "' + sn + '"\n'
         kv_new.write(line)
-    # print(line)
+    # logging.info(line)
 
     kv_new.close()
 
@@ -43,7 +43,7 @@ if exists == False:
 
     f = open("screens.json")
     data = json.load(f)
-    print(data)
+    logging.info(data)
     i = "from libs.uix.baseclass." + sn + "_screen import " + sn + "screen"
     o = sn + "screen()"
     k = "libs/uix/kv/" + sn + "_screen.kv"

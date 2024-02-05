@@ -1,5 +1,5 @@
 def createcache(ad, numshows):
-    # print ('THISISIOS',ad)
+    # logging.info ('THISISIOS',ad)
     import platform
     import appdirs
 
@@ -14,7 +14,7 @@ def createcache(ad, numshows):
     # from faker import Faker
     # fake = Faker()
 
-    # print (ad,'ccaa')
+    # logging.info (ad,'ccaa')
 
     x = datetime.datetime.now()
     t = (x.strftime("%m")) + "/" + (x.strftime("%d")) + "/" + (x.strftime("%Y"))
@@ -69,7 +69,7 @@ def createcache(ad, numshows):
     ]
     # for i in range(10):
     #    cshow.append(fake.company())
-    # print (cshow)
+    # logging.info (cshow)
     # numshows=3
 
     yesterday = (
@@ -101,7 +101,7 @@ def createcache(ad, numshows):
     footers = """<tr>
             <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
         </tr>"""
-    # print (ad,'thisisios')
+    # logging.info (ad,'thisisios')
     aaa = open(ad + "/conf.html", "w")
     aaa.write('      <span id="lblEmpName" class="subheader">McDemo, Test</span>')
     aaa.write(headers)
@@ -124,7 +124,8 @@ def createcache(ad, numshows):
             + """</td><td class="cell-noborder" style="background-color:Gray;width:10px;">"""
             + (random.choice(ctimes))
             + """</td><td class="cell-noborder" style="background-color:Gray;">24150</td><td class="cell-noborder" style="background-color:Gray;">"""
-            + (random.choice(cshow))+' DEMOSHOW!'
+            + (random.choice(cshow))
+            + " DEMOSHOW!"
             + """ </td><td class="cell-noborder" style="background-color:Gray;">"""
             + (random.choice(rven))
             + """</td><td class="cell-noborder" style="background-color:Gray;">DOLBY LIVE</td><td class="cell-noborder" style="background-color:Gray;">MGM RESORTS</td><td class="cell-noborder" style="background-color:Gray;">IN</td><td class="cell-noborder" style="background-color:Gray;">"""

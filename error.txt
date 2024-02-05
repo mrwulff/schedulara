@@ -4389,7 +4389,7 @@ I/python:   Strict False
 I/python: 
 I/python: [DEBUG  ] [
 I/python: meth       ] dump
-I/python:   sig: (Ljava/lang/String;Ljava/io/FileDescriptor;Ljava/io/PrintWriter;[Ljava/lang/String;)V
+I/python:   sig: (Ljava/lang/String;Ljava/io/FileDescriptor;Ljava/io/logging.infoWriter;[Ljava/lang/String;)V
 I/python:   Public True
 I/python:   Private False
 I/python:   Protected False
@@ -9331,8 +9331,8 @@ I/python:   Abstract False
 I/python:   Strict False
 I/python: 
 I/python: [DEBUG  ] [
-I/python: meth       ] printShortString
-I/python:   sig: (Ljava/io/PrintWriter;)V
+I/python: meth       ] logging.infoShortString
+I/python:   sig: (Ljava/io/logging.infoWriter;)V
 I/python:   Public True
 I/python:   Private False
 I/python:   Protected False
@@ -15715,7 +15715,7 @@ I/python:   Strict False
 I/python: 
 I/python: [DEBUG  ] [
 I/python: meth       ] dumpBack
-I/python:   sig: (Landroid/util/Printer;Ljava/lang/String;)V
+I/python:   sig: (Landroid/util/logging.infoer;Ljava/lang/String;)V
 I/python:   Public False
 I/python:   Private False
 I/python:   Protected True
@@ -15731,7 +15731,7 @@ I/python:   Strict False
 I/python: 
 I/python: [DEBUG  ] [
 I/python: meth       ] dumpFront
-I/python:   sig: (Landroid/util/Printer;Ljava/lang/String;)V
+I/python:   sig: (Landroid/util/logging.infoer;Ljava/lang/String;)V
 I/python:   Public False
 I/python:   Private False
 I/python:   Protected True
@@ -15955,7 +15955,7 @@ I/python:   Strict False
 I/python: 
 I/python: [DEBUG  ] [
 I/python: meth       ] dump
-I/python:   sig: (Landroid/util/Printer;Ljava/lang/String;)V
+I/python:   sig: (Landroid/util/logging.infoer;Ljava/lang/String;)V
 I/python:   Public True
 I/python:   Private False
 I/python:   Protected False
@@ -19752,7 +19752,7 @@ I/python:   Strict False
 I/python: 
 I/python: [DEBUG  ] [
 I/python: meth       ] dump
-I/python:   sig: (Ljava/io/FileDescriptor;Ljava/io/PrintWriter;[Ljava/lang/String;)V
+I/python:   sig: (Ljava/io/FileDescriptor;Ljava/io/logging.infoWriter;[Ljava/lang/String;)V
 I/python:   Public False
 I/python:   Private False
 I/python:   Protected True

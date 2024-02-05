@@ -4,9 +4,9 @@ def load_full_pp(ad, fil, idex):
 
     with open(ad + "/" + fil) as json_file:
         data = json.load(json_file)
-    # print(data, "wtfdata,", type(data), len(data["shows"]))
+    # logging.info(data, "wtfdata,", type(data), len(data["shows"]))
 
-    # print(fil, idex, "LOADFULLPP")
+    # logging.info(fil, idex, "LOADFULLPP")
     if idex == "POS":
         pos_k, pos_v, pos_l = count_pos(data, "pos", False)
     if idex == "TYPE":
@@ -15,21 +15,21 @@ def load_full_pp(ad, fil, idex):
         pos_v, pos_k, pos_l = count_pc(data, "whole")
     if idex == "CLIENT":
         pos_k, pos_v, pos_l = count_pos(data, "client", True)
-        # print(pos_k, pos_v, pos_l,'WTFYOU')
+        # logging.info(pos_k, pos_v, pos_l,'WTFYOU')
         # a, b, c = shrink2(pos_k, pos_v, pos_l, 5)
 
     if idex == "VENUE":
         pos_k, pos_v, pos_l = count_pos(data, idex, True)
-        # print(pos_k, pos_v, pos_l)
+        # logging.info(pos_k, pos_v, pos_l)
         # a, b, c = shrink2(pos_k, pos_v, pos_l, 5)
 
     if idex == "TOTAL":
         pos_k, pos_v, pos_l = count_gig(data, "Total")
     if idex == "hours":
-        # print ('idex=hours')
+        # logging.info ('idex=hours')
 
         pos_k, pos_v, pos_l, tot = count_pos(data, idex, False)
-        print(tot, "WTFYOU")
+        logging.info(tot, "WTFYOU")
         return pos_k, pos_v, pos_l, tot
 
     if idex == "otH":
@@ -64,29 +64,29 @@ def round_money(x):
 
 
 def shrink2(a, b, c, l):
-    print(a, b, c, l)
+    logging.info(a, b, c, l)
 
 
 def count_gig(data, uu):
     import collections
 
-    # print(len(data))
+    # logging.info(len(data))
     # data = NestedDict(data)
     pos = []
     v22 = []
     k22 = []
     for k, v in data.items():
         for z in range(len(v)):
-            # print(v[z], z)
+            # logging.info(v[z], z)
             for k2, v2 in v[z].items():
-                # print(k2, v2)
+                # logging.info(k2, v2)
                 if k2 == "gigs":
                     num_of_shows_per_pp = len(v2)
-                    # print(v2)
+                    # logging.info(v2)
                     for m in range(len(v2)):
                         pos.append({"money": v2[m][uu], "date": v2[m]["timeIn"]})
     pos = sorted(pos, reverse=True, key=lambda i: i["date"])
-    # print(pos)
+    # logging.info(pos)
 
     for x in range(len(pos)):
         v22.append(pos[x]["money"])
@@ -106,21 +106,21 @@ def count_pc(data, uu):
     v2 = []
     l3 = []
     for k, v in data.items():
-        # print(v,'vvvv')
+        # logging.info(v,'vvvv')
         for z in range(len(v)):
             pc = v[z]
             z = pc["paydate"]
 
-            # print (reg,'REGGGG')
+            # logging.info (reg,'REGGGG')
             z = datetime.strptime(z, "%m/%d/%Y")
             gg = {"gt": pc["grandtotal"], "pd": z, "pds": z}
-            # print(gg,"GG")
+            # logging.info(gg,"GG")
             pos.append(gg)
             # pos4.append(pc["grandtotal"])
-    # print(pos)
+    # logging.info(pos)
 
     pos = sorted(pos, reverse=True, key=lambda i: i["pd"])
-    # print(pos, "nonsortedyear")
+    # logging.info(pos, "nonsortedyear")
 
     for x in range(len(pos)):
         k2.append(round_money(pos[x]["gt"]))
@@ -128,13 +128,13 @@ def count_pc(data, uu):
         temp = " "
         if (x == 0) or x == (len(pos) - 1):
             temp = pos[x]["pds"]
-            # print(temp, type(temp), "temp2222")
+            # logging.info(temp, type(temp), "temp2222")
             temp = temp.strftime("%m/%d/%y")
 
         l3.append(temp)
 
     pos_r = []
-    # print(l3, "LLLLL3333")
+    # logging.info(l3, "LLLLL3333")
 
     return (k2, l3, l3)
 
@@ -142,8 +142,8 @@ def count_pc(data, uu):
 def count_pos_future(data, uu, shrink):
     import collections
 
-    # print(data, uu, shrink, "THIS IS THE NEW THINGGY")
-    # print(len(data))
+    # logging.info(data, uu, shrink, "THIS IS THE NEW THINGGY")
+    # logging.info(len(data))
     cc = []
     for z in range(len(data["shows"])):
         a = data["shows"][z][uu]
@@ -155,7 +155,7 @@ def count_pos_future(data, uu, shrink):
             a = a[0:6]
         cc.append(a)
     z = collections.Counter(cc)
-    # print(z)
+    # logging.info(z)
 
     k2 = []
     v2 = []
@@ -164,17 +164,17 @@ def count_pos_future(data, uu, shrink):
         sorted(z.items(), reverse=True, key=lambda item: item[1]),
     )
     for k, v in z2.items():
-        # print(k, v)
+        # logging.info(k, v)
 
         if shrink == True:
-            print(k)
+            logging.info(k)
             if len(k) > 10:
                 k = k[0:10]
         v2.append(v)
         k2.append(k)
     zz = (k2, v2)
-    # print(zz)
-    # print(zz[0][0])
+    # logging.info(zz)
+    # logging.info(zz[0][0])
     return k2, v2, v3
     return ("x", "x", "x")
 
@@ -182,23 +182,23 @@ def count_pos_future(data, uu, shrink):
 def count_pos(data, uu, shrink):
     import collections
 
-    # print(len(data))
+    # logging.info(len(data))
     # data = NestedDict(data)
     # if uu=='VENUE':
-    # print (uu,"UUuuu")
+    # logging.info (uu,"UUuuu")
     pos = []
     poss = []
     for k, v in data.items():
         added = False
-        print(len(v), "lenvvv")
+        logging.info(len(v), "lenvvv")
         qwer = len(v)
         for z in range(len(v)):
-            # print(len(v),'LENVVVV')
+            # logging.info(len(v),'LENVVVV')
             for k2, v2 in v[z].items():
-                # print(k2, v2)
+                # logging.info(k2, v2)
                 if k2 == "gigs":
                     num_of_shows_per_pp = len(v2)
-                    # print(v2)
+                    # logging.info(v2)
                     for m in range(len(v2)):
                         if uu == "VENUE":
                             s = v2[m]["show"]
@@ -206,7 +206,7 @@ def count_pos(data, uu, shrink):
                             if s[0] == "(":
                                 s2 = str.split(s, ")")
                                 s2 = str.split(s2[0], "(")
-                                # print(s[1])
+                                # logging.info(s[1])
                                 if s2[1] == "TM":
                                     s2[1] = "TMA"
                                 pos.append(s2[1])
@@ -215,10 +215,10 @@ def count_pos(data, uu, shrink):
                                 pos.append("TMA")
                                 added = True
                             if s[0] != "(" and added == False:
-                                # print(s, "BLARRRRR")
+                                # logging.info(s, "BLARRRRR")
 
                                 pos.append("?")
-                        # print(uu, "UUUUUUUUU")
+                        # logging.info(uu, "UUUUUUUUU")
                         if (
                             uu == "pos"
                             or uu == "class"
@@ -238,24 +238,24 @@ def count_pos(data, uu, shrink):
                             s = v2[m][uu]
                             if float(s) > 1:
                                 s = str.split(s, ".")
-                                print(s[0], "s000000")
+                                logging.info(s[0], "s000000")
                                 s = s[0]
                                 s = int(0)
 
                                 pos.append(s)
-    # print (pos,'POSSS')
+    # logging.info (pos,'POSSS')
     # pos=str(pos)
 
-    # print(len(pos))
-    print(pos, "sssssssssssss")
+    # logging.info(len(pos))
+    logging.info(pos, "sssssssssssss")
     z = collections.Counter(pos)
-    # print(dir(z))
-    print(z, type(z), "zzzzzzz")
+    # logging.info(dir(z))
+    logging.info(z, type(z), "zzzzzzz")
     k2 = []
     v2 = []
     v3 = []
     if uu == "otH":
-        # print (z)
+        # logging.info (z)
         z2 = dict(
             sorted(z.items(), reverse=False, key=lambda item: item[1]),
         )
@@ -265,17 +265,17 @@ def count_pos(data, uu, shrink):
             sorted(z.items(), reverse=True, key=lambda item: item[1]),
         )
     if uu == "hours":
-        # print (z)
+        # logging.info (z)
         z2 = dict(
             sorted(z.items(), reverse=False, key=lambda item: item[0]),
         )
-        # print (z2)
-        # print (z2)
+        # logging.info (z2)
+        # logging.info (z2)
     for k, v in z2.items():
-        # print(k, v)
+        # logging.info(k, v)
 
         if shrink == True:
-            # print(k)
+            # logging.info(k)
             if len(k) > 6:
                 k = k[0:6]
             try:
@@ -290,9 +290,9 @@ def count_pos(data, uu, shrink):
         k2.append(k)
 
     zz = (k2, v2)
-    # print(zz)
-    # print (pos,'posss')
-    # print(zz[0][0])
+    # logging.info(zz)
+    # logging.info (pos,'posss')
+    # logging.info(zz[0][0])
     if uu == "hours":
         return k2, v2, poss, qwer
     return (
@@ -303,12 +303,12 @@ def count_pos(data, uu, shrink):
 
 
 def moneyconvert(z):
-    # print(z)
+    # logging.info(z)
     z = str.replace(z, ",", "")
     z = str.replace(z, "$", "")
     try:
         z = float(z)
-        # print(z)
+        # logging.info(z)
     except:
         z = int(z)
     return z
@@ -338,7 +338,7 @@ def parsepayperiod(file):
     othourst = moneyconvert(othourst.get_text())
     dthourst = moneyconvert(dthourst.get_text())
     grandtotal = moneyconvert(grandtotal.get_text())
-    # print g
+    # logging.info g
 
     payperiod = soup.find("span", id="lblPayPeriod")
     junk, junk, ppstart, junk, ppend = str.split(payperiod.get_text(), " ")
@@ -362,14 +362,14 @@ def parsepayperiod(file):
     for i in range(len(ab)):
         ax = ab[i].find_all("td")
 
-        # print(len(ax))
+        # logging.info(len(ax))
         real_show = False
         if len(ax) == 12:
             try:
-                # print(ax[5].get_text())
+                # logging.info(ax[5].get_text())
                 nIn = datetime.strptime(ax[5].get_text(), "%m/%d/%Y %H:%M:%S %p")
                 nOut = datetime.strptime(ax[6].get_text(), "%m/%d/%Y %H:%M:%S %p")
-                # print(nIn)
+                # logging.info(nIn)
                 real_show = True
                 total = moneyconvert(ax[11].get_text())
                 rate = moneyconvert(ax[10].get_text())
@@ -402,7 +402,7 @@ def parsepayperiod(file):
                     + float(ax[9].get_text())
                 )
                 pp_all.append(show)
-    # print(pp_all)
+    # logging.info(pp_all)
     pp = {
         "paydate": paydate,
         "ppstart": ppstart,
@@ -417,7 +417,7 @@ def parsepayperiod(file):
         "days": days,
         "gigs": pp_all,
     }
-    # print(grandtotal)
+    # logging.info(grandtotal)
     return pp
 
 
@@ -477,15 +477,15 @@ def parsepayperiod2(file):
                 flag1 = True
 
         except:
-            # print(ax, "fail")
+            # logging.info(ax, "fail")
             pass
         try:
             hours_worked = (float(ax[7].get_text())) + (float(ax[8].get_text()))
-            # print(hours_worked, "hoursworked")
+            # logging.info(hours_worked, "hoursworked")
             # hours_worked = int(hours_worked)
             hhours.append([hours_worked, ax[4].get_text(), ax[5].get_text()])
         except:
-            # print(ax, "failuresss")
+            # logging.info(ax, "failuresss")
             pass
     # test_list = list(set(positions))
     test_list = positions
@@ -520,7 +520,7 @@ def parsepayperiod2(file):
 
     past = False
     dobj = datetime.datetime.strptime(temp, "%m/%d/%Y")
-    # print (dobj.day)
+    # logging.info (dobj.day)
     dobj2 = datetime.datetime.strftime(dobj, "%d %b %Y")
     ddelta = date.today() - dobj.date()
     ddelta = ddelta.days
@@ -528,12 +528,12 @@ def parsepayperiod2(file):
     # lblRegHoursTotal
     # lblOTHoursTotal
     # lblPayPeriod
-    # print (grandtotal.text)
-    # print (paydate.text)
-    # print (grandtotal.text)
-    # print (reghours)
-    # print (othours)
-    # print (paydate.text)
+    # logging.info (grandtotal.text)
+    # logging.info (paydate.text)
+    # logging.info (grandtotal.text)
+    # logging.info (reghours)
+    # logging.info (othours)
+    # logging.info (paydate.text)
     # ddict=dobjgrandtotal.text
     totalhours = float(reghours.text) + float(othours.text)
     text = (
@@ -566,11 +566,11 @@ def parsepayperiod2(file):
         "day_ach": day_ach,
         "hours_ach": hhours,
     }
-    # print(realday, alldays)
+    # logging.info(realday, alldays)
 
-    # print (text)
+    # logging.info (text)
     show_types = in_type, out_type, show_type
-    # print(show_types)
+    # logging.info(show_types)
     return ddict, realday, in_type, out_type, show_type, test_list
 
 
@@ -584,7 +584,7 @@ def parse(sch, ad, usecache, x5):
     import hashlib
 
     debug = False
-    print(ad, "ifadisblankwtf")
+    logging.info(ad, "ifadisblankwtf")
     if ad == "":
         ad = "C:\\Users\\kw\\AppData\\Roaming\\demo3\\"
         sch = "C:\\Users\\kw\\AppData\\Roaming\\demo3\\new.html"
@@ -655,7 +655,7 @@ def parse(sch, ad, usecache, x5):
     name = soup.find("span", id="lblEmpName")
 
     name = str.split(name.get_text(), ", ")
-    print(name, "wtfname")
+    logging.info(name, "wtfname")
     name = name[1] + " " + name[0]
 
     nn = soup.find_all("span")
@@ -666,9 +666,9 @@ def parse(sch, ad, usecache, x5):
         except:
             """"""
     try:
-        print(name.get_text(), "realname")
+        logging.info(name.get_text(), "realname")
     except:
-        print(nn, "realname")
+        logging.info(nn, "realname")
 
     ab = soup.find_all("tr")
 
@@ -715,7 +715,7 @@ def parse(sch, ad, usecache, x5):
         }
         try:
             {"what": ax[14].get_text()}
-            # print(i,ax[14])
+            # logging.info(i,ax[14])
         except:
             pass
         try:
@@ -725,14 +725,14 @@ def parse(sch, ad, usecache, x5):
                 thisdict["confirmable"] = f[3]
         except:
             pass
-        # print ((ax[13]))
+        # logging.info ((ax[13]))
         # thisdict={"canceled":  False}
         if len((ax[13].get_text())) > 3:
             can = ax[13]
 
-            # print (can)
+            # logging.info (can)
             if "Red" in str(can):
-                # print ("OMG ITS RED")
+                # logging.info ("OMG ITS RED")
                 thisdict["canceled"] = True
 
         mjds.append(thisdict)
@@ -765,7 +765,7 @@ def parse(sch, ad, usecache, x5):
 
         # hash_object = hashlib.sha1(str(thisdict))
         # hex_dig = hash_object.hexdigest()
-        # print(hex_dig)
+        # logging.info(hex_dig)
         mystring = str(thisdict)
         hash_object = hashlib.md5(mystring.encode())
         fname = hash_object.hexdigest()
@@ -801,10 +801,10 @@ def parse(sch, ad, usecache, x5):
             # try:
             #    lib_bonus.create_notification(mjds[i],x5)
             # except:
-            #    print ('failed to make notification')
+            #    logging.info ('failed to make notification')
 
     # for i in range(15,len(ab)-15):
-    # print (len(ab))
+    # logging.info (len(ab))
 
     for i in range(len(ab)):
         asds = str(ab[i].contents)
@@ -814,15 +814,15 @@ def parse(sch, ad, usecache, x5):
         if "input4 name" in asds:
             l.append(str(ab[i]))
     # for z in range(len(mj3)):
-    # print (mj3[z])
+    # logging.info (mj3[z])
     if debug == True:
         for i in range(len(mjds)):
             pass
-            # print (mjds[i])
+            # logging.info (mjds[i])
     import json
 
     final = json.dumps(mjds, indent=2)
-    # print (final)
+    # logging.info (final)
     return mj3, mjds, name
 
 
@@ -836,4 +836,4 @@ if __name__ == "__main__":
 
     f = "jason_show_cache_real.json"
     a, b, c = load_full_pp(ad, f, "Hours")
-    print(a, b, c)
+    logging.info(a, b, c)

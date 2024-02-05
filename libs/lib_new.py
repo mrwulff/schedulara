@@ -1,25 +1,25 @@
 def make_json_schedule(x, ad):
-    print("make_json_schedule")
+    logging.info("make_json_schedule")
     from bs4 import BeautifulSoup
     import libs.lib_updateuserdata
 
     # import lib_think
 
-    print("asdfasdf", x["usecache"])
+    logging.info("asdfasdf", x["usecache"])
     if x["usecache"] == "True" or x["usecache"] == True or x["usecache"] == "true":
         conf = "/conf.html"
         cache = True
     if x["usecache"] == "False" or x["usecache"] == False or x["usecache"] == "false":
         conf = "/realdata.html"
         cache = False
-        print("WHY YOU NOT WORK")
+        logging.info("WHY YOU NOT WORK")
 
     encoding = "utf8"
-    print(cache, "CACHE IN NEW")
+    logging.info(cache, "CACHE IN NEW")
 
     if 1 == 1:
         if cache == True:
-            print("truecache")
+            logging.info("truecache")
             if x["username"] == "test":
                 x["backdoor"] = True
                 libs.lib_updateuserdata.updateuser(x, ad)
@@ -32,7 +32,7 @@ def make_json_schedule(x, ad):
             z = open(ad + conf, "r", encoding="utf8")
 
         if cache == False:
-            print("cache == false")
+            logging.info("cache == false")
             import libs.lib_createcache
 
             # lib_createcache.createcache(ad, 15)
@@ -45,16 +45,16 @@ def make_json_schedule(x, ad):
     soup = BeautifulSoup(z, "html.parser")
     try:
         name = soup.find("span", id="lblEmpName")
-        # print(name)
+        # logging.info(name)
     except:
-        print("emp not found")
+        logging.info("emp not found")
         return
-    print(name.get_text(), "YOUR NAME HERE")
+    logging.info(name.get_text(), "YOUR NAME HERE")
     try:
         name = str.split(name.get_text(), ", ")
     except:
         return "Failed to Login (57)]"
-    # print(name, "wtfname")
+    # logging.info(name, "wtfname")
     name = name[1] + " " + name[0]
     x["name"] = name
 
@@ -73,7 +73,7 @@ def make_json_schedule(x, ad):
         nj = []
         nj2 = {}
         ax = ab[i].find_all("td")
-        # print(ax)
+        # logging.info(ax)
         f3 = "False"
         canceled = False
         old = False
@@ -85,9 +85,9 @@ def make_json_schedule(x, ad):
             conf_bool = True
         can = ax[13]
         can2 = ax[0]
-        # print(can2)
+        # logging.info(can2)
         if "Red" in str(can):
-            # print ("OMG ITS RED")
+            # logging.info ("OMG ITS RED")
             canceled = True
 
         show_date = datetime.strptime(ax[0].get_text(), "%m/%d/%Y")
@@ -122,11 +122,11 @@ def make_json_schedule(x, ad):
             thisdict["canceled"] = True
         if old == False:
             alldict.append(thisdict)
-            # print(old, "OLD")
+            # logging.info(old, "OLD")
         if old == True:
             olddict.append(thisdict)
-            # print(old, "OLD")
-        # print(thisdict, "thisdict")
+            # logging.info(old, "OLD")
+        # logging.info(thisdict, "thisdict")
         update_history(thisdict, ad)
 
     cconfirmables = {
@@ -149,9 +149,9 @@ def make_json_schedule(x, ad):
         "confirmables2": cconfirmables,
         "updated": str(now),
     }
-    # print(olddict)
+    # logging.info(olddict)
 
-    # print(alldict)
+    # logging.info(alldict)
     import json
 
     json_object = json.dumps(s, indent=4)
@@ -185,10 +185,10 @@ def get_archive_json(ad, thisdict):
     # z = open(ad + "/future_shows/" + fname + ".json", "r")
     z = ad + "/future_shows/" + fname + ".json"
 
-    # print(thisdict, "success")
+    # logging.info(thisdict, "success")
     with open(z) as json_file:
         data = json.load(json_file)
-    print(data, "datadata")
+    logging.info(data, "datadata")
     return data
 
 
@@ -216,7 +216,7 @@ def load_archive_json(ad, x):
     import json
     import os
 
-    # print (x)
+    # logging.info (x)
     flag = 0
     job = ""
     d = "future_shows"
@@ -250,10 +250,10 @@ def load_archive_json(ad, x):
         pass
     if job == "Custom":
         d = "custom_shows"
-        print(type(show), type(date), "show")
+        logging.info(type(show), type(date), "show")
         fname = format_textt(date) + format_textt(show) + format_textt(time)
 
-    # print (x,"WHATTTTT")
+    # logging.info (x,"WHATTTTT")
     nf = os.path.join(ad, d, fname) + ".json"
     if 1 == 1:
         # try:
@@ -269,13 +269,13 @@ def update_history(thisdict, ad):
     import json
     import os
 
-    # print("omg its history")
+    # logging.info("omg its history")
 
     # hash_object = hashlib.md5(show.encode())
     # fname = hash_object.hexdigest()
 
     # thisdict['is_new']=False
-    # print(show, '"SHOW"')
+    # logging.info(show, '"SHOW"')
     fname = (
         format_textt(thisdict["date"])
         + " "
@@ -310,23 +310,23 @@ def update_history(thisdict, ad):
 def get_json_schedule(x, ad):
     # import libs.lib_think
 
-    # print(x["usecache"], "usecache!!!")
+    # logging.info(x["usecache"], "usecache!!!")
     if x["usecache"] == "True" or x["usecache"] == True or x["usecache"] == "true":
-        print("USING CACHE true/false")
+        logging.info("USING CACHE true/false")
         show = "jason_show_cache_fake.json"
 
     if x["usecache"] == "False" or x["usecache"] == False or x["usecache"] == "false":
-        print("USING Real?", x["refreshreload"])
+        # logging.info("USING Real?", x["refreshreload"])
         show = "jason_show_cache_real.json"
         if (
             x["refreshreload"] == "True"
             or x["refreshreload"] == True
             or x["refreshreload"] == "true"
         ):
-            print("forcing new data", type(x["refreshreload"]))
+            logging.info("forcing new data", type(x["refreshreload"]))
             make_json_schedule(x, ad)
             # good_login = lib_think.login(ad, x, "True", App)
-    print("showasdf", show)
+    # logging.info("showasdf", show)
     data = get_json_schedule_2(x, ad, show)
     return data
 
@@ -334,20 +334,20 @@ def get_json_schedule(x, ad):
 def get_json_schedule_1(x, ad):
     # import libs.lib_think
 
-    # print(x["usecache"], "usecache!!!")
+    # logging.info(x["usecache"], "usecache!!!")
     if x["usecache"] == "True" or x["usecache"] == True or x["usecache"] == "true":
-        print("USING CACHE DATA OK?")
+        logging.info("USING CACHE DATA OK?")
         show = "jason_show_cache_fake.json"
 
     if x["usecache"] == "False" or x["usecache"] == False or x["usecache"] == "false":
-        print("USING Real DATA OK?")
+        # logging.info("USING Real DATA OK?")
         show = "jason_show_cache_real.json"
         if (
             x["refreshreload"] == "True"
             or x["refreshreload"] == True
             or x["refreshreload"] == "true"
         ):
-            print("forcing new data from thingys", type(x["refreshreload"]))
+            logging.info("forcing new data from thingys", type(x["refreshreload"]))
             # make_json_schedule(x, ad)
             # good_login = lib_think.login(ad, x, "True", App)
             pass
@@ -358,27 +358,27 @@ def get_json_schedule_1(x, ad):
 def get_json_schedule_2(x, ad, show):
     import json, os
 
-    print("get_json_schedule2222")
+    # logging.info("get_json_schedule2222")
 
     if 1 == 1:
-        # print("no " + show + "  Createing now")
-        # print("forcing new data", type(x["refreshreload"]))
+        # logging.info("no " + show + "  Createing now")
+        # logging.info("forcing new data", type(x["refreshreload"]))
         if x["refreshreload"] == True:
             make_json_schedule(x, ad)
         nf = os.path.join(ad, show)
-        print(nf, "NF lib new")
+        # logging.info(nf, "NF lib new")
         try:
             with open(nf) as json_file:
                 data = json.load(json_file)
-                # print(data)
-                # print("LOADED JSON FILE SUPER FAST on second try")
+                # logging.info(data)
+                # logging.info("LOADED JSON FILE SUPER FAST on second try")
         except:
             try:
                 make_json_schedule(x, ad)
                 with open(nf) as json_file:
                     data = json.load(json_file)
-                    # print(data)
-                    print("LOADED JSON FILE SUPER FAST on second try")
+                    # logging.info(data)
+                    logging.info("LOADED JSON FILE SUPER FAST on second try")
             except:
                 data = {"num_shows": 0}
 
@@ -389,18 +389,18 @@ def just_get_json_schedule(x, ad):
     import json, os
 
     if x["usecache"] == "True" or x["usecache"] == True or x["usecache"] == "true":
-        print("USING CACHE DATA OK?")
+        logging.info("USING CACHE DATA OK?")
         show = "/jason_show_cache_fake.json"
 
     if x["usecache"] == "False" or x["usecache"] == False or x["usecache"] == "false":
-        print("USING Real DATA OK?")
+        # logging.info("USING Real DATA OK?")
         show = "/jason_show_cache_real.json"
 
     nf = os.path.join(ad, show)
 
     nf = ad + "/" + show
 
-    # print(nf, ad, "WTF MAN")
+    # logging.info(nf, ad, "WTF MAN")
 
     with open(nf) as json_file:
         data = json.load(json_file)

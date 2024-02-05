@@ -15,9 +15,9 @@ class MyApp(App):
         text_input = TextInput(multiline=False)
         widget.add_widget(text_input)
 
-        print_text = lambda arg: print(text_input.text)
+        logging.info_text = lambda arg: logging.info(text_input.text)
         widget.add_widget(
-            Button(on_press=print_text, size_hint=[0.2, 0.2], text="press pls")
+            Button(on_press=logging.info_text, size_hint=[0.2, 0.2], text="press pls")
         )
 
         return widget
@@ -26,9 +26,9 @@ class MyApp(App):
         if keycode[1] == "escape":
             quit()
         if keycode[1] == "right":
-            print("right")
+            logging.info("right")
         if keycode[1] == "left":
-            print("left")
+            logging.info("left")
 
 
 if __name__ == "__main__":

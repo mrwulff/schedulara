@@ -25,9 +25,9 @@ def format_text(i, xxx, now, page):
     import humanize
 
     past = False
-    # print (xxx,'xxxxx')
-    # print (xxx[i]["date"]+'/'+xxx[i]['time'])
-    # print(xxx[i], "FAILMAN")
+    # logging.info (xxx,'xxxxx')
+    # logging.info (xxx[i]["date"]+'/'+xxx[i]['time'])
+    # logging.info(xxx[i], "FAILMAN")
     dobj = datetime.datetime.strptime(
         xxx[i]["date"] + "/" + xxx[i]["time"], "%m/%d/%Y/%H:%M"
     )

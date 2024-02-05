@@ -1,30 +1,32 @@
 import os
 from appdirs import *
+
 appname = ""
 appauthor = "Acme"
-a= (user_config_dir(appname, appauthor))
-#a2=open(a,'w')
-#a2.write('test')
-#from os import *
-ios=False
-if ios==True:
+a = user_config_dir(appname, appauthor)
+# a2=open(a,'w')
+# a2.write('test')
+# from os import *
+ios = False
+if ios == True:
     HOME = environ.get("HOME", "/invalid-home-dir")
     BUNDLE = environ.get("KIVY_BUNDLE_ID", "invalid-bundle-id")
     environ["PYTHON_EGG_CACHE"] = f"{HOME}/Library/Caches/{BUNDLE}"
-    config_file=(f"{HOME}/Library/Caches/{BUNDLE}")
+    config_file = f"{HOME}/Library/Caches/{BUNDLE}"
 
-if ios==False:
-    HOME = os.environ.get("USERPROFILE" )
-    BUNDLE = os.environ.get("KIVY_BUNDLE_ID" )
-    #os.environ["PYTHON_EGG_CACHE"] = f"{HOME}/Library/Caches/{BUNDLE}"
-    config_file=(f"{HOME}"+'/kt/')
+if ios == False:
+    HOME = os.environ.get("USERPROFILE")
+    BUNDLE = os.environ.get("KIVY_BUNDLE_ID")
+    # os.environ["PYTHON_EGG_CACHE"] = f"{HOME}/Library/Caches/{BUNDLE}"
+    config_file = f"{HOME}" + "/kt/"
 
 ##
 ##
-print (site_data_dir)
+logging.info(site_data_dir)
 from kivy.app import App
+
 app = App.get_running_app()
-print (app,'asdfasdf')
+logging.info(app, "asdfasdf")
 from kivy.lang import Builder
 from kivy.properties import BooleanProperty
 from kivy.properties import NumericProperty
@@ -34,7 +36,14 @@ from kivy.uix.recycleboxlayout import RecycleBoxLayout
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
-from kivy.uix.screenmanager import ScreenManager, Screen, WipeTransition,FadeTransition,CardTransition,SwapTransition
+from kivy.uix.screenmanager import (
+    ScreenManager,
+    Screen,
+    WipeTransition,
+    FadeTransition,
+    CardTransition,
+    SwapTransition,
+)
 from kivy.core.image import Image
 from kivy.uix.colorpicker import ColorWheel
 from kivy.uix.popup import Popup
@@ -51,41 +60,42 @@ from kivymd.uix.taptargetview import MDTapTargetView
 
 from kivy.core.window import Window
 from os.path import expanduser
-print (expanduser("~"))
+
+logging.info(expanduser("~"))
 
 import json
 
 # some JSON:
 
 
-
-
-
-
 ssl.verify = False
 
-f_size=50
+f_size = 50
 
 from kivy.config import Config
+
+
 def writeuserdata():
-    x =  '{ "username":"John", "password":"30", "city":"New York"}'
+    x = '{ "username":"John", "password":"30", "city":"New York"}'
     y = json.loads(x)
-    with open(config_file+'data.txt', 'w') as outfile:
+    with open(config_file + "data.txt", "w") as outfile:
         json.dump(y, outfile)
 
+
 def readuserdata():
-    with open(config_file+'data.txt') as json_file:
+    with open(config_file + "data.txt") as json_file:
         data = json.load(json_file)
-        #for p in data['people']:
-        username=(data['username'])
-        password=(data['password'])
-        location=(data['city'])
-        print('')
-        return username,password,location
-#writeuserdata()
+        # for p in data['people']:
+        username = data["username"]
+        password = data["password"]
+        location = data["city"]
+        logging.info("")
+        return username, password, location
 
-username,password,location=readuserdata()
 
+# writeuserdata()
+
+username, password, location = readuserdata()
 
 
 import webbrowser
@@ -93,252 +103,236 @@ import webbrowser
 
 import mechanize
 from bs4 import BeautifulSoup
-w=1125/2
-h=2436/2
-w=int(w)
-h=int(h)
-w=str(w)
-h=int(h)
-w=int(w)
-rhino_x_g=w
-rhino_y_g=h
-print(w,'omgfasdfasdfasdf')
-try:
-    w,g=str.split(w,'.')
-except:
-    ''
-try:
-    h,g=str.split(h,'.')
-except:
-    ''
-w=int(w)
-h=int(h)
 
-Config.set('graphics', 'width', str(w))
-Config.set('graphics', 'height', str(h))
-Window.size = (w,h)
-if 1==1:
-    #b=open('test.txt','w')
-    #b.write('test')
-    #b.close()
-    #ios=False
-    Config.set('graphics', 'width', str(w))
-    Config.set('graphics', 'height', str(h))
-    #print ()
-    Window.size = (w,h)
-#except:
+w = 1125 / 2
+h = 2436 / 2
+w = int(w)
+h = int(h)
+w = str(w)
+h = int(h)
+w = int(w)
+rhino_x_g = w
+rhino_y_g = h
+logging.info(w, "omgfasdfasdfasdf")
+try:
+    w, g = str.split(w, ".")
+except:
+    ""
+try:
+    h, g = str.split(h, ".")
+except:
+    ""
+w = int(w)
+h = int(h)
+
+Config.set("graphics", "width", str(w))
+Config.set("graphics", "height", str(h))
+Window.size = (w, h)
+if 1 == 1:
+    # b=open('test.txt','w')
+    # b.write('test')
+    # b.close()
+    # ios=False
+    Config.set("graphics", "width", str(w))
+    Config.set("graphics", "height", str(h))
+    # logging.info ()
+    Window.size = (w, h)
+# except:
 #    ios=True
-fakelogin=False
-fakelogin=True
-conf=False
-mj=[]
-mj2=[]
-l=[]
-index=3
-gindex=99
-ad=''
-au=''
-first_color_g=(.0, 0.9, .1, .3)
-second_color_g=(.0, 0.8, .1, .3)
-#third color text
-#first color backgrounds
-rhino_color_hex='#f7941c'
-first_color_g=kivy.utils.get_color_from_hex('#232323')
-second_color_g=kivy.utils.get_color_from_hex('#343434')
-third_color_g=kivy.utils.get_color_from_hex('#aaaaaa')
-fourth_color_g=kivy.utils.get_color_from_hex('#aaaaaa')
-rhino_color_g=kivy.utils.get_color_from_hex(rhino_color_hex)
-
-
-
-
-
-
-
+fakelogin = False
+fakelogin = True
+conf = False
+mj = []
+mj2 = []
+l = []
+index = 3
+gindex = 99
+ad = ""
+au = ""
+first_color_g = (0.0, 0.9, 0.1, 0.3)
+second_color_g = (0.0, 0.8, 0.1, 0.3)
+# third color text
+# first color backgrounds
+rhino_color_hex = "#f7941c"
+first_color_g = kivy.utils.get_color_from_hex("#232323")
+second_color_g = kivy.utils.get_color_from_hex("#343434")
+third_color_g = kivy.utils.get_color_from_hex("#aaaaaa")
+fourth_color_g = kivy.utils.get_color_from_hex("#aaaaaa")
+rhino_color_g = kivy.utils.get_color_from_hex(rhino_color_hex)
 
 
 import os
+
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
 def login(self):
-        print (username)
+    logging.info(username)
 
-        #app = App.get_running_app()
-        #print("app.directory = ", app.directory)
-        print ()
-        print("app.uWTFYOUASSser_data_dir = ", au,ad)
-        if fakelogin==True:
-            print ('using fake data')
-        if fakelogin==False:
-            print ("using real data")
-            ssl.verify = False
+    # app = App.get_running_app()
+    # logging.info("app.directory = ", app.directory)
+    logging.info()
+    logging.info("app.uWTFYOUASSser_data_dir = ", au, ad)
+    if fakelogin == True:
+        logging.info("using fake data")
+    if fakelogin == False:
+        logging.info("using real data")
+        ssl.verify = False
 
+        PE_LOGIN = "https://www.thinkrhino.com/employee/lasvegas/index.aspx"
+        PE_LOGIN = "https://www.thinkrhino.com/employee/" + location + "/index.aspx"
+        PE_COUNTRIES = (
+            "https://www.thinkrhino.com/employee/" + location + "/Schedule.aspx"
+        )
 
-            PE_LOGIN = 'https://www.thinkrhino.com/employee/lasvegas/index.aspx'
-            PE_LOGIN = 'https://www.thinkrhino.com/employee/'+location+'/index.aspx'
-            PE_COUNTRIES = 'https://www.thinkrhino.com/employee/'+location+'/Schedule.aspx'
+        # USERNAME = c.text
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        # aaa=open(dir_path+'/test2.html','wb')
+        # global browser
+        browser = mechanize.Browser()
+        # logging.info (browser)
 
-            #USERNAME = c.text
-            dir_path = os.path.dirname(os.path.realpath(__file__))
-            # aaa=open(dir_path+'/test2.html','wb')
-            #global browser
-            browser = mechanize.Browser()
-            #print (browser)
-            
-            browser.set_handle_robots(False)
-            browser.set_handle_equiv(False)
-            browser.addheaders = [('User-agent',
-                                'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
-            browser.open(PE_LOGIN)
-            browser.select_form(name="ctl00")
-            browser['emailaddress'] = username
-            browser['mypassword'] = password
-            # ##print (browser)
-            # ##print browser.title
-            #print (browser)
+        browser.set_handle_robots(False)
+        browser.set_handle_equiv(False)
+        browser.addheaders = [
+            (
+                "User-agent",
+                "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1",
+            )
+        ]
+        browser.open(PE_LOGIN)
+        browser.select_form(name="ctl00")
+        browser["emailaddress"] = username
+        browser["mypassword"] = password
+        # ##logging.info (browser)
+        # ##logging.info browser.title
+        # logging.info (browser)
 
+        res = browser.submit()
+        # ##logging.info dir(res)
+        # ##logging.info res.header_items
+        # ##logging.info res.get_data()
+        # logging.info (browser)
 
-            res = browser.submit()
-            # ##print dir(res)
-            # ##print res.header_items
-            # ##print res.get_data()
-            #print (browser)
+        res = browser.open(PE_COUNTRIES)
 
-            res = browser.open(PE_COUNTRIES)
-            
-            aa = res.get_data()  # HTML source of the page
+        aa = res.get_data()  # HTML source of the page
 
-            b2=open(ad+'/4cache.html','wb')
-            b2.write(aa)
+        b2 = open(ad + "/4cache.html", "wb")
+        b2.write(aa)
 
+        for i in res.readlines():
+            # logging.info (i)
+            # b2.write(str(i))
+            try:
+                if (
+                    "allrights" in i
+                    or "copyright -" in i
+                    or "ino Women’s Cold Crew P" in i
+                ):
+                    ##logging.info
+                    i, "copy1"
+                    i = ""
 
-            
-            
-            for i in res.readlines():
-                #print (i)
-                #b2.write(str(i))
-                try:
-                    if "allrights" in i or 'copyright -' in i or 'ino Women’s Cold Crew P' in i:
-                        ##print
-                        i, 'copy1'
-                        i = ''
+                i = i.encode("utf-8")
+                u = u + (i)
+            except:
+                ##logging.info
+                "fauil", i
+        # logging.info (u)
 
-                    i = i.encode('utf-8')
-                    u = u + (i)
-                except:
-
-                    ##print
-                    'fauil', i
-            #print (u)
-
-        if fakelogin==True:
-            print ('fake')
-        parse('junk')
-
+    if fakelogin == True:
+        logging.info("fake")
+    parse("junk")
 
 
 def parse(aa):
     global mj
     global mj2
     global l
-    #print ('google')
+    # logging.info ('google')
 
-    l=[]
-    
-    d=[]
-    ti=[]
-    j=[]
-    s=[]
-    v=[]
-    l=[]
-    l2=[]
-    c=[]
-    ty=[]
-    p=[]
-    st=[]
-    n=[]
-    tk=[]
-    pl=[]
-    dd={}
-    mj=[]
-    mj2=[]
+    l = []
 
-    
+    d = []
+    ti = []
+    j = []
+    s = []
+    v = []
+    l = []
+    l2 = []
+    c = []
+    ty = []
+    p = []
+    st = []
+    n = []
+    tk = []
+    pl = []
+    dd = {}
+    mj = []
+    mj2 = []
 
+    if conf == False:
+        logging.info(ad, "lololo")
+        aaa = open(ad + "/4cache.html", "r")
+    if conf == True:
+        aaa = open(ad + "/conf.html", "r")
 
-    if conf==False:
-        print (ad,'lololo')
-        aaa=open(ad+'/4cache.html','r')
-    if conf==True:
-        aaa=open(ad+'/conf.html','r')
+    # ab=aaa.read()
+    soup = BeautifulSoup(aaa, "html.parser")
 
+    ab = soup.find_all("td")
+    dn = 15
+    dm = dn - 1
 
-    #ab=aaa.read()
-    soup = BeautifulSoup(aaa, 'html.parser')
+    # for i in range(15,len(ab)-15):
+    for i in range(dn, len(ab) - dn):
+        # logging.info (i%dn,i/dn,ab[i].get_text())
+        asds = str(ab[i].contents)
+        if "input name" not in asds:
+            l.append((ab[i].get_text()))
 
-    ab=(soup.find_all('td'))
-    dn=15
-    dm=dn-1
-    
-    #for i in range(15,len(ab)-15):
-    for i in range(dn,len(ab)-dn):
-        #print (i%dn,i/dn,ab[i].get_text())
-        asds= str(ab[i].contents)
-        if 'input name' not in asds:
-
-
-            l.append( (ab[i].get_text()))
-        
-
-
-
-    
     for z in range(len(l)):
-        #print (l[z],)
+        # logging.info (l[z],)
 
-
-        if z%dm==0:
+        if z % dm == 0:
             d.append(l[z])
-            #print (l[z],'meh')
-        if z%dm==1:
+            # logging.info (l[z],'meh')
+        if z % dm == 1:
             ti.append(l[z])
-            #print (l[z])
-        if z%dm==2:
+            # logging.info (l[z])
+        if z % dm == 2:
             j.append(l[z])
-            #print (l[z])
-        if z%dm==3:
+            # logging.info (l[z])
+        if z % dm == 3:
             s.append(l[z])
-            
-        if z%dm==4:
+
+        if z % dm == 4:
             v.append(l[z])
-            
-        if z%dm==5:
+
+        if z % dm == 5:
             l2.append(l[z])
-            #print (l[z])
-        if z%dm==6:
+            # logging.info (l[z])
+        if z % dm == 6:
             c.append(l[z])
-        if z%dm==7:
+        if z % dm == 7:
             ty.append(l[z])
-        if z%dm==8:
+        if z % dm == 8:
             p.append(l[z])
-        if z%dm==9:
+        if z % dm == 9:
             st.append(l[z])
-        if z%dm==10:
+        if z % dm == 10:
             n.append(l[z])
-        if z%dm==11:
+        if z % dm == 11:
             tk.append(l[z])
-        if z%dm==12:
+        if z % dm == 12:
             pl.append(l[z])
 
-
-
-
     for q in range(len(d)):
-        em=''
-        '''
+        em = ""
+        """
         if p[q]=="ME":
-            print ('omg ME🔌')
+            logging.info ('omg ME🔌')
             em=em+(emoji.emojize(':electric_plug:'))
         if "L" in p[q]:
             em=em+(emoji.emojize(':light_bulb:'))
@@ -348,57 +342,101 @@ def parse(aa):
             em=em+(emoji.emojize(':ice_hockey:'))
         if 'MGM' in l[q]:
             em=em+(emoji.emojize(':lion:'))
-            '''
-        #mjp.append d[q]
-        #mjp.append ti[q]
-        print (d[q])
-        month='bad'
-        date='bad'
+            """
+        # mjp.append d[q]
+        # mjp.append ti[q]
+        logging.info(d[q])
+        month = "bad"
+        date = "bad"
         try:
-            month,date,year=str.split(d[q],'/')
-            month=str(int(month))
-            #print (n[q],'wtfyouass')
+            month, date, year = str.split(d[q], "/")
+            month = str(int(month))
+            # logging.info (n[q],'wtfyouass')
         except:
-            ''
-            #print (d[q],'shit')
+            ""
+            # logging.info (d[q],'shit')
         try:
-            if 'onfirmed' in n[q]:
-
-                #print ('omg its confirmed')
-                n[q]='[color='+rhino_color_hex+']'+n[q]+'[/color]'
+            if "onfirmed" in n[q]:
+                # logging.info ('omg its confirmed')
+                n[q] = "[color=" + rhino_color_hex + "]" + n[q] + "[/color]"
         except:
-            ''
+            ""
         try:
-            showjunk,showreal=str.split(s[q],') ')
+            showjunk, showreal = str.split(s[q], ") ")
         except:
-            showreal=s[q]
-        #joob='[color=ff3333]'+d[q]+'[/color] '+ti[q]+' ~ '+v[q]+' ~ '+l[q]+' ~ '+ti[q]+' ~  '+c[q]+' ~ '+ty[q]+' ~ '+p[q]+' ~ '+st[q]+' ~ '+j[q]+' ~ '+n[q]
+            showreal = s[q]
+        # joob='[color=ff3333]'+d[q]+'[/color] '+ti[q]+' ~ '+v[q]+' ~ '+l[q]+' ~ '+ti[q]+' ~  '+c[q]+' ~ '+ty[q]+' ~ '+p[q]+' ~ '+st[q]+' ~ '+j[q]+' ~ '+n[q]
         try:
-            joob=d[q]+' '+ti[q]+' ~ '+v[q]+' ~ '+l2[q]+' ~ '+s[q]+' ~ \n '+c[q]+' ~ '+ty[q]+' ~ '+p[q]+' ~ '+st[q]+' ~ '+j[q]+' ~ '+n[q]
-            joob2='[color='+rhino_color_hex+']'+month+'/'+date+'[/color] '+ti[q]+'  '+' \n[b]'+showreal+'[/b]  \n'+v[q]+'\n[size=40]'+ty[q]+'  '+p[q]+'  '+st[q]+'  '+n[q]
+            joob = (
+                d[q]
+                + " "
+                + ti[q]
+                + " ~ "
+                + v[q]
+                + " ~ "
+                + l2[q]
+                + " ~ "
+                + s[q]
+                + " ~ \n "
+                + c[q]
+                + " ~ "
+                + ty[q]
+                + " ~ "
+                + p[q]
+                + " ~ "
+                + st[q]
+                + " ~ "
+                + j[q]
+                + " ~ "
+                + n[q]
+            )
+            joob2 = (
+                "[color="
+                + rhino_color_hex
+                + "]"
+                + month
+                + "/"
+                + date
+                + "[/color] "
+                + ti[q]
+                + "  "
+                + " \n[b]"
+                + showreal
+                + "[/b]  \n"
+                + v[q]
+                + "\n[size=40]"
+                + ty[q]
+                + "  "
+                + p[q]
+                + "  "
+                + st[q]
+                + "  "
+                + n[q]
+            )
         except:
-            ''
+            ""
         mj.append(joob)
         mj2.append(joob2)
 
-        #print (joob)
-        #mdict={'text': [mj]}
-        #dd.update(mdict)
-        #check(joob,d[q],ti[q],v[q],l[q],s[q],ty[q],st[q],p[q],n[q],c[q],em)
-    #self.data = [{'text': str(x)} for x in range(10)]
-#root.RV.data=5
-    #print (dir(App.get_running_app().root.ids),'junk')
-    #print (dir(App.get_running_app().root),'lol')
-    #print (dir(App.get_running_app().root.get_screen('RVScreen')))
-    #$print ((App.get_running_app().root.get_screen('RVScreen').ids))
-    #root = App.get_running_app().root
-    #print (root.ids.viewkeys)
-    #self.data.ids.RVScreen.ids.password.text = str('asdf')
-    my_dict = {"name": "XYZ", "email": "xyz@gmail.com", "location":"Mumbai"}
-    #print (dd)
+        # logging.info (joob)
+        # mdict={'text': [mj]}
+        # dd.update(mdict)
+        # check(joob,d[q],ti[q],v[q],l[q],s[q],ty[q],st[q],p[q],n[q],c[q],em)
+    # self.data = [{'text': str(x)} for x in range(10)]
+    # root.RV.data=5
+    # logging.info (dir(App.get_running_app().root.ids),'junk')
+    # logging.info (dir(App.get_running_app().root),'lol')
+    # logging.info (dir(App.get_running_app().root.get_screen('RVScreen')))
+    # $logging.info ((App.get_running_app().root.get_screen('RVScreen').ids))
+    # root = App.get_running_app().root
+    # logging.info (root.ids.viewkeys)
+    # self.data.ids.RVScreen.ids.password.text = str('asdf')
+    my_dict = {"name": "XYZ", "email": "xyz@gmail.com", "location": "Mumbai"}
+    # logging.info (dd)
 
 
-Builder.load_string('''
+Builder.load_string(
+    """
 #:import random random.random
 #:import webbrowser webbrowser
 #:import emoji emoji
@@ -906,8 +944,8 @@ Builder.load_string('''
             size_hint: None, None
             size: 150, 50
             on_release: root.manager.current = 'RVScreen'
-''')
-
+"""
+)
 
 
 class PaintWindow(Screen):
@@ -918,7 +956,7 @@ class PopupColor(Popup):
     def on_press_dismiss(self, colorpicker, *args):
         self.dismiss()
         color = str(colorpicker.hex_color)[1:]
-        print(color)
+        logging.info(color)
 
 
 class PopupRun(App):
@@ -929,9 +967,9 @@ class PopupRun(App):
         popup.open()
 
         def on_color(instance, value):
-            print("RGBA = ", str(value))
-            print("HSV = ", str(instance.hsv))
-            print("HEX = ", str(instance.hex_color))
+            logging.info("RGBA = ", str(value))
+            logging.info("HSV = ", str(instance.hsv))
+            logging.info("HEX = ", str(instance.hex_color))
             hex_color = str(instance.hex_color)
             # Return hex color code without '#'
             return hex_color[1:]
@@ -948,18 +986,18 @@ class CustomScreen(Screen):
     global rhino_color_g
     global rhino_x_g
     global rhino_y_g
-    rhino_color=rhino_color_g
+    rhino_color = rhino_color_g
 
-    rhino_x=rhino_x_g/2
+    rhino_x = rhino_x_g / 2
 
-    rhino_y=rhino_y_g/2
+    rhino_y = rhino_y_g / 2
 
-    print ("login")
+    logging.info("login")
 
     def wow(self):
-        print ("OMG")
+        logging.info("OMG")
 
-    #def login(self, b, c, d):
+    # def login(self, b, c, d):
 
     def build(self):
         screen = Builder.load_string(KV)
@@ -977,46 +1015,40 @@ class CustomScreen(Screen):
             self.tap_target_view.start()
         else:
             self.tap_target_view.stop()
-    
 
 
-
-
-    
-
-
-
-class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior,
-                                 RecycleBoxLayout):
-    ''' Adds selection and focus behaviour to the view. '''
+class SelectableRecycleBoxLayout(
+    FocusBehavior, LayoutSelectionBehavior, RecycleBoxLayout
+):
+    """Adds selection and focus behaviour to the view."""
 
 
 class SelectableLabel(RecycleDataViewBehavior, Label):
-    ''' Add selection support to the Label '''
+    """Add selection support to the Label"""
+
     global index
     global f_size
     global first_color_g
     global second_color_g
 
-    first_color=first_color_g
-    second_color=second_color_g
-    
-    #index = None
-    ff=f_size
+    first_color = first_color_g
+    second_color = second_color_g
+
+    # index = None
+    ff = f_size
     selected = BooleanProperty(False)
     selectable = BooleanProperty(True)
 
     def refresh_view_attrs(self, rv, index, data):
-        ''' Catch and handle the view changes '''
+        """Catch and handle the view changes"""
         global gindex
-        
+
         self.index = index
-        gindex=index
-        return super(SelectableLabel, self).refresh_view_attrs(
-            rv, index, data)
+        gindex = index
+        return super(SelectableLabel, self).refresh_view_attrs(rv, index, data)
 
     def on_touch_down(self, touch):
-        ''' Add selection on touch down '''
+        """Add selection on touch down"""
         if super(SelectableLabel, self).on_touch_down(touch):
             return True
         if self.collide_point(*touch.pos) and self.selectable:
@@ -1024,118 +1056,129 @@ class SelectableLabel(RecycleDataViewBehavior, Label):
 
     def apply_selection(self, rv, index, is_selected):
         global gindex
-        ''' Respond to the selection of items in the view. '''
+        """ Respond to the selection of items in the view. """
         self.selected = is_selected
         if is_selected:
-            #print("selection changed to {0}".format(rv.data[index]))
-            #manager.current = manager.previous()
+            # logging.info("selection changed to {0}".format(rv.data[index]))
+            # manager.current = manager.previous()
             1
         else:
-            #print("selection removed for {0}".format(rv.data[index]))
+            # logging.info("selection removed for {0}".format(rv.data[index]))
             1
-        gindex=index
-        
+        gindex = index
 
-xxx=[{'text':'hello'},{'text':'bye'}]
+
+xxx = [{"text": "hello"}, {"text": "bye"}]
+
 
 def Convert(lst):
     res_dct = {lst[i]: lst[i + 1] for i in range(0, len(lst), 2)}
     return res_dct
-         
+
+
 # Driver code
-mj = ['a', 1, 'b', 2, 'c', 3]
-mj2=(Convert(mj))
-
-
+mj = ["a", 1, "b", 2, "c", 3]
+mj2 = Convert(mj)
 
 
 class RV(RecycleView):
-    
-    #global mj
+    # global mj
     def __init__(self, **kwargs):
-        #global mj
+        # global mj
         global gindex
         global ad
         global au
         global third_color_g
         global fourth_color_g
 
-        
         super(RV, self).__init__(**kwargs)
-        
-        
-        app = App.get_running_app()
-        print("app.directory = ", app.directory)
-        print("app.user_data_dir = ", app.user_data_dir)
-        au=app.directory
-        ad=app.user_data_dir
-        
-        login(1)
-        #self.data = [{'text': str(x)} for x in range(1)]
-        #print (type(mj2),'wtff')
-        #self.data=mj2
-        self.data = [{'text': str(x),'text':'wow'} for x in range(len(mj))]
-        #print (mj2,'MOTHERUFCKER')
-        #self.change_line()
-        odd=0
-        for i in range(len(mj)):
-            odd=odd+1
-            self.data[i]={'text': mj2[i]}
-            if odd%2==0:
-                pass
-                self.data[i]={'text': mj2[i],'color':third_color_g,'font_size':f_size}
-            if odd%2==1:
-                pass
-                self.data[i]={'text': mj2[i],'color':fourth_color_g,'font_size':f_size+.01}
 
-                print ('DISPLAY DATA')
-    #login()
+        app = App.get_running_app()
+        logging.info("app.directory = ", app.directory)
+        logging.info("app.user_data_dir = ", app.user_data_dir)
+        au = app.directory
+        ad = app.user_data_dir
+
+        login(1)
+        # self.data = [{'text': str(x)} for x in range(1)]
+        # logging.info (type(mj2),'wtff')
+        # self.data=mj2
+        self.data = [{"text": str(x), "text": "wow"} for x in range(len(mj))]
+        # logging.info (mj2,'MOTHERUFCKER')
+        # self.change_line()
+        odd = 0
+        for i in range(len(mj)):
+            odd = odd + 1
+            self.data[i] = {"text": mj2[i]}
+            if odd % 2 == 0:
+                pass
+                self.data[i] = {
+                    "text": mj2[i],
+                    "color": third_color_g,
+                    "font_size": f_size,
+                }
+            if odd % 2 == 1:
+                pass
+                self.data[i] = {
+                    "text": mj2[i],
+                    "color": fourth_color_g,
+                    "font_size": f_size + 0.01,
+                }
+
+                logging.info("DISPLAY DATA")
+
+    # login()
     def change_line(self):
-        self.data[0] = '101'
-        
-    #login(1)
-    
+        self.data[0] = "101"
+
+    # login(1)
+
 
 class RVScreen(Screen):
     def wow(self):
-        #global index
-        print (gindex,'rvscreen')
-        self.infoo={'text': mj2[gindex],'color':'blue','font_size':35}
-        self.manager.screens[3].ids.date.text=str( l[(gindex*14)]+' '+l[(gindex*14)+1])
-        self.manager.screens[3].ids.jobid.text=l[(gindex*14)+2]
-        self.manager.screens[3].ids.show.text=l[(gindex*14)+3]
-        self.manager.screens[3].ids.venue.text=l[(gindex*14)+4]
-        self.manager.screens[3].ids.venue.text=l[(gindex*14)+4]+'[ref=some]google.com[/ref]'
+        # global index
+        logging.info(gindex, "rvscreen")
+        self.infoo = {"text": mj2[gindex], "color": "blue", "font_size": 35}
+        self.manager.screens[3].ids.date.text = str(
+            l[(gindex * 14)] + " " + l[(gindex * 14) + 1]
+        )
+        self.manager.screens[3].ids.jobid.text = l[(gindex * 14) + 2]
+        self.manager.screens[3].ids.show.text = l[(gindex * 14) + 3]
+        self.manager.screens[3].ids.venue.text = l[(gindex * 14) + 4]
+        self.manager.screens[3].ids.venue.text = (
+            l[(gindex * 14) + 4] + "[ref=some]google.com[/ref]"
+        )
 
-        self.manager.screens[3].ids.location.text=l[(gindex*14)+5]
-        self.manager.screens[3].ids.client.text=l[(gindex*14)+6]
-        self.manager.screens[3].ids.type.text=l[(gindex*14)+7]
-        self.manager.screens[3].ids.position.text=l[(gindex*14)+8]
-        self.manager.screens[3].ids.details.text=l[(gindex*14)+9]
-        self.manager.screens[3].ids.status.text=l[(gindex*14)+10]
-        self.manager.screens[3].ids.notes.text=l[(gindex*14)+11]
-        self.manager.screens[3].ids.tk.text=l[(gindex*14)+12]
-        #wimg = Image(self,source='t.jpg')
-        print (l[(gindex*14)+4])
-        if 'WYNN' in l[(gindex*14)+4]:
-            print ('wynn234234')
-            self.manager.screens[3].ids.jpgs.source='wynn.jpg'
+        self.manager.screens[3].ids.location.text = l[(gindex * 14) + 5]
+        self.manager.screens[3].ids.client.text = l[(gindex * 14) + 6]
+        self.manager.screens[3].ids.type.text = l[(gindex * 14) + 7]
+        self.manager.screens[3].ids.position.text = l[(gindex * 14) + 8]
+        self.manager.screens[3].ids.details.text = l[(gindex * 14) + 9]
+        self.manager.screens[3].ids.status.text = l[(gindex * 14) + 10]
+        self.manager.screens[3].ids.notes.text = l[(gindex * 14) + 11]
+        self.manager.screens[3].ids.tk.text = l[(gindex * 14) + 12]
+        # wimg = Image(self,source='t.jpg')
+        logging.info(l[(gindex * 14) + 4])
+        if "WYNN" in l[(gindex * 14) + 4]:
+            logging.info("wynn234234")
+            self.manager.screens[3].ids.jpgs.source = "wynn.jpg"
 
-        if 'PARK' in l[(gindex*14)+4]:
-            self.manager.screens[3].ids.jpgs.source='park.jpg'
-            print ('park234234')
-        if 'MOBILE' in l[(gindex*14)+4]:
-            self.manager.screens[3].ids.jpgs.source='tmo.jpg'
-        print(self.manager.screens[3].ids)
-
-
+        if "PARK" in l[(gindex * 14) + 4]:
+            self.manager.screens[3].ids.jpgs.source = "park.jpg"
+            logging.info("park234234")
+        if "MOBILE" in l[(gindex * 14) + 4]:
+            self.manager.screens[3].ids.jpgs.source = "tmo.jpg"
+        logging.info(self.manager.screens[3].ids)
 
 
 class Info23(Screen):
     pass
+
+
 class Info(Screen):
     screen_manager = ObjectProperty()
     nav_drawer = ObjectProperty()
+
 
 class MDC(Screen):
     pass
@@ -1144,68 +1187,72 @@ class MDC(Screen):
 class Ytube(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        #self.theme_cls.colors = 'Red'
-        #self.theme_cls.primary_palette = "Red"
-        #self.root = Builder.load_string(kv)
+        # self.theme_cls.colors = 'Red'
+        # self.theme_cls.primary_palette = "Red"
+        # self.root = Builder.load_string(kv)
 
-        #screen_id = self.root.get_screen('main').ids.video_list
+        # screen_id = self.root.get_screen('main').ids.video_list
 
         for i in range(5):
             # Make a new image widget for each MDCard
             image = AsyncImage(
-                source='https://static.hub.91mobiles.com/wp-content/uploads/2020/05/How-to-download-youtube-videos.jpg', size_hint=(1, .7), )
-            card = MDCard(orientation='vertical', pos_hint={
-                            'center_x': .5, 'center_y': .7}, size_hint=(.9, None), height=200)
+                source="https://static.hub.91mobiles.com/wp-content/uploads/2020/05/How-to-download-youtube-videos.jpg",
+                size_hint=(1, 0.7),
+            )
+            card = MDCard(
+                orientation="vertical",
+                pos_hint={"center_x": 0.5, "center_y": 0.7},
+                size_hint=(0.9, None),
+                height=200,
+            )
             card.add_widget(image)
-            card.add_widget(MDLabel(
-                text=(str(i)+'wow'+'\nwow'), size_hint=(.6, .2), ))
-            #Screen.add_widget(card)
+            card.add_widget(
+                MDLabel(
+                    text=(str(i) + "wow" + "\nwow"),
+                    size_hint=(0.6, 0.2),
+                )
+            )
+            # Screen.add_widget(card)
+
 
 class Options(Screen):
-
     def on_color(self, instance, value):
-            print("\non_color:")
-            print("\tvalue(rgba)={}".format(value))
-            print("\tcolor(rgba)={}".format(instance.color))
-            print("\tcolor(hex)={}".format(instance.hex_color))
-            print("\tcolor(hsv)={}".format(instance.hsv))
+        logging.info("\non_color:")
+        logging.info("\tvalue(rgba)={}".format(value))
+        logging.info("\tcolor(rgba)={}".format(instance.color))
+        logging.info("\tcolor(hex)={}".format(instance.hex_color))
+        logging.info("\tcolor(hsv)={}".format(instance.hsv))
+
 
 class MenuScreen(Screen):
-    print (index)
+    logging.info(index)
+
     def __init__(self, **kwargs):
         super(MenuScreen, self).__init__(**kwargs)
-        print (gindex,'OMGWTFMAN')
-    
-
+        logging.info(gindex, "OMGWTFMAN")
 
 
 class ScreenManagerApp(MDApp):
-    print('fuck')
-
+    logging.info("fuck")
 
     def build(self):
-        #print 'shit'
-        os.environ['PYTHON_EGG_CACHE']='/SHITBALL'
-        
+        # logging.info 'shit'
+        os.environ["PYTHON_EGG_CACHE"] = "/SHITBALL"
+
         root = ScreenManager(transition=FadeTransition())
-        #sm = ScreenManager(transition=WipeTransition())
-        root.add_widget(CustomScreen(name='Think Rhino'))
-        root.add_widget(RVScreen(name='RVScreen'))
-        root.add_widget(Info23(name='Info23'))
-        root.add_widget(MenuScreen(name='menu'))
-        root.add_widget(Options(name='Options'))
-        root.add_widget(MDC(name='MDC'))
-        root.add_widget(Ytube(name='Ytube'))
-        root.add_widget(Info(name='Info'))
+        # sm = ScreenManager(transition=WipeTransition())
+        root.add_widget(CustomScreen(name="Think Rhino"))
+        root.add_widget(RVScreen(name="RVScreen"))
+        root.add_widget(Info23(name="Info23"))
+        root.add_widget(MenuScreen(name="menu"))
+        root.add_widget(Options(name="Options"))
+        root.add_widget(MDC(name="MDC"))
+        root.add_widget(Ytube(name="Ytube"))
+        root.add_widget(Info(name="Info"))
 
-
-
-        
         return root
-        
 
-    
 
-if __name__ == '__main__':
-    print (app,'lolz')
+if __name__ == "__main__":
+    logging.info(app, "lolz")
     ScreenManagerApp().run()

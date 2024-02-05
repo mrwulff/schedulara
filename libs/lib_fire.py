@@ -1,5 +1,5 @@
 def idk(a, b, c):
-    print("fire", a, b, c)
+    logging.info("fire", a, b, c)
 
 
 if __name__ == "__main__":

@@ -1,25 +1,39 @@
-###cp \schedulara\.buildozer\android\platform\build-arm64-v8a_armeabi-v7a\dists\kw.schedulara\build\outputs\apk\debug\kw.schedulara-0.1-arm64-v8a_armeabi-v7a-debug.apk /mnt/c/Users/kw/Desktop/app.apk
+###cp \schedulara\.buildozer\android\platform\build-arm64-v8a_armeabi-v7a\dists\kw.schedulara\build\outputs\apk\debug\kw.schedullogara-0.1-arm64-v8a_armeabi-v7a-debug.apk /mnt/c/Users/kw/Desktop/app.apk
 ###
 ### RELEASE 10.2.2023
 ###
 debug = False
 debug_online = False
-print("main debug=" + str(debug))
-print("wtf1006")
+import logging
+
+logging.info("What")
+
+# import logging
+# logging.basicConfig(
+# level=logging.INFO,
+# format='%(asctime)s %(levelname)s %(threadName)s[%(thread)s] %(message)s  %(filename)s %(lineno)d')
+
+# logging.disable(logging.ERROR)
+
+
 from ast import Pass
 from asyncio import queues
 from kivy.utils import hex_colormap
 
-# from audioop import reverse\
-# from curses import A_REVERSE
+
 import profile
 import time
 import sys
 from kivy.metrics import dp
 from kivy.base import ExceptionHandler, ExceptionManager
-import logging
+
 from kivy.utils import platform
-from kivymd.uix.button import MDFabButton,MDExtendedFabButton,MDExtendedFabButtonText,MDExtendedFabButtonIcon
+from kivymd.uix.button import (
+    MDFabButton,
+    MDExtendedFabButton,
+    MDExtendedFabButtonText,
+    MDExtendedFabButtonIcon,
+)
 
 import libs.lib_positions
 import libs.lib_readuserdata
@@ -29,6 +43,7 @@ import libs.lib_readuserdata
 # IconLeftWidget,
 # OneLineListItem,
 # )
+
 
 from kivymd.uix.snackbar import (
     MDSnackbar,
@@ -62,13 +77,15 @@ from kivymd.uix.dialog import (
     MDDialogButtonContainer,
     MDDialogContentContainer,
 )
-import libs.lib_archive
+
+import libs.lib_new
+import libs.lib_cal
+
 
 class E(ExceptionHandler):
     def handle_exception(self, inst):
         # Logger.exception("Exception caught by ExceptionHandler")
         # snackbar("ERROR!  " + str(inst))
-        print(inst)
         MDSnackbar(
             MDSnackbarText(
                 text=str(inst),
@@ -96,7 +113,6 @@ if debug == True:
 
 #
 #
-print(platform, "PLATFORM")
 send_to_sentry = False
 if platform != "ios" and debug == True and debug_online == True:
     import sentry_sdk
@@ -147,13 +163,18 @@ from kivy.core.window import Window
 from kivy.app import App
 from kivy.config import Config
 
+Config.set("kivy", "log_level", "all")
+
+# apply all these changes
+Config.write()
+
 
 # from kivymd.uix.snackbar import Snackbar
 # from kivymd.toast import toast
 # from kivymd.uix.pickers import MDColorPicker
 
 # from kivymd.uix.pickers import MDThemePicker
-from kivymd.uix.pickers import MDTimePickerDialVertical,MDModalDatePicker
+from kivymd.uix.pickers import MDTimePickerDialVertical, MDModalDatePicker
 
 # from kivymd.uix.picker import MDDatePicker
 from kivymd.uix.pickers.datepicker import MDDockedDatePicker
@@ -161,7 +182,6 @@ from kivymd.uix.pickers.datepicker import MDDockedDatePicker
 # from kivymd.uix.pickers import MDTimePicker
 from kivymd_extensions.sweetalert import SweetAlert
 
-# print("cant do mddatepicker")
 from kivy.uix.popup import Popup
 from kivymd.uix.menu import MDDropdownMenu
 
@@ -207,10 +227,9 @@ try:
 except:
     pass
 
-try:
-    import libs.lib_google2 as lib_google
-except:
-    print("fail google")
+
+import libs.lib_google2 as lib_google
+
 import libs.lib_readuserdata as lib_readuserdata
 
 from kivy.uix.scatter import Scatter
@@ -218,6 +237,11 @@ from kivy.uix.image import AsyncImage
 
 
 import os
+
+os.environ["KIVY_NO_CONSOLELOG"] = "1"
+
+
+import kivy
 
 cwd = os.getcwd()
 from pyparsing import ParseExpression
@@ -231,7 +255,6 @@ ipad = False
 if ipad == True:
     w = 2048 / 2
     h = 2732 / 2
-print(platform, "PLATFORM")
 
 
 # Config.set("graphics", "width", str(w))
@@ -245,7 +268,6 @@ if platform == "win":
 # from kivy.logger import Logger
 # from kivy.config import Config
 App.get_running_app()
-# print(Config.get('kivy', 'log_name'),'log_dir')
 # Config.get
 
 # Config.set('kivy', 'log_enable', 1)
@@ -258,7 +280,6 @@ App.get_running_app()
 # Logger.info('socket:send command to raspberry')
 # Logger
 
-print("windowmax1.278")
 if platform == "android":
     from kivy.config import Config
 
@@ -288,7 +309,6 @@ if platform == "android5":
     from android import mActivity
 
     View = autoclass("android.view.View")
-    print("autoclasssss")
 
     @run_on_ui_thread
     def hide_landscape_status_bar(instance, width, height):
@@ -304,7 +324,7 @@ if platform == "android5":
 
 
 toc1 = time.perf_counter()
-print(tic - toc1, "firsttimer")
+logging.info(tic - toc1, "firsttimer")
 from kivy.utils import platform
 import urllib.request
 
@@ -493,9 +513,7 @@ class SwipeToDeleteItem2(Screen):
             import libs.lib_tinyfs as lib_tinyfs
 
             today, fdate = lib_tinyfs.format_text(idex, mjds, now, "info")
-            # print("OMGWHATHAVEYOPUDONE ", idex)
         except:
-            # print("omgwhathaveyoudone ", idex)
             pass
         if 1 == 1:
             App.get_running_app().root.current_screen.ids["date"].text = fdate
@@ -532,8 +550,6 @@ class SwipeToDeleteItem2(Screen):
             )
         # except:
         #    (newxxx)
-
-        # print(mjds[idex]["location"], "WTHMAN")
 
         try:
             App.get_running_app().root.current_screen.ids["image"].source = (
@@ -664,7 +680,6 @@ class Demo3App(MDApp):
     def restart(self, wow):
         self.root.clear_widgets()
         self.stop()
-        # print (dir(Demo3App().run()))
         return Demo3App().run()
 
     import os
@@ -689,8 +704,7 @@ class Demo3App(MDApp):
     sp = True
 
     i = 0
-    # print("omg")
-    print(tic - time.perf_counter(), "supershort")
+    logging.info(tic - time.perf_counter(), "supershort")
     cspacing = 10
 
     mtype = "top"
@@ -805,7 +819,6 @@ class Demo3App(MDApp):
         from dateutil.relativedelta import relativedelta
 
         now = datetime.now()
-        # print(now, type(now))
         if t == "All":
             date_string = "1 January, 2000"
             d = datetime.strptime(date_string, "%d %B, %Y")
@@ -825,16 +838,14 @@ class Demo3App(MDApp):
             now = datetime.now().date().replace(month=12, day=31, year=t)
             now = datetime.combine(now, datetime.min.time())
 
-        print(d, type(d), now, "RETURN DATE RANGE")
+        logging.info(d, type(d), now, "RETURN DATE RANGE")
 
         return d, now
 
     def close_menu(self):
-        # print ('closing')
         self.root.current_screen.ids.nav_drawer.set_state("close")
 
     def call(self, lol):
-        print("call", (lol), lol.icon)
         self.root.current_screen.ids.menub.close_stack()
         if lol.icon == "cog-outline":
             self.do_settings()
@@ -863,16 +874,14 @@ class Demo3App(MDApp):
             self.test_animate()
 
     def test_animate(self):
-        print("test animate")
+        logging.info("test animate")
 
     def do_restore(self, f):
         import shutil
 
         global x
 
-        print(f)
         f2 = lib_google.search_files(ad, f)
-        print(f2)
         f3 = lib_google.download_google_drive(ad, f2)
         fw = open(ad + "/temp.zip", "wb")
         fw.write(f3)
@@ -891,15 +900,13 @@ class Demo3App(MDApp):
 
         x = libs.lib_readuserdata.readuserdata(App, ad, ios)
 
-        print("test00")
         if x.get("drive_id") == None:
             x["drive_id"] = lib_google.search_files(ad, "Schedulara_Backups")
 
-            print(x["drive_id"])
+            logging.info(x["drive_id"])
             import libs.lib_updateuserdata
 
             libs.lib_updateuserdata.updateuser(x, ad)
-        print(x["drive_id"], "this is do_gbackup")
         l_backup = App.get_running_app().root.current_screen.ids["last_backup"]
         # l_backup.text=
         if x.get("last_backup") == None:
@@ -910,12 +917,10 @@ class Demo3App(MDApp):
             )
             now = datetime.datetime.now()
             diff2 = humanize.naturaltime(now - old_update)
-            print("why no update", diff2)
             l_backup.secondary_text = "Last Backup: " + diff2
-        # print(x.get("last_backup"), "LAST BACKUP")
+        # logging.info(x.get("last_backup"), "LAST BACKUP")
 
     def do_backups(self):
-        toast("starting backup")
         import os
         import shutil
         import datetime
@@ -926,7 +931,6 @@ class Demo3App(MDApp):
         for i in range(len(bu)):
             if x[bu[i]]:
                 if bu[i] == "backup_checks":
-                    # print(bu[i])
                     src = os.path.join(ad, "pp")
                     dest = os.path.join(ad, "backup/pp")
                     try:
@@ -935,7 +939,6 @@ class Demo3App(MDApp):
                         pass
                     destination = shutil.copytree(src, dest)
                 if bu[i] == "backup_shows":
-                    # print(bu[i])
                     src = os.path.join(ad, "future_shows")
                     dest = os.path.join(ad, "backup/future_shows")
 
@@ -945,7 +948,6 @@ class Demo3App(MDApp):
                         pass
                     destination = shutil.copytree(src, dest)
                 if bu[i] == "backup_config":
-                    # print(bu[i])
                     src = os.path.join(ad, "userdata.json.txt")
                     dest = os.path.join(ad, "backup/userdata.json")
                     destination = shutil.copy2(src, dest)
@@ -957,7 +959,6 @@ class Demo3App(MDApp):
 
         self.do_test_open()
         tt = libs.lib_google2.google_files(ad, "backup.zip", x["drive_id"])
-        toast(tt)
         # nf = os.path.join(ad, "shows2.zip")
         # nf='C:/Users/kw/AppData/Roaming/demo3/shows2.zip'
         # shutil.make_archive(ad + "/show3", "zip", ad + "/shows")
@@ -968,7 +969,6 @@ class Demo3App(MDApp):
         x["last_backup"] = str(now)
 
         libs.lib_updateuserdata.updateuser(x, ad)
-        # print(x)
         self.do_gbackup()
 
     def file_selection(self, selection):
@@ -989,8 +989,8 @@ class Demo3App(MDApp):
             Logger.debug(f"Image copied to tmp folder: {tmp_file}")
             Logger.debug(f"Image selected: {path}")
 
-            print(f"Temp: {tmp_file}\nReal: {path}")
-            print("on_image_selected", path)
+            logging.info(f"Temp: {tmp_file}\nReal: {path}")
+            logging.info("on_image_selected", path)
         else:
             path = ""
 
@@ -1003,31 +1003,27 @@ class Demo3App(MDApp):
 
         x = libs.lib_readuserdata.readuserdata(App, ad, ios)
 
-        print("test00")
         if x.get("drive_id") == None:
             x["drive_id"] = lib_google.search_files(ad, "Schedulara_Backups")
 
-            print(x["drive_id"], "drive.id find_gbackups")
+            logging.info(x["drive_id"], "drive.id find_gbackups")
             import libs.lib_updateuserdata
 
             libs.lib_updateuserdata.updateuser(x, ad)
 
         z = lib_google.find_backup(ad, [x["drive_id"]])
-        # print(z, "this is the list of backups")
         return z
 
     def do_test_open(self):
         import libs.lib_new
 
-        print("test00")
         if x.get("drive_id") == None:
             x["drive_id"] = lib_google.search_files(ad, "Schedulara_Backups")
 
-            print(x["drive_id"])
+            logging.info(x["drive_id"])
             import libs.lib_updateuserdata
 
             libs.lib_updateuserdata.updateuser(x, ad)
-        print(x)
         return x
 
     def snackbarx(self, text1):
@@ -1043,17 +1039,14 @@ class Demo3App(MDApp):
     def add_google_calendar(self, y):
         import libs.lib_google2 as lib_google
 
-        print(y)
         if x.get("cal_id") != None:
             lib_google.google_calendar_add(ad, y, x["cal_id"])
             # lib_google.get_calendar_service(ad)
 
     def find_events(self, rang):
-        print("find events")
         import libs.lib_google2 as lib_google
 
         z = lib_google.google_calendar_list(ad, x, True)
-        toast(z)
 
     def remove_google_token(self, z):
         import os
@@ -1067,7 +1060,6 @@ class Demo3App(MDApp):
     def delete_future_shows(self):
         import libs.lib_new
         import datetime
-        import os
         import json
 
         js = libs.lib_new.get_json_schedule_1(x, ad)
@@ -1078,25 +1070,19 @@ class Demo3App(MDApp):
             now = datetime.datetime.now()
             time = now.strftime("%m%d%Y")
             z2 = str.split(z, " ")
-            print(z2)
             z2 = z2[0]
             z2 = str.split(z2, "_")
             z2 = z2[0]
 
-            print(time)
             if 1 == 1:
                 date_object = datetime.datetime.strptime(z2, "%m%d%Y")
-                print(1, date_object)
                 if date_object > datetime.datetime.now():
-                    print("revious")
                     x2 = ad + "/future_shows/" + self.filename(gg[show]) + ".json"
                     with open(x2) as json_file:
                         data = json.load(json_file)
-                        print(data.get("google_id"))
                         if data.get("google_id") != None:
                             del data["google_id"]
                         data["updated"] = True
-                        # print(data)
                     json_file.close()
                     data_new = json.dumps(data, indent=4)
                     nf = open(x2, "w")
@@ -1113,7 +1099,6 @@ class Demo3App(MDApp):
 
         # lib_google.create(ad)
         if x.get("cal_id") == None:
-            print("has name")
             x["cal_id"] = lib_google.make_user_cals(ad)
             import libs.lib_updateuserdata
 
@@ -1126,9 +1111,7 @@ class Demo3App(MDApp):
         if x.get("cal_id") != None:
             for show in range(len(gg)):
                 flag = 0
-                # print(gg[show])
                 # self.snackbarx(gg[show]["show"])
-                # print(gg[show], "goddamn")
                 if gg[show].get("google_id") == None:
                     # lib_google.google_calendar_add(ad, gg[show], x["cal_id"])
 
@@ -1136,14 +1119,12 @@ class Demo3App(MDApp):
                         ad + "/future_shows/" + self.filename(gg[show]) + ".json",
                         "r",
                     )
-                    print("FOUND FILE")
                     found = found + 1
                     x2 = ad + "/future_shows/" + self.filename(gg[show]) + ".json"
                     with open(x2) as json_file:
                         data = json.load(json_file)
-                        print(data.get("google_id"), "lololol")
+                        logging.info(data.get("google_id"), "lololol")
                         if data.get("google_id") != None:
-                            print("wowww")
                             flag == 1
                     if flag == 0:
                         try:
@@ -1188,10 +1169,10 @@ class Demo3App(MDApp):
         if 1 == 1:
             self.do_new_stats(fdate, ldate, f)
         # except:
-        #    print("div by 0")
+        #    logging.info("div by 0")
 
     def check_stats(self, li):
-        # print(li, "LIST OF CHECKS")
+        # logging.info(li, "LIST OF CHECKS")
         sum2 = sum(li)
         try:
             ave = sum2 / (len(li))
@@ -1302,11 +1283,11 @@ class Demo3App(MDApp):
         chart_list.append(self.shift_chart)
         chart_list.append(self.ot_chart)
 
-        print("graph order")
+        logging.info("graph order")
         pass
 
         for z in range(len(chart_list)):
-            print(chart_list[z])
+            logging.info(chart_list[z])
 
             self.root.current_screen.ids["box"].add_widget(
                 CustomOneLineListItem(
@@ -1318,19 +1299,19 @@ class Demo3App(MDApp):
                     on_release=lambda x, y=(chart_list[z]["name"],): self.view_chart(y),
                 )
             )
-            # print(dir(self.root.current_screen.ids.values()), "icons!!!")
-            print(dir(self.root.current_screen.ids["container"]), "icons!!!")
+            # logging.info(dir(self.root.current_screen.ids.values()), "icons!!!")
+            logging.info(dir(self.root.current_screen.ids["container"]), "icons!!!")
             self.root.current_screen.ids["container"].icon = "account"
 
     def view_chart(self, y):
-        print("view chart y", y)
+        logging.info("view chart y", y)
 
     def do_new_stats(self, fdate, ldate, rng):
         global x
         # import kivymd_extensions.akivymd
         import libs.charts
 
-        print("omg")
+        logging.info("omg")
         # self.root.current_screen.ids["newstats"].clear_widgets()
         self.root.push("newstats")
         import libs.lib_makegraphs
@@ -1366,26 +1347,26 @@ class Demo3App(MDApp):
         # chart_list.append(self.day_chart)
 
         # chart_list.append(self.time_chart)
-        print(len(chart_list), "chartlist")
+        logging.info(len(chart_list), "chartlist")
 
-        # print (len(chart_list),'LENGTH OF CHART LIST')
+        # logging.info (len(chart_list),'LENGTH OF CHART LIST')
         for i in range(len(chart_list)):
             chart = [0] * len(chart_list)
-            # print ("LOAD BUILDING AUTOMATIC",i,x['hidden'],chart_list[i]["name"],chart)
+            # logging.info ("LOAD BUILDING AUTOMATIC",i,x['hidden'],chart_list[i]["name"],chart)
 
             if x["hidden"] == False:
                 if chart_list[i]["name"] == "Shift Length":
-                    print("WOWOWOW2")
+                    logging.info("WOWOWOW2")
                     pos_k2, pos_v2, pos_v3, tot = libs.lib_parse2.load_full_pp(
                         ad, chart_list[i]["file"], chart_list[i]["filter"]
                     )
                 else:
-                    print("nownwo")
+                    logging.info("nownwo")
                     pos_k2, pos_v2, pos_v3 = libs.lib_parse2.load_full_pp(
                         ad, chart_list[i]["file"], chart_list[i]["filter"]
                     )
             if x["hidden"] == True:
-                # print ('yahoo!')
+                # logging.info ('yahoo!')
                 pos_k2 = [
                     0,
                 ]
@@ -1396,34 +1377,34 @@ class Demo3App(MDApp):
             chart[i] = App.get_running_app().root.current_screen.ids[
                 chart_list[i]["id"]
             ]
-            # print(pos_v3, "posv3")
+            # logging.info(pos_v3, "posv3")
 
             if chart_list[i]["name"] == "Shift Length":
-                print(chart_list[i]["secondary"], "SECONDARY2")
+                logging.info(chart_list[i]["secondary"], "SECONDARY2")
                 # sec = App.get_running_app().root.current_screen.ids[chart_list[i]["id"+'d']]
                 # sec.secondary_text = chart_list[i]["secondary"]
                 try:
-                    # print(((pos_v3)), "sumsum")
+                    # logging.info(((pos_v3)), "sumsum")
                     what = "Total Hours: " + str(sum(pos_v3))
                     what2 = (sum(pos_v3)) / tot
                     what2 = f"{what2:.2f}"
                     what2 = "Total/Paycheck: " + what2
-                    # print(App.get_running_app().root.current_screen.ids["c9d"].secondary_text)
-                    # print(pos_v3, "POSV#")
+                    # logging.info(App.get_running_app().root.current_screen.ids["c9d"].secondary_text)
+                    # logging.info(pos_v3, "POSV#")
                     # try:
-                    #     print(sum(pos_v3), "wowowowow")
+                    #     logging.info(sum(pos_v3), "wowowowow")
                     # except:
-                    #     print("cant print tot")
+                    #     logging.info("cant logging.info tot")
                     App.get_running_app().root.current_screen.ids[
                         chart_list[i]["id"] + "d"
                     ].secondary_text = what
                     App.get_running_app().root.current_screen.ids[
                         chart_list[i]["id"] + "d"
                     ].tertiary_text = what2
-                    # print (pos2,'WHATTT222')
+                    # logging.info (pos2,'WHATTT222')
                     # pos2='wows'
                 except:
-                    print("why are you trying to do this")
+                    logging.info("why are you trying to do this")
 
             App.get_running_app().root.current_screen.ids[chart_list[i]["id"]].width = (
                 dp(80) * len(pos_v2)
@@ -1443,13 +1424,13 @@ class Demo3App(MDApp):
                     chart_list[i]["id"]
                 ]
                 if x["hidden"] == True and i == 0:
-                    print("yahoo!", chart_list[i]["name"])
+                    logging.info("yahoo!", chart_list[i]["name"])
                     pos_k2 = []
                     pos_v2 = []
                 chart[i].x_values = pos_v2
                 chart[i].y_values = pos_v2
                 chart[i].x_labels = pos_k2
-                # print (pos_v2,'POSV3')
+                # logging.info (pos_v2,'POSV3')
 
                 App.get_running_app().root.current_screen.ids[
                     chart_list[i]["id"] + "d"
@@ -1460,9 +1441,9 @@ class Demo3App(MDApp):
                 except:
                     # return
                     toast("chart5 fail")
-                    print("chart fail")
+                    logging.info("chart fail")
             # except:
-            # print ('fail all charts')
+            # logging.info ('fail all charts')
             if chart_list[i]["name"] == "Paycheck Amount":
                 check = App.get_running_app().root.current_screen.ids["c3d"]
                 try:
@@ -1472,7 +1453,7 @@ class Demo3App(MDApp):
                 except:
                     # check.text ="***HIDDEN***"
                     check.secondary_text = "***HIDDEN***"
-                    print("hidden***")
+                    logging.info("hidden***")
                 check.text = "Paychecks: " + str(len(pos_v2))
             if chart_list[i]["name"] == "OT Hours":
                 (
@@ -1492,14 +1473,14 @@ class Demo3App(MDApp):
         gg = js["shows"][today_index]
         import libs.lib_firefriend
 
-        print(message, "sending message")
+        logging.info(message, "sending message")
 
         libs.lib_firefriend.try_add_chat(self, gg, x, message)
         toast("Success!")
         self.do_chat(0)
 
     def do_chat(self, show):
-        # print(show)
+        # logging.info(show)
 
         self.root.push("chat")
         self.root.current_screen.ids["history_list"].clear_widgets()
@@ -1517,9 +1498,9 @@ class Demo3App(MDApp):
             "date"
         ]
         z = libs.lib_firefriend.view_chat(self, gg, x)
-        # print(z)
+        # logging.info(z)
 
-        # print(gg)
+        # logging.info(gg)
 
         for i in range(len(z)):
             try:
@@ -1532,14 +1513,14 @@ class Demo3App(MDApp):
                     )
                 )
             except:
-                print(z[i], "failure")
+                logging.info(z[i], "failure")
 
     def update_profile(self):
         bio = App.get_running_app().root.current_screen.ids["bio"].text
         phone = App.get_running_app().root.current_screen.ids["phone"].text
         nick = App.get_running_app().root.current_screen.ids["nick"].text
         button4 = App.get_running_app().root.current_screen.ids["button4"].text
-        # print(bio, phone, nick, pic)
+        # logging.info(bio, phone, nick, pic)
         x["bio"] = bio
         x["phone"] = phone
         x["nick"] = nick
@@ -1554,21 +1535,21 @@ class Demo3App(MDApp):
         toast(t)
 
     def do_profile(self):
-        print("profile")
+        logging.info("profile")
         l = ["bio", "phone", "nick", "button4", "name"]
         self.root.push("profile")
         for i in range(len(l)):
             try:
                 App.get_running_app().root.current_screen.ids[l[i]].text = x[l[i]]
             except:
-                print(x[l[i]])
+                logging.info(x[l[i]])
         # App.get_running_app().root.current_screen.ids["phone"].text = x["phone"]
         # App.get_running_app().root.current_screen.ids["nnmae"].text = x["nname"]
         # App.get_running_app().root.current_screen.ids["button4"].text = x["button4"]
         # App.get_running_app().root.current_screen.ids["name"].text = x["name"]
 
     def do_db(self):
-        print(
+        logging.info(
             "db",
         )
         import libs.lib_fire
@@ -1593,11 +1574,11 @@ class Demo3App(MDApp):
         import libs.lib_updateuserdata
 
         try:
-            print("already set")
+            logging.info("already set")
             return x[b]
 
         except:
-            print("not set yet")
+            logging.info("not set yet")
 
             x[b] = "False"
             libs.lib_updateuserdata.updateuser(x, ad)
@@ -1630,7 +1611,7 @@ class Demo3App(MDApp):
         from kivy.core.window import Window
 
         # Window.maximize()
-        # print ('windowmax')
+        # logging.info ('windowmax')
 
         # Window.size = (1366, 1366)
         # Window.fullscreen = True
@@ -1640,7 +1621,6 @@ class Demo3App(MDApp):
 
         # self.root.push("home")
         # toast("lol")
-
 
         zz = False
         if 1 == 1:
@@ -1652,24 +1632,23 @@ class Demo3App(MDApp):
                     zz = True
                     # toast('backdoor=true')
 
-                    print("user11true")
+                    logging.info("user11true")
                 if x.get("backdoor") == False:
                     zz = False
-                    print("user11false")
-                print("good user read")
+                    logging.info("user11false")
+                logging.info("good user read")
                 # toast("lol")
                 # toast(str(x.get("backdoor")+' test'))
-                # print('BACKDOOR')
+                # logging.info('BACKDOOR')
             except:
-                print("bad user read")
+                logging.info("bad user read")
                 # toast('backdoor=unknown')
                 # self.snackbar = Snackbar(text="bla", bg_color=self.theme_cls.primary_color)
                 # self.snackbar.open()
-        # toast("what")
-        print(zz, " BACKDOOR true or false")
+        logging.info(zz, " BACKDOOR true or false")
         self.theme_cls.primary_palette = x["pcolor"]
-        if x['theme']=='Light':
-            print ('switching to light mode')
+        if x["theme"] == "Light":
+            logging.info("switching to light mode")
         else:
             self.theme_cls.switch_theme()
         # if zz == True:
@@ -1679,7 +1658,7 @@ class Demo3App(MDApp):
                     "Backup": [
                         "backup-restore",
                         "on_press",
-                        lambda x: print("backup"),
+                        lambda x: logging.info("backup"),
                         "on_release",
                         lambda x: self.do_gbackup(),
                     ]
@@ -1690,7 +1669,7 @@ class Demo3App(MDApp):
                     "Export": [
                         "calendar-export",
                         "on_press",
-                        lambda x: print("export"),
+                        lambda x: logging.info("export"),
                         "on_release",
                         lambda x: self.do_google_cal(),
                     ]
@@ -1701,20 +1680,20 @@ class Demo3App(MDApp):
                     "Search": [
                         "magnify",
                         "on_press",
-                        lambda x: print("export"),
+                        lambda x: logging.info("export"),
                         "on_release",
                         lambda x: self.new_search(),
                     ]
                 }
             )
-            # self.data.update({'Add Event': ['calendar-plus',"on_press", lambda x: print("export"),"on_release", lambda x: self.add_event()]})
+            # self.data.update({'Add Event': ['calendar-plus',"on_press", lambda x: logging.info("export"),"on_release", lambda x: self.add_event()]})
         if 1 == 2:
             self.data.update(
                 {
                     "DEV": [
                         "debug",
                         "debug",
-                        lambda x: print("debug"),
+                        lambda x: logging.info("debug"),
                         "on_release",
                         lambda x: self.do_dev(),
                     ]
@@ -1725,7 +1704,7 @@ class Demo3App(MDApp):
                     "delete future": [
                         "debug",
                         "debug",
-                        lambda x: print("debug"),
+                        lambda x: logging.info("debug"),
                         "on_release",
                         lambda x: self.delete_future_shows(),
                     ]
@@ -1755,12 +1734,14 @@ class Demo3App(MDApp):
             toast(x)
 
     def add_event(self):
-        print("add_event")
+        logging.info("add_event")
         self.root.push("add_user_show")
 
     def new_search_bad(self):
         # content_cls=Content(),
-        button_ok = MDButton(text="what!", font_size=16, on_release=self.print_street2)
+        button_ok = MDButton(
+            text="what!", font_size=16, on_release=self.logging.info_street2
+        )
 
         self.alert = SweetAlert()
         self.alert.fire(
@@ -1792,11 +1773,11 @@ class Demo3App(MDApp):
         self.set_rate()
 
     def do_dev(self):
-        print("DEV MODE SCREEN")
+        logging.info("DEV MODE SCREEN")
         self.root.push("dev")
 
     def do_backdoor(self):
-        # print ('bla')
+        # logging.info ('bla')
         # toast("bla")
         import libs.lib_readuserdata
 
@@ -1818,7 +1799,7 @@ class Demo3App(MDApp):
             x["backdoor"] = False
             x["demo_count"] = 1
             toast("dev mode disabled")
-        print(x)
+        logging.info(x)
 
         import libs.lib_updateuserdata as lib_updateuserdata
 
@@ -1832,10 +1813,10 @@ class Demo3App(MDApp):
         show = xx9["shows"][idex]
         pos = show["pos"]
         sho = show["date"]
-        print(sho, "SHOWEEEEEE,", sho)
+        logging.info(sho, "SHOWEEEEEE,", sho)
 
         street_name = self.dialog.content_cls.ids.street.text
-        print(street_name)
+        logging.info(street_name)
 
         self.dialog.dismiss()
 
@@ -1844,7 +1825,7 @@ class Demo3App(MDApp):
         pos = str.split(pos, " ")
         # App.get_running_app().root.current_screen.ids["moneyinfordeszxdfxzs"].text="POO"
         # self.root.get_screen("animate").ids["moneyinfo"].text='str(v)'
-        # print (App.get_running_app().root.current_screen.ids["moneyinfo"].text)
+        # logging.info (App.get_running_app().root.current_screen.ids["moneyinfo"].text)
         import libs.lib_makeuserdata as lib_makeuserdata
 
         lib_makeuserdata.makeratefile(ad, street_name, pos[0])
@@ -1877,7 +1858,7 @@ class Demo3App(MDApp):
         ###works
         street_name = self.dialog.content_cls.ids.street.text
         # street_name="VGK"
-        print(street_name)
+        logging.info(street_name)
         self.dialog.dismiss()
         self.root.push("newsearch")
 
@@ -1891,7 +1872,7 @@ class Demo3App(MDApp):
 
         ssort = self.sort_search
         reverse_search = self.reverse_search
-        # print(rreverse, "REVERSE")
+        # logging.info(rreverse, "REVERSE")
 
         self.root.current_screen.ids["search_list"].clear_widgets()
         listofdicks = success
@@ -1899,7 +1880,7 @@ class Demo3App(MDApp):
         listofdicks = sorted(
             listofdicks, key=lambda i: i[ssort], reverse=reverse_search
         )
-        print(ssort, reverse_search, "SSORT WTF MAN")
+        logging.info(ssort, reverse_search, "SSORT WTF MAN")
 
         bu = ["YTD", "Year", "All", "Custom"]
         bu2 = ["timeIn", "Total", "tot_hours"]
@@ -1951,7 +1932,7 @@ class Demo3App(MDApp):
         self.root.get_screen("newsearch").ids.search_list.add_widget(panel)
 
         for z in range(len(listofdicks)):
-            # print(listofdicks[z])
+            # logging.info(listofdicks[z])
             time = listofdicks[z]["timeIn"]
             date, time = str.split(time, " ")
 
@@ -1994,21 +1975,21 @@ class Demo3App(MDApp):
         return str(y)
 
     def junk2(self, a):
-        print("junk2", a)
+        logging.info("junk2", a)
         z = self.alert.content_cls.ids
-        print(z)
+        logging.info(z)
 
     def get_data(self, instance_btn, content_cls):
         tf = content_cls.ids
-        print(tf)
-        # print ('bla',junk.text,dir(junk))
+        logging.info(tf)
+        # logging.info ('bla',junk.text,dir(junk))
         # jp=junk.parent
 
-        # print(dir(self.alert))
-        # print (self.alert.children,'text')
-        # print (dir(self.alert.children),'text')
-        # print (self.alert.ids['text'].input)
-        # print (self.alert.ids)
+        # logging.info(dir(self.alert))
+        # logging.info (self.alert.children,'text')
+        # logging.info (dir(self.alert.children),'text')
+        # logging.info (self.alert.ids['text'].input)
+        # logging.info (self.alert.ids)
 
     def prep_stats(self):
         fdate, ldate = self.get_dates("YTD")
@@ -2019,7 +2000,7 @@ class Demo3App(MDApp):
 
     def delete_show(self):
         z = App.get_running_app().root.current_screen.ids["rat"].text
-        print("DELETE SHOW", z)
+        logging.info("DELETE SHOW", z)
 
         import libs.lib_new
 
@@ -2027,10 +2008,10 @@ class Demo3App(MDApp):
             show, f = libs.lib_new.load_archive_json(ad, z)
             self.snackbarx("Delete Show")
         except:
-            print("old show data")
+            logging.info("old show data")
             self.snackbarx("failed to find show")
             return
-        print(f, "DELETESHOW DATA?")
+        logging.info(f, "DELETESHOW DATA?")
         import os
 
         os.remove(f)
@@ -2039,14 +2020,14 @@ class Demo3App(MDApp):
     import libs.lib_updateuserdata
 
     def save_current_screen2(self, t):
-        print(x, "TV")
+        logging.info(x, "TV")
         x["current"] = t
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
 
         # libs.lib_updateuserdata.updateuser(x, ad)
-        print("what in the hell")
+        logging.info("what in the hell")
         return "wow"
 
     def on_start2(self):
@@ -2057,18 +2038,18 @@ class Demo3App(MDApp):
 
         if 1 == 1:
             config_file = ad
-        print(tic - time.perf_counter(), "on start !!!")
+        logging.info(tic - time.perf_counter(), "on start !!!")
         import libs.lib_readuserdata
 
         try:
             x = libs.lib_readuserdata.readuserdata(App, config_file, ios)
-            print("read user data at begining")
+            logging.info("read user data at begining")
         except:
             import libs.lib_makeuserdata
 
             libs.lib_makeuserdata.makeuserdata(App, config_file, ios)
             x = libs.lib_readuserdata.readuserdata(App, config_file, ios)
-            print("made user data at begining!!!!!")
+            logging.info("made user data at begining!!!!!")
         if 1 == 1:
             # try:
             self.theme_cls.theme_style = x["theme"]
@@ -2077,7 +2058,7 @@ class Demo3App(MDApp):
             self.theme_cls.material_style = "M3"
         # except:
         #    pass
-        # print(x, "lol")
+        # logging.info(x, "lol")
 
         # self.do_login("", useold)
         x1 = self.theme_cls.theme_style
@@ -2085,7 +2066,7 @@ class Demo3App(MDApp):
         # x3 = self.theme_cls.accent_palette
         # x4 = self.theme_cls.material_style
         self.theme_cls.update_theme_colors()
-        print(
+        logging.info(
             x1,
             x2,
             "THEME STUFF",
@@ -2103,16 +2084,16 @@ class Demo3App(MDApp):
             )
         except:
             asdf = "1.1"
-        print(asdf)
+        logging.info(asdf)
 
         if 1 == 1:
             if x["today_start"] == False:
-                print("oldstart1!!!")
+                logging.info("oldstart1!!!")
                 # self.newstart("", useold)
 
             if x["today_start"] == True:
                 # toast("Success " + asdf)
-                print("newstart!@!")
+                logging.info("newstart!@!")
                 # self.today()
                 # self.md2()
         # except:
@@ -2120,10 +2101,10 @@ class Demo3App(MDApp):
 
     def md2(self):
         self.root.push("md2")
-        print("md2")
+        logging.info("md2")
 
     def callback(self, instance_button):
-        print(
+        logging.info(
             self.alert,
         )
         b = instance_button.text
@@ -2136,14 +2117,16 @@ class Demo3App(MDApp):
         if nb == 8:
             self.alert.dismiss()
             self.root.push("login")
+
     def pre_login(self):
         self.menu3.dismiss()
         self.root.push("login")
-    def do_onboarding(self,i):
+
+    def do_onboarding(self, i):
         legal = "While Schedulara is designed to help you stay organized and manage your schedule, we are not responsible for any missed gigs, or other issues that may arise. It is ultimately your responsibility to ensure that you are available for events and to communicate any scheduling conflicts to your team. Use our app at your own risk."
-        ee='wat'
-        #legal=legal*5
-        gg='what2'
+        ee = "wat"
+        # legal=legal*5
+        gg = "what2"
         self.menu3 = MDDialog(
             # type=simple,
             # ----------------------------Icon-----------------------------
@@ -2159,7 +2142,7 @@ class Demo3App(MDApp):
                 text="created by Kevin Wulff",
             ),
             MDDialogSupportingText(
-                text='@kevlights',
+                text="@kevlights",
             ),
             # -----------------------Custom content------------------------
             MDDialogContentContainer(
@@ -2175,27 +2158,22 @@ class Demo3App(MDApp):
                     MDExtendedFabButtonText(
                         text="Accept and Continue",
                     ),
-                    #MDExtendedFabButtonIcon(
+                    # MDExtendedFabButtonIcon(
                     #    icon="check-circle",
-                    #),
-
-
-
-                    #style="small",
-                    #icon="content-copy",
-                    #text='View Demo',
-                    #MDExtendedFabButtonText(text=)
-
+                    # ),
+                    # style="small",
+                    # icon="content-copy",
+                    # text='View Demo',
+                    # MDExtendedFabButtonText(text=)
                     on_release=lambda x, y=(ee): self.pre_login(),
-
                 ),
                 MDExtendedFabButton(
                     MDExtendedFabButtonText(
                         text="Demo",
                     ),
-                    #icon="close-box",
+                    # icon="close-box",
                     style="small",
-                    #text='Accept and Continue',
+                    # text='Accept and Continue',
                     on_release=lambda x, y=(gg): self.menu3.dismiss(),
                 ),
                 spacing="20dp",
@@ -2204,17 +2182,14 @@ class Demo3App(MDApp):
                 size_hint=(None, None),
                 pos_hint={"center_x": 0.5, "center_y": 0.5},
                 center_y=2100,
-            ),\
+            ),
             # -------------------------------------------------------------
         )
 
         App.get_running_app().root.current_screen.ids["test2"] = self.menu3
         self.menu3.open()
 
-
-
     def do_onboarding2(self, i):
-
         welcome = "Welcome to our Schedulara! Manage your schedule with ease and view upcoming events Let's get started!"
         demo = """To get started, please select one of the following options:
 
@@ -2253,12 +2228,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             [button_login, button_cancel],
         )
         self.alert = SweetAlert()
-        #self.alert.fire(title[i], text[i], buttons=bb[i])
+        # self.alert.fire(title[i], text[i], buttons=bb[i])
         return True
 
     def soon(self, b):
         toast("Coming Soon!")
-        print(b)
+        logging.info(b)
 
     def show_profile(self, name, d, zzl, i):
         from kivymd.uix.dialog import MDDialog as md33
@@ -2271,19 +2246,19 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         self.dialog_name = [0] * (int(zzl) + 1)
         # for q in range(len(profile)):
-        #    print(profile[q]["name"], q)
-        # print(profile[i]["name"], name, i, "why")
-        # print(profile[i], "what emails bitch")
+        #    logging.info(profile[q]["name"], q)
+        # logging.info(profile[i]["name"], name, i, "why")
+        # logging.info(profile[i], "what emails bitch")
         pro = libs.lib_firefriend.get_profile(profile[i]["Email"])
-        # print(pro)
+        # logging.info(pro)
         # pro.value
         # (name2) = pro.items()
-        # print(
+        # logging.info(
         #    name2,
         # )
         try:
             for key, value in pro.items():
-                print(key, value)
+                logging.info(key, value)
             prof = (
                 "[size=30]"
                 + key
@@ -2297,11 +2272,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 + value["bio"]
             )
         except:
-            print(profile[i])
+            logging.info(profile[i])
             prof = profile[i]["name"]
             toast("profile not found :(")
 
-        # print(i, zzl, self.dialog_name, "WHATTTTT")
+        # logging.info(i, zzl, self.dialog_name, "WHATTTTT")
         if not self.dialog_name[i]:
             self.dialog_name[i] = md33(
                 text=str(prof),
@@ -2337,19 +2312,19 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         a,
         b,
     ):
-        # print("bla", type(a), type(b), "\nblabla")
-        # print(a, b.index)
+        # logging.info("bla", type(a), type(b), "\nblabla")
+        # logging.info(a, b.index)
 
-        # print("bla222", (data), (b), "\nblabla222")
+        # logging.info("bla222", (data), (b), "\nblabla222")
         name = a.row_data
         name = name[0]
-        # print(name)
-        # print(dir(b))
-        # print("OMG")
+        # logging.info(name)
+        # logging.info(dir(b))
+        # logging.info("OMG")
         zz = int(b.index) / 5
         zzl = zz * 5
         zz = str(zz)
-        # print(zz, "zzzzzz")
+        # logging.info(zz, "zzzzzz")
         i, r = str.split(zz, ".")
         i = int(i)
         name = name[i * 5]
@@ -2358,7 +2333,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def check_in(self, gg):
         global profile
         global profile_data
-        # print(gg, x)
+        # logging.info(gg, x)
         self.dialog_close()
         #
         self.root.push("checkin")
@@ -2369,7 +2344,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         names, t, d = libs.lib_firefriend.try_add_show(App, gg, x)
         toast(t)
         profile = d
-        # print(profile, "WHY YOU SUCK)")
+        # logging.info(profile, "WHY YOU SUCK)")
         """
         names = libs.lib_firefriend.add_show(App, gg, x)
         names = libs.lib_firefriend.add_show(App, gg, x)
@@ -2378,7 +2353,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         names = libs.lib_firefriend.add_show(App, gg, x)
         names = libs.lib_firefriend.add_show(App, gg, x)
         """
-        # print(names)
+        # logging.info(names)
 
         tables = MDDataTable(
             # size_hint=(0.9, 0.6),
@@ -2398,26 +2373,26 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 # of the `column_data` list.
             ],
         )
-        tables.bind(on_row_press=self.print_id)
-        # tables.bind(lambda x, y=d,: self.print_id(y))
+        tables.bind(on_row_press=self.logging.info_id)
+        # tables.bind(lambda x, y=d,: self.logging.info_id(y))
         # tables.bind(
         #    on_row_press=(
         #        lambda x, y=(
         #            "x",
         #            "x",
         #            d,
-        #        ): self.print_id(names, tables, d)
+        #        ): self.logging.info_id(names, tables, d)
         #    )
         # )
 
-        # (lambda x, y=d,: self.print_id(y))
+        # (lambda x, y=d,: self.logging.info_id(y))
         self.root.current_screen.ids["check_id"].add_widget(tables)
 
     def click_cal(self, info, js):
         self.pop_new([info, js])
         """
-        print(type(info), info, "infooooo")
-        print(js[info], "full thingy", str(js[info]["date"]))
+        logging.info(type(info), info, "infooooo")
+        logging.info(js[info], "full thingy", str(js[info]["date"]))
         title5 = js[info]["show"]
         text55 = (
             str(js[info]["date"])
@@ -2559,7 +2534,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_positions
 
         if isinstance(d, str):
-            print(d, "this is ddd")
+            logging.info(d, "this is ddd")
             junk, d = str.split(d, "#####")
             d = int(d)
         if isinstance(d, list):
@@ -2571,9 +2546,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         pos = libs.lib_positions.get_position_name(ad, gg["pos"])
         # type = libs.lib_positions.get_position_name(ad, gg["type"])
-        print
+        logging.info
         self.find_type(d, "type")
-        print(
+        logging.info(
             pos,
             # type,
             "whthththht",
@@ -2683,7 +2658,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.menu.open()
 
     def pop_new2(self, d):
-        print("pop_new")
+        logging.info("pop_new")
         global today_index
         today_index = d
 
@@ -2694,7 +2669,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         js = libs.lib_new.get_json_schedule_1(x, ad)
         gg = js["shows"][d]
-        # print(gg)
+        # logging.info(gg)
         ngg = (
             gg["show"]
             + "\n"
@@ -2742,7 +2717,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def ampm(self, z):
         h, m = str.split(z, ":")
         h = int(h)
-        print(h)
+        logging.info(h)
         ppp = " AM"
         h2 = h
         if h == 12 and m == "00":
@@ -2773,12 +2748,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 data = json.load(json_file)
         except:
             lib_makegraphs.make_full_json_pp(ad, "fdate", "ldate", True)
-        print("build_full_pp")
+        logging.info("build_full_pp")
         toc6 = time.perf_counter()
         t = toc6 - toc5
         # toast(str(round(t, 2)))
         data = libs.lib_parse2.load_full_pp(ad, "full_pp.json", "p_rate")
-        print(len(data["shows"]), "mother of data")
+        logging.info(len(data["shows"]), "mother of data")
         pay_checks = data["shows"]
         tot = 0
         with open(ad + "/position_list.json", "r") as json_file:
@@ -2787,13 +2762,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         json_file.close()
         for x in range(len(pay_checks)):
             gigs = pay_checks[x]["gigs"]
-            # print(gigs,"paychecks sub x",)
+            # logging.info(gigs,"paychecks sub x",)
             for y in range(len(gigs)):
-                # print(gigs[y]["Rate"], gigs[y]["pos"], "gigs")
+                # logging.info(gigs[y]["Rate"], gigs[y]["pos"], "gigs")
                 tot = tot + 1
-                print(len(real_list_values), "realvalues")
+                logging.info(len(real_list_values), "realvalues")
                 for z in range(len(real_list_values)):
-                    # print(real_list_values[z])
+                    # logging.info(real_list_values[z])
                     if real_list_values[z]["abv"] == gigs[y]["pos"]:
                         if real_list_values[z].get("rate") == None:
                             real_list_values[z]["rate"] = 0
@@ -2803,7 +2778,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         with open(ad + "/position_list.json", "w") as outfile:
             json.dump(real_list, outfile)
         outfile.close()
-        print(tot, "tot gigs")
+        logging.info(tot, "tot gigs")
 
     def find_type(self, a, b):
         import libs.lib_new
@@ -2819,7 +2794,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         icons = libs.lib_positions.get_positions(ad, "")
 
-        # print(icon, "newICON")
+        # logging.info(icon, "newICON")
         for xx in range(len(icons)):
             if icons[xx]["abv"] == icon:
                 return icons[xx]["icon"]
@@ -2829,10 +2804,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import pkg_resources
 
         x = pkg_resources.get_distribution("kivymd").version
-        print(x, "listofkivymd")
+        logging.info(x, "listofkivymd")
 
         y = pkg_resources.get_distribution("kivy").version
-        print(y, "listofkivy")
+        logging.info(y, "listofkivy")
         return x, y
 
     def today(self):
@@ -2847,21 +2822,21 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         p = self.piplist()
 
         # toast(str(p))
-        print(str(p), "piplistggggg")
+        logging.info(str(p), "piplistggggg")
 
         #  libs.lib_think.login_basic(ad, x, App)
 
         # self.update_internal("opened", 1)
 
         self.root.push("today")
-        print(self.root.current_screen.name, "current_screen")
+        logging.info(self.root.current_screen.name, "current_screen")
         self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
 
         #####hustle error checks
-        print(x, "this is xxx")
+        # logging.info(x, "this is xxx")
         if 1 == 1:
             js = libs.lib_new.get_json_schedule(x, ad)
-        # print("js,wtfiswrong", js)
+        # logging.info("js,wtfiswrong", js)
         # except:
 
         self.root.get_screen("today").ids["pay1"].text = "blue"
@@ -2900,7 +2875,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.root.get_screen("today").ids[li[i]].text = (
                 color + show_date + " " + ntime
             )
-            print(li[i] + str(i + 1), "thisistheid")
+            # logging.info(li[i] + str(i + 1), "thisistheid")
             self.root.get_screen("today").ids[li[i] + "2"].text = (
                 color + shows[i]["show"]
             )
@@ -2909,9 +2884,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             z44 = dir(self.root.get_screen("today").ids[li_l[i]])
             self.root.get_screen("today").ids[li_l[i]].icon = self.find_type(i, "type")
             self.root.get_screen("today").ids[li_r[i]].icon = self.find_type(i, "pos")
-            # print(z44, "leftwidget")
+            # logging.info(z44, "leftwidget")
             fff = self.root.get_screen("today").ids[li[i]].children
-            print(fff, dir(fff), "FFFFFFFF")
+            # logging.info(fff, dir(fff), "FFFFFFFF")
             # fff.MDListItemSupportingText.text = "wowwwww"
             # self.root.get_screen("today").ids["first1"].text = ntime
             # self.root.get_screen("today").ids["first2"].text = ntime
@@ -2929,14 +2904,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         except:
             qq.branding_f.source = "images/logo/logo2.png"
             # qq.name3.text = "Schedulara"
-            print("sch5")
+            logging.info("sch5")
         qq.branding_f.source = "images/logo/logo.png"
         # if x['branding']== False:
         #    qq.name2.text="NOOOOOO"
-        # print(qq, "BRANDING")
+        # logging.info(qq, "BRANDING")
         numshows = len(shows)
         numconf = js["num_shows"]
         confirmable = numshows - numconf
+        # if 1==1:
         try:
             update = js["updated"]
 
@@ -2947,7 +2923,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             next_show = datetime.strptime(next_show, "%m/%d/%Y %H:%M")
             bb = 0
             nns = now - next_show
-            # print('asdfasdf',nns,type(nns),shows)
+            # logging.info('asdfasdf',nns,type(nns),shows)
 
             while (nns) >= timedelta(0):
                 next_show = shows[bb]["date"] + " " + shows[bb]["time"]
@@ -2960,7 +2936,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             # except:
             #    diff2 = ""
             #    diff3 = ""
-            # print(diff2)
+            # logging.info(diff2)
 
             if numconf == 0:
                 stat_text = str(numshows) + " Confirmed"
@@ -2985,7 +2961,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         except:
             self.snackbarx("failed to get times")
-            print("failed to get times")
+            logging.info("failed to get times")
             self.root.get_screen("today").ids["stats"].text = "Invalid Show Data. "
             self.root.get_screen("today").ids[
                 "stats"
@@ -2996,9 +2972,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             # paylist.tertiary_text = "third" + payperiod
             1
         paylist2 = self.root.get_screen("today").ids["pay2"]
-        paylist2.text = "Payperiod: " + payperiod
+        try:
+            paylist2.text = "Payperiod: " + payperiod
+        except:
+            logging.info("payperiod not found")
         #####ALWAYS ONBOARD
-        #self.do_onboarding(0)
+        # self.do_onboarding(0)
         if x.get("onboarding") == None:
             b = self.do_onboarding(0)
             x["onboarding"] = True
@@ -3015,7 +2994,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         month = now.strftime("%m")
         year = now.strftime("%Y")
         mmonth = now.strftime("%B")
-        print(now, "NOW NOW NOW")
+        logging.info(now, "NOW NOW NOW")
         self.make_calendar_today(month, year, mmonth)
         self.do_pp_sum(0, "cal")
 
@@ -3027,22 +3006,36 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # %B
         dd = datetime.datetime.strptime(day, "%B %Y")
         di = {}
-        for z in range(31):
+        import libs.lib_archive
 
+        z, z1, f1, f2 = self.find_pay_date(dd.date())
+
+        listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
+        # logging.info (listofdicks,'listofdicks for calendar')
+
+        logging.info(len(listofdicks), "listofdicks2234", f1, f2, day)
+
+        for z in range(31):
             status, info = self.check_working(z, dd.month, dd.year, js["shows"])
-            #print(status, info, z)
+            status_old, info_old = self.check_working(z, dd.month, dd.year, listofdicks)
+            # logging.info(status, info_old, z)
             di.update(info)
-            # print(type(dd.month), type(dd.year), "wtfff")
-        # print(day)
-        libs.lib_pdf.alt(x['name'],ad, di, dd.month, dd.year)
+            di.update(info_old)
+            # logging.info(type(dd.month), type(dd.year), "wtfff")
+        # logging.info(day)
+        libs.lib_pdf.alt(x["name"], ad, di, dd.month, dd.year)
 
     def make_calendar_today(self, month, year, mmonth):
         ###do calendar!!
-        print("make calendar", month, year)
-        import libs.lib_new
+        import libs.lib_archive
+
+        # logging.info("make calendar", month, year,mmonth)
+        # logging.info (self.archive_trim,'archive_trim')
+        z, z1, f1, f2 = self.find_pay_date(month + "-" + year)
+        listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
+        # logging.info (str(len(listofdicks))+'listofdicks55 '+str(f1)+' '+str(f2))
 
         js = libs.lib_new.get_json_schedule(x, ad)
-        import libs.lib_cal
 
         from datetime import date
 
@@ -3059,7 +3052,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.current_screen.ids["calm"].clear_widgets()
         c = libs.lib_cal.basic_cal(month, year)
         # yyy = self.theme_cls
-        # print(dir(yyy))
+        # logging.info(dir(yyy))
 
         week_l = ["S", "M", "T", "W", "T", "F", "S"]
         for we in range(len(week_l)):
@@ -3090,7 +3083,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             for day in range(len(c[1])):
                 dd = c[week][day]
 
-                # print(dd, type(dd), dd.day, "c sub week")
+                # logging.info(dd, type(dd), dd.day, "c sub week")
                 b_color = "black"
                 # t_color = "white"
                 status = "false"
@@ -3105,10 +3098,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 if week == 0:
                     if dd.day <= int(c[week][6].day):
                         b_color = "black"
-                        # print("changing it to primamary")
+                        # logging.info("changing it to primamary")
                     else:
                         b_color = gray
-                        # print("changing it to black")
+                        # logging.info("changing it to black")
                 if (
                     int(dd.day) == int(now_day)
                     and int(dd.month) == int(now_month)
@@ -3116,29 +3109,27 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 ):
                     b_color = self.theme_cls.primaryColor
                     # t_color = self.theme_cls.secondaryColor
-                    print(
-                        "its today!",
-                        dd.day,
-                        now_day,
-                        dd.month,
-                        b_color,
-                        self.theme_cls.primary_palette,
-                        self.theme_cls.primaryColor,
+
+                if 1 == 1:
+                    status, info = self.check_working(
+                        dd.day, dd.month, dd.year, js["shows"]
                     )
 
-                status, info = self.check_working(
-                    dd.day, dd.month, dd.year, js["shows"]
+                status_old, info_old = self.check_working(
+                    dd.day, dd.month, dd.year, listofdicks
                 )
 
                 # rint(status, "STATUSSSSS")
+                t_color = "gray"
+                if status_old == True:
+                    t_color = self.theme_cls.secondaryColor
                 if status == True:
                     # self.theme_cls.primary_palette = x["pcolor"]
                     ####GIG COLOR
-                    #t_color = "blue"
-                    t_color = self.theme_cls.primaryColor
+                    t_color = "blue"
+                    # t_color = self.theme_cls.primaryColor
 
-                if status == False:
-                    t_color = "gray"
+                # if status == False:
 
                 self.root.get_screen("today").ids["cal" + str(week)].add_widget(
                     # MDRectangleFlatIconButton(
@@ -3172,15 +3163,17 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         callist.text = mmonth + " " + year
 
     def find_cal(self, y):
-        # print(self, y, y.text, dir(y), "this is a calendar click")
+        import libs.lib_archive
+
+        logging.info(self, y, y.text, "this is a calendar click")
         from dateutil.relativedelta import relativedelta
 
-        # print(y.background_color, y.color, "bg color")
-        # print(self.theme_cls.bg_dark[0], self.theme_cls.bg_dark, "colors")
+        # logging.info(y.background_color, y.color, "bg color")
+        # logging.info(self.theme_cls.bg_dark[0], self.theme_cls.bg_dark, "colors")
         bg = "black"
         offset = 0
         if y.background_color[0] == 0.9333333333333333:
-            # print(".933")
+            # logging.info(".933")
             bg = "gray"
             if int(y.text) > 20:
                 offset = -1
@@ -3188,18 +3181,27 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 offset = 1
 
         if y.background_color[0] == 0.0:
-            print(".0")
+            logging.info(".0")
         if y.background_color[0] == self.theme_cls.primaryColor[0]:
-            print("red.primary")
+            logging.info("red.primary")
             bg = "red"
 
         callist = self.root.get_screen("today").ids["cal_month"].text
-        print(callist, "callist")
-        callist = callist + " " + str(y.text)
-        cur_month = datetime.datetime.strptime(callist, "%B %Y %d").date()
-        cur_month = cur_month + relativedelta(months=+offset)
+        logging.info(callist, "callist")
+        # callist = callist + " " + str(y.text)
 
-        print(cur_month, "curmonth")
+        cur_month = datetime.datetime.strptime(callist, "%B %Y").date()
+        cur_month = cur_month + relativedelta(months=+offset)
+        logging.info(cur_month, "monthttasadf")
+        y1, m1, d1 = str.split(str(cur_month), "-")
+        cur_month = y1 + "-" + m1
+        cur_month = datetime.datetime.strptime(
+            str(cur_month) + " " + str(y.text), "%Y-%m %d"
+        ).date()
+        z, z1, f1, f2 = self.find_pay_date(cur_month)
+        listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
+
+        logging.info(cur_month, "curmonth", str(y.background_color), offset)
         dd = cur_month
         import libs.lib_new
 
@@ -3210,23 +3212,43 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         js = libs.lib_new.get_json_schedule(x, ad)
         try:
             status, info = self.check_working(dd.day, dd.month, dd.year, js["shows"])
+            logging.info(status, "NEW STATUS")
         except:
             status = False
+        try:
+            status_old, info_old = self.check_working(
+                dd.day, cur_month.month, dd.year, listofdicks
+            )
+            logging.info(status_old, "oldstatus")
+        except:
+            status_old = False
         js = js["shows"]
         pops = []
+        done = False
         for x4 in range(len(js)):
-            print(js[x4]["date"], "jsdate")
+            logging.info(js[x4]["date"], "jsdate")
             show_date = datetime.datetime.strptime(js[x4]["date"], "%m/%d/%Y").date()
-            # print(show_date, cur_month, "asdfasdf")
-            if show_date == cur_month:
-                print("omg you found a real date", js[x4]["show"])
+            # logging.info(show_date, cur_month, "asdfasdf")
+            if show_date == cur_month and done == False:
+                logging.info("omg you found a real date", js[x4]["show"])
                 pops.append(x4)
-
-        if len(pops) > 0:
-            self.click_cal(pops[0], js)
+                if len(pops) > 0:
+                    done = True
+                    self.click_cal(pops[0], js)
+        for x5 in range(len(listofdicks)):
+            show_date = datetime.datetime.strptime(
+                listofdicks[x5]["date"], "%m/%d/%Y"
+            ).date()
+            logging.info(show_date, cur_month, "showandmonth")
+            if show_date == cur_month and done == False:
+                logging.info("omg you found an old date", listofdicks[x5]["show"])
+                pops.append(x5)
+                if len(pops) > 0:
+                    done = True
+                    self.click_cal(pops[0], listofdicks)
 
     def cal_next(self, instance):
-        print("cal next", instance)
+        logging.info("cal next", instance)
         import libs.lib_new
 
         # info = instance.text
@@ -3234,7 +3256,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         info = int(instance)
 
         js = libs.lib_new.get_json_schedule(x, ad)
-        # print(js[info])
+        # logging.info(js[info])
         js = js["shows"]
 
         if info > -1 and info < len(js):
@@ -3242,11 +3264,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.click_cal(info, js)
 
     def cal_close(self, instance):
-        print("cal close", instance.text)
+        logging.info("cal close", instance.text)
         self.alert.dismiss()
 
     def check_working(self, day, month, year, js):
-        # print(day, month, year, "daymonthyear!")
+        # logging.info(day, month, year, "daymonthyear!")
         found = False
         data = {}
         data2 = {}
@@ -3255,15 +3277,17 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         vlist = []
         tlist = []
         slist = []
+        olist = []
         for xy in range(len(js)):
             d = js[xy]["date"]
+            # logging.info (d,'listofdates for shows','checkworkikng')
             smonth, sdate, syear = str.split(d, "/")
             smonth = int(smonth)
             sdate = int(sdate)
             syear = int(syear)
             if smonth == month and sdate == day and syear == year:
                 # multi = multi + 1
-                # print("OMG YOU FOUND IT on ", js[xy])
+                # logging.info("OMG YOU FOUND IT on ", js[xy])
                 found = True
                 show = js[xy]["show"]
                 show = str.replace(show, "\n", "")
@@ -3280,27 +3304,31 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         "venue" + str(multi): venue,
                         "show" + str(multi): show,
                         "time" + str(multi): js[xy]["time"],
+                        "out" + str(multi): js[xy]["endtime"],
                     }
                 }
 
                 vlist.append(venue)
                 slist.append(show)
                 tlist.append(js[xy]["time"])
+                olist.append(js[xy]["endtime"])
+
                 # dlist.append(data)
-        #print(len(vlist), "lenvlist")
+        # logging.info(len(vlist), "lenvlist")
         if len(vlist) > 1:
             for i in range(len(vlist)):
                 data[day]["venue" + str(i)] = vlist[i]
                 data[day]["show" + str(i)] = slist[i]
                 data[day]["time" + str(i)] = tlist[i]
+                data[day]["out" + str(i)] = olist[i]
 
-        # print(data2, "multi")
+        # logging.info(data, "multi")
         from datetime import datetime, timedelta
 
         return (found, data)
 
     def update_today_pp(self, pp):
-        print(pp, "update_today_pp")
+        # logging.info(pp, "update_today_pp")
         tot_shows = 0
         complete_shows = 0
         from datetime import datetime, timedelta
@@ -3314,7 +3342,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         shows = js["shows"]
 
         paydate, payperiod = self.find_pay_date(pp)
-        # print(shows, "shows")
+        # logging.info(shows, "shows")
         pd = datetime.strptime(paydate, "%m/%d/%Y")
         for i in range(len(shows)):
             show_date = datetime.strptime(shows[i]["date"], "%m/%d/%Y")
@@ -3326,15 +3354,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 tot_shows = tot_shows + 1
                 # if 1 == 1:
                 bb = libs.lib_new.get_archive_json(ad, shows[i])
-                # print(bb, "bb")
-                # print(bb.get("earnings"))
+                # logging.info(bb, "bb")
+                # logging.info(bb.get("earnings"))
                 if (bb.get("earnings")) != None:
-                    print(bb["earnings"], "         earnings!@!!")
+                    logging.info(bb["earnings"], "         earnings!@!!")
                     complete_shows = complete_shows + 1
                 # if shows[i].get("earnings") != None:
-                # print(shows[i]["earnings"], "endtime")
+                # logging.info(shows[i]["earnings"], "endtime")
 
-            # print(min_date, show_date.date(), max_date)
+            # logging.info(min_date, show_date.date(), max_date)
             paylist = self.root.get_screen("today").ids["pay3"]
         paylist.text = "Saved Times: " + str(complete_shows) + " / " + str((tot_shows))
 
@@ -3344,7 +3372,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         a = libs.lib_fieldnotes.make_notes(ad, x)
 
     def view_fieldnotes(self, term):
-        print("view_fieldnotes", term)
+        logging.info("view_fieldnotes", term)
         global note_index
         self.root.push("allfieldnotes")
         # self.update_fieldnotes()
@@ -3359,23 +3387,23 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # App.get_running_app().root.current_screen.ids["payperiod_list"].clear_widgets()
         # self.root.current_screen.clear_widgets()
         lpos = pos
-        # print(lpos, "lpos")
+        # logging.info(lpos, "lpos")
         # self.root.push("icons")
         self.root.current_screen.ids["payperiod_list"].clear_widgets()
 
         for z in range(0, len(lpos)):
             show = True
-            # print(lpos[z], "lpoz")
+            # logging.info(lpos[z], "lpoz")
             third = ""
             if lpos[z].get("rate") != None:
                 if x["pp_hidden"] == True:
                     third = "$" + str(lpos[z]["rate"])
                 else:
                     third = "Rate Hidden"
-            # print(lpos[z].get("rate"), "get_rate")
+            # logging.info(lpos[z].get("rate"), "get_rate")
             # try:
             #    gg = int(lpos[z]["rate"])
-            #    print (gg)
+            #    logging.info (gg)
             # except:
             #    if x["pp_all"] == False:
             #        show = False
@@ -3386,7 +3414,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             )
             note_index = y
             if lpos[z].get("rate") == None:
-                # print(third, "thirddddd", x["pp_all"])
+                # logging.info(third, "thirddddd", x["pp_all"])
                 # if x["pp_all"] == False:
                 #    show = False
                 pass
@@ -3396,27 +3424,28 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 self.root.current_screen.ids["payperiod_list"].add_widget(
                     OneLineListItem(
                         text=lpos[z]["title"] + "[size=0]@#$" + lpos[z]["num"],
-                        on_release=lambda x, y=(
+                        on_release=lambda x,
+                        y=(
                             lpos[z]["title"],
                             lpos[z]["url"],
                             lpos[z]["num"],
                         ): self.view_fieldnote(y),
                     )
                 )
-            # print(z, "icons!!")
+            # logging.info(z, "icons!!")
 
     def view_picture2(self):
-        print("view picture2")
+        logging.info("view picture2")
 
     def view_picture(self):
-        print("view picture")
+        logging.info("view picture")
 
     def toggle_star(self):
         pass
 
-        print("toggle")
+        logging.info("toggle")
         text = self.root.current_screen.ids["box"].text
-        # print(text, text)
+        # logging.info(text, text)
         junk, text = str.split(text, "asdfzxcv")
         note = int(text)
 
@@ -3425,7 +3454,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         libs.lib_fieldnotes.toggle_fav_note(ad, note)
         # self.root.current_screen.ids["what"].clear_widgets()
         rai = self.root.current_screen.ids["what"]
-        # print(rai.right_action_items[2][1], "whatisths")
+        # logging.info(rai.right_action_items[2][1], "whatisths")
         if rai.right_action_items[2][0] == "star":
             rai.right_action_items[2] = (
                 "star-outline",
@@ -3440,29 +3469,29 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 "help",
             )
 
-        print(
+        logging.info(
             text,
             "toggle it you nerd",
         )
         y = ("", "", note)
-        # print(
+        # logging.info(
         #    self.root.current_screen.ids["what"].left_action_items[0], "leftactioinitms"
         # )
         # self.view_fieldnote(y)
 
     def check_fav(self):
-        # print("check star")
+        # logging.info("check star")
 
-        # print("check")
+        # logging.info("check")
         text = self.root.current_screen.ids["box"].text
-        # print(text, text)
+        # logging.info(text, text)
         junk, text = str.split(text, "asdfzxcv")
         note = int(text)
 
         import libs.lib_fieldnotes
 
         fav = libs.lib_fieldnotes.check_fav_note(ad, note)
-        # print(
+        # logging.info(
         #    fav,
         #    "is it favrite",
         #    self.root.current_screen.ids["what"].right_action_items[2][0],
@@ -3473,13 +3502,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             == "star-outline"
         ):
             self.toggle_star()
-            # print("toggled1")
+            # logging.info("toggled1")
         if (
             fav == False
             and self.root.current_screen.ids["what"].right_action_items[2][0] == "star"
         ):
             self.toggle_star()
-            # print("toggled2")
+            # logging.info("toggled2")
 
     def view_fieldnote(self, y):
         if y == "no":
@@ -3488,7 +3517,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.push("fieldnote")
         # self.root.current_screen.ids["what"].clear_widgets()
 
-        print(y, "view single fieldnote")
+        logging.info(y, "view single fieldnote")
         import libs.lib_fieldnotes
         import libs.lib_readuserdata
         from kivymd.uix.card import MDCard
@@ -3504,20 +3533,20 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if toast_status != "":
             toast(toast_status)
         if picture != "":
-            print(picture, picture_url, "picture stuff")
+            logging.info(picture, picture_url, "picture stuff")
             try:
                 a = open(ad + "/note_pictures/" + picture)
-                print("found picture")
+                logging.info("found picture")
             except:
                 try:
                     os.mkdir(ad + "/note_pictures")
                 except:
-                    print("note pictures already exists")
+                    logging.info("note pictures already exists")
 
                 urllib.request.urlretrieve(
                     picture_url, ad + "/note_pictures/" + picture
                 )
-                print("downloaded picture")
+                logging.info("downloaded picture")
             browser = nb
             loaded = ad + "/note_pictures/" + picture
             # self.root.current_screen.ids["pic"].source = ad + "/note_pictures/" + picture
@@ -3563,12 +3592,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             )
 
             #
-            # print(text, "HOLY GOD ITS TEXT")
+            # logging.info(text, "HOLY GOD ITS TEXT")
 
-            # print(text)
+            # logging.info(text)
 
         ss = "[size=" + str(x["text_size"]) + "sp]"
-        # print(ss, "this is the text")
+        # logging.info(ss, "this is the text")
         self.root.current_screen.ids["box"].text = (
             ss + str(text) + "[size=0sp]asdfzxcv" + str(y[2])
         )
@@ -3579,9 +3608,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_readuserdata
 
         walls = libs.lib_readuserdata.get_wallpapers()
-        print("wallpaper screen")
+        logging.info("wallpaper screen")
         self.root.push("wallpaper")
-        # print(walls, "list of walls")
+        # logging.info(walls, "list of walls")
         if i < 0:
             i = len(walls) - 1
         if i > len(walls) - 1:
@@ -3602,7 +3631,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def change_wall(self, i):
         t = self.root.current_screen.ids["n"].text
-        print(t, "tbutton")
+        logging.info(t, "tbutton")
         junk, t = str.split(t, "$$$")
 
         self.do_wallpaper_screen(i + int(t))
@@ -3610,7 +3639,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def do_zoom(self, pic):
         self.root.push("zoom")
 
-        print(pic, "PIC")
+        logging.info(pic, "PIC")
 
         scatter = Scatter(
             do_translation=True,
@@ -3619,14 +3648,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             height=500,
             width=500,
         )
-        print(pic)
+        logging.info(pic)
 
         image = AsyncImage(source=pic)
         self.root.current_screen.ids["sbox"].add_widget(image)
 
     def set_text_size(self, s):
-        # print("set text size")
-        print(note_index, "this is the note index")
+        # logging.info("set text size")
+        logging.info(note_index, "this is the note index")
 
         import libs.lib_readuserdata
 
@@ -3636,24 +3665,24 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             x["text_size"] = 15
 
         x["text_size"] = x["text_size"] + s
-        print(x["text_size"], " TEXT SIZE")
+        logging.info(x["text_size"], " TEXT SIZE")
 
         import libs.lib_updateuserdata
 
         libs.lib_updateuserdata.updateuser(x, ad)
-        # print(note_index, "note_indexxxx")
+        # logging.info(note_index, "note_indexxxx")
         #
         p = self.root.current_screen.ids["box"].text
         junk, p = str.split(p, "asdfzxcv")
         p = ("", "", p)
         self.view_fieldnote(p)
-        # print(p, "all text")
+        # logging.info(p, "all text")
 
     def search_fieldnotes(self):
         wow = App.get_running_app().root.get_screen("allfieldnotes").ids["search"].text
         # wow = App.get_running_app().root.current_screen.ids["search"].text
 
-        print(wow, "search_icons")
+        logging.info(wow, "search_icons")
         # self.root.current_screen.ids["payperiod_list"].clear_widgets()
         App.get_running_app().root.get_screen("allfieldnotes").ids[
             "payperiod_list"
@@ -3663,7 +3692,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def search_icons(self):
         wow = App.get_running_app().root.current_screen.ids["search"].text
 
-        print(wow, "search_icons")
+        logging.info(wow, "search_icons")
         self.root.current_screen.ids["payperiod_list"].clear_widgets()
         self.view_icons(wow)
 
@@ -3686,23 +3715,23 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         for z in range(0, len(lpos)):
             show = True
-            # print(lpos[z], "lpoz")
+            # logging.info(lpos[z], "lpoz")
             third = ""
             if lpos[z].get("rate") != None:
                 if x["pp_hidden"] == True:
                     third = "$" + str(lpos[z]["rate"])
                 else:
                     third = "Rate Hidden"
-            # print(lpos[z].get("rate"), "get_rate")
+            # logging.info(lpos[z].get("rate"), "get_rate")
             # try:
             #    gg = int(lpos[z]["rate"])
-            #    print (gg)
+            #    logging.info (gg)
             # except:
             #    if x["pp_all"] == False:
             #        show = False
 
             if lpos[z].get("rate") == None:
-                # print(third, "thirddddd", x["pp_all"])
+                # logging.info(third, "thirddddd", x["pp_all"])
                 if x["pp_all"] == False:
                     show = False
 
@@ -3715,9 +3744,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         tertiary_text=third,
                     )
                 )
-            # print(z, "icons!!")
+            # logging.info(z, "icons!!")
 
     def find_pay_date(self, c):
+        import calendar
+
+        # logging.info (c,'find pay date')
         firstdate = datetime.date(2022, 10, 3)
         #:
         # now = datetime.datetime.now()
@@ -3728,13 +3760,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # while z < 50:
         while flag == False:
             nextdate = firstdate + datetime.timedelta(days=14)
-            # print(nextdate,'lolnextdate')
+            # logging.info(nextdate,'lolnextdate')
             lastdate = nextdate + datetime.timedelta(days=13)
-            # print(type(nextdate), type(now), lastdate, flag, z)
-            # print(nextdate - now)
+            # logging.info(type(nextdate), type(now), lastdate, flag, z)
+            # logging.info(nextdate - now)
             if nextdate >= now:
                 flag = True
-                # print("omg", flag)
+                # logging.info("omg", flag)
             firstdate = nextdate
             z = z + 1
         lastdate = nextdate - datetime.timedelta(days=7)
@@ -3752,16 +3784,39 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             lastdate = lastdate + datetime.timedelta(days=14)
             lastdate1 = lastdate1 + datetime.timedelta(days=14)
             firstdate = firstdate + datetime.timedelta(days=14)
+        if type(c) == str:  # noqa: E721
+            if "-" in c:
+                m, y = str.split(c, "-")
+                # logging.info (c,'find paydate!!!')
+                junk, end = calendar.monthrange(int(y), int(m))
+                first = "1-" + c
+                last = str(end) + "-" + c
+                f = datetime.datetime.strptime(first, "%d-%m-%Y")
+                l = datetime.datetime.strptime(last, "%d-%m-%Y")
+                # logging.info (f,l,'dates short')
+                return (" ", " ", l.date(), f.date())
+        if type(c) == datetime.date:
+            junk, end = calendar.monthrange(c.year, c.month)
+            # logging.info(junk,end,'junkend')
+            first = "1-" + str(c.month) + "-" + str(c.year)
+            last = str(end) + "-" + str(c.month) + "-" + str(c.year)
+            f = datetime.datetime.strptime(first, "%d-%m-%Y")
+            l = datetime.datetime.strptime(last, "%d-%m-%Y")
+            # logging.info (f,l,'dates short')
+            logging.info("DATETIME>DATE")
+            return (" ", " ", l.date(), f.date())
+        # logging.info (type(c),'TYPEC')
 
         l = self.format_date(lastdate, "short")
         l2 = self.format_date(lastdate1, "short")
         a = self.format_date(firstdate, "full")
-        # print (c,'TRIM')
+        # logging.info (c,'TRIM')
+        logging.info(l2, l, lastdate, lastdate1, "dates and stuff")
         if c == "All":
             return ("All", "", "", "")
         if type(c) != int:
             return l2, l, lastdate, lastdate1
-        print(a)
+        # logging.info(a)
 
         return a, l2 + " - " + l
 
@@ -3770,13 +3825,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         app = App.get_running_app()
         ad = app.user_data_dir
-        # print(x, "BLABLABLA", ad)
+        # logging.info(x, "BLABLABLA", ad)
         xx9 = libs.lib_new.just_get_json_schedule(x, ad)
-        # print("check confirm", xx9)
-        print(xx9["num_shows"], "NUMSHOWS")
+        # logging.info("check confirm", xx9)
+        logging.info(xx9["num_shows"], "NUMSHOWS")
         if xx9["num_shows"] > 0 and x["usecache"] == False:
-            print(x, "thisisx")
-            print(xx9["num_shows"])
+            logging.info(x, "thisisx")
+            logging.info(xx9["num_shows"])
             self.new_confirm("all")
             toast("Success")
             self.update_internal("confirm", "1")
@@ -3787,7 +3842,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def update_global_all(self, ex):
         import libs.lib_firefriend
 
-        print("update_global ALLL")
+        logging.info("update_global ALLL")
         # libs.lib_updateuserdata.updateuser_extra(ex, ad)
         z = libs.lib_firefriend.dl_stats(self, ex, x, "global")
         vals = [
@@ -3806,35 +3861,35 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         ]
         for tots in range(len(vals2)):
             ex[vals2[tots]] = 0
-            # print(ex[vals2[tots]], "jesus")
-        # print(ex, "jesus2")
-        # print(z, "global firebase", len(z), type(z))
+            # logging.info(ex[vals2[tots]], "jesus")
+        # logging.info(ex, "jesus2")
+        # logging.info(z, "global firebase", len(z), type(z))
         ex["tot_confirm"] = 0
         ex["users"] = 0
         ex["gmax_g"] = 0
         for key, value in z.items():
-            # print(key,value, "keyvalue")
+            # logging.info(key,value, "keyvalue")
             for key2, value2 in value.items():
-                # print(value2, "VALUE2")
+                # logging.info(value2, "VALUE2")
                 ex["users"] = ex["users"] + 1
-                print(value2["max_shows"], "maxxxxxx")
+                logging.info(value2["max_shows"], "maxxxxxx")
                 if (value2["max_shows"]) > ex["gmax_g"]:
                     ex["gmax_g"] = value2["max_shows"]
 
                 for tots in range(len(vals)):
-                    # print(ex[vals2[tots]], "wowowowow55")
+                    # logging.info(ex[vals2[tots]], "wowowowow55")
                     # ex[vals2[tots]] = ex[vals2[tots]]
                     ex[vals2[tots]] = ex[vals2[tots]] + (value2[vals[tots]])
 
-                # print(value2, "plist")
+                # logging.info(value2, "plist")
         ex["tot_confirm"]
 
-        # print(ex, "totconfirm1111")
+        # logging.info(ex, "totconfirm1111")
 
         return ex
 
     def update_global(self):
-        print("update_global")
+        logging.info("update_global")
         import libs.lib_readuserdata
 
         try:
@@ -3849,15 +3904,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         os.chdir(cwd)
         z = libs.lib_firefriend.dl_stats(self, ex, x, "single")
-        # print((z), z_all, "TYPEZ")
+        # logging.info((z), z_all, "TYPEZ")
         update = False
         if (z) != None:
             for key, value in z.items():
-                # print(value, "keyvalue")
+                # logging.info(value, "keyvalue")
                 fb_confirm = value["confirm"]
                 fb_streak = value["streak"]
                 fb_update = value["update"]
-                print(fb_confirm, fb_streak, fb_update, "fbbbbbb")
+                logging.info(fb_confirm, fb_streak, fb_update, "fbbbbbb")
                 if fb_confirm < ex["confirm"]:
                     fb_confirm = ex["confirm"]
                 else:
@@ -3875,9 +3930,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     and fb_confirm == value["confirm"]
                     and fb_update == value["update"]
                 ):
-                    print("nothing to update")
+                    logging.info("nothing to update")
                 else:
-                    print("updating fb")
+                    logging.info("updating fb")
                     z = libs.lib_firefriend.send_stats(self, ex, x)
                     update = True
 
@@ -3895,43 +3950,43 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def check_streak(self, ex):
         from datetime import datetime, timedelta
 
-        print("checking streak")
+        logging.info("checking streak")
 
         now = datetime.now().date()
         if ex.get("streak") == None:
             ex["streak"] = 1
         if ex.get("lstreak") == None:
-            print("GGGG")
+            logging.info("GGGG")
             ex["lstreak"] = 1
         if ex.get("previous_update") == None:
             zz = datetime.now() + timedelta(
                 days=-5,
             )
-            # print(zz)
+            # logging.info(zz)
             previous = zz.date()
-            print("did the update, and checking zzzzz")
+            logging.info("did the update, and checking zzzzz")
             ex["previous_update"] = str(zz.date())
             ex["streak"] = 1
             ex["lstreak"] = 1
             # previous = zzs
-            print("exxx", ex)
+            logging.info("exxx", ex)
             return ex
         else:
             previous = datetime.strptime(ex["previous_update"], "%Y-%m-%d").date()
-            print("found previous date", previous)
+            logging.info("found previous date", previous)
         diff = now - previous
-        # print(diff.days, "NOW", dir(diff))
+        # logging.info(diff.days, "NOW", dir(diff))
         if diff.days == 1:
             ex["previous_update"] = str(now)
             ex["streak"] = ex["streak"] + 1
 
         if ex["streak"] > ex["lstreak"]:
             ex["lstreak"] = ex["streak"]
-        print
+        logging.info
         try:
             zz = str(zz)
         except:
-            print("fail to do something")
+            logging.info("fail to do something")
 
         # import libs.lib_updateuserdata
 
@@ -3945,9 +4000,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             ex[internal_stat] = 0
         if internal_stat == "hats":
             s, junk = libs.lib_ach.check_hats(self, ad)
-            print(s, "slober")
+            logging.info(s, "slober")
             # ex["positions"] = s
-            print(s, "numberofpositions")
+            logging.info(s, "numberofpositions")
             if ex.get("positions") == None:
                 ex["positions"] = s
             if ex.get(internal_stat) == None:
@@ -3958,7 +4013,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
             if ex[internal_stat] < len(s):
                 ex[internal_stat] = len(s)
-        # print(ex[internal_stat], internal_stat, "blablabla)")
+        # logging.info(ex[internal_stat], internal_stat, "blablabla)")
 
         # libs.lib_updateuserdata.updateuser_extra(ex, ad)
         return ex
@@ -3976,13 +4031,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             import libs.lib_makeuserdata
 
             libs.lib_makeuserdata.makeuserdata_extra(App, ad, ios)
-            print("Making new extra data")
+            logging.info("Making new extra data")
             ex = libs.lib_readuserdata.readuserdata_extra(App, ad, ios)
 
         ###
 
         self.root.push("internal_stats")
-        print("internal stats")
+        logging.info("internal stats")
         # self.update_internal("update", "1")
 
         import libs.lib_new
@@ -3997,7 +4052,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         current_shows = len(js["shows"])
 
         if ex.get("max_shows") == None:
-            # print(ex, "exwtf22")
+            # logging.info(ex, "exwtf22")
 
             ex["max_shows"] = current_shows
             max = current_shows
@@ -4011,13 +4066,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             if current_shows < ex["min_shows"]:
                 ex["min_shows"] = current_shows
 
-        print("check streak")
+        logging.info("check streak")
         ex = self.check_streak(ex)
-        print("checkh hats")
+        logging.info("checkh hats")
         ex = self.check_internal(ex, "hats")
 
         libs.lib_updateuserdata.updateuser_extra(ex, ad)
-        # print(ex, "exwtf22")
+        # logging.info(ex, "exwtf22")
         self.root.get_screen("internal_stats").ids["update"].secondary_text = str(
             ex["update"]
         )
@@ -4065,7 +4120,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 ex["gmax_g"]
             )
         except:
-            print("failg")
+            logging.info("failg")
 
     def update_internal(self, kind, value):
         import libs.lib_updateuserdata
@@ -4080,7 +4135,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
             libs.lib_makeuserdata.makeuserdata_extra(App, ad, ios)
             ex = libs.lib_readuserdata.readuserdata_extra(App, ad, ios)
-        print(ex, "EXTRA EXTRA111", kind)
+        logging.info(ex, "EXTRA EXTRA111", kind)
         if (
             kind == "update"
             or kind == "confirm"
@@ -4089,35 +4144,35 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             or kind == "opened"
         ):
             if ex.get(kind) == None:
-                print("update not found")
+                logging.info("update not found")
                 ex[kind] = 1
                 libs.lib_updateuserdata.updateuser_extra(ex, ad)
             if ex.get(kind) > -1:
                 ex[kind] = ex[kind] + 1
                 libs.lib_updateuserdata.updateuser_extra(ex, ad)
-        # print(ex, "EXTRA EXTRA")
+        # logging.info(ex, "EXTRA EXTRA")
 
     def make_toast(self, b):
-        print(x, b)
+        logging.info(x, b)
 
     def update(self):
-        print("only updating schedule")
+        logging.info("only updating schedule")
         import libs.lib_new
 
         # try:
         if 1 == 1:
             libs.lib_new.make_json_schedule(x, ad)
-            print("updated schedule")
+            logging.info("updated schedule")
             self.update_internal("update", 1)
             self.snackbarx("Success")
 
         # except:
-        ##    print("login failed")
+        ##    logging.info("login failed")
         #   toast("login failed")
         self.today()
 
     def open_panel2(self, xx, i, l, junk, z):
-        print("adf", xx, i, l)
+        logging.info("adf", xx, i, l)
 
         global i9
         global xx9
@@ -4135,7 +4190,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
             xx9 = xx
             i9 = i
-            print("asdfasdf", xx9, i, l, z)
+            logging.info("asdfasdf", xx9, i, l, z)
 
             rw = RecipeLine(text=(str("loll")))
             # rw = IngredientDialog(text=("lol"))
@@ -4167,7 +4222,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     )
                     self.root.current_screen.ids["rlist"].children[
                         (l - i9) - 1
-                    ].content.ids["pos"].secondary_text = (xx9["venue"] + " " + " ")
+                    ].content.ids["pos"].secondary_text = xx9["venue"] + " " + " "
 
                     self.root.current_screen.ids["rlist"].children[
                         (l - i9) - 1
@@ -4178,21 +4233,21 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     self.root.current_screen.ids["rlist"].children[
                         (l - i9) - 1
                     ].content.ids["pos2"].secondary_text = xx9["notes"]
-                    print("old stuff,", l, i9)
+                    logging.info("old stuff,", l, i9)
                 except:
-                    print(l, i9, "failed to open")
+                    logging.info(l, i9, "failed to open")
 
             if junk == True and x["usecache"] == False:
                 self.root.current_screen.ids["rlist"].children[(l)].content.ids[
                     "pos"
-                ].text = (str(i) + " " + str(l))
-                print("newconfirm you nuts")
+                ].text = str(i) + " " + str(l)
+                logging.info("newconfirm you nuts")
                 self.new_confirm("all")
 
-            # print(pp)
-            # print(x)
+            # logging.info(pp)
+            # logging.info(x)
             # App.get_running_app().root.current_screen.ids["rlist"].text = "posss"
-            # print(App.get_running_app().root.current_screen.ids)
+            # logging.info(App.get_running_app().root.current_screen.ids)
             # zz = dir(self.root.get_screen("newhome").ids.rlist.children[0])
             pass
         except:
@@ -4201,7 +4256,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def close_panel(self, what):
         Pass
-        print(what)
+        logging.info(what)
 
     def newstart(self, search, useold):
         import libs.lib_bonus
@@ -4225,7 +4280,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.root.get_screen("today").ids[li[i]].text = (
                 color + show_date + " " + ntime
             )
-            print(li[i] + str(i + 1), "thisistheid")
+            logging.info(li[i] + str(i + 1), "thisistheid")
             self.root.get_screen("today").ids[li[i] + "2"].text = (
                 color + shows[i]["show"]
             )
@@ -4301,7 +4356,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
             for z in range(len(shows)):
                 color = ""
-                # print(shows[z])
+                # logging.info(shows[z])
                 # if shows[z]["canceled"] == True:
                 if 1 == 1:
                     canned = canned + 1
@@ -4349,7 +4404,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             canned = -1
             for z in range(len(shows)):
                 color = ""
-                # print(shows[z])
+                # logging.info(shows[z])
                 # if shows[z]["canceled"] == True:
                 if 1 == 1:
                     canned = canned + 1
@@ -4396,7 +4451,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         #    ingredients_text += ingredient + "\n"
         # self.dialog = IngredientDialog(text=ingredients_text)
         # self.dialog.open()
-        print(cat, r, d)
+        logging.info(cat, r, d)
         # r = ""
         if not self.dialog2[d]:
             self.dialog2[d] = md33(
@@ -4432,21 +4487,21 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_new
 
         xx9 = libs.lib_new.get_json_schedule(x, ad)
-        # print("save_time", xx9, x)
+        # logging.info("save_time", xx9, x)
 
         try:
-            print(asdf, str(xx9["confirmables"]), "OMG ITS CONFIRMING ITSELF")
+            logging.info(asdf, str(xx9["confirmables"]), "OMG ITS CONFIRMING ITSELF")
         except:
-            print("one?", asdf)
+            logging.info("one?", asdf)
         if asdf == "all":
             for xxx in range(int(xx9["num_shows"])):
                 fail = self.confirm_real(xx9["confirmables"][xxx])
-                print((xx9["confirmables"][xxx]), "whattttttttt")
+                logging.info((xx9["confirmables"][xxx]), "whattttttttt")
         if asdf != "all":
             if xx9.get("confirable"):
-                print(xx9["confirable"], "DO CONFIRM THIS")
+                logging.info(xx9["confirable"], "DO CONFIRM THIS")
                 fail = self.confirm_real(asdf)
-                print(fail)
+                logging.info(fail)
                 toast("Confirmed")
                 self.update()
                 self.newstart("", False)
@@ -4454,17 +4509,17 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     try:
                         self.dialog2[u].dismiss(force=True)
                     except:
-                        print(u)
+                        logging.info(u)
 
         else:
-            print(
+            logging.info(
                 "one",
                 profile,
             )
             # fail = self.confirm_real(asdf)
 
     def email_time(self, gg):
-        # print("save_time", x)
+        # logging.info("save_time", x)
 
         try:
             endtime = str(x["endtime"])
@@ -4483,7 +4538,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         xx9 = gg
         # ee = f"Hi,\nI worked {str(xx9["show"])}  {str(xx9["job"])} at {str(xx9["venue"])} on {str(xx9["date"])} from {str(xx9["venue"])} to {str(xx9["endtime"])}\n Thanks,\n{str(x["name"])}"
         ee = f"Hi,\nI worked {str(xx9['show'])}  ({str(xx9['job'])}) at {str(xx9['venue'])} on {str(xx9['date'])} from {str(xx9['time'])} to {endtime} with {lunches} walkaway lunch{es}\nThanks, {str(x['name'])}"
-        # print(ee)
+        # logging.info(ee)
         from kivymd.uix.dialog import MDDialog as md33
         from kivy.core.clipboard import Clipboard
 
@@ -4541,7 +4596,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.menu2.open()
 
     def copy_email(self, eee):
-        print("email_times", eee)
+        logging.info("email_times", eee)
 
     def ingredients_list(self, selected_cat, selected_r):
         for category in self.card_file:
@@ -4551,7 +4606,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         return recipe["shopping list"]
 
     def do_login(self, search, useold):
-        print("do_login")
+        logging.info("do_login")
 
         # if pf[0]!='W':
         # if 1==1:
@@ -4571,10 +4626,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         self.root.current = "home"
         self.root.current_screen.ids["users_lst"].clear_widgets()
-        # print(x, "USECACHETEST")
+        # logging.info(x, "USECACHETEST")
 
         if x["usecache"] == "True" or x["usecache"] == True:
-            print("Using Cache2")
+            logging.info("Using Cache2")
             import libs.lib_createcache as lib_createcache
             from random import randrange
 
@@ -4582,28 +4637,28 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         sch = ad + "/conf.html"
 
         if x["usecache"] == "False" or x["usecache"] == False:
-            print("Using Live Data")
+            logging.info("Using Live Data")
             if useold == False:
                 if x["refreshreload"] == True:
                     good_login = lib_think.login(ad, x, ios, App)
                     good_login = True
 
                 if good_login == True:
-                    print("GOOD LOGIN SIR")
+                    logging.info("GOOD LOGIN SIR")
                     sch = ad + "/realdata.html"
                 if x["refreshreload"] == False:
                     try:
                         sch = ad + "/realdata.html"
                     except:
-                        print("realdata not found")
+                        logging.info("realdata not found")
 
         import libs.lib_parse
 
-        # print(ad, "ADADAD")
+        # logging.info(ad, "ADADAD")
 
         xxx, mjds, name = libs.lib_parse.parse(sch, ad, x["usecache"], x)
 
-        print(x, "XXXXXXX")
+        logging.info(x, "XXXXXXX")
         x["name"] = name
         import libs.lib_updateuserdata as lib_updateuserdata
 
@@ -4644,7 +4699,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             SwipeToDeleteItem(text=texta)
         )
         toc3 = time.perf_counter()
-        print(tic - toc3, "toc3time")
+        logging.info(tic - toc3, "toc3time")
         if cf < tot:
             indexnumber = indexnumber + 1
             texta = (
@@ -4665,14 +4720,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             indexnumber_real = indexnumber_real + 1
             texta = texta + str(indexnumber_real)
             if search.lower() in str(xxx[i]).lower() or len(search) == 0:
-                # print("omg its working")
+                # logging.info("omg its working")
                 plus_search = plus_search + 1
 
                 self.root.current_screen.ids["users_lst"].add_widget(
                     SwipeToDeleteItem(text=texta)
                 )
 
-        print(
+        logging.info(
             plus_search,
             "plussearch",
             len(mjds),
@@ -4683,9 +4738,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def do_settings(self):
         global x
-        # print(x)
+        # logging.info(x)
         os.chdir(cwd)
-        # print(os.getcwd(), "PRINT OMGOMG")
+        # logging.info(os.getcwd(), "logging.info OMGOMG")
         self.root.push("settings")
         # sm.set_current("settings")
         try:
@@ -4707,7 +4762,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             x["not1"] = False
             x["not2"] = False
             x["not"] = False
-        # print (tog1)
+        # logging.info (tog1)
         import libs.lib_updateuserdata
 
         libs.lib_updateuserdata.updateuser(x, ad)
@@ -4767,14 +4822,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     menuscale = 0.5, 0.5
 
     def update_hi_score_keys(self):
-        print("updating scores")
+        logging.info("updating scores")
         import libs.lib_ach
 
         win = libs.lib_ach.download_ach(ad)
         toast(win)
 
     def update_hi_score_data(self, ach):
-        print("updating scores")
+        logging.info("updating scores")
         import libs.lib_score
 
         win = libs.lib_score.dl_score(x["name"], ach, ad)
@@ -4797,7 +4852,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def get_wall(self, page):
         # self.root.set_current(page)
 
-        # print(x, "assert")
+        # logging.info(x, "assert")
         try:
             b = "images/walls/" + x["wall"]
         except:
@@ -4805,24 +4860,24 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         try:
             self.root.get_screen(page).ids["pic"].source = b
             self.root.get_screen("theme").ids["pic"].source = b
-            print("success set image")
+            logging.info("success set image")
         except:
-            print("fail to set image")
+            logging.info("fail to set image")
             pass
         try:
             self.root.get_screen("theme").ids["pic"].source = b
         except:
-            print("coundnt find the theme page")
+            logging.info("coundnt find the theme page")
 
         return b
 
         # self.root.current = "settings"
 
     def menu_callback(self, text_item, v, v2):
-        # print(location[text_item])
-        # print (text_item,type(text_item))
-        # print(v[text_item], "v[text")
-        print(text_item, v2, v, "dumbass")
+        # logging.info(location[text_item])
+        # logging.info (text_item,type(text_item))
+        # logging.info(v[text_item], "v[text")
+        logging.info(text_item, v2, v, "dumbass")
         if v2 == "name":
             # toast(str(v[text_item][v2]))
             App.get_running_app().root.current_screen.ids[
@@ -4866,7 +4921,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             )
         global x
         x[v2] = v[text_item]
-        # print(x)
+        # logging.info(x)
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
@@ -4890,7 +4945,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.menu_items.open()
 
     def menu_callback2(self, item, gg):
-        print(item, gg, "callback2")
+        logging.info(item, gg, "callback2")
         # self.root.ids.drop_text.text = text_item
         self.menu_items.dismiss()
         if item == "Email":
@@ -4898,7 +4953,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def open_drop_item_menu(self, v, v2):
         # v2 = "wow"
-        print(v, "what is v")
+        logging.info(v, "what is v")
 
         # menu_items = [
         #     {
@@ -4926,7 +4981,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def choose_drop(self, v, v2):
         "oll"
-        print(v2, v, "THISISTHETHING2")
+        logging.info(v2, v, "THISISTHETHING2")
 
         if v2 == "city":
             menu_items = [
@@ -5015,7 +5070,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             )
             # self.root.
             self.send_dates([x, v, v2])
-        # print(self.root.get_screen("notification").ids)
+        # logging.info(self.root.get_screen("notification").ids)
         self.menu = MDDropdownMenu(
             # caller=self.root.get_screen("notification").ids["button4"],
             caller=App.get_running_app().root.current_screen.ids["button4"],
@@ -5029,10 +5084,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.menu.open()
 
     def set_range(self, x, y, z):
-        print("set_range", x, y, z)
-        print(self.root.current_screen.name, "WHATSCREEN")
+        logging.info("set_range", x, y, z)
+        logging.info(self.root.current_screen.name, "WHATSCREEN")
         if self.root.current_screen.name == "newstats":
-            print("NEWSTATS!!!")
+            logging.info("NEWSTATS!!!")
 
             b = datetime.datetime.now().date().replace(month=1, day=1, year=int(x))
             b = datetime.datetime.combine(b, datetime.datetime.min.time())
@@ -5063,7 +5118,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         global x
         self.root.current = "settings"
         tog1 = App.get_running_app().root.current_screen.ids["switchnotify"].active
-        # print(tog1, x)
+        # logging.info(tog1, x)
         x["not"] = tog1
 
         import libs.lib_updateuserdata
@@ -5089,7 +5144,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 "not1time"
             ]
         except:
-            print("rip")
+            logging.info("rip")
         lib_updateuserdata.updateuser(x, ad)
 
     def makenots(self, sslider):
@@ -5132,13 +5187,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.root.current_screen.ids["box"].remove_widget(content.parent)
 
         except:
-            print("omg")
+            logging.info("omg")
 
     def about(self):
         self.root.push("about")
 
     def ach_top(self, lol):
-        print("achtop", lol)
+        logging.info("achtop", lol)
         from kivy.metrics import dp
         from kivy.uix.anchorlayout import AnchorLayout
 
@@ -5151,7 +5206,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             name, lol, ad, self.theme_cls.primary_color
         )
 
-        print(q, "SCORESSSS", place)
+        logging.info(q, "SCORESSSS", place)
         tables = MDDataTable(
             # size_hint=(0.9, 0.6),
             #
@@ -5171,7 +5226,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.current_screen.ids["graphs3"].add_widget(tables)
 
     def ach_info(self, data):
-        print("info ach", data)
+        logging.info("info ach", data)
         self.root.push("achinfo")
         self.root.current_screen.ids["ach_info_id"].clear_widgets()
         dd = [
@@ -5181,9 +5236,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             ["Points:", data["ach_level"]],
         ]
         shows = ""
-        # print(data["ach_shows"])
-        # print(type(data["ach_shows"]))
-        # print("LISTNODATA")
+        # logging.info(data["ach_shows"])
+        # logging.info(type(data["ach_shows"]))
+        # logging.info("LISTNODATA")
         try:
             newd = dict(
                 sorted(
@@ -5203,11 +5258,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # (keys,values) = zip(*tel.items())
 
         # shows = "[font=Roboto-Regular]" + shows + "[/font]"
-        # print(f"{a:10}{b:10}{c:10}"
-        # print(shows)
+        # logging.info(f"{a:10}{b:10}{c:10}"
+        # logging.info(shows)
 
         for z in range(len(dd)):
-            # print(str(dd[z][0],str(dd[z][1])
+            # logging.info(str(dd[z][0],str(dd[z][1])
             items = TwoLineAvatarListItem22(
                 text=str(dd[z][0]),
                 secondary_text=str(dd[z][1]),
@@ -5224,9 +5279,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         second = 20
         third = 20
         for m in range(len(keys)):
-            print(keys)
+            logging.info(keys)
             if data["name"] == "Hustle and Grind":
-                print("jesusccc")
+                logging.info("jesusccc")
 
                 # keysm = str(m)
                 keysm = ""
@@ -5237,11 +5292,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 first = 4
                 third = 30
             if data["name"] == "Celery man!":
-                print("jesusccc")
+                logging.info("jesusccc")
 
                 # keysm = str(m)
                 keysm = str(data["ach_shows"][m][0])
-                print(data["ach_shows"][m])
+                logging.info(data["ach_shows"][m])
                 valuesm = data["ach_shows"][m][1]
                 perc = data["ach_shows"][m][2]
 
@@ -5281,7 +5336,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     f"[font=Roboto-Regular]{keysm} {str(valuesm)} {str(perc)}[/font]\n"
                 )
             except:
-                print(keys)
+                logging.info(keys)
                 shows = str(keys)
 
             items = SmoothLabel(
@@ -5298,11 +5353,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def rainbow(self):
         # hex_colormap
-        print(dir(hex_colormap), x, self.theme_cls.secondaryColor, "what is this color")
+        logging.info(
+            dir(hex_colormap), x, self.theme_cls.secondaryColor, "what is this color"
+        )
         # return self.theme_cls.secondaryColor
 
     def ach_reset(self):
-        print("reset ach")
+        logging.info("reset ach")
         import libs.lib_ach
 
         libs.lib_ach.make_ach(ad)
@@ -5313,7 +5370,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.trophys("all")
 
     def check_ach(self):
-        print("checking ach")
+        logging.info("checking ach")
         import libs.lib_ach
         import libs.lib_score
 
@@ -5324,7 +5381,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         points = App.get_running_app().root.current_screen.ids["ach_points"].text
 
         junk, points = str.split(points, " ")
-        print(points, "POINTSITES")
+        logging.info(points, "POINTSITES")
         libs.lib_score.submit(x["name"], points, 0, ad)
 
         self.trophys("all")
@@ -5344,7 +5401,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         data = libs.lib_ach.list_ach(ad, select)
         points = 0
         for i in range(len(data)):
-            # print(data[i])
+            # logging.info(data[i])
             tt = data[i]["name"] + "\n" + data[i]["disc"] + "[size=0]" + str(i)
             # self.root.current_screen.ids["ach_id"].add_widget(
             #    ListItemWithCheckbox(
@@ -5449,7 +5506,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             # new_start = pp_date = datetime.datetime.strptime(new_start, "%Y-%m-%d")
             new_finish = e
             new_start = b
-            # print(type(e), "GARBAGE")
+            # logging.info(type(e), "GARBAGE")
         if start == "all":
             new_finish = datetime.datetime.now() - datetime.timedelta(days=10365)
             new_start = datetime.datetime.now()
@@ -5476,7 +5533,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             App.get_running_app().root.current_screen.ids["dend"].text = str(
                 new_start.date()
             )
-        # print(new_finish - new_start)
+        # logging.info(new_finish - new_start)
         (
             dd,
             dd2,
@@ -5520,7 +5577,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.do_login("", useold)
 
     def test_not(self):
-        print(x)
+        logging.info(x)
         toast("Success")
 
         sh = {
@@ -5530,7 +5587,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         }
         import libs.lib_bonus
 
-        print(x, "dothis)")
+        logging.info(x, "dothis)")
         libs.lib_bonus.create_notification(sh, x, False, ad)
 
     def mainmenuf(self):
@@ -5551,24 +5608,24 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 )
                 self.snackbar.open()
             except:
-                print("failed to dl paystubs", new, paystubs)
+                logging.info("failed to dl paystubs", new, paystubs)
                 toast(str(new) + " out of  " + str(paystubs))
 
     def ccc(self):
-        print(mjds)
+        logging.info(mjds)
         confable = []
         for i in range(len(mjds)):
             if 1 == 1:
                 # if mjds[i].has_key(["confirmable"]):
                 if "confirmable" in mjds[i]:
                     z = mjds[i]["confirmable"]
-                    print(z)
+                    logging.info(z)
                     confable.append(mjds[i]["confirmable"])
             # except:
             #    pass
         for i in range(len(confable)):
-            print(confable[i], len(confable))
-        print(len(confable), "confable")
+            logging.info(confable[i], len(confable))
+        logging.info(len(confable), "confable")
         self.snackbar = MDSnackbar(
             text="Success!" + str(len(confable)), bg_color=self.theme_cls.primary_color
         )
@@ -5579,11 +5636,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             try:
                 self.dialog2[z].dismiss(force=True)
             except:
-                print(z, "wow")
+                logging.info(z, "wow")
             try:
                 self.dialog.dismiss(force=True)
             except:
-                print(z, "fail")
+                logging.info(z, "fail")
 
     gshow = {}
 
@@ -5594,7 +5651,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         global x
         xx9 = x
         self.dialog_close()
-        print(y, "XXXX9")
+        logging.info(y, "XXXX9")
 
         try:
             js = libs.lib_new.get_json_schedule(x, ad)
@@ -5604,8 +5661,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         s = y[2]
         show = js["shows"][s]
         gshow = show
-        print(s)
-        print(type(js))
+        logging.info(s)
+        logging.info(type(js))
 
         from kivy.clock import Clock
 
@@ -5613,13 +5670,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         start_time = datetime.datetime.strptime(
             show["date"] + "." + show["time"], "%m/%d/%Y.%H:%M"
         )
-        print(start_time, now, type(start_time), type(now), "showdate")
+        logging.info(start_time, now, type(start_time), type(now), "showdate")
         if start_time < now:
             self.root.push("animate")
         else:
             toast("Unavalable")
             # return
-        # print(y, xx9)
+        # logging.info(y, xx9)
 
         pos = show["pos"]
 
@@ -5649,8 +5706,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         self.root.get_screen("animate").ids["money_r"].secondary_text = hours_text
 
-        # print(dir(self.root.get_screen("info").ids["lunches"]))
-        # print(zzz, "zzz")
+        # logging.info(dir(self.root.get_screen("info").ids["lunches"]))
+        # logging.info(zzz, "zzz")
 
         Clock.schedule_interval(self.update_label_new, 0.1)
 
@@ -5680,8 +5737,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         self.root.get_screen("animate").ids["money_r"].secondary_text = hours_text
 
-        # print(dir(self.root.get_screen("info").ids["lunches"]))
-        # print(zzz, "zzz")
+        # logging.info(dir(self.root.get_screen("info").ids["lunches"]))
+        # logging.info(zzz, "zzz")
 
         Clock.schedule_interval(self.update_label, 0.1)
 
@@ -5699,8 +5756,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             rate = float(rate)
         except:
             rate = 0.00
-            print("fail convert")
-        # print (rate,'raterate')
+            logging.info("fail convert")
+        # logging.info (rate,'raterate')
         now = datetime.now()
         difff = now - start_time
         difff = int(difff.total_seconds())
@@ -5746,7 +5803,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # new_text = datetime.datetime.now().strftime("%H:%M:%S")
 
         # label.text = new_text
-        # print(new_text)
+        # logging.info(new_text)
         self.root.get_screen("animate").ids["top"].text = str(start_time)
         # self.root.get_screen("animate").ids["moneyinfo"].text = str(
         #    "%.2f" % float(rate)
@@ -5755,7 +5812,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.get_screen("animate").ids["moneyb"].text = str(earn)
         self.root.get_screen("animate").ids["money_r"].text = str(r_hours)
         self.root.get_screen("animate").ids["money_pay"].text = str("%.2f" % r_pay)
-        # print (r_pay,"RPAY")
+        # logging.info (r_pay,"RPAY")
 
     def update_label66(self, dt):
         from datetime import datetime
@@ -5809,7 +5866,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # new_text = datetime.datetime.now().strftime("%H:%M:%S")
 
         # label.text = new_text
-        # print(new_text)
+        # logging.info(new_text)
         self.root.get_screen("animate").ids["top"].text = str(start_time)
         self.root.get_screen("animate").ids["moneyinfo"].text = str(
             "%.2f" % float(rate)
@@ -5825,7 +5882,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_readuserdata
 
         x = libs.lib_readuserdata.readuserdata(App, ad, ios)
-        print(x)
+        logging.info(x)
         if x["login"] == "False":
             fail = "fail"
 
@@ -5834,13 +5891,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             try:
                 with open(nf2, mode="r") as f:
                     for line in f.readlines():
-                        # print (line)
+                        # logging.info (line)
 
                         if "javascript'>alert" in line:
                             old = True
                             l, x = str.split(line, "(")
                             x, l = str.split(x, ")")
-                            # print(x)
+                            # logging.info(x)
             except:
                 self.snackbar = MDSnackbar(
                     text="Not Logged In", bg_color=self.theme_cls.primary_color
@@ -5868,24 +5925,24 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         ssl.verify = False
         ssl._create_default_https_context = ssl._create_unverified_context
-        # print (what)
-        # print(len(xxx[idex]))
+        # logging.info (what)
+        # logging.info(len(xxx[idex]))
         try:
-            # print(xxx[idex][13])
+            # logging.info(xxx[idex][13])
             pass
         except:
-            print("nonconfirm")
+            logging.info("nonconfirm")
             return "fail"
         dg = what
         confirmable = False
         try:
             if "dg" in dg:
                 confirmable = True
-                # print("trying to confirm " + str(xx9["date"]))
+                # logging.info("trying to confirm " + str(xx9["date"]))
         except:
-            print("nonconfirmable you nerd")
+            logging.info("nonconfirmable you nerd")
 
-        # print(type(browser), "OMGWHATISTHISSTUFF", dg)
+        # logging.info(type(browser), "OMGWHATISTHISSTUFF", dg)
         if 1 == 1:
             if 1 == 1:
                 try:
@@ -5893,31 +5950,31 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         browser.select_form(name="ctl00")
                     except:
                         browser.select_form(nr=0)
-                    print("USED OLD BROWSER")
+                    logging.info("USED OLD BROWSER")
                 except:
                     browser = lib_think.openbrowser(ad, x, ios, App)
                     try:
                         browser.select_form(name="ctl00")
                     except:
                         browser.select_form(nr=0)
-                    print("USED NEW BROWSER")
+                    logging.info("USED NEW BROWSER")
 
-                # print(browser, 'browser 1')
+                # logging.info(browser, 'browser 1')
                 control_t = browser.form.find_control("__EVENTTARGET")
                 control_a = browser.form.find_control("__EVENTARGUMENT")
-                # print(browser, "browser 2")
+                # logging.info(browser, "browser 2")
                 control_t.readonly = False
                 control_a.readonly = False
 
                 # control_t.value = str(xxx[idex][13])
                 control_t.value = str(dg)
                 control_a.value = "Confirm"
-                # print(browser, 'browser 3')
+                # logging.info(browser, 'browser 3')
 
                 response = browser.submit()
-                # print(browser, 'browser 4')
+                # logging.info(browser, 'browser 4')
                 aa = response.get_data()
-                # print(browser, "browser 5")
+                # logging.info(browser, "browser 5")
 
                 aaa = open(ad + "/realdata.html", "wb")
                 aaa.write((aa))
@@ -5929,7 +5986,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.dialog.dismiss()
 
     def delete_shows(self, what):
-        # print (what)
+        # logging.info (what)
         from os import walk
 
         dirs = ["pp", "backup", "shows", "future_shows", "custom_shows"]
@@ -5939,7 +5996,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             filenames = next(walk(ad + "/" + dirs[i2]), (None, None, []))[
                 2
             ]  # [] if no file
-            # print(filenames)
+            # logging.info(filenames)
 
             for i in range(len(filenames)):
                 os.remove(ad + "/" + dirs[i2] + "/" + filenames[i])
@@ -5983,7 +6040,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         Callback function for handling the selection response from Activity.
         """
         # self.selection = selection
-        print(selection)
+        logging.info(selection)
 
     def on_selection(self, *a, **k):
         """
@@ -5993,19 +6050,18 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         App.get_running_app().root.ids.result.text = str(self.selection)
 
     def delete_demo(self):
-        
-
         listofdicks = libs.lib_archive.delete_demo_files("/future_shows", ad)
         self.snackbarx("deleted  demo shows")
+
     def show_archive(self):
         self.root.push("archive")
         z, z1, f1, f2 = self.find_pay_date(self.archive_trim)
         listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
-        #ntime='wow'
-        ntime='wow2'
-        #color='bob3'
-        #show_date='now'
-        #print (len(listofdicks),'listofdicks')
+        # ntime='wow'
+        ntime = "wow2"
+        # color='bob3'
+        # show_date='now'
+        # logging.info (len(listofdicks),'listofdicks')
         App.get_running_app().root.current_screen.ids["dend"].text = str(z1)
         App.get_running_app().root.current_screen.ids["dstart"].text = str(z)
         self.root.current_screen.ids["archive"].clear_widgets()
@@ -6019,7 +6075,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         bu2 = ["date", "hours", "pay"]
         for z in range(len(listofdicks)):
             three = "Lunches!"
-            # print (listofdicks[z],'LISTOFDICKS')
+            # logging.info (listofdicks[z],'LISTOFDICKS')
             if listofdicks[z].get("lunches") == None:
                 three = "No Lunches"
             else:
@@ -6029,14 +6085,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
             if listofdicks[z].get("totaltime") != None:
                 tottime_all = tottime_all + listofdicks[z].get("totaltime")
-                #print(tottime_all, "tottime_all")
+                # logging.info(tottime_all, "tottime_all")
             if listofdicks[z].get("earnings") != None:
                 earnings_all = earnings_all + listofdicks[z].get("earnings")
-                #print(earnings_all, "earnings_all")
+                # logging.info(earnings_all, "earnings_all")
 
             if listofdicks[z].get("pay") == None:
                 allhours, reg, over = self.calc_time(listofdicks[z])
-                # print (listofdicks[z]["show"],reg,allhours,over,'OMG')
+                # logging.info (listofdicks[z]["show"],reg,allhours,over,'OMG')
                 money = self.calc_money(listofdicks[z], reg, over)
                 listofdicks[z]["hours"] = allhours
                 listofdicks[z]["reghours"] = reg
@@ -6075,12 +6131,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 # if money[0]!='0':
                 three = three + " $" + str(money)
 
-
-
-
-    
         for nan in range(len(listofdicks)):
-            print(listofdicks[nan].get(self.archive_sort))
+            logging.info(listofdicks[nan].get(self.archive_sort))
             if listofdicks[nan].get(self.archive_sort) == None:
                 listofdicks[nan][self.archive_sort] = 0.0
             if listofdicks[nan][self.archive_sort] == "-":
@@ -6100,70 +6152,83 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.get_screen("archive").ids.archive.add_widget(
             MDListItem(
                 MDListItemLeadingIcon(
-                    #icon=self.find_type(i, "type"),
+                    # icon=self.find_type(i, "type"),
                     pos_hint={"center_x": 0.5, "center_y": 0.5},
                     icon_color=self.theme_cls.onPrimaryColor,
                 ),
                 MDListItemTrailingIcon(
-                    #icon=self.find_type(i, "pos"),
+                    # icon=self.find_type(i, "pos"),
                     icon_color=self.theme_cls.errorColor,
                     pos_hint={"center_x": 0.5, "center_y": 0.5},
                 ),
-                MDListItemHeadlineText(text=str(len(listofdicks))+' Shows Total'),
-                MDListItemSupportingText(text="Hours: "+str(tottime_all)+"    Earnings: "+str(earnings_all))))
+                MDListItemHeadlineText(text=str(len(listofdicks)) + " Shows Total"),
+                MDListItemSupportingText(
+                    text="Hours: "
+                    + str(tottime_all)
+                    + "    Earnings: "
+                    + str(earnings_all)
+                ),
+            )
+        )
         for z in range(len(listofdicks)):
-
-            #text5="Show: " + str((listofdicks[z]["show"])),
+            # text5="Show: " + str((listofdicks[z]["show"])),
             #    secondary_text="Date: "
             #    + str(listofdicks[z]["date"])
             #    + " Hours: "
             #    + realtime,
-        
-            #show_date = datetime.datetime.strptime(date, "%m/%d/%Y")
-            ntime=self.ampm(listofdicks[z]['time'])
-            hours=''
-            if listofdicks[z].get('totaltime'):
-                hours=" Hours: " +str(listofdicks[z].get('totaltime'))
-            earnings=''
-            if listofdicks[z].get('earnings'):
-                earnings=' Earnings: '+str(listofdicks[z].get('earnings'))
-            thing='Please Set Time'
-            if listofdicks[z].get('endtime') and listofdicks[z].get('earnings') and listofdicks[z].get('totaltime'):
-            
-                thing=listofdicks[z]['time'] + "-" +hours+earnings
+
+            # show_date = datetime.datetime.strptime(date, "%m/%d/%Y")
+            ntime = self.ampm(listofdicks[z]["time"])
+            hours = ""
+            if listofdicks[z].get("totaltime"):
+                hours = " Hours: " + str(listofdicks[z].get("totaltime"))
+            earnings = ""
+            if listofdicks[z].get("earnings"):
+                earnings = " Earnings: " + str(listofdicks[z].get("earnings"))
+            thing = "Please Set Time"
+            if (
+                listofdicks[z].get("endtime")
+                and listofdicks[z].get("earnings")
+                and listofdicks[z].get("totaltime")
+            ):
+                thing = listofdicks[z]["time"] + "-" + hours + earnings
             self.root.get_screen("archive").ids.archive.add_widget(
                 MDListItem(
-                    
                     MDListItemLeadingIcon(
-                        #icon=self.find_type(i, "type"),
+                        # icon=self.find_type(i, "type"),
                         pos_hint={"center_x": 0.5, "center_y": 0.5},
                         icon_color=self.theme_cls.primaryColor,
                     ),
                     MDListItemTrailingIcon(
-                        #icon=self.find_type(i, "pos"),
+                        # icon=self.find_type(i, "pos"),
                         icon_color=self.theme_cls.errorColor,
                         pos_hint={"center_x": 0.5, "center_y": 0.5},
                     ),
-                    MDListItemHeadlineText(text=listofdicks[z]['show']),
-                    MDListItemSupportingText(text=listofdicks[z]['date'] + " " + listofdicks[z]['pos'] + " " +listofdicks[z]['type']  ),
-                    
-                    MDListItemSupportingText(text= thing ),
-                    #MDListItemHeadlineText(listofdicks[z]['show']),
-                    #MDListItemHeadlineText(text=str(len(listofdicks))+' Shows Total'),
-                    #MDListItemSupportingText(text=color + show_date + " " + ntime),))
-                    #on_release=self.edit_show_details()))
-                    on_release=lambda x, y=(listofdicks[z]): self.edit_show_details(y)
+                    MDListItemHeadlineText(text=listofdicks[z]["show"]),
+                    MDListItemSupportingText(
+                        text=listofdicks[z]["date"]
+                        + " "
+                        + listofdicks[z]["pos"]
+                        + " "
+                        + listofdicks[z]["type"]
+                    ),
+                    MDListItemSupportingText(text=thing),
+                    # MDListItemHeadlineText(listofdicks[z]['show']),
+                    # MDListItemHeadlineText(text=str(len(listofdicks))+' Shows Total'),
+                    # MDListItemSupportingText(text=color + show_date + " " + ntime),))
+                    # on_release=self.edit_show_details()))
+                    on_release=lambda x, y=(listofdicks[z]): self.edit_show_details(y),
                 )
             )
 
     def show_archiveold(self):
         import libs.lib_archive
 
-        print("archive")
+        logging.info("archive")
         self.root.push("archive")
         # self.archive_sort=1
 
-        print(
+        logging.info(
             self.archive_sort,
             self.archive_reverse,
             self.archive_trim,
@@ -6178,14 +6243,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             App.get_running_app().root.current_screen.ids[
                 "sall"
             ].icon = "sort-descending"
-            print("acend")
+            logging.info("acend")
         else:
             App.get_running_app().root.current_screen.ids[
                 "sall"
             ].icon = "sort-ascending"
-            print("decend")
-        
-
+            logging.info("decend")
 
         self.root.current_screen.ids["archive"].clear_widgets()
         listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
@@ -6195,7 +6258,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             listofdicks.append(listofcustomdicks[q])
 
         for nan in range(len(listofdicks)):
-            print(listofdicks[nan].get(self.archive_sort))
+            logging.info(listofdicks[nan].get(self.archive_sort))
             if listofdicks[nan].get(self.archive_sort) == None:
                 listofdicks[nan][self.archive_sort] = 0.0
             if listofdicks[nan][self.archive_sort] == "-":
@@ -6212,7 +6275,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 key=lambda i: i[self.archive_sort],
                 reverse=not self.archive_reverse,
             )
-        # print (len(listofdicks),'lenlistofdicts',listofdicks)
+        # logging.info (len(listofdicks),'lenlistofdicts',listofdicks)
         tot_hours = 0
         ot_hours = 0
         reg_hours = 0
@@ -6221,37 +6284,17 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         earnings_all = 0
         bu = ["Current", "Next", "Last", "All", "Custom"]
         bu2 = ["date", "hours", "pay"]
-        """
-        for i in range(len(bu)):
-            if self.archive_trim == bu[i]:
-                App.get_running_app().root.current_screen.ids[
-                    bu[i]
-                ].md_bg_color = self.theme_cls.primary_dark
-            else:
-                App.get_running_app().root.current_screen.ids[
-                    bu[i]
-                ].md_bg_color = self.theme_cls.primary_light
 
-        for i in range(len(bu2)):
-            if self.archive_sort == bu2[i]:
-                App.get_running_app().root.current_screen.ids[
-                    bu2[i]
-                ].md_bg_color = self.theme_cls.primary_dark
-            else:
-                App.get_running_app().root.current_screen.ids[
-                    bu2[i]
-                ].md_bg_color = self.theme_cls.primary_light
-        """
         if self.archive_reverse == False:
             App.get_running_app().root.current_screen.ids[
                 "sall"
             ].icon = "sort-descending"
-            print("acend")
+            logging.info("acend")
         else:
             App.get_running_app().root.current_screen.ids[
                 "sall"
             ].icon = "sort-ascending"
-            print("decend")
+            logging.info("decend")
 
         panel3 = MDListItem(
             text="Shows ",
@@ -6263,7 +6306,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             # + " Overtime: "
             # + str(listofdicks[z]["othours"]),
             # tertiary_text="Other Stuff",
-            #bg_color=self.theme_cls.bg_dark,
+            # bg_color=self.theme_cls.bg_dark,
             radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
             on_release=self.edit_show_details,
         )
@@ -6271,8 +6314,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.get_screen("archive").ids.archive.add_widget(panel3)
         listofdicks_copy = listofdicks
 
-
-        if 1==1:
+        if 1 == 1:
             panel = MDListItem(
                 text="Show: " + str((listofdicks[z]["show"])),
                 secondary_text="Date: "
@@ -6281,8 +6323,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 + realtime,
                 # + " Overtime: ",
                 # + str(listofdicks[z]["othours"]),
-                #tertiary_text=three,
-                #bg_color=self.theme_cls.bg_dark,
+                # tertiary_text=three,
+                # bg_color=self.theme_cls.bg_dark,
                 radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
                 on_release=self.edit_show_details,
             )
@@ -6290,12 +6332,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 self.root.get_screen("archive").ids.archive.add_widget(panel, z)
         App.get_running_app().root.current_screen.ids["archive"].text = "bla"
         bb = App.get_running_app().root.current_screen.ids["archive"].children
-        # print (bb,dir(bb),'BSDF')
+        # logging.info (bb,dir(bb),'BSDF')
         bbl = len(bb)
         bb = bb[bbl - 1]
         bb.text = "Shows!: " + str(bbl - 1)
-        #bb.secondary_text = "Hours: " + str(self.format_hours(tottime_all)[0])
-        #bb.tertiary_text = "Pay: " + str(self.format_money(earnings_all))
+        # bb.secondary_text = "Hours: " + str(self.format_hours(tottime_all)[0])
+        # bb.tertiary_text = "Pay: " + str(self.format_money(earnings_all))
         try:
             ratee = "   Rate: $%.2f" % (tot_money / tot_hours)
             # ratee="    Rate: $"+str(tot_money/tot_hours)
@@ -6306,7 +6348,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def calc_money(self, v, h, o):
         if v.get("rate") != None:
-            # print (h,o,v['rate'],v['show'],'ALL OF IT')
+            # logging.info (h,o,v['rate'],v['show'],'ALL OF IT')
             try:
                 h = float(h)
             except:
@@ -6318,15 +6360,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 try:
                     money2 = money + float(rate) * o * 1.5
                 except:
-                    # print('noot')
+                    # logging.info('noot')
                     money2 = money
-                # print (money,money2,'DUMB')
+                # logging.info (money,money2,'DUMB')
 
                 return money2
             # except:
             #    return '--'
         else:
-            print(type(h), v.get("rate"), "hello)")
+            logging.info(type(h), v.get("rate"), "hello)")
             return "-"
 
     def only5(self, v):
@@ -6347,22 +6389,22 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         for p in range(len(a)):
             if z.get(a[p]) == None:
                 z[a[p]] = 0
-        # print (z['time'],z['ota'],z['endtime'],z['rate'],z['lunches'],'TESTTEST')
+        # logging.info (z['time'],z['ota'],z['endtime'],z['rate'],z['lunches'],'TESTTEST')
         starttime = z["time"]
         start = datetime.strptime(starttime, "%H:%M")
         try:
             end = datetime.strptime(z["endtime"], "%H:%M:%S")
         except:
-            # print('time not found')
+            # logging.info('time not found')
             return ("-", "-", "-")
         try:
             hours = self.conv_time_float(str(start - end))
         except:
-            # print (start,end,'STARTEND')
+            # logging.info (start,end,'STARTEND')
             hours = self.conv_time_float(str(end - start))
             # return('-','-','-')
 
-        # print (hours,'DECIMAL NUMBERS')
+        # logging.info (hours,'DECIMAL NUMBERS')
         reg_hours = 0
         ot = 0
         hours = float(hours)
@@ -6372,7 +6414,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if hours > float(z["ota"]):
             reg_hours = float(z["ota"])
             ot = hours - float(z["ota"])
-        # print(hours,reg_hours,ot,z['show'])
+        # logging.info(hours,reg_hours,ot,z['show'])
         return hours, reg_hours, ot
 
     def conv_time_float(self, value):
@@ -6387,24 +6429,23 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.menu.dismiss()
         except:
             pass
-        
+
         import libs.lib_new
         import libs.lib_positions
 
         # try:
         flag = False
         if 1 == 1:
-            
-            print(b, "third_text")
+            logging.info(b, "third_text")
             show, filee = libs.lib_new.load_archive_json(ad, b)
             flag = True
         if 1 == 1 and flag == False:
             show = b
         # except:
-        #    print("old show data")
+        #    logging.info("old show data")
         #    toast("failed to find show")
         #    return
-        print(show, "SHOW DATA")
+        logging.info(show, "SHOW DATA")
         self.root.push("editShow")
         z = App.get_running_app().root.current_screen.ids["show"]
         z.text = str(show["show"])
@@ -6448,7 +6489,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         try:
             three = thre5e + " " + show["endtime"]
         except:
-            print("THREE IS GOOD")
+            logging.info("THREE IS GOOD")
             pass
         z3.text = (
             three
@@ -6463,7 +6504,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             + show["show"]
         )
 
-        print(z, "button4")
+        logging.info(z, "button4")
         za = App.get_running_app().root.current_screen
         id = ["lunches", "endtime", "rate", "user_notes"]
         b5 = ["button4", "newhours", "rate", "user_notes"]
@@ -6477,21 +6518,30 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         show[id[q]] = ""
 
                 za.ids[b5[q]].text = str(show[id[q]])
-                print("setting!", str(show[id[q]]), " to bla")
+                logging.info("setting!", str(show[id[q]]), " to bla")
 
             except:
                 # za.ids[b5[q]].text='?'
-                print("not able to set " + id[q])
+                logging.info("not able to set " + id[q])
                 za.ids[b5[q]].text = ""
                 if id[q] == "rate":
-                    print("FINDING RATE RIGHT NOW for " + show["pos"])
+                    logging.info("FINDING RATE RIGHT NOW for " + show["pos"])
                     rate = libs.lib_positions.get_single_rate(ad, show["pos"])
-                    print(rate, "found the rate for", show["pos"])
+                    logging.info(rate, "found the rate for", show["pos"])
                     za.ids[b5[q]].text = str(rate)
                 if id[q] == "lunches":
-                    print("setting lunches!!!!")
+                    logging.info("setting lunches!!!!")
                     za.ids[b5[q]].text = str(0)
-        App.get_running_app().root.current_screen.ids["rat"].text = "%%%"+ show["date"]+ "%%%"+ show["time"]+ "%%%"+ show["job"]+ "%%%"+ show["show"]
+        App.get_running_app().root.current_screen.ids["rat"].text = (
+            "%%%"
+            + show["date"]
+            + "%%%"
+            + show["time"]
+            + "%%%"
+            + show["job"]
+            + "%%%"
+            + show["show"]
+        )
         self.update_show()
 
     def update_show_single(self, f):
@@ -6515,11 +6565,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         show["reghours"] = f["reghours"]
         show["ot"] = f["ot"]
         show["pay"] = f["pay"]
-        # print ('updated for you')
+        # logging.info ('updated for you')
         libs.lib_new.update_archive_json(ad, show)
 
     def hide_show(self):
-        print("hide_show")
+        logging.info("hide_show")
         z = App.get_running_app().root.current_screen
         import libs.lib_new
 
@@ -6532,7 +6582,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             return "", "", ""
 
         time = float(time)
-        print(int(time), "zzzzzzzzzzzzzzzz")
+        logging.info(int(time), "zzzzzzzzzzzzzzzz")
         woop = "zz"
         hours = "5"
         minutes = "wow"
@@ -6560,10 +6610,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         show["ota"] = z.ids["button5"].text
         show["rate"] = z.ids["rate"].text
         show["user_notes"] = z.ids["user_notes"].text
-        #show['totalhoursplus']=z.ids['totalhours'].text
-        #show['total_hours']=z.ids['newhours'].text-show['time']-z.ids['lunches'].text
-        #show['ot']=z.ids['ot'].text
-        
+        # show['totalhoursplus']=z.ids['totalhours'].text
+        # show['total_hours']=z.ids['newhours'].text-show['time']-z.ids['lunches'].text
+        # show['ot']=z.ids['ot'].text
 
         from datetime import datetime
 
@@ -6580,19 +6629,19 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             flag = False
         if flag == True:
             tot = end - start
-            print(end, start, type(end), "END", tot, type(tot))
+            logging.info(end, start, type(end), "END", tot, type(tot))
             end = str(end)
             ehour, eminute, escond = str.split(end, ":")
-            print(eminute, "eminute")
+            logging.info(eminute, "eminute")
             eminute = float(eminute) / 60
             junk, ehour = str.split(ehour, " ")
             ehour = str(ehour)
-            print(ehour, "ehour!!")
-            print(eminute, ehour, "eminute2")
+            logging.info(ehour, "ehour!!")
+            logging.info(eminute, ehour, "eminute2")
             dtimeout = float(ehour) + float(eminute)
             # -z.ids['lunches']
             # show['rate']=z.ids['rate'].text
-            # print(show['totaltime'],"totaltim")
+            # logging.info(show['totaltime'],"totaltim")
             dstart_h, dstart_m = str.split(show["time"], ":")
             dstart_m = float(dstart_m) / 60
             dstart = float(dstart_h) + dstart_m
@@ -6600,19 +6649,19 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             show["totaltime"] = dtimeout - dstart
             if show["totaltime"] < 0:
                 show["totaltime"] = show["totaltime"] + 24
-            print(show, "SHOW!!")
-            print(show["totaltime"], "titaltime")
+            logging.info(show, "SHOW!!")
+            logging.info(show["totaltime"], "titaltime")
 
             time = show["totaltime"]
             time = show["totaltime"] - int(show["lunches"])
             formatted_hours, junk, junk = self.format_hours(time)
-            # print(hours, minutes, "whatttttt")
+            # logging.info(hours, minutes, "whatttttt")
 
             App.get_running_app().root.current_screen.ids[
                 "newhoursplus"
             ].text = formatted_hours
 
-            # print(show["rate"], (show["totaltime"], float(show["lunches"])), "maths")
+            # logging.info(show["rate"], (show["totaltime"], float(show["lunches"])), "maths")
             show["earnings"] = float(show["rate"]) * float(
                 (show["totaltime"]) - float(show["lunches"])
             )
@@ -6623,24 +6672,24 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 ot = float(
                     ((show["totaltime"]) - float(show["lunches"])) - float(show["ota"])
                 )
-                print(ot, "boo ya, overtime")
+                logging.info(ot, "boo ya, overtime")
                 otearnings = float(show["rate"]) * 0.5 * ot
-                show['ot']=ot
+                show["ot"] = ot
 
             show["earnings"] = show["earnings"] + otearnings
             # show['earnings']=self.format_money(show['earnings'])
-            App.get_running_app().root.current_screen.ids["earningsl"].text = (
-                self.format_money(show["earnings"])
-            )
+            App.get_running_app().root.current_screen.ids[
+                "earningsl"
+            ].text = self.format_money(show["earnings"])
 
-            # print (timeout,lunches,ota,rate,notes,show,'THISISTHEINFO')
+            # logging.info (timeout,lunches,ota,rate,notes,show,'THISISTHEINFO')
 
         libs.lib_new.update_archive_json(ad, show)
 
     def backup_new(self):
         results = "blablabla"
         self.results = "asdfasdfasdf"
-        print("backup_omg")
+        logging.info("backup_omg")
         # filechooser.open_file(on_selection=self.handle_selection)
 
         out_file = ad + "/result.json"
@@ -6659,7 +6708,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         UIActivityViewController = autoclass("UIActivityViewController")
         UIcontroller = sharedApplication.keyWindow.rootViewController()
         UIActivityViewController_instance = UIActivityViewController.alloc().init()
-        # print(dir(UIActivityViewController_instance))
+        # logging.info(dir(UIActivityViewController_instance))
         activityViewController = UIActivityViewController_instance.initWithActivityItems_applicationActivities_(
             [URL], None
         )
@@ -6680,9 +6729,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             nf2 = os.path.join(nfc, "show2.zip")
             with open(nf2, mode="rb") as f:
                 f = f.read()
-                print(type(f), "typef")
+                logging.info(type(f), "typef")
                 f = str(f)
-            # print (f)
+            # logging.info (f)
             return f
 
         except:
@@ -6697,12 +6746,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import os
 
         try:
-            # print(x)
+            # logging.info(x)
             nf2 = os.path.join(ad, "show3.zip")
             # j,x,j=str.split(x,'"')
-            # print (x)
+            # logging.info (x)
             # x=x.encode()
-            # print (bytes(x,'utf-8'))
+            # logging.info (bytes(x,'utf-8'))
             x = eval(x)
 
             with open(nf2, mode="wb") as f:
@@ -6733,7 +6782,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def search(self, x):
         # term=App.get_running_app().root.current_screen.ids['search'].text
-        # print(x.text)
+        # logging.info(x.text)
         self.do_login(x.text, useold)
         # root.dismiss()
 
@@ -6744,21 +6793,21 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         if 1 == 1:
             import libs.lib_extractjson as lib_extractjson
 
-            # print(xxx[idex], "get_rate")
+            # logging.info(xxx[idex], "get_rate")
             pos = xxx[idex][8]
             rate = lib_extractjson.extract_pos(App, config_file, pos)
-            print("rate mofo", rate)
+            logging.info("rate mofo", rate)
             # App.get_running_app().root.current_screen.ids["rate"].text = str(rate)
 
             # App.get_running_app().root.current_screen.ids["venue"].text = str(rate)
             # except:
-            print("failed to get rate")
+            logging.info("failed to get rate")
 
-            # print(xxx, "get_rate2error3")
+            # logging.info(xxx, "get_rate2error3")
             # pass
 
     def save_rate(self):
-        print("save rate")
+        logging.info("save rate")
 
     def set_rate(self):
         # rate=str(28.5)
@@ -6773,7 +6822,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_makeuserdata as lib_makeuserdata
 
         lib_makeuserdata.makeratefile(ad, rate, pos)
-        print("set rate")
+        logging.info("set rate")
 
     def get_date(self, date):
         """
@@ -6801,7 +6850,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             "end time": end_time,
             "job": "Custom",
         }
-        print("notes,notes", new_event)
+        logging.info("notes,notes", new_event)
         import json
 
         end_time = str.replace(end_time, ":", "")
@@ -6923,17 +6972,17 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def on_save_n(self, instance, value, date_range):
         App.get_running_app().root.current_screen.ids["start_date"].text = str(value)
-        print("omg!", instance, value)
+        logging.info("omg!", instance, value)
 
     def send_dates(self, dates):
-        print("SEND DATES,", dates)
+        logging.info("SEND DATES,", dates)
 
     def on_save(self, instance_date_picker):
-        date_range=(instance_date_picker.get_date())
-        #from datetime import datetime
+        date_range = instance_date_picker.get_date()
+        # from datetime import datetime
 
-        #print(self.root.current, "CURRENT SCREEEEEEN")
-        #print(date_range, "wowowow")
+        # logging.info(self.root.current, "CURRENT SCREEEEEEN")
+        # logging.info(date_range, "wowowow")
         # self.root.ids.date_label.text = str(value)
         # self.root.ids.date_label.text = f'{str(date_range[0])} - {str(date_range[-1])}'
         try:
@@ -6946,7 +6995,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         except:
             App.get_running_app().root.current_screen.ids["dstart"].text = str("")
             App.get_running_app().root.current_screen.ids["dend"].text = str("")
-        #print(self.root.current, "CURRENT SCREEN===:")
+        # logging.info(self.root.current, "CURRENT SCREEN===:")
         if self.root.current == "stats":
             # self.make_stats("custom", "custom")
             self.make_stats("custom", date_range[-1], date_range[0])
@@ -6962,12 +7011,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.fday = datetime.combine(date_range[0], datetime.min.time())
             self.do_payperiod("x")
         instance_date_picker.dismiss()
+
     def updatetext(self, box):
         app = App.get_running_app()
         ad = app.user_data_dir
         debugbox = App.get_running_app().root.current_screen.ids[box].active
         x[box] = debugbox
-        print(x[box], box, " SETTINGS TOGGLE")
+        logging.info(x[box], box, " SETTINGS TOGGLE")
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
@@ -7002,11 +7052,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # Clock.schedule_once(self.show_time_picker_vertical, 0.2)
 
     def get_time(self, instance):
-        print(instance, dir(instance), "thisisinstance")
+        logging.info(instance, dir(instance), "thisisinstance")
         time = instance.time
         # temp = str.split(instance.time, ":")
         # time = temp[0] + ":" + temp[1]
-        print(time)
+        logging.info(time)
 
         # App.get_running_app().root.current_screen.ids["newhours"].text = str(time)
         # return time
@@ -7029,7 +7079,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         temp = str.split(str(time), ":")
         time = temp[0] + ":" + temp[1]
         App.get_running_app().root.current_screen.ids["newhours"].text = str(time)
-        print(time)
+        logging.info(time)
         return time
 
     def make_info(self, thing):
@@ -7038,10 +7088,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def on_checkbox_active(self, checkbox, value):
         global x
         if value:
-            print("The checkbox", checkbox, "is active", "and", checkbox.state, "state")
+            logging.info(
+                "The checkbox", checkbox, "is active", "and", checkbox.state, "state"
+            )
             x["usecache"] = "True"
         else:
-            print(
+            logging.info(
                 "The checkbox", checkbox, "is inactive", "and", checkbox.state, "state"
             )
             x["usecache"] = "False"
@@ -7055,7 +7107,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def do_theme(self):
         specific_text_color = ""
-        print(x, "pcolor")
+        logging.info(x, "pcolor")
         if x["pcolor"] == None:
             x["pcolor"] = "Blue"
         self.root.push("theme")
@@ -7086,7 +7138,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     # on_release=(lambda a: self.grabText(ttt)),
     def update_color(self, color: list) -> None:
         # self.root.ids.toolbar.md_bg_color = color
-        print(color)
+        logging.info(color)
 
     """
     def get_selected_color(
@@ -7097,8 +7149,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     ):
         
 
-        print(f"Selected color is {selected_color}")
-        print(theme_setting)
+        logging.info(f"Selected color is {selected_color}")
+        logging.info(theme_setting)
         self.update_color(selected_color[:-1] + [1])
 
         if theme_setting == "p":
@@ -7127,7 +7179,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_readuserdata as lib_readuserdata
 
         x = lib_readuserdata.readuserdata(App, ad, ios)
-        # print(s, p, a, x)
+        # logging.info(s, p, a, x)
         x["pcolor"] = p
         x["scolor"] = a
 
@@ -7140,11 +7192,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             x["theme"] = "Dark"
         self.theme_cls.theme_style = x["theme"]
 
-        # print(s, p, a, x)
+        # logging.info(s, p, a, x)
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
-        # print(x)
+        # logging.info(x)
 
     def change_screen(self, screen, direction):
         self.root.transition.direction = direction
@@ -7153,13 +7205,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def do_pp_sum(self, lala, t):
         if t == "pp":
-            print("cc", lala)
+            logging.info("cc", lala)
             global pp_index
             pp_index = pp_index + lala
-            print(pp_index, "INDEXXX")
+            logging.info(pp_index, "INDEXXX")
             paydate, payperiod = self.find_pay_date(pp_index)
             # zz=self.find_pay_date(pp_index)
-            # print (zz)
+            # logging.info (zz)
 
             paylist = self.root.get_screen("today").ids["pay1"]
             paylist.text = "Payday:  " + paydate + " "
@@ -7170,7 +7222,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             global cal_index
             cal_index = cal_index + lala
             month, year, mmonth = self.find_month(cal_index)
-            print(month, year, "cal in pp")
+            logging.info(month, year, "cal in pp")
             self.make_calendar_today(month, year, mmonth)
 
     def find_month(self, i):
@@ -7180,7 +7232,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # nextdate = now + timedelta(months=i)
         nextdate = datetime.date.today() + relativedelta.relativedelta(months=i)
 
-        print(i, "FIND MONTH", nextdate)
+        # logging.info(i, "FIND MONTH", nextdate)
 
         callist = self.root.get_screen("today").ids["cal_month"]
         callist.text = nextdate.strftime("%B %Y")
@@ -7190,7 +7242,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         # paylist.secondary_text = "Payperiod: " + payperiod
         # return (i, nextdate)
-        print(month, year, "in find month", nextdate)
+        # logging.info(month, year, "in find month", nextdate)
         return month, year, mmonth
 
     def load_paychecks(self):
@@ -7205,16 +7257,16 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         x = 0
         listofdicks = []
         # now = datetime.now()
-        # print(self.fday, "now", self.lday)
+        # logging.info(self.fday, "now", self.lday)
         from kivy.clock import Clock
 
         for file in glob.glob("*.html"):
-            # print (file)
+            # logging.info (file)
             import libs.lib_parse as lib_parse
 
             f1 = datetime.strptime(file, "%m-%d-%Y.html")
-            # print (f1,self.fday,self.lday,'LOADPPDates')
-            # print (type(f1),type(self.fday),type(self.lday),'LOADPPDates')
+            # logging.info (f1,self.fday,self.lday,'LOADPPDates')
+            # logging.info (type(f1),type(self.fday),type(self.lday),'LOADPPDates')
 
             dd, junk, junk, junk, junk, junk = lib_parse.parsepayperiod(
                 ad + "/pp/" + file
@@ -7222,24 +7274,24 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             if self.fday <= f1 and f1 <= self.lday:
                 listofdicks.append(dd)
                 x = x + 1
-            # print(x)
+            # logging.info(x)
             # toast("loaded:" + str(x))
             # Clock.schedule_once(self.dumb(x))
 
         return listofdicks
 
     def dumb(self, z):
-        print(z)
+        logging.info(z)
 
     def check_var(self, x):
-        print(x)
+        logging.info(x)
         if x == True:
             return "^^"
         else:
             return "vv"
 
     def spinner_toggle(self):
-        print("Spinner Toggle")
+        logging.info("Spinner Toggle")
         app = self.get_running_app()
         sp = self.sp
 
@@ -7265,9 +7317,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         ## Clock.schedule_once(self.do_payperiod())
 
     def do_reverse_all(self, sort, screen):
-        # print (sort,screen,'SORT AND SCREEN')
+        # logging.info (sort,screen,'SORT AND SCREEN')
         if self.archive_reverse == self.archive_reverse:
-            # print("omg its equal")
+            # logging.info("omg its equal")
             self.archive_reverse = not self.archive_reverse
         self.show_archive()
 
@@ -7277,7 +7329,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.show_archive()
 
     def do_trim_all(self, trim, screen):
-        # print (sort,'trimall',self.archive_sort)
+        # logging.info (sort,'trimall',self.archive_sort)
         self.archive_trim = trim
 
         self.show_archive()
@@ -7285,7 +7337,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def do_payperiod_f(self, date_rng):
         ssort = self.sort_pp
         fdate, ldate = self.get_dates(date_rng)
-        print(fdate, ldate, self.rreverse, ssort, "do_payperiod")
+        logging.info(fdate, ldate, self.rreverse, ssort, "do_payperiod")
         self.lday = ldate
         self.fday = fdate
         self.date_range_pp = date_rng
@@ -7310,7 +7362,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         else:
             x["hidden"] = False
             # toast("Show Personal Data")
-        print("toggle_hidden", x["hidden"])
+        logging.info("toggle_hidden", x["hidden"])
         import libs.lib_updateuserdata as lib_updateuserdata
 
         lib_updateuserdata.updateuser(x, ad)
@@ -7324,7 +7376,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         ssort = self.sort_pp
         rreverse = self.rreverse
-        print(rreverse, "REVERSE")
+        logging.info(rreverse, "REVERSE")
 
         self.root.current_screen.ids["payperiod_list"].clear_widgets()
         listofdicks = self.load_paychecks()
@@ -7373,7 +7425,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.lday, "full"
         )
         for z in range(len(listofdicks)):
-            # print(listofdicks[z])
+            # logging.info(listofdicks[z])
 
             panel = ThreeLineListItem(
                 text="Paydate: "
@@ -7397,9 +7449,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         # from kivymd.uix.list import ThreeLineListItem
 
-        # print(dir(FourLineListItem), "testtest")
+        # logging.info(dir(FourLineListItem), "testtest")
 
-        print(
+        logging.info(
             "ind",
             b.text,
         )
@@ -7409,14 +7461,14 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         z = libs.lib_parse2.parsepayperiod(
             d + "-" + m + "-" + y + ".html",
         )
-        # print(z, "gigigig")
+        # logging.info(z, "gigigig")
         # for line in o.readlines():
-        #    print(line)
+        #    logging.info(line)
         import os
 
-        # print(os.getcwd(), "CWDDDDD")
+        # logging.info(os.getcwd(), "CWDDDDD")
         os.chdir(cwd)
-        # print(os.getcwd(), "CWDDDDD")
+        # logging.info(os.getcwd(), "CWDDDDD")
         self.root.push("pay_breakdown")
 
         panel = MDListItem(
@@ -7491,10 +7543,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         hoursot = 0
         hourstot = 0
         # hourstot=0
-        # print(listofdicks)
+        # logging.info(listofdicks)
         i = 0
         for i in range(len(listofdicks)):
-            print(listofdicks[i])
+            logging.info(listofdicks[i])
             self.root.current_screen.ids["payperiod_list"].add_widget(
                 HistoryItem(text=str(listofdicks[i]["dtext"]) + "[size=0]" + str(i))
             )
@@ -7535,7 +7587,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 )
         if i == 0:
             toast("No Paystubs Found")
-        # print(moneys, "moneys")
+        # logging.info(moneys, "moneys")
 
     def do_history(self):
         self.root.push("history")
@@ -7569,12 +7621,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 data, pay2, ot2, hours2, tot2, date = libs.lib_extractjson.extract_show(
                     App, file, ad
                 )
-                print(data, pay2, ot2, hours2, tot2, date, "HOLY CRAP")
+                logging.info(data, pay2, ot2, hours2, tot2, date, "HOLY CRAP")
                 show_date = datetime.datetime.strptime(date, "%m/%d/%Y")
                 dstart = App.get_running_app().root.current_screen.ids["dstart"].text
                 dend = App.get_running_app().root.current_screen.ids["dend"].text
-                # print(show_date.date(), dstart, dend)
-                # print(type(show_date.date()), type(dstart), type(dend))
+                # logging.info(show_date.date(), dstart, dend)
+                # logging.info(type(show_date.date()), type(dstart), type(dend))
                 force = False
                 if dstart == "All":
                     dstart = datetime.datetime.strptime("1900", "%Y")
@@ -7582,15 +7634,15 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     force = True
                 else:
                     # dstart != 'All':
-                    # print(dstart, dend, "WF")
+                    # logging.info(dstart, dend, "WF")
                     dstart = datetime.datetime.strptime(dstart, "%Y-%m-%d")
                     dend = datetime.datetime.strptime(dend, "%Y-%m-%d")
-                    # print(
+                    # logging.info(
                     #    type(show_date.date()), type(dstart.date()), type(dend.date())
                     # )
-                # print(data, dstart.date(), dend.date(), show_date.date(), "data66")
+                # logging.info(data, dstart.date(), dend.date(), show_date.date(), "data66")
                 if dstart.date() <= show_date.date() <= dend.date():
-                    print(data, "inside the loop")
+                    logging.info(data, "inside the loop")
 
                     allshows.append(data)
                     pay = pay + pay2
@@ -7599,7 +7651,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     tot = tot + tot2
 
             # except:
-            # print("failed to add show")
+            # logging.info("failed to add show")
         self.root.current_screen.ids["history_list"].add_widget(
             HistoryItem(
                 text="pay="
@@ -7617,7 +7669,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         )
         s = allshows
         s = allshows.sort(reverse=True)
-        print(allshows, "allshows")
+        logging.info(allshows, "allshows")
 
         for i in range(len(allshows)):
             t = allshows[i] + "[size=1 sp]***" + str(i)
@@ -7628,7 +7680,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         """
         max_pixel = 200
         # aa=self.root.get_screen("home").ids['sv']
-        # print
+        # logging.info
         try:
             totwidget = (plus_search) + 2
             action = totwidget
@@ -7638,19 +7690,19 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             max3 = totwidget * view.scroll_y
             junk = 1 * (stupid - 1)
             junk = junk * grid.height
-            #print(junk, h / 3, plus_search)
+            #logging.info(junk, h / 3, plus_search)
             if (junk) > (h / 3):
-                print("overscroll")
+                logging.info("overscroll")
                 # self.do_login("",useold)
         except:
-            print("fail")
+            logging.info("fail")
             """
 
         # for id in self.root.get_screen("home").ids:
         # for id in self.root.get_screen("home").ids:
 
-        # print (id)
-        # print (view.height,aa.height,aa.pos,aa.size,aa.scroll_distance,dir(aa))
+        # logging.info (id)
+        # logging.info (view.height,aa.height,aa.pos,aa.size,aa.scroll_distance,dir(aa))
 
         # to_relative = max_pixel / ( view.height)
         # if view.scroll_y < 1.0 + to_relative or self.refreshing:
@@ -7661,11 +7713,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def grabText(self, inst):
         from kivy.core.clipboard import Clipboard
 
-        print(inst, "inst!!!!")
+        logging.info(inst, "inst!!!!")
 
         Clipboard.copy(inst)
 
-        # print("grabtext", inst)
+        # logging.info("grabtext", inst)
 
         self.snackbarx("Copied")
 
@@ -7673,8 +7725,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def add_task(self, init):
         # for x in range(len(self.dialog.clear_widgets)):
-        #    print(self.dialog.items[x])
-        # print(dir(self.dialog))
+        #    logging.info(self.dialog.items[x])
+        # logging.info(dir(self.dialog))
         self.dialog.text = "loser"
         pass
 
@@ -7683,7 +7735,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         from kivymd.uix.dialog import MDDialog
 
-        print("poppy", v)
+        logging.info("poppy", v)
         if v == "about":
             ttt = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
             if not self.dialog:
@@ -7721,7 +7773,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             self.dialog.text = ttt
 
     def refresh_data(self):
-        print("lol")
+        logging.info("lol")
 
     # def check_login(self):
     # good_login=self.do_login('',False)
@@ -7731,27 +7783,27 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def save_login(self):
         loc = App.get_running_app().root.current_screen.ids["lol"].text
-        print(loc, "LOC")
+        logging.info(loc, "LOC")
         blank = False
         if loc == "Select Location":
             self.snackbarx("Please Enter Location")
             blank = True
-            print(blank, "locc")
+            logging.info(blank, "locc")
         if App.get_running_app().root.current_screen.ids["temail"].text == "":
             self.snackbarx("Please Enter Email")
             blank = True
-            print(blank, "emailloc")
+            logging.info(blank, "emailloc")
         zz = App.get_running_app().root.current_screen.ids
 
-        # print(self.root.ids.pass2,'lolz')
+        # logging.info(self.root.ids.pass2,'lolz')
         passw = (
             App.get_running_app().root.current_screen.ids["pass2"].ids["tpassword"].text
         )
         if passw == "":
             self.snackbarx("Please Enter Password")
             blank = True
-            print(blank, "passwordloc")
-        print(blank, "BLANK")
+            logging.info(blank, "passwordloc")
+        logging.info(blank, "BLANK")
         success = False
         if blank == False:
             import libs.lib_new
@@ -7770,7 +7822,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             js = libs.lib_new.make_json_schedule(x, ad)
 
             try:
-                print(js, "JesusCh")
+                logging.info(js, "JesusCh")
                 self.snackbarx(str(js))
                 success = True
             except:
@@ -7783,6 +7835,21 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 self.snackbarx(str(js))
 
     # btnState2 = StringProperty("false")
+
+
+# Config.set('kivy', 'log_dir', 'your_chosen_log_dir_path')
+
+# filename of the log file
+# Config.set('kivy', 'log_name', "anything_you_want_%y-%m-%d_%_.log")
+
+# Keep log_maxfiles recent logfiles while purging the log directory. Set ‘log_maxfiles’ to -1 to disable logfile purging (eg keep all logfiles).
+# Config.set('kivy', 'log_maxfiles', 1000)
+
+# minimum log level which is what you need to not see kivy's default info logs
+Config.set("kivy", "log_level", "error")
+
+# apply all these changes
+Config.write()
 
 
 Demo3App().run()

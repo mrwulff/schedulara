@@ -40,9 +40,9 @@ class Example(MDApp):
     def build(self):
         return Builder.load_string(KV)
     
-    def print_street():
+    def logging.info_street():
         street_name = self.dialog.content_cls.ids.street.text
-        print(street_name)
+        logging.info(street_name)
 
     def show_confirmation_dialog(self):
         if not self.dialog:
@@ -56,8 +56,8 @@ class Example(MDApp):
                                     text="CANCEL", text_color=self.theme_cls.primary_color,
                                 ),
                     
-                    MDFlatButton(text = "print",               
-                                 on_press=self.print_street
+                    MDFlatButton(text = "logging.info",               
+                                 on_press=self.logging.info_street
                                 ),
                         ],
             )
@@ -65,11 +65,11 @@ class Example(MDApp):
     
     
     
-    def print_city(city_name):
-        print(city_name)
+    def logging.info_city(city_name):
+        logging.info(city_name)
 
-    def print_street(street_name):
-        print(street_name)
+    def logging.info_street(street_name):
+        logging.info(street_name)
 
 
 

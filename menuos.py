@@ -1,5 +1,6 @@
 from kivy.lang import Builder
-#from kivy.app import App
+
+# from kivy.app import App
 from kivymd.app import MDApp
 
 from kivy.uix.floatlayout import FloatLayout
@@ -9,9 +10,7 @@ from kivymd.uix.card import MDCard
 from kivymd.uix.card import MDCardSwipe
 
 
-
-
-KV = '''
+KV = """
 #:import C kivy.utils.get_color_from_hex
 <SwipeButton@Carousel>:
     text: ''
@@ -60,58 +59,57 @@ RecycleView:
         size_hint_y: None
         height: self.minimum_height
         default_size_hint: 1, None
-'''
+"""
 import create_cache
 import libparse
 
-create_cache.createcache('')
-xxx=libparse.parse('','','')
+create_cache.createcache("")
+xxx = libparse.parse("", "", "")
 
 
-print (xxx)
+logging.info(xxx)
+
+
 class ListApp(MDApp):
     data = ListProperty()
 
     def build(self):
-        self.data = [{
-            'data_index': i,
-            'index': 1,
-            'height': 48,
-            'text': str(xxx[i][0])
-            }
+        self.data = [
+            {"data_index": i, "index": 1, "height": 48, "text": str(xxx[i][0])}
             for i in range(len(xxx))
         ]
         return Builder.load_string(KV)
 
     def update_index(self, data_index, index):
-        print('update data index: {}: {}'.format(data_index, index))
-        self.data[data_index]['index'] = index
+        logging.info("update data index: {}: {}".format(data_index, index))
+        self.data[data_index]["index"] = index
 
     def delete(self, data_index):
-        print("delete {}".format(data_index))
+        logging.info("delete {}".format(data_index))
         self._remove(data_index)
+
     def press(self, data_index):
-        print ('lol')
+        logging.info("lol")
 
     def archive(self, data_index):
-        print("archive {}".format(data_index))
-        #self._remove(data_index)
-        print (xxx[data_index][0])
-        (xxx[data_index][0])='shitty'
-        print (xxx[data_index][0])
-
+        logging.info("archive {}".format(data_index))
+        # self._remove(data_index)
+        logging.info(xxx[data_index][0])
+        (xxx[data_index][0]) = "shitty"
+        logging.info(xxx[data_index][0])
 
     def _remove(self, data_index):
         self.data.pop(data_index)
-        self.data = [{
-            'data_index': i,
-            'index': d['index'],
-            'height': d['height'],
-            'text': d['text']
+        self.data = [
+            {
+                "data_index": i,
+                "index": d["index"],
+                "height": d["height"],
+                "text": d["text"],
             }
             for i, d in enumerate(self.data)
         ]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     ListApp().run()

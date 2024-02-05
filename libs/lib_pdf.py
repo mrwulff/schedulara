@@ -3,7 +3,7 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.graphics.shapes import Drawing
-
+import logging
 import calendar
 
 from reportlab.lib import pagesizes
@@ -23,8 +23,10 @@ def nonzero(row):
     return len([x for x in row if x != 0])
 
 
-def createCalendar(name,a, month, year=NOW.year, canvas=None, filename=None, size=SIZE):
-    print(month, "month", year, "year")
+def createCalendar(
+    name, a, month, year=NOW.year, canvas=None, filename=None, size=SIZE
+):
+    logging.info(month, "month", year, "year")
     """
     Create a one-month pdf calendar, and return the canvas
 
@@ -43,7 +45,7 @@ def createCalendar(name,a, month, year=NOW.year, canvas=None, filename=None, siz
     elif canvas is None and filename is None:
         raise NoCanvasError
     datee = datetime.datetime.strptime(str(month), "%m")
-    print(datee)
+    logging.info(datee)
     monthname = time.strftime(
         "%B",
     )
@@ -53,9 +55,9 @@ def createCalendar(name,a, month, year=NOW.year, canvas=None, filename=None, siz
         month,
     )
     # cal.firstweekday(-1)
-    title = monthname + " " + str(year)+ ' Rhino Schedule for '+ name
+    title = monthname + " " + str(year) + " Rhino Schedule for " + name
     width, height = size
-    width2,height2=size
+    width2, height2 = size
 
     # draw the month title
     # title = monthname + " " + str(year)
@@ -106,26 +108,36 @@ def createCalendar(name,a, month, year=NOW.year, canvas=None, filename=None, siz
     # now fill in the day numbers and any data
     x = wmar + 6
     y = hmar + (rows * rowheight) - 15
-    tot=0
+    tot = 0
     for week in cal:
         for day in week:
             event = False
             if day:
                 try:
-                    zzz=(a[day], day, "asdf")
+                    zzz = (a[day], day, "asdf")
                     zzz
                     event = True
-                except :
-                    # print("no event")
-                    
+                except:
+                    # logging.info("no event")
+
                     pass
 
                 canvas.setFont("Helvetica", s * 2)
                 canvas.drawString(x, y, str(day))
-                if event :
+                if event:
                     b = (len(a[day]) / 3) - 2
-                    tot=tot+(len(a[day]) / 3)
+                    tot = tot + (len(a[day]) / 3)
+
                     for i in range(2):
+                        if a[day].get("out" + str(i)):
+                            if a[day].get("out" + str(i)) == "0":
+                                si = ""
+                            else:
+                                si = "- " + a[day].get("out" + str(i))
+                            canvas.setFont("Helvetica", s)
+                            canvas.drawString(x + 15, y - 10 - i * 40, str(si))
+                            logging.info("found endtime", a[day].get("out" + str(i)))
+                        logging.info(a[day], "aday")
 
                         try:
                             canvas.setFont("Helvetica", s)
@@ -139,11 +151,11 @@ def createCalendar(name,a, month, year=NOW.year, canvas=None, filename=None, siz
                                 x, y - 30 - i * 40, str(a[day]["show" + str(i)])
                             )
                         except:
-                            # print("fail")
+                            # logging.info("fail")
                             pass
                     try:
-                        print(str(a[day]["time2"]))
-                        
+                        logging.info(str(a[day]["time2"]))
+
                         if b > 1:
                             canvas.drawString(x, y - 90, str(b) + " MORE EVENTS")
                         if b == 1:
@@ -157,23 +169,29 @@ def createCalendar(name,a, month, year=NOW.year, canvas=None, filename=None, siz
             x = x + boxwidth
         y = y - rowheight
         x = wmar + 6
-    canvas.setFont("Helvetica", s*1.4)
-    canvas.drawCentredString(width / 2, height2 -40, str.split(str(tot), ".")[0]+ ' Events, Updated '+str(datetime.datetime.now().date())+' Created By Schedulara.app')
-    #canvas.drawCentredString(width / 2, height2 + 0, str.split(str(tot), ".")[0]+ ' Shifts2')
-    #canvas.drawCentredString(width / 2, height2 -100, str.split(str(tot), ".")[0]+ ' Shifts3')
-    #canvas.drawCentredString(width / 2, height2 - 199, str.split(str(tot), ".")[0]+ ' Shifts4')
+    canvas.setFont("Helvetica", s * 1.4)
+    canvas.drawCentredString(
+        width / 2,
+        height2 - 40,
+        str.split(str(tot), ".")[0]
+        + " Events, Updated "
+        + str(datetime.datetime.now().date())
+        + " Created By Schedulara.app",
+    )
+    # canvas.drawCentredString(width / 2, height2 + 0, str.split(str(tot), ".")[0]+ ' Shifts2')
+    # canvas.drawCentredString(width / 2, height2 -100, str.split(str(tot), ".")[0]+ ' Shifts3')
+    # canvas.drawCentredString(width / 2, height2 - 199, str.split(str(tot), ".")[0]+ ' Shifts4')
     # finish this page
     canvas.showPage()
 
     return canvas
 
 
-def alt(name,ad, a, m, y):
-
+def alt(name, ad, a, m, y):
     # create a December, 2005 PDF
     s = 5
-    print(m, "month", y, "year")
-    c = createCalendar(name,a, m, y, filename=ad+"/blog_calendar.pdf")
+    logging.info(m, "month", y, "year")
+    c = createCalendar(name, a, m, y, filename=ad + "/blog_calendar.pdf")
     # now add January, 2006 to the end
     # createCalendar(1, 2006, canvas=c)
     c.save()

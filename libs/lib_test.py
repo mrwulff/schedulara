@@ -14,7 +14,7 @@ def al2():
     br.startAccelerometer()
 
     for i in range(10000):
-        print ('x: {0} y: {1} z: {2}'.format(br.ac_x, br.ac_y, br.ac_z))
+        logging.info ('x: {0} y: {1} z: {2}'.format(br.ac_x, br.ac_y, br.ac_z))
 
 def n23():
     from kivy.app import App
@@ -32,7 +32,7 @@ def n23():
         onesignal_object.setAppId_("f440b374-4f65-4709-8b32-52f51e859191")
         onesignal_object.promptForPushNotificationsWithUserResponse_("f440b374-4f65-4709-8b32-52f51e859191")
         
-        print (dir(onesignal_object),'onesignal...')
+        logging.info (dir(onesignal_object),'onesignal...')
         
 
 
@@ -116,7 +116,6 @@ def openlinks():
 
 
 def n22():
-
     import notification_old
 
     notification_old.schedule(
@@ -125,7 +124,7 @@ def n22():
         title="this is a titls",
     )
     x = notification_old.get_scheduled()
-    print(x, "omggggg")
+    logging.info(x, "omggggg")
 
 
 def testnot2():
@@ -138,11 +137,10 @@ def testnot2():
     # notification.schedule('!wow!',delay=10,title= "title",subtitle='subtitle')
 
     x = notification2.get_scheduled()
-    print(x)
+    logging.info(x)
 
 
 def testnot():
-
     # import notification_old
     # notification_old.schedule('!wow55!',delay=10,subtitle='wow')
 

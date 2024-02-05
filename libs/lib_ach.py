@@ -7,12 +7,12 @@ def download_ach(ad):
         # openedFile = open(ad + "/ids22.json")
         f = open(ad + "/ids22.json")
         data = json.load(f)
-        print(data)
+        logging.info(data)
 
         z = data["children"]
 
     except:
-        print("fail")
+        logging.info("fail")
         z = ""
 
     try:
@@ -24,19 +24,19 @@ def download_ach(ad):
         f.write(webContent)
         f.close
         flag = True
-        print("downloaded score tables")
+        logging.info("downloaded score tables")
     except:
-        print("failed to dl")
+        logging.info("failed to dl")
         return "failed to dl"
 
     f = open(ad + "/ids22.json")
     data = json.load(f)
-    print(data)
+    logging.info(data)
 
     nz = data["children"]
 
     if z == nz:
-        print("sameold")
+        logging.info("sameold")
         return "No Update Avalable"
 
     if flag == True:
@@ -56,9 +56,9 @@ def list_ach(ad, select):
     data = json.load(f)
     newdata = []
     xnewdata = []
-    # print(data["children"][0])
-    # print(len(data["children"]))
-    # print(data["children"])
+    # logging.info(data["children"][0])
+    # logging.info(len(data["children"]))
+    # logging.info(data["children"])
     z = data["children"]
     for i in range(len(z)):
         if (z[i]["achieved"]) == "True":
@@ -200,20 +200,20 @@ def longestrun(myList):
     mshows = []
     date = ""
     for i in range(len(myList) - 1):
-        # print(myList[i][0], myList[i + 1][0], myList[i][1])
+        # logging.info(myList[i][0], myList[i + 1][0], myList[i][1])
 
         if myList[i + 1][0] - 1 == myList[i][0] or myList[i + 1][0] == myList[i][0]:
             if myList[i + 1][0] - 1 == myList[i][0]:
                 size += 1
-            # print("omg")
+            # logging.info("omg")
             listshows.append(myList[i])
         else:
             size = 1
-            # print("fail")
+            # logging.info("fail")
             listshows = []
-        # print(size)
+        # logging.info(size)
         if max_size < size:
-            # print(size)
+            # logging.info(size)
             date = myList[i]
             max_size = size
             mshows = listshows
@@ -227,13 +227,13 @@ def check_scroll(self, ad, x):
     import datetime
 
     dataxx = libs.lib_new.get_json_schedule(x, ad)
-    print(len(dataxx["shows"]), "asdfasdfasdf")
+    logging.info(len(dataxx["shows"]), "asdfasdfasdf")
 
     f = open(ad + "/testtest22.json")
     data = json.load(f)
 
     if (len(dataxx["shows"])) > 30:
-        print("scroll ach unlocked!!!")
+        logging.info("scroll ach unlocked!!!")
         if data["children"][3]["achieved"] == "False":
             data["children"][3]["date_achieved"] = str(datetime.date.today())
         data["children"][3]["achieved"] = "True"
@@ -252,7 +252,7 @@ def check_hats(self, ad):
         make_ach(ad)
         f = open(ad + "/testtest22.json")
 
-    print("checking hats")
+    logging.info("checking hats")
     points = 0
     from datetime import datetime, timedelta
     import libs.lib_makegraphs as lib_makegraphs
@@ -266,12 +266,12 @@ def check_hats(self, ad):
         new_start,
         new_finish,
     )
-    # print(h, h2, days, hours)
+    # logging.info(h, h2, days, hours)
     return h, h2
     """
     hours.sort(key=lambda x: x[0], reverse=True)
     top_hours = []
-    # print(hours, "hourssss")
+    # logging.info(hours, "hourssss")
     if len(hours) > 5:
         for aaa in range(5):
             top_hours.append(hours[aaa])
@@ -279,18 +279,18 @@ def check_hats(self, ad):
     import json
     from collections import Counter
 
-    # print(Counter(h2))
+    # logging.info(Counter(h2))
     days.sort()
     import itertools
 
     if len(days) == 0:
-        print("no pay data.  Please download")
+        logging.info("no pay data.  Please download")
         return
-    # print(days)
+    # logging.info(days)
     xx, date, shows = longestrun(days)
-    # print(xx, shows, "whtdcfuck")
+    # logging.info(xx, shows, "whtdcfuck")
     # for i in range(len(days)):
-    #    print(days[i][0])
+    #    logging.info(days[i][0])
 
     f = open(ad + "/testtest22.json")
     data = json.load(f)
@@ -318,7 +318,7 @@ def check_hats(self, ad):
 
     ###hours_ach
     if hours[0][0] > 18:
-        print("ach unlocked!!!")
+        logging.info("ach unlocked!!!")
         if data["children"][2]["achieved"] == "False":
             data["children"][2]["date_achieved"] = str(datetime.date.today())
         data["children"][2]["achieved"] = "True"

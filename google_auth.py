@@ -123,7 +123,7 @@ def callbackGoogle():
 
 
 def login_google():
-    # print(App.get_running_app(), App.get_application_name)
+    # logging.info(App.get_running_app(), App.get_application_name)
     if is_connected():
         start_server(port)
         # from kivyauth.desktop.utils import func

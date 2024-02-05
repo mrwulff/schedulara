@@ -7,18 +7,18 @@ def create_notification(x, y, debug, ad):
     from kivy.utils import platform
 
     new_text = datetime.datetime.now().strftime("%H:%M:%S")
-    print(new_text)
+    logging.info(new_text)
 
-    # print(platform, "KIVY PLATFORM")
+    # logging.info(platform, "KIVY PLATFORM")
     if platform == "linux":
-        print("omgitslinux")
+        logging.info("omgitslinux")
     d1 = float(y["not1time"])
     d2 = float(y["not2time"])
 
     d1 = d1 * 60
     d2 = d2 * 60
 
-    print(d1, d2, "omgwtfitsday1", x, y)
+    logging.info(d1, d2, "omgwtfitsday1", x, y)
 
     showdatetime = x["date"] + " " + x["time"]
 
@@ -26,16 +26,16 @@ def create_notification(x, y, debug, ad):
     dif = showdatetime - now
 
     delay2 = dif.total_seconds()
-    # print (delay2,'delay2',d2)
-    # print (type(delay2),type(d2))
+    # logging.info (delay2,'delay2',d2)
+    # logging.info (type(delay2),type(d2))
     delay2 = delay2 - d2
-    # print (delay2,'delay2-d2',d2)
+    # logging.info (delay2,'delay2-d2',d2)
 
     delay1 = dif.total_seconds()
-    # print (delay1,'delay1')
+    # logging.info (delay1,'delay1')
 
     delay1 = delay1 - d1
-    print(delay1, "delay1")
+    logging.info(delay1, "delay1")
     if debug == True:
         delay1 = 30
     if 1 == 1:
@@ -52,7 +52,7 @@ def create_notification(x, y, debug, ad):
         import time
 
         task_time = delay1 * 1000
-        print(task_time, "tasktime")
+        logging.info(task_time, "tasktime")
         from jnius import autoclass
 
         PythonActivity = autoclass("org.kivy.android.PythonActivity")
@@ -67,14 +67,14 @@ def create_notification(x, y, debug, ad):
     if platform == "ios":
         # if platform != "win":
         if 1 == 2:
-            print("IOS BITCHES", x["show"], delay2, d2, now, showdatetime)
+            logging.info("IOS BITCHES", x["show"], delay2, d2, now, showdatetime)
 
             import libs.notification as notification
 
             try:
                 if y["not"] == True and y["not2"] == True:
-                    # print (x,'xxxxxx')
-                    # print (x['show'])
+                    # logging.info (x,'xxxxxx')
+                    # logging.info (x['show'])
                     notification.schedule(
                         x["show"],
                         delay=delay2,
@@ -83,7 +83,7 @@ def create_notification(x, y, debug, ad):
                         attachments=["images/black-rhino.png"],
                         sound_name="images/beep.wav",
                     )
-                    print("added not 2 ", delay2)
+                    logging.info("added not 2 ", delay2)
 
                 if y["not"] == True and y["not1"] == True:
                     notification.schedule(
@@ -94,15 +94,15 @@ def create_notification(x, y, debug, ad):
                         attachments=["images/black-rhino.png"],
                         sound_name="images/beep.wav",
                     )
-                    print("added not 1 ", delay1)
+                    logging.info("added not 1 ", delay1)
             except:
-                print("failed to make nots")
+                logging.info("failed to make nots")
 
             # import notification_old
             # x6=notification.get_scheduled()
-            # print (len(x6),'omggggg')
-            # print(type(datetime_object))
-            # print(datetime_object)
+            # logging.info (len(x6),'omggggg')
+            # logging.info(type(datetime_object))
+            # logging.info(datetime_object)
 
     logging.debug(x)
 
@@ -113,7 +113,7 @@ def cancel_notification():
 
     from kivy.utils import platform
 
-    print(platform, "KIVY PLATFORM")
+    logging.info(platform, "KIVY PLATFORM")
     if platform == "ios":
         # import notification_old as notification
 

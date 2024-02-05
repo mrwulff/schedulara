@@ -28,13 +28,17 @@ def parsepayperiod(file):
     flag2 = False
     hhours = []
     for i in range(len(ab)):
-
         ax = ab[i].find_all("td")
-        #for x in range(len(ax)):
-            #print (ax[x].get_text(),'AX',x)
+        # for x in range(len(ax)):
+        # logging.info (ax[x].get_text(),'AX',x)
         try:
-            alldays = [ax[5].get_text(), ax[11].get_text(), ax[4].get_text(),ax[13].get_text()]
-            #timein,total,show
+            alldays = [
+                ax[5].get_text(),
+                ax[11].get_text(),
+                ax[4].get_text(),
+                ax[13].get_text(),
+            ]
+            # timein,total,show
 
             if (ax[1].get_text()) == "SHOW":
                 show_type = show_type + 1
@@ -46,7 +50,6 @@ def parsepayperiod(file):
         except:
             pass
         try:
-
             xx = ax[2].get_text()
             if flag2 == False:
                 if (xx) == "\xa0":
@@ -58,26 +61,25 @@ def parsepayperiod(file):
                 flag1 = True
 
         except:
-            # print(ax, "fail")
+            # logging.info(ax, "fail")
             pass
         try:
-
             hours_worked = (float(ax[7].get_text())) + (float(ax[8].get_text()))
-            # print(hours_worked, "hoursworked")
+            # logging.info(hours_worked, "hoursworked")
             # hours_worked = int(hours_worked)
             hhours.append([hours_worked, ax[4].get_text(), ax[5].get_text()])
         except:
-            # print(ax, "failuresss")
+            # logging.info(ax, "failuresss")
             pass
     # test_list = list(set(positions))
     test_list = positions
     ###TODO
     realday = []
     day_ach = []
-    #print(allday,'WHAT')
+    # logging.info(allday,'WHAT')
     for i in range(1, len(allday) - 1):
         # allday[i][0], junk, junk = str.split(allday[i][0], " ")
-        #print (allday[i],'allday')
+        # logging.info (allday[i],'allday')
         newallday0, junk, junk = str.split(allday[i][0], " ")
         try:
             junk, allday[i][1] = str.split(allday[i][1], "$")
@@ -106,7 +108,7 @@ def parsepayperiod(file):
 
     past = False
     dobj = datetime.datetime.strptime(temp, "%m/%d/%Y")
-    # print (dobj.day)
+    # logging.info (dobj.day)
     dobj2 = datetime.datetime.strftime(dobj, "%d %b %Y")
     ddelta = date.today() - dobj.date()
     ddelta = ddelta.days
@@ -114,12 +116,12 @@ def parsepayperiod(file):
     # lblRegHoursTotal
     # lblOTHoursTotal
     # lblPayPeriod
-    # print (grandtotal.text)
-    # print (paydate.text)
-    # print (grandtotal.text)
-    # print (reghours)
-    # print (othours)
-    # print (paydate.text)
+    # logging.info (grandtotal.text)
+    # logging.info (paydate.text)
+    # logging.info (grandtotal.text)
+    # logging.info (reghours)
+    # logging.info (othours)
+    # logging.info (paydate.text)
     # ddict=dobjgrandtotal.text
     totalhours = float(reghours.text) + float(othours.text)
     text = (
@@ -148,15 +150,15 @@ def parsepayperiod(file):
         "shows": days,
         "ddelta": ddelta,
         "dtext": text,
-        #"daysago": realday[0],
+        # "daysago": realday[0],
         "day_ach": day_ach,
         "hours_ach": hhours,
     }
-    # print(realday, alldays)
+    # logging.info(realday, alldays)
 
-    # print (text)
+    # logging.info (text)
     show_types = in_type, out_type, show_type
-    # print(show_types)
+    # logging.info(show_types)
     return ddict, realday, in_type, out_type, show_type, test_list
 
 
@@ -170,7 +172,7 @@ def parse(sch, ad, usecache, x5):
     import hashlib
 
     debug = False
-    print(ad, "ifadisblankwtf")
+    logging.info(ad, "ifadisblankwtf")
     if ad == "":
         ad = "C:\\Users\\kw\\AppData\\Roaming\\demo3\\"
         sch = "C:\\Users\\kw\\AppData\\Roaming\\demo3\\new.html"
@@ -241,7 +243,7 @@ def parse(sch, ad, usecache, x5):
     name = soup.find("span", id="lblEmpName")
 
     name = str.split(name.get_text(), ", ")
-    print(name, "wtfname")
+    logging.info(name, "wtfname")
     name = name[1] + " " + name[0]
 
     nn = soup.find_all("span")
@@ -252,15 +254,15 @@ def parse(sch, ad, usecache, x5):
         except:
             """"""
     try:
-        print(name.get_text(), "realname")
+        logging.info(name.get_text(), "realname")
     except:
-        print(nn, "realname")
+        logging.info(nn, "realname")
 
     ab = soup.find_all("tr")
 
     fullnj = []
     for i in range(1, len(ab) - 1):
-        print("testtest")
+        logging.info("testtest")
         nj = []
         nj2 = {}
         ax = ab[i].find_all("td")
@@ -302,7 +304,7 @@ def parse(sch, ad, usecache, x5):
         }
         try:
             {"what": ax[14].get_text()}
-            # print(i,ax[14])
+            # logging.info(i,ax[14])
         except:
             pass
         try:
@@ -312,14 +314,14 @@ def parse(sch, ad, usecache, x5):
                 thisdict["confirmable"] = f[3]
         except:
             pass
-        # print ((ax[13]))
+        # logging.info ((ax[13]))
         # thisdict={"canceled":  False}
         if len((ax[13].get_text())) > 3:
             can = ax[13]
 
-            # print (can)
+            # logging.info (can)
             if "Red" in str(can):
-                # print ("OMG ITS RED")
+                # logging.info ("OMG ITS RED")
                 thisdict["canceled"] = True
 
         mjds.append(thisdict)
@@ -352,7 +354,7 @@ def parse(sch, ad, usecache, x5):
 
         # hash_object = hashlib.sha1(str(thisdict))
         # hex_dig = hash_object.hexdigest()
-        # print(hex_dig)
+        # logging.info(hex_dig)
         mystring = str(thisdict)
         hash_object = hashlib.md5(mystring.encode())
         fname = hash_object.hexdigest()
@@ -363,7 +365,7 @@ def parse(sch, ad, usecache, x5):
             x = open(nf, "r")
 
             thisdict["is_new"] = False
-            print("show exists gagagaag")
+            logging.info("show exists gagagaag")
         except:
             thisdict["is_new"] = True
             flag_new = True
@@ -389,34 +391,33 @@ def parse(sch, ad, usecache, x5):
             # try:
             #    lib_bonus.create_notification(mjds[i],x5)
             # except:
-            #    print ('failed to make notification')
+            #    logging.info ('failed to make notification')
 
     # for i in range(15,len(ab)-15):
-    # print (len(ab))
+    # logging.info (len(ab))
 
     for i in range(len(ab)):
         asds = str(ab[i].contents)
 
         if "input2 name" not in asds:
-
             l.append((ab[i].get_text()))
         if "input4 name" in asds:
             l.append(str(ab[i]))
     # for z in range(len(mj3)):
-    # print (mj3[z])
+    # logging.info (mj3[z])
     if debug == True:
         for i in range(len(mjds)):
             pass
-            # print (mjds[i])
+            # logging.info (mjds[i])
     import json
 
     final = json.dumps(mjds, indent=2)
-    # print (final)
+    # logging.info (final)
     return mj3, mjds, name
 
 
 if __name__ == "__main__":
     # parse("sch", "ad", False)
-    #parsepayperiod("C:/Users/kw/AppData/Roaming/demo3/pp/01-25-2022.html")
+    # parsepayperiod("C:/Users/kw/AppData/Roaming/demo3/pp/01-25-2022.html")
     parsepayperiod("C:/Users/twat/AppData/Roaming/demo3/pp/01-25-2022.html")
     parsepayperiod("C:/Users/twat/AppData/Roaming/demo3/pp/11-28-2023.html")

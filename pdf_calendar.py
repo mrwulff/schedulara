@@ -109,10 +109,10 @@ def createCalendar(a, month, year=NOW.year, canvas=None, filename=None, size=SIZ
             event = False
             if day:
                 try:
-                    print(a[day], day, "asdf")
+                    logging.info(a[day], day, "asdf")
                     event = True
                 except:
-                    print("no event")
+                    logging.info("no event")
                 canvas.drawString(x, y, str(day))
                 if event == True:
                     canvas.drawString(x, y - 15, str(a[day]["time"]))

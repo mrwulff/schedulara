@@ -1,14 +1,17 @@
+import logging
+
+
 def get_single_rate(ad, pos):
     import json
 
     f = "position_list.json"
-    # print
-    # print(ad, "get positions")
+    # logging.info
+    # logging.info(ad, "get positions")
     o = open(ad + "/" + f)
     data = json.load(o)
     d = data["positions"]
     for x in range(len(d)):
-        # print(d[x], "dsubx")
+        # logging.info(d[x], "dsubx")
         if d[x]["abv"] == pos:
             try:
                 zz = d[x]["rate"]
@@ -23,22 +26,22 @@ def get_position_name(ad, name):
     import json
 
     f = "position_list.json"
-    # print
-    # print(ad, "get positions")
+    # logging.info
+    # logging.info(ad, "get positions")
     try:
         o = open(ad + "/" + f)
-        print("opened json file")
+        # logging.info("opened json file")
     except:
         pass
-        print("cant find position list", os.getcwd())
+        logging.info("cant find position list", os.getcwd())
         shutil.copyfile(f, ad + "/" + f)
         o = open(ad + "/" + f)
-        print("opened json file")
+        # logging.info("opened json file")
     data = json.load(o)
     data = data["positions"]
-    print(data, "data")
+    logging.info(data, "data")
     # x3 = search(data, name)
-    # print(x3)
+    # logging.info(x3)
     for x in range(len(data)):
         if name == (data[x]["abv"]):
             return data[x]["description"]
@@ -57,25 +60,25 @@ def get_positions(ad, search):
     import json
 
     f = "position_list.json"
-    # print
-    # print(ad, "get positions")
+    # logging.info
+    # logging.info(ad, "get positions")
     try:
         o = open(ad + "/" + f)
-        print("opened json file")
+        # logging.info("opened json file")
     except:
         pass
-        print("cant find position list", os.getcwd())
+        logging.info("cant find position list", os.getcwd())
         shutil.copyfile(f, ad + "/" + f)
         o = open(ad + "/" + f)
-        print("opened json file")
+        # logging.info("opened json file")
     data = json.load(o)
-    # print(
+    # logging.info(
     #    data["positions"], len(data["positions"]), type(data["positions"]), "DATATATA"
     # )
     # xx = filter(lambda person: person["abv"] == "V", data)
 
     xx = [element for element in data["positions"] if search.lower() in element["all"]]
-    print(len(xx), search, "xx", len(data["positions"]))
+    # logging.info(len(xx), search, "xx", len(data["positions"]))
     return xx
 
 
@@ -84,16 +87,16 @@ def edit(ad):
 
     f = "position_list.json"
     f2 = "poslist.json"
-    # print
-    # print(ad, "get positions")
+    # logging.info
+    # logging.info(ad, "get positions")
 
     o = open(ad + "/" + f)
     data = json.load(o)["positions"]
     for i in range(len(data)):
-        print(data[i])
+        logging.info(data[i])
         data[i]["all"] = data[i]["abv"] + " " + data[i]["description"]
         data[i]["all"] = data[i]["all"].lower()
-    print(data)
+    logging.info(data)
     with open(f2, "w") as ofile:
         json.dump(data, ofile, indent=4)
 

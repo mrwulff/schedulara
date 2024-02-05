@@ -10,7 +10,7 @@ def dl_stats(App, ex, x, user):
     from datetime import datetime
 
     lol = os.getcwd()
-    print(lol, "getcwd")
+    logging.info(lol, "getcwd")
     databaseURL = "https://schedulara-default-rtdb.firebaseio.com"
     cred_obj = firebase_admin.credentials.Certificate("sc.json")
     chat_exists_flag = False
@@ -19,7 +19,7 @@ def dl_stats(App, ex, x, user):
             cred_obj, {"databaseURL": databaseURL}
         )
     except:
-        print("already logged into db")
+        logging.info("already logged into db")
 
     # s = gg["date"] + " " + gg["job"] + " " + x["city"]
 
@@ -31,7 +31,7 @@ def dl_stats(App, ex, x, user):
     u = str(u)
     u = str.split(u, " ")
     u = u[len(u) - 1]
-    print(u, "md5hash")
+    logging.info(u, "md5hash")
     if user == "single":
         ref = db.reference("/stats/" + u)
 
@@ -40,7 +40,7 @@ def dl_stats(App, ex, x, user):
 
     z = ref.get()
 
-    # print(z, "firebase data")
+    # logging.info(z, "firebase data")
     return z
 
 
@@ -58,20 +58,20 @@ def send_stats(App, ex, x):
         default_app = firebase_admin.initialize_app(
             cred_obj, {"databaseURL": databaseURL}
         )
-        print("logged in to firebase")
+        logging.info("logged in to firebase")
     except:
-        print("already logged into db")
+        logging.info("already logged into db")
 
     u = str.replace(x["username"], "@", ".at.")
     u = str.replace(u, ".", "-")
     u = u.encode("utf-8")
 
     u = hashlib.md5(u).hexdigest()
-    print(dir(u), "md5hashuu")
+    logging.info(dir(u), "md5hashuu")
     u = str(u)
     u = str.split(u, " ")
     u = u[len(u) - 1]
-    print(u, "md5hash")
+    logging.info(u, "md5hash")
     u = "f_232344sdf7293847"
 
     ref = db.reference("/stats/" + u)
@@ -97,7 +97,7 @@ def send_stats(App, ex, x):
 
 
 def view_chat(App, gg, x):
-    # print(App, gg, x)
+    # logging.info(App, gg, x)
     from datetime import datetime
 
     now = datetime.now()
@@ -114,7 +114,7 @@ def view_chat(App, gg, x):
             cred_obj, {"databaseURL": databaseURL}
         )
     except:
-        print("already logged into db")
+        logging.info("already logged into db")
 
     s = gg["date"] + " " + gg["job"] + " " + x["city"]
 
@@ -122,7 +122,7 @@ def view_chat(App, gg, x):
 
     z = ref.get()
     try:
-        print(len(z))
+        logging.info(len(z))
         chat_exists_flag = True
         # return z
     except:
@@ -130,19 +130,19 @@ def view_chat(App, gg, x):
         return []
     logs = []
     for key, value in z.items():
-        # print(key, value)
+        # logging.info(key, value)
         for key2, value2 in value.items():
             nt, junk = str.split(value2["Time"], ".")
-            # print(key2, value2)
+            # logging.info(key2, value2)
             q = {"name": key2, "date": nt, "message": value2["Message"]}
             logs.append(q)
-            # print(len(logs),wtf)
-    # print(logs)
+            # logging.info(len(logs),wtf)
+    # logging.info(logs)
     return logs
 
 
 def try_add_chat(App, gg, x, test_message):
-    # print(App, gg, x)
+    # logging.info(App, gg, x)
     from datetime import datetime
 
     now = datetime.now()
@@ -159,7 +159,7 @@ def try_add_chat(App, gg, x, test_message):
             cred_obj, {"databaseURL": databaseURL}
         )
     except:
-        print("already logged into db")
+        logging.info("already logged into db")
 
     s = gg["date"] + " " + gg["job"] + " " + x["city"]
 
@@ -167,7 +167,7 @@ def try_add_chat(App, gg, x, test_message):
 
     z = ref.get()
     try:
-        # print(len(z))
+        # logging.info(len(z))
         chat_exists_flag = True
     except:
         "no chat file"
@@ -204,14 +204,14 @@ def try_add_show(App, gg, x):
             cred_obj, {"databaseURL": databaseURL}
         )
     except:
-        print("already logged into db")
+        logging.info("already logged into db")
 
     s = gg["date"] + " " + gg["job"] + " " + x["city"]
 
     ref = db.reference("/shows/" + s)
     z = ref.get()
     try:
-        print(len(z))
+        logging.info(len(z))
         show_exists_flag = True
     except:
         "no show file"
@@ -222,9 +222,9 @@ def try_add_show(App, gg, x):
     junk = []
     if show_exists_flag == True:
         for key, value in z.items():
-            # print(key, value)
+            # logging.info(key, value)
             for key, value2 in value.items():
-                # print(key, value2)
+                # logging.info(key, value2)
                 old_update = datetime.strptime(value2["Init"], "%Y-%m-%d %H:%M:%S.%f")
                 newtime = old_update.strftime("%m/%d %H:%M")
                 data = {
@@ -254,17 +254,17 @@ def try_add_show(App, gg, x):
                 # name_list.append(data)
                 if x["name"] == key:
                     flag_checkedin = True
-                    # print ('Already Checked In)
+                    # logging.info ('Already Checked In)
 
     if flag_checkedin == True:
         t = "Already Checked In"
-        # print("Already Checked In")
+        # logging.info("Already Checked In")
         return junk, t, name_list
     if flag_checkedin == False:
-        print("Trying to check in")
+        logging.info("Trying to check in")
         t = add_show(App, gg, x)
         try_add_show(App, gg, x)
-        # print("Check in Success")
+        # logging.info("Check in Success")
 
 
 def add_show(App, gg, x):
@@ -281,7 +281,7 @@ def add_show(App, gg, x):
             cred_obj, {"databaseURL": databaseURL}
         )
     except:
-        print("already init")
+        logging.info("already init")
     s = gg["date"] + " " + gg["job"] + " " + x["city"]
 
     from firebase_admin import db
@@ -313,7 +313,7 @@ def update_user_profile(x):
             cred_obj, {"databaseURL": databaseURL}
         )
     except:
-        print("already logged into db")
+        logging.info("already logged into db")
     u = str.replace(x["username"], "@", ".at.")
     u = str.replace(u, ".", "-")
     ref = db.reference("/users/" + u)
@@ -346,7 +346,7 @@ def get_profile(user):
             cred_obj, {"databaseURL": databaseURL}
         )
     except:
-        print("already logged into db")
+        logging.info("already logged into db")
 
     # s = gg["date"] + " " + gg["job"] + " " + x["city"]
 

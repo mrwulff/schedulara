@@ -97,7 +97,7 @@ class GroceryApp(MDApp):
             if c["Category"] == category:
                 for r in c["Recipes"]:
                     if r["title"] == recipe:
-                        print(r["shopping list"])
+                        logging.info(r["shopping list"])
 
         ing = IngContent(
             items=ingredient_list(category, recipe)

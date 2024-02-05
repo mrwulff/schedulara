@@ -7,24 +7,24 @@ import string
 
 def open_files():
     f = os.listdir("pp")
-    print(f)
-    print(type(f))
-    print(len(f))
+    logging.info(f)
+    logging.info(type(f))
+    logging.info(len(f))
     for i in range(1):
         # for i in range(len(f)):
 
-        print(f[i])
+        logging.info(f[i])
         a = open("pp/" + f[i], "r")
         for line in a.readlines():
-            # print (line)
+            # logging.info (line)
             if 'cell-noborder">' in line:
-                print(line)
+                logging.info(line)
 
 
 def doublefake():
     global browser
     global response
-    print("doublefake")
+    logging.info("doublefake")
 
     url = "http://127.0.0.1:8000/list.html"
     url = urllib.parse.unquote(url)
@@ -40,12 +40,12 @@ def doublefake():
     g = find_paychecks(str(aa))
 
     for i in range(len(g)):
-        # print (g[i][1])
+        # logging.info (g[i][1])
         try:
             mm = open(g[i][1] + ".htm1l", "r")
-            print(g[i][1] + "opened successful")
+            logging.info(g[i][1] + "opened successful")
         except:
-            print(g[i][1] + "opened failed")
+            logging.info(g[i][1] + "opened failed")
 
             try:
                 br.select_form(name="ctl00")
@@ -76,25 +76,25 @@ def doublefake():
 
 
 def find_paychecks(a, ad):
-    print("find_paychecks")
-    print(a)
+    logging.info("find_paychecks")
+    logging.info(a)
     b = open(ad + "/" + a, "r")
     c = []
     for line in b.readlines():
         c.append(line)
     g = []
-    print(len(c))
+    logging.info(len(c))
     for d in range(len(c)):
         if 'aystub" href="javascript' in c[d]:
-            # print (c[d],'FOUND ONE BOSS!')
-            print(c[d])
+            # logging.info (c[d],'FOUND ONE BOSS!')
+            logging.info(c[d])
 
             e = str.split(c[d], "'")
             url = e[1]
             f = str.split(c[d + 1], ">")
-            # print (len(f))
+            # logging.info (len(f))
             if len(f) > 3:
-                # print (f[2])
+                # logging.info (f[2])
                 date, junk = str.split(f[2], "<")
                 date = str.replace(date, "/", "-")
                 links = (url, date)
@@ -103,7 +103,7 @@ def find_paychecks(a, ad):
 
 
 def thinkpp(x, ad):
-    print("thinkpp", x)
+    logging.info("thinkpp", x)
     import libs.lib_enc
 
     # USERNAME
@@ -140,18 +140,18 @@ def thinkpp(x, ad):
         browser.select_form(nr=0)
     browser["emailaddress"] = x["username"]
     browser["mypassword"] = libs.lib_enc.r_password(x["password"])
-    # print (browser)
-    # print browser.title
+    # logging.info (browser)
+    # logging.info browser.title
 
     res = browser.submit()
 
     aa = res.get_data()
-    # print (aa)
+    # logging.info (aa)
 
     res = browser.open(PE_COUNTRIES)
 
     aa = res.read()
-    # print (aa)
+    # logging.info (aa)
 
     aaa.write((aa))
     aaa.close()
@@ -166,7 +166,7 @@ def thinkpp(x, ad):
         # for z in range(2):
         try:
             aaa = open(ad + "/pp" + "/" + g[z][1] + ".html", "r")
-            print("found " + g[z][1])
+            logging.info("found " + g[z][1])
             found = found + 1
         except:
             try:
@@ -184,27 +184,27 @@ def thinkpp(x, ad):
             control_t.readonly = False
             # control_t.value='dgResults$ctl02$btn_Paystub'
             control_t.value = g[z][0]
-            # print (g[z][0], type(g[z][0]),'gz')
-            # print (type(g[z][0]))
+            # logging.info (g[z][0], type(g[z][0]),'gz')
+            # logging.info (type(g[z][0]))
             # control_t.value=g[z][0]
-            # print (control_t.value,type(control_t.value),'value')
+            # logging.info (control_t.value,type(control_t.value),'value')
 
             res = browser.submit()
 
             request = browser.request
-            # print (request.header_items())
+            # logging.info (request.header_items())
 
             aa = res.get_data()
 
             aaa.write((aa))
-            print("Downloaded from server " + g[z][1])
+            logging.info("Downloaded from server " + g[z][1])
             aaa.close()
             browser.open(PE_COUNTRIES)
     return len(g), len(g) - found
 
 
 def get_files():
-    # print('getting files from live site')
+    # logging.info('getting files from live site')
     # think()
 
     # doublefake()

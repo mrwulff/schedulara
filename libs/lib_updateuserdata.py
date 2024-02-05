@@ -4,8 +4,8 @@ def updateuser(data, ad):
     # with open(ad+'/userdata.json.txt') as json_file:
     #    data = json.load(json_file)
 
-    # print (data)
-    # print (type(data))
+    # logging.info (data)
+    # logging.info (type(data))
     (data["username"]) = data["username"]
     (data["password"]) = data["password"]
     (data["city"]) = data["city"]
@@ -17,11 +17,11 @@ def updateuser(data, ad):
         (data["theme"]) = data["theme"]
     except:
         """"""
-    # print (data['username'])
+    # logging.info (data['username'])
     # data=str(data)
     data = json.dumps(data, indent=4)
 
-    # print(data, ad, "gaga")
+    # logging.info(data, ad, "gaga")
     x = open(ad + "/userdata.json.txt", "w")
     x.write(data)
     x.close()
@@ -30,11 +30,11 @@ def updateuser(data, ad):
 def updateuser_extra(data, ad):
     import json
 
-    # print(data, "json exta data")
+    # logging.info(data, "json exta data")
 
     data = json.dumps(data, indent=4)
     x = open(ad + "/userdata_extra.json.txt", "w")
     x.write(data)
     x.close()
 
-    # print(data, "update extra")
+    # logging.info(data, "update extra")

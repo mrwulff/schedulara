@@ -15,7 +15,7 @@ def parse(aa,ad,usecache):
     #from os import *
 
     #ad=config_file
-    print (ad,'this is the directory')
+    logging.info (ad,'this is the directory')
     import create_cache
     from bs4 import BeautifulSoup
     global mj
@@ -24,7 +24,7 @@ def parse(aa,ad,usecache):
     global l
     global firstName
     global lastName
-    #print ('google')
+    #logging.info ('google')
 
     l=[]
     
@@ -50,7 +50,7 @@ def parse(aa,ad,usecache):
     joob3=[]
     l2=[]
 
-    print ('wtf you ass')
+    logging.info ('wtf you ass')
     try:
         aaa=open(ad+'/conf.html','r')
     except:
@@ -125,7 +125,7 @@ def parse(aa,ad,usecache):
 
     
     #for i in range(15,len(ab)-15):
-    #print (len(ab))
+    #logging.info (len(ab))
 
     for i in range(len(ab)):
         asds= str(ab[i].contents)
@@ -137,7 +137,7 @@ def parse(aa,ad,usecache):
         if 'input4 name' in asds:
             l.append(str(ab[i]))
     #for z in range(len(mj3)):
-        #print (mj3[z])
+        #logging.info (mj3[z])
     return mj3
 
 

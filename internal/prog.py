@@ -1,5 +1,5 @@
 import webcolors
 
 z = webcolors.name_to_hex("navy")
-print(str(z))
-print(dir(z))
+logging.info(str(z))
+logging.info(dir(z))

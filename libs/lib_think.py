@@ -6,19 +6,19 @@ def login(ad, x, ios, App):
     if ios == True:
         app = App.get_running_app()
         ad = app.user_data_dir
-    # print (x)
+    # logging.info (x)
 
-    print("using real data")
+    logging.info("using real data")
     ssl.verify = False
     ssl._create_default_https_context = ssl._create_unverified_context
-    print("using real data66")
-    print(libs.lib_enc.r_password(x["password"]))
-    print(x["username"])
+    # logging.info("using real data66")
+    logging.info(libs.lib_enc.r_password(x["password"]))
+    # logging.info(x["username"])
 
     PE_LOGIN = "https://www.thinkrhino.com/employee/" + x["city"] + "/index.aspx"
     PE_COUNTRIES = "https://www.thinkrhino.com/employee/" + x["city"] + "/Schedule.aspx"
 
-    print(PE_COUNTRIES, "PE_COUNTRIES")
+    # logging.info(PE_COUNTRIES, "PE_COUNTRIES")
     browser = mechanize.Browser()
 
     browser.set_handle_robots(False)
@@ -29,20 +29,20 @@ def login(ad, x, ios, App):
             "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1",
         )
     ]
-    print(PE_LOGIN, "PE_LOGIN")
+    # logging.info(PE_LOGIN, "PE_LOGIN")
     if 1 == 1:
         # try:
         browser.open(PE_LOGIN)
-        print("browser=open")
+        logging.info("browser=open")
     # except:
-    print("using real data669")
+    # logging.info("using real data669")
     #    return False
     try:
         browser.select_form(name="ctl00")
     except:
         browser.select_form(nr=0)
-    # print (x['username'],x['password'])
-    # print (type(x['username']),type(x['password']))
+    # logging.info (x['username'],x['password'])
+    # logging.info (type(x['username']),type(x['password']))
     browser["emailaddress"] = x["username"]
     browser["mypassword"] = browser["mypassword"] = libs.lib_enc.r_password(
         x["password"]
@@ -51,24 +51,24 @@ def login(ad, x, ios, App):
     res = browser.submit()
 
     aa = res.get_data()  # HTML source of the page
-    # print (aa)
+    # logging.info (aa)
     full = open(ad + "/fullwebsite.html", "wb")
     full.write(aa)
 
     res = browser.open(PE_COUNTRIES)
 
     aa = res.get_data()  # HTML source of the page
-    # print (aa)
+    # logging.info (aa)
     b2 = open(ad + "/realdata.html", "wb")
-    print("using real data66")
+    # logging.info("using real data66")
 
     b2.write(aa)
 
     b2.close()
-    print("login success")
+    logging.info("login success")
     return True
     # except:
-    #    print ('login failed')
+    #    logging.info ('login failed')
     #    return False
 
 
@@ -114,46 +114,43 @@ def login_basic(ad, x, App):
 
     app = App.get_running_app()
     ad = app.user_data_dir
-    # print (x)
+    # logging.info (x)
 
-    print("using real data")
+    # logging.info("using real data")
     ssl.verify = False
     ssl._create_default_https_context = ssl._create_unverified_context
-    print("using real data66")
+    # logging.info("using real data66")
 
     PE_LOGIN = "https://www.thinkrhino.com/employee/" + x["city"] + "/index.aspx"
     PE_COUNTRIES = "https://www.thinkrhino.com/employee/" + x["city"] + "/Schedule.aspx"
-    print("using real data67")
+    # logging.info("using real data67")
     # USERNAME = c.text
     # dir_path = os.path.dirname(os.path.realpath(__file__))
     # aaa=open(dir_path+'/test2.html','wb')
     # global browser
     browser = mechanize.Browser()
-    print("using real data68")
 
     browser.set_handle_robots(False)
     browser.set_handle_equiv(False)
-    print("using real data69")
     browser.addheaders = [
         (
             "User-agent",
             "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1",
         )
     ]
-    print(PE_LOGIN, "PE_LOGIN")
+    logging.info(PE_LOGIN, "PE_LOGIN")
     if 1 == 1:
         # try:
         browser.open(PE_LOGIN)
-        print("browser=open")
+        logging.info("browser=open")
     # except:
-    print("using real data669")
     #    return False
     try:
         browser.select_form(name="ctl00")
     except:
         browser.select_form(nr=0)
-    # print (x['username'],x['password'])
-    # print (type(x['username']),type(x['password']))
+    # logging.info (x['username'],x['password'])
+    # logging.info (type(x['username']),type(x['password']))
     browser["emailaddress"] = x["username"]
     browser["mypassword"] = browser["mypassword"] = libs.lib_enc.r_password(
         x["password"]
@@ -164,15 +161,14 @@ def login_basic(ad, x, App):
     res = browser.open(PE_COUNTRIES)
 
     aa = res.get_data()  # HTML source of the page
-    # print (aa)
+    # logging.info (aa)
     b2 = open(ad + "/realdata.html", "wb")
-    print("using real data66")
 
     b2.write(aa)
 
     b2.close()
-    print("login success")
+    logging.info("login success")
     return True
     # except:
-    #    print ('login failed')
+    #    logging.info ('login failed')
     #    return False

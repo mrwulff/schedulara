@@ -1,4 +1,5 @@
 import calendar
+import logging
 
 
 def basic_cal(month, year):
@@ -8,13 +9,13 @@ def basic_cal(month, year):
     # month = 12
     year = int(year)
     month = int(month)
-    print(year, month, "year month in basic cal")
+    # logging.info(year, month, "year month in basic cal")
     l = cal.monthdatescalendar(year, month)
-    print(len(l))
-    # print(l)
+    logging.info(len(l))
+    # logging.info(l)
     return l
 
 
 if __name__ == "__main__":
     l = basic_cal(12, 23)
-    print(l)
+    logging.info(l)

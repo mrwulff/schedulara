@@ -6,7 +6,7 @@ def submit(name, score, ach, ad):
     # https://www.highscores.ovh/
     import hashlib
 
-    print(name, score, ach)
+    logging.info(name, score, ach)
     # appid = ["d6073280-f7af-4082-8b33-0356d7068f51"]
     # secret = ["073276b2-4940-40f0-87cc-7e4805382cd0"]
     # secret = ["8b1d0ff7-8176-4142-bbfc-06594a61de83"]
@@ -14,7 +14,7 @@ def submit(name, score, ach, ad):
     try:
         f = open(ad + "/ids22.json")
     except:
-        print("failed to get scoretables. downloading now")
+        logging.info("failed to get scoretables. downloading now")
 
         import libs.lib_ach
 
@@ -22,25 +22,25 @@ def submit(name, score, ach, ad):
         try:
             f = open(ad + "/ids22.json")
         except:
-            print("failed to get scoretables(submit)")
+            logging.info("failed to get scoretables(submit)")
 
         return "failed to get json"
     data = json.load(f)
     appid = data["children"][ach]["appid"]
     secret = data["children"][ach]["secret"]
 
-    print(appid, secret)
+    logging.info(appid, secret)
 
-    # print(data)
+    # logging.info(data)
     pid = name
 
     check = str(pid) + "" + str(score) + "" + str(secret)
     check = check.encode()
-    print(check)
+    logging.info(check)
     check2 = hashlib.md5(check)
 
     (check2) = check2.hexdigest()
-    print(check2)
+    logging.info(check2)
 
     url = (
         "https://www.highscores.ovh/api/highscore?appId="
@@ -54,16 +54,16 @@ def submit(name, score, ach, ad):
         + "&checksum="
         + str(check2)
     )
-    print(url)
+    logging.info(url)
     x = requests.post(url)
 
-    print(dir(x))
+    logging.info(dir(x))
     sc = x.status_code
 
     if sc == 200:
-        print("SUCCESS!!!")
+        logging.info("SUCCESS!!!")
     if sc != 200:
-        print(sc, x, x.content, x.raw)
+        logging.info(sc, x, x.content, x.raw)
 
     # url = "https://www.highscores.ovh/api/highscore?appId=<appId>playerId=<payerId>&playerName=<playerName>&score=<score>&checksum=<checksum>"
 
@@ -74,14 +74,14 @@ def dl_score(name, ach, ad):
     try:
         f = open(ad + "/ids22.json")
     except:
-        print("failed to get scoretables. trying to download")
+        logging.info("failed to get scoretables. trying to download")
         import libs.lib_ach
 
         libs.lib_ach.download_ach(ad)
         try:
             f = open(ad + "/ids22.json")
         except:
-            print("failed to get scoretables (dlscore)")
+            logging.info("failed to get scoretables (dlscore)")
             return "fail"
 
     data = json.load(f)
@@ -92,14 +92,14 @@ def dl_score(name, ach, ad):
     url = (
         "https://www.highscores.ovh/api/highscore?appId=" + appid + "&playerId=" + name
     )
-    print(url)
+    logging.info(url)
     x = requests.get(url)
     sc = x.status_code
-    print(sc)
+    logging.info(sc)
     content = x.content
 
     content = content.decode("UTF-8")
-    # print(content)
+    # logging.info(content)
     content = json.loads(content)
 
     # with open(ad + "data.json", "w") as f:
@@ -108,7 +108,7 @@ def dl_score(name, ach, ad):
     json_object = json.dumps(content, indent=4)
     x = open(ad + "/scores" + str(ach) + ".json", "w")
     x.write(json_object)
-    print("downloaded score table: " + str(ach))
+    logging.info("downloaded score table: " + str(ach))
     return "success"
 
 
@@ -118,7 +118,6 @@ def clamp(x):
 
 def parse_score(name, ach, ad, color):
     try:
-
         f = open(ad + "/scores" + str(ach) + ".json")
     except:
         dl_score(name, ach, ad)
@@ -130,7 +129,7 @@ def parse_score(name, ach, ad, color):
 
     # Iterating through the json
     # list
-    # print(data)
+    # logging.info(data)
     x = []
     y = []
     q = []
@@ -140,14 +139,14 @@ def parse_score(name, ach, ad, color):
     color1 = int(color[1] * 255)
     color2 = int(color[2] * 255)
     ip = data["currentPlayerScore"]
-    print(ip, "ipipipip", data)
+    logging.info(ip, "ipipipip", data)
     newc = "#{0:02x}{1:02x}{2:02x}".format(clamp(color0), clamp(color1), clamp(color2))
     for i in data["topScores"]:
         x = [i["score"], i["playerName"], i["placement"]]
         # q = str(i["score"]) + "," + str(i["playerName"]), +"," + str(i["placement"])
         q.append(i["score"])
         if i["playerName"].lower() == name.lower():
-            print("wtf" + i["playerName"], name + "wtf")
+            logging.info("wtf" + i["playerName"], name + "wtf")
 
             q.append("[b][color=" + newc + "]" + i["playerName"] + "[/b][/color]")
         else:
@@ -161,15 +160,15 @@ def parse_score(name, ach, ad, color):
             q.append(["numeric-3-circle", [50, 127, 250, 1], ""])
         if num > 2:
             q.append(i["placement"])
-        # print(x)
+        # logging.info(x)
         y.append(x)
         num = num + 1
 
     try:
         x = [ip["score"], ip["playerName"], ip["placement"]]
-        # print(x)
-        # print(x)
-        print(x[2], "wtf placement", x)
+        # logging.info(x)
+        # logging.info(x)
+        logging.info(x[2], "wtf placement", x)
 
         if x[2] > 10:
             y.append(x)
@@ -177,7 +176,7 @@ def parse_score(name, ach, ad, color):
             q.append(str(ip["score"]))
             q.append("[b][color=" + newc + "]" + ip["playerName"] + "[/b][/color]")
             q.append(str(ip["placement"]))
-        print(y, "scoremofo")
+        logging.info(y, "scoremofo")
         return y, str(x[2]), q
     except:
         return y, "fail", q

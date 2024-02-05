@@ -48,9 +48,9 @@ class Demo3App(MDApp):
 
     def md2(self):
         # self.root.set_current("md2")'
-        print(dir(self.root))
+        logging.info(dir(self.root))
         self.root.push("md2")
-        print("md2")
+        logging.info("md2")
 
     def on_start2(self):
         global x
@@ -60,18 +60,18 @@ class Demo3App(MDApp):
 
         if 1 == 1:
             config_file = ad
-        # print(tic - time.perf_counter(), "on start !!!")
+        # logging.info(tic - time.perf_counter(), "on start !!!")
         import libs.lib_readuserdata
 
         try:
             x = libs.lib_readuserdata.readuserdata(App, config_file, False)
-            print("read user data at begining")
+            logging.info("read user data at begining")
         except:
             import libs.lib_makeuserdata
 
             libs.lib_makeuserdata.makeuserdata(App, config_file, False)
             x = libs.lib_readuserdata.readuserdata(App, config_file, False)
-            print("made user data at begining!!!!!")
+            logging.info("made user data at begining!!!!!")
         if 1 == 2:
             # try:
             self.theme_cls.theme_style = x["theme"]
@@ -79,7 +79,7 @@ class Demo3App(MDApp):
 
         # except:
         #    pass
-        # print(x, "lol")
+        # logging.info(x, "lol")
 
         # self.do_login("", useold)
         # self.theme_cls.switch_theme()
@@ -88,12 +88,12 @@ class Demo3App(MDApp):
         # x3 = self.theme_cls.accent_palette
         # x4 = self.theme_cls.material_style
         # self.theme_cls.switch_theme()
-        print(x1, x2, "THEME STUFF")
+        logging.info(x1, x2, "THEME STUFF")
         self.md2()
 
     def switch_palette(self, selected_palette):
         self.theme_cls.primary_palette = selected_palette
-        print("switch palet")
+        logging.info("switch palet")
 
     def set_palette(self):
         instance_from_menu = self.get_instance_from_menu("Set palette")
@@ -103,7 +103,7 @@ class Demo3App(MDApp):
 
         menu_items = []
         for name_palette in available_palettes:
-            print(name_palette)
+            logging.info(name_palette)
             menu_items.append(
                 {
                     "text": name_palette,

@@ -37,7 +37,7 @@ class Test(MDApp):
         )
 
     def callback(self, instance_button):
-        print(self.alert, instance_button)
+        logging.info(self.alert, instance_button)
 
 
 Test().run()

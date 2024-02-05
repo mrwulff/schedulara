@@ -11,7 +11,7 @@
             size: self.size
     background_color: [1, 0, 0, 1]  if self.selected else [1, 1, 1, 1]  # dark red else dark grey
     on_release:
-        print("Pressed")
+        logging.info("Pressed")
 
 <WrappedLabel@Label>:
     size_hint_y: None
@@ -55,28 +55,28 @@
                 background_color: [1, 1, 1, 1]
                 on_release:
                     rv_data_list.populate_1()
-                    print("Add")
+                    logging.info("Add")
 
             Button:
                 text: "Change"
                 background_color: [1, 1, 1, 1]
                 on_release:
                     rv_data_list.populate_2()
-                    print("Change")
+                    logging.info("Change")
 
             Button:
                 text: "Remove"
                 background_color: [1, 1, 1, 1]
                 on_release:
                     rv_data_list.populate_3()
-                    print("Remove")
+                    logging.info("Remove")
 
             Button:
                 text: "Test"
                 background_color: [1, 1, 1, 1]
                 on_release:
                     root.test_set_data()
-                    print("Test set data")
+                    logging.info("Test set data")
 
         RecycleViewPortfolio:
             id: rv_data_list

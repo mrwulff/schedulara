@@ -15,7 +15,7 @@ def make_stats_pp(self, clabel, dd, newmax, y):
         from kivymd.uix.card import MDCard
 
         self.root.current_screen.ids["graphs"].add_widget(MDCard(text="wow"))
-        print("wow")
+        logging.info("wow")
 
     # import platform
 
@@ -23,9 +23,9 @@ def make_stats_pp(self, clabel, dd, newmax, y):
 
     from kivy.utils import platform
 
-    # print(platform, "KIVY PLATFORM")
+    # logging.info(platform, "KIVY PLATFORM")
     if platform == "android":
-        print("omg its android")
+        logging.info("omg its android")
 
     if platform == "win":
         platformheight = 400
@@ -33,7 +33,7 @@ def make_stats_pp(self, clabel, dd, newmax, y):
     # self.root.current = "stats"
     # self.root.set_current("stats")
     self.samples = y
-    # print(len(dd), "lendd")
+    # logging.info(len(dd), "lendd")
     self.graph = Graph(
         y_ticks_major=newmax / 3,
         x_ticks_major=y / 3,
@@ -67,7 +67,7 @@ def make_full_json_pp(ad, s, e, full):
     from datetime import datetime
 
     all_pp = []
-    print(s, e, "START AND END")
+    logging.info(s, e, "START AND END")
     try:
         import libs.lib_parse2 as lib_parse
     except:
@@ -81,12 +81,12 @@ def make_full_json_pp(ad, s, e, full):
         os.chdir(ad + "/pp")
 
     for file in glob.glob("*.html"):
-        # print(file)
+        # logging.info(file)
         # f1, f2 = str.split(file, ".")
         f1 = datetime.strptime(file, "%m-%d-%Y.html")
         if full == False:
             if s < f1 and f1 < e:
-                # print(type(s), type(f1), e, "DATES OF PPPPS")
+                # logging.info(type(s), type(f1), e, "DATES OF PPPPS")
 
                 pp = lib_parse.parsepayperiod(ad + "/pp/" + file)
                 all_pp.append(pp)
@@ -131,12 +131,12 @@ def parsepp(self, ad, type, finish, start):
     all_hours = []
     max_t = 0
     for file in glob.glob("*.html"):
-        # print(file)
+        # logging.info(file)
         # file2, junk = str.split(file, ".")
         file2 = file
         pp_date = datetime.strptime(file2, "%m-%d-%Y.html")
 
-        # print(pp_date)
+        # logging.info(pp_date)
         try:
             qq = (start.date(), finish.date(), pp_date.date(), "STARTSSS")
         except:
@@ -145,23 +145,23 @@ def parsepp(self, ad, type, finish, start):
             start = start.date()
         except:
             pass
-            # print("cannont convert start")
+            # logging.info("cannont convert start")
 
         try:
             finish = finish.date()
         except:
-            # print("cannont convert finish")
+            # logging.info("cannont convert finish")
             pass
 
         try:
             pp_date = pp_date.date()
         except:
-            # print("cannont convert pp_date")
+            # logging.info("cannont convert pp_date")
             pass
 
-        # print(type(pp_date))
+        # logging.info(type(pp_date))
         # xx = type(start)
-        # print(xx)
+        # logging.info(xx)
         """
         try:
             if start.date() < pp_date and pp_date < finish.date():
@@ -176,8 +176,8 @@ def parsepp(self, ad, type, finish, start):
             dd, days, ins2, outs2, shows2, positions = lib_parse.parsepayperiod(
                 ad + "/pp/" + file
             )
-            # print(dd["day_ach"], "DAYS MOTHERFUCKER")
-            # print((dd["day_ach"]), "DAYS MOTHERFUCKER")
+            # logging.info(dd["day_ach"], "DAYS MOTHERFUCKER")
+            # logging.info((dd["day_ach"]), "DAYS MOTHERFUCKER")
             days_ach_list = days_ach_list + dd["day_ach"]
             ins = ins + ins2
             outs = outs + outs2
@@ -208,8 +208,8 @@ def parsepp(self, ad, type, finish, start):
             for x in range(len(positions)):
                 all_pos.append(positions[x])
         except:
-            print("no poss")
-    print(len(days_ach_list), "DAYSACHLIST")
+            logging.info("no poss")
+    logging.info(len(days_ach_list), "DAYSACHLIST")
     if type != "hats":
         return (
             dd2,
@@ -224,9 +224,9 @@ def parsepp(self, ad, type, finish, start):
             max_t,
         )
     if type == "hats":
-        # print(all_pos)
+        # logging.info(all_pos)
         hats = list(set(all_pos))
-        # print(hats, len(hats))
+        # logging.info(hats, len(hats))
         return hats, all_pos, days_ach_list, all_hours
 
 

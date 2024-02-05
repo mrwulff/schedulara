@@ -1,4 +1,6 @@
 from __future__ import print_function
+import logging
+#
 
 from datetime import datetime, timedelta
 
@@ -24,46 +26,53 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive",
 ]
 
-def google_calendar_list(ad,x,delete):
+
+def google_calendar_list(ad, x, delete):
     service = get_calendar_service(ad)
     import datetime
-    id2= (x['cal_id'])
-    print (id,'ID')
+
+    id2 = x["cal_id"]
+    logging.info(id, "ID")
     page_token = None
-    tot=0
+    tot = 0
     while True:
-        start_date = datetime.datetime.now().isoformat() + 'Z'
-        #end_date = datetime.datetime(2024, 11, 7, 00, 00, 00, 0).isoformat() + 'Z'
-        print (start_date)
+        start_date = datetime.datetime.now().isoformat() + "Z"
+        # end_date = datetime.datetime(2024, 11, 7, 00, 00, 00, 0).isoformat() + 'Z'
+        logging.info(start_date)
 
-        events = service.events().list(calendarId=id2,timeMin=start_date, pageToken=page_token).execute()
-        for event in events['items']:
-            print (event['id'])
-            if delete==True:
-                #dell.append
-                service.events().delete(calendarId=id2, eventId=event['id']).execute()
+        events = (
+            service.events()
+            .list(calendarId=id2, timeMin=start_date, pageToken=page_token)
+            .execute()
+        )
+        for event in events["items"]:
+            logging.info(event["id"])
+            if delete == True:
+                # dell.append
+                service.events().delete(calendarId=id2, eventId=event["id"]).execute()
 
-            tot=tot+1
-        page_token = events.get('nextPageToken')
+            tot = tot + 1
+        page_token = events.get("nextPageToken")
         if not page_token:
             break
-    print (tot)
-    return (str(tot)+' Events Deleted')
+    logging.info(tot)
+    return str(tot) + " Events Deleted"
+
 
 def make_user_cals(ad):
     service = get_calendar_service(ad)
-    print("Getting list of calendars")
+    logging.info("Getting list of calendars")
     calendars_result = service.calendarList().list().execute()
 
     calendars = calendars_result.get("items", [])
 
     if not calendars:
-        print("No calendars found.")
+        logging.info("No calendars found.")
     for calendar in calendars:
         summary = calendar["summary"]
         id = calendar["id"]
         primary = "Primary" if calendar.get("primary") else ""
-        print("%s\t%s\t%s" % (summary, id, primary))
+        logging.info("%s\t%s\t%s" % (summary, id, primary))
     tz = time.strftime("%z")
     calendar = {"summary": "Schedulara", "timeZone": get_tz()}
 
@@ -79,8 +88,8 @@ def get_tz():
         tz = get_localzone()
     except:
         tz = "America/Los_Angeles"
-        print("timezone dumb")
-    # print(type(tz))
+        logging.info("timezone dumb")
+    # logging.info(type(tz))
     return str(tz)
 
 
@@ -119,11 +128,11 @@ def make_google_event(ad, y, id):
         .execute()
     )
 
-    print("created event")
-    print("id: ", event_result["id"])
-    print("summary: ", event_result["summary"])
-    print("starts at: ", event_result["start"]["dateTime"])
-    print("ends at: ", event_result["end"]["dateTime"])
+    logging.info("created event")
+    logging.info("id: ", event_result["id"])
+    logging.info("summary: ", event_result["summary"])
+    logging.info("starts at: ", event_result["start"]["dateTime"])
+    logging.info("ends at: ", event_result["end"]["dateTime"])
 
 
 def get_calendar_service(ad):
@@ -149,7 +158,7 @@ def get_calendar_service(ad):
             token.write(creds.to_json())
 
     service = build("calendar", "v3", credentials=creds)
-    # print("successfully found service")
+    # logging.info("successfully found service")
     return service
 
 
@@ -162,7 +171,7 @@ def google_calendar_add(ad, x, y):
     start_time = datetime.strptime(x["date"] + " " + x["time"], "%m/%d/%Y %H:%M")
     start = start_time.isoformat()
     end = start
-    # print(x["venue"], "what")
+    # logging.info(x["venue"], "what")
     event_result = (
         service.events()
         .insert(
@@ -189,11 +198,11 @@ def google_calendar_add(ad, x, y):
         .execute()
     )
 
-    # print("created event")
-    # print("id: ", event_result["id"])
-    print("summary: ", event_result["summary"])
-    # print("starts at: ", event_result["start"]["dateTime"])
-    # print("ends at: ", event_result["end"]["dateTime"])
+    # logging.info("created event")
+    # logging.info("id: ", event_result["id"])
+    logging.info("summary: ", event_result["summary"])
+    # logging.info("starts at: ", event_result["start"]["dateTime"])
+    # logging.info("ends at: ", event_result["end"]["dateTime"])
     return event_result["id"]
 
 
@@ -213,10 +222,10 @@ def create_google_folder(ad, name):
 
         # pylint: disable=maybe-no-member
         file = service.files().create(body=file_metadata, fields="id").execute()
-        print(f'Folder has created with ID: "{file.get("id")}".')
+        logging.info(f'Folder has created with ID: "{file.get("id")}".')
 
     except HttpError as error:
-        print(f"An error occurred creating folder: {error}")
+        logging.info(f"An error occurred creating folder: {error}")
         file = None
 
     return file.get("id")
@@ -226,7 +235,7 @@ def get_creds(ad):
     creds = None
     import os
 
-    print(os.getcwd(), "CWDOFO")
+    logging.info(os.getcwd(), "CWDOFO")
     if os.path.exists(ad + "/token2.json"):
         creds = Credentials.from_authorized_user_file(ad + "/token2.json", SCOPES)
     if not creds or not creds.valid:
@@ -244,7 +253,6 @@ def get_creds(ad):
 
 
 def find_backup(ad, id):
-
     creds = get_creds(ad)
     service = build("drive", "v3", credentials=creds)
     items = []
@@ -263,9 +271,9 @@ def find_backup(ad, id):
         items.extend(response.get("files", []))
         pageToken = response.get("nextPageToken")
     d = items
-    print(d)
+    logging.info(d)
     # dn = sorted(d, key=lambda d: d["name"])
-    # print(dn)
+    # logging.info(dn)
     return d
 
 
@@ -286,30 +294,29 @@ def download_google_drive(ad, f):
         done = False
         while done is False:
             status, done = downloader.next_chunk()
-            print(f"Download {int(status.progress() * 100)}.")
+            logging.info(f"Download {int(status.progress() * 100)}.")
 
     except HttpError as error:
-        print(f"An error occurred: {error}")
+        logging.info(f"An error occurred: {error}")
         file = None
 
     return file.getvalue()
 
 
 def google_files(ad, f, id):
-
     creds = get_creds(ad)
-    # print(creds)
+    # logging.info(creds)
     now = datetime.now()
     id = [id]
     d = datetime.strftime(now, "%Y.%m.%d-%H:%M:%S")
-    # print(id, "this is the id")
+    # logging.info(id, "this is the id")
     # parents = ["1IOFfiU0V4qySMyU3cEK32ypGczXRWz-q"]
     try:
         service = build("drive", "v3", credentials=creds)
 
         file_metadata = {
             "name": d + ".zip",
-            "parents": id
+            "parents": id,
             # "parents":1IOFfiU0V4qySMyU3cEK32ypGczXRWz-q
         }
         media = MediaFileUpload(ad + "/backup.zip", mimetype="application/zip=")
@@ -318,10 +325,9 @@ def google_files(ad, f, id):
             .create(body=file_metadata, media_body=media, fields="id")
             .execute()
         )
-        # print(file_metadata)
+        # logging.info(file_metadata)
         return "File ID: %s" % file.get("id")
     except HttpError as error:
-
         return f"An error occurred: {error}"
 
 
@@ -354,12 +360,12 @@ def search_files(ad, name):
                 break
 
     except HttpError as error:
-        print(f"An error occurred searching for folder: {error}")
+        logging.info(f"An error occurred searching for folder: {error}")
         files = None
         return "FAILED TO MAKE/FIND CALENDAR"
     try:
         zzz = file.get("id")
-        # print(zzz, type(zzz))
+        # logging.info(zzz, type(zzz))
         return zzz
     except:
         create_google_folder(ad, name)
@@ -398,7 +404,7 @@ if __name__ == "__main__":
     # make_google_event(ad)
     # os.chdir("../")
     zz = os.getcwd()
-    print(zz)
+    logging.info(zz)
 
     # get_user_cals(ad)
     # make_user_cals(ad)
@@ -409,9 +415,9 @@ if __name__ == "__main__":
     # google_files(ad)
     # search_files(ad, "bobbobob")
     id = ["1IOFfiU0V4qySMyU3cEK32ypGczXRWz-q"]
-    #find_backup(ad, id)
+    # find_backup(ad, id)
     import lib_readuserdata
     import json
-    
+
     x = lib_readuserdata.readuserdata("App", ad, "ios")
-    google_calendar_list(ad,x,True)
+    google_calendar_list(ad, x, True)
