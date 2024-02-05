@@ -15,3 +15,4 @@ possible good themes
 (2/3/24)
 fixed 'past shows'
 add past to calendar and pdf
+do: fav fieldnotes

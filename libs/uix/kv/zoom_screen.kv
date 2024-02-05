@@ -1,16 +1,20 @@
 <zoomscreen>
-    #:import Clipboard kivy.core.clipboard.Clipboard
-    #:import Snackbar kivymd.uix.snackbar.Snackbar
+
     name: "zoom"
     BoxLayout:
         orientation: "vertical"
-        #id:boxl
-        #height:app.mheight
         MDTopAppBar:
-            #title: "Pay"
-            height: app.mheight
-            left_action_items: [['chevron-left', lambda screen: app.search_fieldnotes(),'home'],['chevron-left', lambda screen: app.view_fieldnotes(""),'home']]
-            #right_action_items: [['minus', lambda screen: app.set_text_size(-3),'---'],['plus', lambda screen: app.set_text_size(+3),'home']]
+            #title: "Settings"
+        #    height: app.mheight
+            #left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
+
+
+            MDTopAppBarLeadingButtonContainer:
+    
+                MDActionTopAppBarButton:
+                    icon: "chevron-left"
+                    on_release: app.root.pop()
+                    pos_hint:{"center_x": 0.5, "center_y": 0.5}
         ScatterLayout:
             id: float_layout
             #canvas:

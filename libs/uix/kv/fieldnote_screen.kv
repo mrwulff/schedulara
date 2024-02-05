@@ -1,28 +1,27 @@
 
 
 <fieldnotescreen>
-    #:import Clipboard kivy.core.clipboard.Clipboard
-    #:import Snackbar kivymd.uix.snackbar.Snackbar
+
     name: "fieldnote"
-    #FloatLayout:
-    #    pos:.5,.5
-    #    size_hint:.3,.3
-    #    Image:
-        #FitImage:
-        #source: 'images/rh.jpg'
-    #        id: pic
-            #source: app.get_wall("today")
-    #        size: self.width,self.height
-            #on_release:app.view_picture()
+    #FitImage:
+    #    #source: 'images/rh.jpg'
+     #   id: pic
+     #   source: app.get_wall("today")
+     #   size: self.width,self.height
     BoxLayout:
         orientation: "vertical"
         MDTopAppBar:
-            #title: "Pay"
-            id:what
-            height: app.mheight
-            left_action_items: [['chevron-left', lambda screen: app.search_fieldnotes(),'home'],['chevron-left', lambda screen: app.view_fieldnotes(""),'home']]
-            #right_action_items: [['minus', lambda screen: app.set_text_size(-3),'smaller'],['plus', lambda screen: app.set_text_size(+3),'bigger'],['star', lambda screen: app.toggle_star()]]
-            right_action_items: [['minus', lambda screen: app.set_text_size(-3),'smaller'],['plus', lambda screen: app.set_text_size(+3),'bigger'],['star-outline', lambda screen: app.toggle_star()]]
+            #title: "Settings"
+        #    height: app.mheight
+            #left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
+
+
+            MDTopAppBarLeadingButtonContainer:
+    
+                MDActionTopAppBarButton:
+                    icon: "chevron-left"
+                    on_release: app.root.pop()
+                    pos_hint:{"center_x": 0.5, "center_y": 0.5}
         ScrollView:
             #MDTextField:
             id:boxs
@@ -34,8 +33,8 @@
                 text: "text"
                 font_size: dp(50)
                 #font_c
-                md_bg_color:app.theme_cls.bg_darkest
-                color:app.theme_cls.opposite_bg_darkest
+#                md_bg_color:app.theme_cls.bg_darkest
+                #color:app.theme_cls.opposite_bg_darkest
                 id:box
                 markup:True
                 #max_height: "200dp"

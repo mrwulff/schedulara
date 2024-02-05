@@ -5,6 +5,7 @@ import urllib
 import string
 import json
 from bs4 import BeautifulSoup
+import logging
 
 try:
     import lib_enc
@@ -341,7 +342,7 @@ def get_single(x, ad, title, link, id, browser):
     z = open(ad + "/fn/" + str(id) + ".html", encoding="utf8")
     toast_fail = ""
     zz = os.path.getsize(ad + "/fn/" + str(id) + ".html")
-    logging.info(zz, "size")
+    logging.info(str(zz) + "size")
     for line in z.readlines():
         if "er your information be" in line:
             logging.info("not logged in you dumbbb")

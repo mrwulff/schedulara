@@ -847,7 +847,7 @@ class Demo3App(MDApp):
             now = datetime.now().date().replace(month=12, day=31, year=t)
             now = datetime.combine(now, datetime.min.time())
 
-        logging.info(d, type(d), now, "RETURN DATE RANGE")
+        # logging.info(d, type(d), now, "RETURN DATE RANGE")
 
         return d, now
 
@@ -3404,17 +3404,33 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             if show == True:
                 # self.root.current_screen.ids["payperiod_list"].add_widget(
                 self.root.current_screen.ids["payperiod_list"].add_widget(
-                    OneLineListItem(
-                        text=lpos[z]["title"] + "[size=0]@#$" + lpos[z]["num"],
-                        on_release=lambda x,
-                        y=(
-                            lpos[z]["title"],
-                            lpos[z]["url"],
-                            lpos[z]["num"],
-                        ): self.view_fieldnote(y),
+                    #    MDListItem(
+                    #        text=lpos[z]["title"] + "[size=0]@#$" + lpos[z]["num"],
+                    #        on_release=lambda x,
+                    #        y=(
+                    #            lpos[z]["title"],
+                    #            lpos[z]["url"],
+                    #            lpos[z]["num"],
+                    #        ): self.view_fieldnote(y),
+                    #    )
+                    MDListItem(
+                        MDListItemTrailingIcon(
+                            # icon=self.find_type(i, "pos"),
+                            icon_color=self.theme_cls.errorColor,
+                            pos_hint={"center_x": 0.5, "center_y": 0.5},
+                        ),
+                        MDListItemHeadlineText(
+                            text=lpos[z]["title"] + "[size=0]@#$" + lpos[z]["num"],
+                            # MDListItemSupportingText(
+                            #    text=color + shows[i]["show"],
+                            # ),
+                            # MDListItemTertiaryText(
+                            #    text=color + fvenue,
+                            # ),
+                        ),
+                        on_release=lambda x, y=(y): self.view_fieldnote(y),
                     )
                 )
-            # logging.info(z, "icons!!")
 
     def view_picture2(self):
         logging.info("view picture2")
@@ -3477,7 +3493,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         #    fav,
         #    "is it favrite",
         #    self.root.current_screen.ids["what"].right_action_items[2][0],
-
+        """
         if (
             fav == True
             and self.root.current_screen.ids["what"].right_action_items[2][0]
@@ -3491,6 +3507,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         ):
             self.toggle_star()
             # logging.info("toggled2")
+            """
 
     def view_fieldnote(self, y):
         if y == "no":
@@ -6947,7 +6964,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
     def on_save(self, instance_date_picker):
         date_range = instance_date_picker.get_date()
-        # from datetime import datetime
+        from datetime import datetime
 
         # logging.info(self.root.current, "CURRENT SCREEEEEEN")
         # logging.info(date_range, "wowowow")
@@ -7305,7 +7322,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
     def do_payperiod_f(self, date_rng):
         ssort = self.sort_pp
         fdate, ldate = self.get_dates(date_rng)
-        logging.info(fdate, ldate, self.rreverse, ssort, "do_payperiod")
+        # logging.info(fdate, ldate, self.rreverse, ssort, "do_payperiod")
         self.lday = ldate
         self.fday = fdate
         self.date_range_pp = date_rng
@@ -7341,6 +7358,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.push("pay")
         self.root.get_screen("today").ids["pic"].source = self.get_wall("theme")
         # from kivymd.uix.list import ThreeLineListItem
+        logging.error(zz)
 
         ssort = self.sort_pp
         rreverse = self.rreverse
@@ -7352,38 +7370,6 @@ Demo: If you are new to our app or would like to see how it works, click this bu
 
         bu = ["YTD", "Year", "All", "Custom"]
         bu2 = ["paydate", "moneytotal", "totalhours"]
-        """
-        for i in range(len(bu)):
-            if self.date_range_pp == bu[i]:
-                App.get_running_app().root.current_screen.ids[
-                    bu[i]
-                ].md_bg_color = self.theme_cls.primary_dark
-            else:
-                App.get_running_app().root.current_screen.ids[
-                    bu[i]
-                ].md_bg_color = self.theme_cls.primary_light
-
-        for i in range(len(bu2)):
-            if ssort == bu2[i]:
-                App.get_running_app().root.current_screen.ids[
-                    bu2[i]
-                ].md_bg_color = self.theme_cls.primary_dark
-            else:
-                App.get_running_app().root.current_screen.ids[
-                    bu2[i]
-                ].md_bg_color = self.theme_cls.primary_light
-        # if rreverse == False:
-        #    App.get_running_app().root.current_screen.ids[
-        #        "sall"
-        #    ].icon = "sort-descending"
-        # else:
-        #    App.get_running_app().root.current_screen.ids[
-        #        "sall"
-        #    ].icon = "sort-ascending"
-        # App.get_running_app().root.current_screen.ids[
-        #        "sall"
-        #    ].size=2
-        """
 
         App.get_running_app().root.current_screen.ids["dstart"].text = (
             self.format_date(self.fday, "full") + "     to"
@@ -7392,42 +7378,138 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         App.get_running_app().root.current_screen.ids["dend"].text = self.format_date(
             self.lday, "full"
         )
+        hours = 0
+        ot = 0
+        pay = 0
+        reg = 0
+        # print(listofdicks[0])
+        for bb in range(len(listofdicks)):
+            reg = reg + float((listofdicks[bb]["reghours"]))
+            ot = ot + float((listofdicks[bb]["othours"]))
+            hours = hours + float((listofdicks[bb]["totalhours"]))
+            pay = pay + float(listofdicks[bb]["moneytotal"])
+        per = ot / reg
+
+        per = per * 100
+        per = round(per, 2)
+        # print(per, "percc")
+
+        self.root.get_screen("pay").ids.payperiod_list.add_widget(
+            MDListItem(
+                MDListItemLeadingIcon(
+                    # icon=self.find_type(i, "type"),
+                    pos_hint={"center_x": 0.5, "center_y": 0.5},
+                    icon_color=self.theme_cls.primaryColor,
+                ),
+                MDListItemTrailingIcon(
+                    # icon=self.find_type(i, "pos"),
+                    icon_color=self.theme_cls.errorColor,
+                    pos_hint={"center_x": 0.5, "center_y": 0.5},
+                ),
+                # MDListItemHeadlineText(text=listofdicks[z]["show"]),
+                MDListItemHeadlineText(text="Total Shows: " + str(len(listofdicks))),
+                MDListItemSupportingText(
+                    text="Hours: "
+                    + str(hours)
+                    + " Regular: "
+                    + str(reg)
+                    + " OT:"
+                    + str(ot)
+                ),
+                MDListItemSupportingText(text="$" + str(pay) + " OT %" + str(per)),
+                MDListItemSupportingText(text="$" + "text6"),
+            ),
+            # MDListItemHeadlineText(listofdicks[z]['show']),
+            # MDListItemHeadlineText(text=str(len(listofdicks))+' Shows Total'),
+            # MDListItemSupportingText(text=color + show_date + " " + ntime),))
+            # on_release=self.edit_show_details()))
+            # on_release=lambda x, y=(listofdicks[z]): self.edit_show_details(y),
+        )
+
         for z in range(len(listofdicks)):
             # logging.info(listofdicks[z])
-
-            panel = ThreeLineListItem(
-                text="Paydate: "
-                + str(self.format_date(listofdicks[z]["paydate"], "full")),
-                secondary_text="Shows: "
-                + str(listofdicks[z]["shows"])
-                + " Hours: "
-                + str(listofdicks[z]["totalhours"])
-                + " Overtime: "
-                + str(listofdicks[z]["othours"]),
-                tertiary_text="$" + str(self.hide(listofdicks[z]["moneytotal"])),
-                bg_color=self.theme_cls.bg_dark,
-                radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
-                on_release=self.do_pay_ind,
+            perc = float(listofdicks[z]["othours"]) / float(listofdicks[z]["reghours"])
+            perc = perc * 100
+            perc = round(perc, 2)
+            self.root.get_screen("pay").ids.payperiod_list.add_widget(
+                MDListItem(
+                    MDListItemLeadingIcon(
+                        # icon=self.find_type(i, "type"),
+                        pos_hint={"center_x": 0.5, "center_y": 0.5},
+                        icon_color=self.theme_cls.primaryColor,
+                    ),
+                    MDListItemTrailingIcon(
+                        # icon=self.find_type(i, "pos"),
+                        icon_color=self.theme_cls.errorColor,
+                        pos_hint={"center_x": 0.5, "center_y": 0.5},
+                    ),
+                    # MDListItemHeadlineText(text=listofdicks[z]["show"]),
+                    MDListItemHeadlineText(
+                        text=str(self.format_date(listofdicks[z]["paydate"], "full"))
+                    ),
+                    MDListItemSupportingText(
+                        text="Shows: "
+                        + str(listofdicks[z]["shows"])
+                        + " Hours: "
+                        + str(listofdicks[z]["totalhours"])
+                        + " Overtime: "
+                        + str(listofdicks[z]["othours"])
+                    ),
+                    MDListItemSupportingText(
+                        text="$"
+                        + str(self.hide(listofdicks[z]["moneytotal"]))
+                        + " OT %"
+                        + str(perc)
+                    ),
+                    # MDListItemHeadlineText(listofdicks[z]['show']),
+                    # MDListItemHeadlineText(text=str(len(listofdicks))+' Shows Total'),
+                    # MDListItemSupportingText(text=color + show_date + " " + ntime),))
+                    # on_release=self.edit_show_details()))
+                    on_release=lambda x, y=(listofdicks[z]): self.do_pay_ind(y),
+                )
             )
 
-            self.root.get_screen("pay").ids.payperiod_list.add_widget(panel, z)
+        # panel = MDList(
+        #    text="Paydate: "
+        #    + str(self.format_date(listofdicks[z]["paydate"], "full")),
+        #    secondary_text="Shows: "
+        #    + str(listofdicks[z]["shows"])
+        #    + " Hours: "
+        #    + str(listofdicks[z]["totalhours"])
+        #    + " Overtime: "
+        #    + str(listofdicks[z]["othours"]),
+        #    tertiary_text="$" + str(self.hide(listofdicks[z]["moneytotal"])),
+        #    # bg_color=self.theme_cls.bg_dark,
+        #    radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
+        #    on_release=self.do_pay_ind,
+        # )
+
+        # self.root.get_screen("pay").ids.payperiod_list.add_widget(panel, z)
+        # """
 
     def do_pay_ind(self, b):
         import libs.lib_parse2
 
-        # from kivymd.uix.list import ThreeLineListItem
+        print(str(b["paydate"].date()), "WHAT")
 
-        # logging.info(dir(FourLineListItem), "testtest")
+        m = str(b["paydate"].month)
+        if len(m) == 1:
+            m = "0" + m
+        d = str(b["paydate"].day)
+        if len(d) == 1:
+            d = "0" + d
 
-        logging.info(
-            "ind",
-            b.text,
-        )
-
-        i = str.split(b.text, " ")
-        d, m, y = str.split(i[1], "/")
+        # i = str.split(b, " ")
+        # d, m, y = str.split(i[1], "/")
         z = libs.lib_parse2.parsepayperiod(
-            d + "-" + m + "-" + y + ".html",
+            ad
+            + "/pp/"
+            + str(m)
+            + "-"
+            + str(d)
+            + "-"
+            + str(b["paydate"].year)
+            + ".html",
         )
         # logging.info(z, "gigigig")
         # for line in o.readlines():

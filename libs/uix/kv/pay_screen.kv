@@ -8,12 +8,18 @@
     
 
     BoxLayout:
-
+        #id:lolz
         orientation: "vertical"
         MDTopAppBar:
-            #title: "Pay"
-            height: app.mheight
-            left_action_items: [['chevron-left', lambda screen: app.change_screen('today','left'),'home']]
+#            type: app.mtype
+#           title: "Login"
+            #height: app.mheight
+#            left_action_items: [['chevron-left', lambda screen: app.change_screen('settings', 'left'),'login']]
+            MDTopAppBarLeadingButtonContainer:
+    
+                MDActionTopAppBarButton:
+                    icon: "chevron-left"
+                    on_release: app.root.pop()
         MDBoxLayout:
             #orientation: 'horizontal'
             size_hint: 1,None
@@ -21,17 +27,23 @@
             MDSegmentedButton:
                 pos_hint: {"center_x": .5, "center_y": .5}
                 #md_bg_color: app.theme_cls.primary_light
+                md_bg_color: self.theme_cls.onSecondaryColor
                 size_hint_x: .3
                 MDSegmentedButtonItem:
                     text: 'Date'
                     id: paydate
 
                     on_press:(app.do_payperiod_trim('paydate',"pp"))
+                    MDSegmentButtonLabel:
+                        text: "Date"
+                    
                 MDSegmentedButtonItem:
                     text: '$$$'
 
                     id: moneytotal
                     on_press:app.do_payperiod_trim('moneytotal','pp')
+                    MDSegmentButtonLabel:
+                        text: "$$$"
                 MDSegmentedButtonItem:
                     text: 'Hours'
 
@@ -41,69 +53,84 @@
                         app.do_payperiod_trim('totalhours','pp')
                         app.spinner_toggle()
                         #(app.set_pp('custom'))
+                    MDSegmentButtonLabel:
+                        text: "Hours"
                 MDIconButton:
                     text: app.check_var(app.rreverse)
                     id: sall
                     #on_press:
                         #app.do_payperiod_trim(app.sort_pp)
+                    MDSegmentButtonLabel:
+                        text: "Rev"
 
 
         
-        MDBoxLayout:
-            #orientation: 'horizontal'
-            size_hint: 1,None
-            #height: app.mheight+10
-            #width: 1000
-            height:dp(42)
+        
+
             
-            MDSegmentedButton:
-                pos_hint: {"center_x": .5, "center_y": .5}
-                #md_bg_color: app.theme_cls.primary_light
-                size_hint_x: .3
-                #radius:0,0,0,0
+        MDSegmentedButton:
+            size_hint: 1,None
+            #size:50,50
+            default_size:10,10
+            md_bg_color: self.theme_cls.onSecondaryColor
+            #radius:0
+            MDSegmentedButtonItem:
+                text: 'ytd'
+                id: YTD
+
+                on_press:(app.do_payperiod_f('YTD'))
+                size_hint_x: .51
+                MDSegmentButtonLabel:
+                    text:'YTD'
+            MDSegmentedButtonItem:
+                text: 'Year'
+                id: Year
+
+                on_press:(app.do_payperiod_f('Year'))
+                size_hint_x: .51
+                MDSegmentButtonLabel:
+                    text:"Year"
+            MDSegmentedButtonItem:
+                text: 'Last'
+                id: button4
+                values: app.custom_range
+
+                on_release: 
+                    app.choose_drop(app.custom_range,'range')
+                    app.send_dates(button4.text)
+                size_hint_x: .41
+                MDSegmentButtonLabel:
+                    text:"Preset"
+            MDSegmentedButtonItem:
+                text: 'All'
+                id: All
+
+                on_press:(app.do_payperiod_f('All'))
+                size_hint_x: .41
+                MDSegmentButtonLabel:
+                    text:"All"
+            MDSegmentedButtonItem:
+                text: 'Custom'
+                id: Custom
+                size_hint_x: None
+
+                #size_hint:1,None
+                size_hint_y:1
+                #default_size: None, dp(10)
+                on_press:
+                    (app.show_date_picker())
+                MDSegmentButtonLabel:
+                    text:"Range"
 
 
-                MDSegmentedButtonItem:
-                    text: "YTD"
-                    id: YTD
-
-                    on_press:(app.do_payperiod_f('YTD'))
-                    
-                MDSegmentedButtonItem:
-                    text: "Year"
-                    id: Year
-
-                    on_press:(app.do_payperiod_f('Year'))
-                MDSegmentedButtonItem:
-                    text: "Preset"
-                    id: button4
-                    values: app.custom_range
-
-
-                    on_release: 
-                        app.choose_drop(app.custom_range,'range')
-                        app.send_dates(button4.text)
-
-                MDSegmentedButtonItem:
-                    text: "All"
-                    id: All
-
-                    on_press:(app.do_payperiod_f('All'))
-                MDSegmentedButtonItem:
-                    text: "Range"
-                    id: Custom
-
-                    on_press:
-                        (app.show_date_picker())
-
-        
         MDBoxLayout:
             orientation: 'horizontal'
             size_hint: 1,None
             height:dp(42)
             MDButton:
                 text: 'All'
-                id: dstart
+                MDButtonText:
+                    id: dstart
                 #size_hint: .5,None
                 #height: app.mheight
 
@@ -117,7 +144,8 @@
                 #md_bg_color: app.theme_cls.primary_light
                 #padding:10
                 #spacing:10,10
-                id: dend
+                MDButtonText
+                    id: dend
                 #on_press:(app.show_date_picker())
             
         ScrollView:

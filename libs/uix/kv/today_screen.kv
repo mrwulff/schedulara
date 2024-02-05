@@ -553,18 +553,36 @@
                         text: "Settings"
 
 
-                DrawerClickableItem:
-                    icon: "notebook"
-                    text: "Notes"
-                    on_press:
+                MDNavigationDrawerItem:
+                    on_release:
                         app.close_menu()
-                        app.view_fieldnotes("")  
+                        app.view_fieldnotes('')
+
+                    MDNavigationDrawerItemLeadingIcon:
+                        icon: "note"
+
+                    MDNavigationDrawerItemText:
+                        text: "Fieldnotes"
+                MDNavigationDrawerItem:
+                    on_release:
+                        app.close_menu()
+                        app.do_payperiod_f("YTD")
+
+                    MDNavigationDrawerItemLeadingIcon:
+                        icon: "cash-100"
+
+                    MDNavigationDrawerItemText:
+                        text: "Paystubs"
+
+
+                #app.do_payperiod_f("YTD")
                 DrawerClickableItem:
                     icon: "chart-areaspline"
                     text: "Insights"
                     on_press:
                         app.close_menu()
                         app.prep_stats()
+                    
                         
                 DrawerClickableItem:
                     icon: "cash-100"
