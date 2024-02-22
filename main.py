@@ -201,7 +201,7 @@ from kivymd.uix.pickers import MDTimePickerDialVertical, MDModalDatePicker
 from kivymd.uix.pickers.datepicker import MDDockedDatePicker
 
 # from kivymd.uix.pickers import MDTimePicker
-from kivymd_extensions.sweetalert import SweetAlert
+#from kivymd_extensions.sweetalert import SweetAlert
 
 from kivy.uix.popup import Popup
 from kivymd.uix.menu import MDDropdownMenu
@@ -352,16 +352,6 @@ if platform == "ios":
 import libs.lib_new
 
 
-class CustomSweetAlert(SweetAlert):
-    def open(self, *args):
-        # Override the animation parameters here
-        # For example, adjusting the animation duration
-        self._animate_open()
-
-    def dismiss(self, *args):
-        # Override the animation parameters here
-        # For example, adjusting the animation duration
-        self._animate_close()
 
 
 class AboutScreen(Screen):
