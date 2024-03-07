@@ -1051,11 +1051,13 @@ class Demo3App(MDApp):
         added = 0
         found = 0
         if x.get("cal_id") != None:
-            for show in range(len(gg)):
+            # for show in range(len(gg)):
+            for show in range(2):
                 flag = 0
                 # print(gg[show])
                 # self.snackbarx(gg[show]["show"])
                 # print(gg[show], "goddamn")
+                print(gg[show], "wtff")
                 if gg[show].get("google_id") == None:
                     # lib_google.google_calendar_add(ad, gg[show], x["cal_id"])
 
@@ -1077,7 +1079,9 @@ class Demo3App(MDApp):
                             os.mkdir(ad + "/future_shows")
                         except:
                             "ok"
-                        zz = lib_google.google_calendar_add(ad, gg[show], x["cal_id"])
+                        zz, res = lib_google.google_calendar_add(
+                            ad, gg[show], x["cal_id"]
+                        )
                         gg[show]["google_id"] = zz
                         x2 = open(
                             ad + "/future_shows/" + self.filename(gg[show]) + ".json",
@@ -1098,7 +1102,7 @@ class Demo3App(MDApp):
         f1 = str.replace(x["date"], "/", "")
         f2 = str.replace(x["time"], ":", "")
         f3 = x["job"]
-        return f1 + "_" + f2 + f3 + f
+        return f1 + " " + f2 + " " + f3 + " " + f
 
     def format_date(self, d, year):
         from datetime import datetime
@@ -1352,9 +1356,9 @@ class Demo3App(MDApp):
                 except:
                     print("why are you trying to do this")
 
-            App.get_running_app().root.current_screen.ids[
-                chart_list[i]["id"]
-            ].width = dp(80) * len(pos_v2)
+            App.get_running_app().root.current_screen.ids[chart_list[i]["id"]].width = (
+                dp(80) * len(pos_v2)
+            )
 
             App.get_running_app().root.current_screen.ids[
                 chart_list[i]["id"] + "d"
@@ -2603,6 +2607,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         ###do calendar!!
         print("make calendar", month, year)
         import libs.lib_new
+        import libs.lib_archive
 
         js = libs.lib_new.get_json_schedule(x, ad)
         import libs.lib_cal
@@ -2612,6 +2617,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             MDIconButton,
         )
         from datetime import date
+
+        z, z1, f1, f2 = self.find_pay_date(month + "-" + year)
+        listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
+        print(ad, f1, f2, month, year, "date range to look", len(listofdicks))
 
         now = date.today()
         now_month = now.strftime("%m")
@@ -2656,6 +2665,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         for week in range(len(c)):
             for day in range(len(c[1])):
                 dd = c[week][day]
+                # print(dd, "ttttt")
 
                 # print(dd, type(dd), dd.day, "c sub week")
                 b_color = "black"
@@ -2674,7 +2684,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                         # print("changing it to primamary")
                     else:
                         b_color = gray
-                        print("changing it to black")
+                        # print("changing it to black")
                 if (
                     int(dd.day) == int(now_day)
                     and int(dd.month) == int(now_month)
@@ -2689,10 +2699,18 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     )
                 except:
                     status = False
+
+                status_old, info_old = self.check_working(
+                    dd.day, dd.month, dd.year, listofdicks
+                )
+                # print(info, info_old, status, status_old, len(listofdicks), "wtfman")
                 # rint(status, "STATUSSSSS")
                 if status == True:
                     ####GIG COLOR
                     t_color = self.theme_cls.primary_dark
+                if status_old == True:
+                    t_color = self.theme_cls.primary_dark
+                    # print(status, info, "status_info", dd)
 
                 self.root.get_screen("today").ids["cal" + str(week)].add_widget(
                     # MDRectangleFlatIconButton(
@@ -2726,15 +2744,16 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         callist.text = mmonth + " " + year
 
     def find_cal(self, y):
-        # print(self, y, y.text, dir(y), "this is a calendar click")
+        import libs.lib_archive
+
         from dateutil.relativedelta import relativedelta
 
-        # print(y.background_color, y.color, "bg color")
-        # print(self.theme_cls.bg_dark[0], self.theme_cls.bg_dark, "colors")
+        # logging.info(y.background_color, y.color, "bg color")
+        # logging.info(self.theme_cls.bg_dark[0], self.theme_cls.bg_dark, "colors")
         bg = "black"
         offset = 0
         if y.background_color[0] == 0.9333333333333333:
-            # print(".933")
+            # logging.info(".933")
             bg = "gray"
             if int(y.text) > 20:
                 offset = -1
@@ -2742,18 +2761,24 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 offset = 1
 
         if y.background_color[0] == 0.0:
-            print(".0")
+            logging.info(".0")
         if y.background_color[0] == self.theme_cls.primary_color[0]:
-            print("red.primary")
+            logging.info("red.primary")
             bg = "red"
 
         callist = self.root.get_screen("today").ids["cal_month"].text
-        print(callist, "callist")
-        callist = callist + " " + str(y.text)
-        cur_month = datetime.datetime.strptime(callist, "%B %Y %d").date()
-        cur_month = cur_month + relativedelta(months=+offset)
+        # callist = callist + " " + str(y.text)
 
-        print(cur_month, "curmonth")
+        cur_month = datetime.datetime.strptime(callist, "%B %Y").date()
+        cur_month = cur_month + relativedelta(months=+offset)
+        y1, m1, d1 = str.split(str(cur_month), "-")
+        cur_month = y1 + "-" + m1
+        cur_month = datetime.datetime.strptime(
+            str(cur_month) + " " + str(y.text), "%Y-%m %d"
+        ).date()
+        z, z1, f1, f2 = self.find_pay_date(cur_month)
+        listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
+
         dd = cur_month
         import libs.lib_new
 
@@ -2764,20 +2789,40 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         js = libs.lib_new.get_json_schedule(x, ad)
         try:
             status, info = self.check_working(dd.day, dd.month, dd.year, js["shows"])
+            # logging.info(status, "NEW STATUS")
         except:
             status = False
+        try:
+            status_old, info_old = self.check_working(
+                dd.day, cur_month.month, dd.year, listofdicks
+            )
+            # logging.info(str(status_old), "oldstatus")
+        except:
+            status_old = False
         js = js["shows"]
         pops = []
+        done = False
         for x4 in range(len(js)):
-            print(js[x4]["date"], "jsdate")
+            # logging.info(js[x4]["date"], "jsdate")
             show_date = datetime.datetime.strptime(js[x4]["date"], "%m/%d/%Y").date()
-            # print(show_date, cur_month, "asdfasdf")
-            if show_date == cur_month:
-                print("omg you found a real date", js[x4]["show"])
+            # logging.info(show_date, cur_month, "asdfasdf")
+            if show_date == cur_month and done == False:
+                # logging.info("omg you found a real date", js[x4]["show"])
                 pops.append(x4)
-
-        if len(pops) > 0:
-            self.click_cal(pops[0], js)
+                if len(pops) > 0:
+                    done = True
+                    self.click_cal(pops[0], js)
+        for x5 in range(len(listofdicks)):
+            show_date = datetime.datetime.strptime(
+                listofdicks[x5]["date"], "%m/%d/%Y"
+            ).date()
+            # logging.info(show_date, cur_month, "showandmonth")
+            if show_date == cur_month and done == False:
+                # logging.info("omg you found an old date", listofdicks[x5]["show"])
+                pops.append(x5)
+                if len(pops) > 0:
+                    done = True
+                    self.click_cal(pops[0], listofdicks)
 
     def click_cal(self, info, js):
         print(type(info), info, "infooooo")
@@ -2871,21 +2916,64 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.alert.dismiss()
 
     def check_working(self, day, month, year, js):
-        # print(day, month, year,'daymonthyear!')
+        # logging.info(day, month, year, "daymonthyear!")
         found = False
+        data = {}
+        data2 = {}
+        dlist = []
+        multi = 0
+        vlist = []
+        tlist = []
+        slist = []
+        olist = []
         for xy in range(len(js)):
             d = js[xy]["date"]
+            # logging.info (d,'listofdates for shows','checkworkikng')
             smonth, sdate, syear = str.split(d, "/")
             smonth = int(smonth)
             sdate = int(sdate)
             syear = int(syear)
             if smonth == month and sdate == day and syear == year:
-                # print("OMG YOU FOUND IT on ", js[xy])
+                # multi = multi + 1
+                # logging.info("OMG YOU FOUND IT on ", js[xy])
                 found = True
+                show = js[xy]["show"]
+                show = str.replace(show, "\n", "")
+                if len(show) > 31:
+                    show = show[:31]
+                    show = show + "..."
+                venue = str.split(js[xy]["venue"], "\n")
+                try:
+                    venue = venue[1]
+                except:
+                    venue = venue[0]
+                data = {
+                    day: {
+                        "venue" + str(multi): venue,
+                        "show" + str(multi): show,
+                        "time" + str(multi): js[xy]["time"],
+                        "out" + str(multi): js[xy]["endtime"],
+                    }
+                }
 
+                vlist.append(venue)
+                slist.append(show)
+                tlist.append(js[xy]["time"])
+                olist.append(js[xy]["endtime"])
+
+                # dlist.append(data)
+        # logging.info(len(vlist), "lenvlist")
+        if len(vlist) > 1:
+            for i in range(len(vlist)):
+                data[day]["venue" + str(i)] = vlist[i]
+                data[day]["show" + str(i)] = slist[i]
+                data[day]["time" + str(i)] = tlist[i]
+                data[day]["out" + str(i)] = olist[i]
+
+        # logging.info(data, "multi")
         from datetime import datetime, timedelta
 
-        return (found, "vgk stuff")
+        return (found, data)
 
     def update_today_pp(self, pp):
         print(pp, "update_today_pp")
@@ -2986,7 +3074,8 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 self.root.current_screen.ids["payperiod_list"].add_widget(
                     OneLineListItem(
                         text=lpos[z]["title"] + "[size=0]@#$" + lpos[z]["num"],
-                        on_release=lambda x, y=(
+                        on_release=lambda x,
+                        y=(
                             lpos[z]["title"],
                             lpos[z]["url"],
                             lpos[z]["num"],
@@ -3183,6 +3272,29 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         self.root.current_screen.ids["n"].text = "next[size=0]$$$" + str(i)
         self.root.current_screen.ids["i"].text = str(walls[i])
 
+    def share_calendar(self):
+        import libs.lib_pdf
+
+        js = libs.lib_new.get_json_schedule(x, ad)
+        day = self.root.get_screen("today").ids["cal_month"].text
+        # %B
+        dd = datetime.datetime.strptime(day, "%B %Y")
+        di = {}
+        import libs.lib_archive
+
+        z, z1, f1, f2 = self.find_pay_date(dd.date())
+
+        listofdicks = libs.lib_archive.load("/future_shows", ad, f1, f2)
+
+        for z in range(31):
+            status, info = self.check_working(z, dd.month, dd.year, js["shows"])
+            status_old, info_old = self.check_working(z, dd.month, dd.year, listofdicks)
+            print(status, status_old, info, info_old, "statusold")
+            # logging.info(status, info_old, z)
+            di.update(info)
+            di.update(info_old)
+        libs.lib_pdf.alt(x["name"], ad, di, dd.month, dd.year)
+
     def change_wall_select(self):
         x["wall"] = self.root.current_screen.ids["i"].text
         self.root.get_screen("theme").ids["pic"].source = self.get_wall("theme")
@@ -3310,7 +3422,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             # print(z, "icons!!")
 
     def find_pay_date(self, c):
-        firstdate = datetime.date(2022, 10, 3)
+        import calendar
+
+        # logging.info (c,'find pay date')
+        firstdate = datetime.date(2024, 3, 5)
         #:
         # now = datetime.datetime.now()
         now = datetime.date.today()
@@ -3320,13 +3435,13 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # while z < 50:
         while flag == False:
             nextdate = firstdate + datetime.timedelta(days=14)
-            # print(nextdate,'lolnextdate')
+            # logging.info(nextdate,'lolnextdate')
             lastdate = nextdate + datetime.timedelta(days=13)
-            # print(type(nextdate), type(now), lastdate, flag, z)
-            # print(nextdate - now)
+            # logging.info(type(nextdate), type(now), lastdate, flag, z)
+            # logging.info(nextdate - now)
             if nextdate >= now:
                 flag = True
-                # print("omg", flag)
+                # logging.info("omg", flag)
             firstdate = nextdate
             z = z + 1
         lastdate = nextdate - datetime.timedelta(days=7)
@@ -3344,16 +3459,39 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             lastdate = lastdate + datetime.timedelta(days=14)
             lastdate1 = lastdate1 + datetime.timedelta(days=14)
             firstdate = firstdate + datetime.timedelta(days=14)
+        if type(c) == str:  # noqa: E721
+            if "-" in c:
+                m, y = str.split(c, "-")
+                # logging.info (c,'find paydate!!!')
+                junk, end = calendar.monthrange(int(y), int(m))
+                first = "1-" + c
+                last = str(end) + "-" + c
+                f = datetime.datetime.strptime(first, "%d-%m-%Y")
+                l = datetime.datetime.strptime(last, "%d-%m-%Y")
+                # logging.info (f,l,'dates short')
+                return (" ", " ", l.date(), f.date())
+        if type(c) == datetime.date:
+            junk, end = calendar.monthrange(c.year, c.month)
+            # logging.info(junk,end,'junkend')
+            first = "1-" + str(c.month) + "-" + str(c.year)
+            last = str(end) + "-" + str(c.month) + "-" + str(c.year)
+            f = datetime.datetime.strptime(first, "%d-%m-%Y")
+            l = datetime.datetime.strptime(last, "%d-%m-%Y")
+            # logging.info (f,l,'dates short')
+            logging.info("DATETIME>DATE")
+            return (" ", " ", l.date(), f.date())
+        # logging.info (type(c),'TYPEC')
 
         l = self.format_date(lastdate, "short")
         l2 = self.format_date(lastdate1, "short")
         a = self.format_date(firstdate, "full")
-        # print (c,'TRIM')
+        # logging.info (c,'TRIM')
+        # logging.info(l2, l, lastdate, lastdate1, "dates and stuff")
         if c == "All":
             return ("All", "", "", "")
         if type(c) != int:
             return l2, l, lastdate, lastdate1
-        print(a)
+        # logging.info(a)
 
         return a, l2 + " - " + l
 
@@ -3759,7 +3897,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     )
                     self.root.current_screen.ids["rlist"].children[
                         (l - i9) - 1
-                    ].content.ids["pos"].secondary_text = (xx9["venue"] + " " + " ")
+                    ].content.ids["pos"].secondary_text = xx9["venue"] + " " + " "
 
                     self.root.current_screen.ids["rlist"].children[
                         (l - i9) - 1
@@ -3777,7 +3915,7 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             if junk == True and x["usecache"] == False:
                 self.root.current_screen.ids["rlist"].children[(l)].content.ids[
                     "pos"
-                ].text = (str(i) + " " + str(l))
+                ].text = str(i) + " " + str(l)
                 print("newconfirm you nuts")
                 self.new_confirm("all")
 
@@ -3829,9 +3967,11 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 ),
             )
             panel.bind(
-                on_open=lambda x, y=js, q="Click to Confirm All", l=js[
-                    "num_shows"
-                ], p=True: self.open_panel(y, q, l, p),
+                on_open=lambda x,
+                y=js,
+                q="Click to Confirm All",
+                l=js["num_shows"],
+                p=True: self.open_panel(y, q, l, p),
                 on_close=self.close_panel,
             )
 
@@ -3875,9 +4015,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 )
 
                 panel.bind(
-                    on_open=lambda x, y=shows[z], q=canned, l=len(
-                        shows
-                    ), junk=False, bb=z: self.open_panel(y, q, l, junk, z),
+                    on_open=lambda x,
+                    y=shows[z],
+                    q=canned,
+                    l=len(shows),
+                    junk=False,
+                    bb=z: self.open_panel(y, q, l, junk, z),
                     on_close=self.close_panel,
                 )
                 # if shows[z]["canceled"] == True:
@@ -3917,9 +4060,12 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                     ),
                 )
                 panel.bind(
-                    on_open=lambda x, y=shows[z], q=canned, l=len(
-                        shows
-                    ), junk=False, z=z: self.open_panel2(y, q, l, junk, z),
+                    on_open=lambda x,
+                    y=shows[z],
+                    q=canned,
+                    l=len(shows),
+                    junk=False,
+                    z=z: self.open_panel2(y, q, l, junk, z),
                     on_close=self.close_panel,
                 )
                 # if shows[z]["canceled"] == True:
@@ -4750,9 +4896,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         import libs.lib_ach
 
         libs.lib_ach.make_ach(ad)
-        App.get_running_app().root.current_screen.ids[
-            "ach_points"
-        ].text = "Points: " + str(0)
+        App.get_running_app().root.current_screen.ids["ach_points"].text = (
+            "Points: " + str(0)
+        )
 
         self.trophys("all")
 
@@ -4813,9 +4959,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
             # items.icon_color = [1, 1, 0, 1]
             # items = items.text_color = self.theme_cls.text_color
             self.root.current_screen.ids["ach_id"].add_widget(items)
-            App.get_running_app().root.current_screen.ids[
-                "ach_points"
-            ].text = "Points: " + str(points)
+            App.get_running_app().root.current_screen.ids["ach_points"].text = (
+                "Points: " + str(points)
+            )
 
     def make_stats(self, start, b, e):
         self.root.set_current("stats")
@@ -6516,21 +6662,24 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         # now = datetime.now()
         # print(self.fday, "now", self.lday)
         from kivy.clock import Clock
+        import libs.lib_parse as lib_parse
 
         for file in glob.glob("*.html"):
             # print (file)
-            import libs.lib_parse as lib_parse
 
             f1 = datetime.strptime(file, "%m-%d-%Y.html")
             # print (f1,self.fday,self.lday,'LOADPPDates')
             # print (type(f1),type(self.fday),type(self.lday),'LOADPPDates')
+            try:
+                dd, junk, junk, junk, junk, junk = lib_parse.parsepayperiod(
+                    ad + "/pp/" + file
+                )
 
-            dd, junk, junk, junk, junk, junk = lib_parse.parsepayperiod(
-                ad + "/pp/" + file
-            )
-            if self.fday <= f1 and f1 <= self.lday:
-                listofdicks.append(dd)
-                x = x + 1
+                if self.fday <= f1 and f1 <= self.lday:
+                    listofdicks.append(dd)
+                    x = x + 1
+            except:
+                pass
             # print(x)
             # toast("loaded:" + str(x))
             # Clock.schedule_once(self.dumb(x))
@@ -6650,17 +6799,48 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 App.get_running_app().root.current_screen.ids[
                     bu2[i]
                 ].md_bg_color = self.theme_cls.primary_light
-        # if rreverse == False:
-        #    App.get_running_app().root.current_screen.ids[
-        #        "sall"
-        #    ].icon = "sort-descending"
-        # else:
-        #    App.get_running_app().root.current_screen.ids[
-        #        "sall"
-        #    ].icon = "sort-ascending"
-        # App.get_running_app().root.current_screen.ids[
-        #        "sall"
-        #    ].size=2
+                # if rreverse == False:
+                #    App.get_running_app().root.current_screen.ids[
+                #        "sall"
+                #    ].icon = "sort-descending"
+                # else:
+                #    App.get_running_app().root.current_screen.ids[
+                #        "sall"
+                #    ].icon = "sort-ascending"
+                # App.get_running_app().root.current_screen.ids[
+                #        "sall"
+                #    ].size=2
+                hours = 0
+        ot = 0
+        pay = 0
+        reg = 0
+        # print(listofdicks[0])
+        for bb in range(len(listofdicks)):
+            reg = reg + float((listofdicks[bb]["reghours"]))
+            ot = ot + float((listofdicks[bb]["othours"]))
+            hours = hours + float((listofdicks[bb]["totalhours"]))
+            pay = pay + float(listofdicks[bb]["moneytotal"])
+        per = ot / reg
+
+        per = per * 100
+        per = round(per, 2)
+
+        (
+            self.root.get_screen("pay").ids.payperiod_list.add_widget(
+                ThreeLineListItem(
+                    bg_color=self.theme_cls.primary_dark,
+                    # MDListItemHeadlineText(text=listofdicks[z]["show"]),
+                    text="Total Shows: " + str(len(listofdicks)),
+                    secondary_text="Hours: "
+                    + str(hours)
+                    + " Regular: "
+                    + str(reg)
+                    + " OT:"
+                    + str(ot),
+                    tertiary_text="$" + str(pay) + " OT %" + str(per),
+                ),
+            ),
+        )
 
         App.get_running_app().root.current_screen.ids["dstart"].text = (
             self.format_date(self.fday, "full") + "     to"
@@ -6671,7 +6851,9 @@ Demo: If you are new to our app or would like to see how it works, click this bu
         )
         for z in range(len(listofdicks)):
             # print(listofdicks[z])
-
+            perc = float(listofdicks[z]["othours"]) / float(listofdicks[z]["reghours"])
+            perc = perc * 100
+            perc = round(perc, 2)
             panel = ThreeLineListItem(
                 text="Paydate: "
                 + str(self.format_date(listofdicks[z]["paydate"], "full")),
@@ -6681,7 +6863,10 @@ Demo: If you are new to our app or would like to see how it works, click this bu
                 + str(listofdicks[z]["totalhours"])
                 + " Overtime: "
                 + str(listofdicks[z]["othours"]),
-                tertiary_text="$" + str(self.hide(listofdicks[z]["moneytotal"])),
+                tertiary_text="$"
+                + str(self.hide(listofdicks[z]["moneytotal"]))
+                + " OT %"
+                + str(perc),
                 bg_color=self.theme_cls.bg_dark,
                 radius=[self.c_radius, self.c_radius, self.c_radius, self.c_radius],
                 on_release=self.do_pay_ind,

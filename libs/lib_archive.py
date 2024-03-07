@@ -1,4 +1,5 @@
 import json
+import logging
 
 
 def delete_demo_files(cd, ad):
@@ -26,36 +27,48 @@ def delete_demo_files(cd, ad):
 
 
 def load(cd, ad, last, first):
-    # print("loading archive",first,last)
+    # logging.info("loading archive",first,last)
     import glob
     import json
     from datetime import datetime
 
     all_shows = []
     z = glob.glob(ad + cd + "/*.json")
-    # print (z)
+    # logging.info (z)
     for i in range(len(z)):
+        flag = True
         with open(z[i]) as d:
-            # print(z[i], "TRY JSON")
-            dictData = json.load(d)
-            c = dictData["date"]
+            # logging.info (z[i],'try jzon')
+            # logging.info(z[i], "TRY JSON")
             try:
-                show_date = datetime.strptime(c, "%m/%d/%Y")
+                dictData = json.load(d)
             except:
+                logging.warning("failed to load " + z[i])
+                flag = False
+            if flag == True:
+                c = dictData["date"]
+                # logging.info (c,'dateeee',type(last))
                 try:
-                    show_date = datetime.strptime(c, "%Y-%m-%d")
+                    show_date = datetime.strptime(c, "%m/%d/%Y")
                 except:
-                    show_date = datetime.strptime("1999-01-01", "%Y-%m-%d")
-            show_date = show_date.date()
-            # print (first,show_date,last)
-            # print (type(first),type(show_date),type(last))
-            if type(last) == int or type(last) == str:
-                all_shows.append(dictData)
-            else:
-                if first <= show_date and show_date <= last:
+                    try:
+                        show_date = datetime.strptime(c, "%Y-%m-%d")
+                    except:
+                        show_date = datetime.strptime("1999-01-01", "%Y-%m-%d")
+                show_date = show_date.date()
+                # logging.info (first,show_date,last)
+                # logging.info (type(first),type(show_date),type(last))
+                if type(last) == int or type(last) == str:
                     all_shows.append(dictData)
+                else:
+                    # logging.info (first,show_date,last,'FIRST AND LAST')
+                    if first <= show_date:
+                        # logging.info (first,show_date,last,'found one!')
+                        if show_date <= last:
+                            # logging.info (first,show_date,last,'found one!')
+                            all_shows.append(dictData)
 
-    # print (all_shows)
+    # logging.info (all_shows)
     return all_shows
 
 

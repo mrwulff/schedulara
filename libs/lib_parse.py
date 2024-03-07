@@ -28,13 +28,17 @@ def parsepayperiod(file):
     flag2 = False
     hhours = []
     for i in range(len(ab)):
-
         ax = ab[i].find_all("td")
-        #for x in range(len(ax)):
-            #print (ax[x].get_text(),'AX',x)
+        # for x in range(len(ax)):
+        # print (ax[x].get_text(),'AX',x)
         try:
-            alldays = [ax[5].get_text(), ax[11].get_text(), ax[4].get_text(),ax[13].get_text()]
-            #timein,total,show
+            alldays = [
+                ax[5].get_text(),
+                ax[11].get_text(),
+                ax[4].get_text(),
+                ax[13].get_text(),
+            ]
+            # timein,total,show
 
             if (ax[1].get_text()) == "SHOW":
                 show_type = show_type + 1
@@ -46,7 +50,6 @@ def parsepayperiod(file):
         except:
             pass
         try:
-
             xx = ax[2].get_text()
             if flag2 == False:
                 if (xx) == "\xa0":
@@ -61,7 +64,6 @@ def parsepayperiod(file):
             # print(ax, "fail")
             pass
         try:
-
             hours_worked = (float(ax[7].get_text())) + (float(ax[8].get_text()))
             # print(hours_worked, "hoursworked")
             # hours_worked = int(hours_worked)
@@ -74,10 +76,11 @@ def parsepayperiod(file):
     ###TODO
     realday = []
     day_ach = []
-    #print(allday,'WHAT')
+    # print(allday,'WHAT')
+    flag = True
     for i in range(1, len(allday) - 1):
         # allday[i][0], junk, junk = str.split(allday[i][0], " ")
-        #print (allday[i],'allday')
+        # print (allday[i],'allday')
         newallday0, junk, junk = str.split(allday[i][0], " ")
         try:
             junk, allday[i][1] = str.split(allday[i][1], "$")
@@ -98,66 +101,71 @@ def parsepayperiod(file):
 
     # day=soup.findAll('span', id=re.compile('^post_'))
     days = len(day)
-    temp = paydate.text
-    temp = str.split(temp, " ")
-    temp = temp[3]
+    try:
+        temp = paydate.text
+    except:
+        flag = False
+        # return {"paydate:": "Fail"}, 1, 1, 1, 1, 1
+    if flag == True:
+        temp = str.split(temp, " ")
+        temp = temp[3]
 
-    import datetime
+        import datetime
 
-    past = False
-    dobj = datetime.datetime.strptime(temp, "%m/%d/%Y")
-    # print (dobj.day)
-    dobj2 = datetime.datetime.strftime(dobj, "%d %b %Y")
-    ddelta = date.today() - dobj.date()
-    ddelta = ddelta.days
+        past = False
+        dobj = datetime.datetime.strptime(temp, "%m/%d/%Y")
+        # print (dobj.day)
+        dobj2 = datetime.datetime.strftime(dobj, "%d %b %Y")
+        ddelta = date.today() - dobj.date()
+        ddelta = ddelta.days
 
-    # lblRegHoursTotal
-    # lblOTHoursTotal
-    # lblPayPeriod
-    # print (grandtotal.text)
-    # print (paydate.text)
-    # print (grandtotal.text)
-    # print (reghours)
-    # print (othours)
-    # print (paydate.text)
-    # ddict=dobjgrandtotal.text
-    totalhours = float(reghours.text) + float(othours.text)
-    text = (
-        "Paydate: "
-        + str(dobj2)
-        + " "
-        + grandtotal.text
-        + "\nRegHours: "
-        + reghours.text
-        + " "
-        + "Othours: "
-        + othours.text
-        + " Shows: "
-        + str(days)
-    )
-    grandtotal = str.replace(grandtotal.text, ",", "")
-    grandtotal = str.replace(grandtotal, "$", "")
-    grandtotal = float(grandtotal)
+        # lblRegHoursTotal
+        # lblOTHoursTotal
+        # lblPayPeriod
+        # print (grandtotal.text)
+        # print (paydate.text)
+        # print (grandtotal.text)
+        # print (reghours)
+        # print (othours)
+        # print (paydate.text)
+        # ddict=dobjgrandtotal.text
+        totalhours = float(reghours.text) + float(othours.text)
+        text = (
+            "Paydate: "
+            + str(dobj2)
+            + " "
+            + grandtotal.text
+            + "\nRegHours: "
+            + reghours.text
+            + " "
+            + "Othours: "
+            + othours.text
+            + " Shows: "
+            + str(days)
+        )
+        grandtotal = str.replace(grandtotal.text, ",", "")
+        grandtotal = str.replace(grandtotal, "$", "")
+        grandtotal = float(grandtotal)
 
-    ddict = {
-        "paydate": dobj,
-        "moneytotal": grandtotal,
-        "reghours": reghours.text,
-        "othours": othours.text,
-        "totalhours": totalhours,
-        "shows": days,
-        "ddelta": ddelta,
-        "dtext": text,
-        #"daysago": realday[0],
-        "day_ach": day_ach,
-        "hours_ach": hhours,
-    }
-    # print(realday, alldays)
+        ddict = {
+            "paydate": dobj,
+            "moneytotal": grandtotal,
+            "reghours": reghours.text,
+            "othours": othours.text,
+            "totalhours": totalhours,
+            "shows": days,
+            "ddelta": ddelta,
+            "dtext": text,
+            # "daysago": realday[0],
+            "day_ach": day_ach,
+            "hours_ach": hhours,
+        }
+        # print(realday, alldays)
 
-    # print (text)
-    show_types = in_type, out_type, show_type
-    # print(show_types)
-    return ddict, realday, in_type, out_type, show_type, test_list
+        # print (text)
+        show_types = in_type, out_type, show_type
+        # print(show_types)
+        return ddict, realday, in_type, out_type, show_type, test_list
 
 
 def format_textt(name):
@@ -398,7 +406,6 @@ def parse(sch, ad, usecache, x5):
         asds = str(ab[i].contents)
 
         if "input2 name" not in asds:
-
             l.append((ab[i].get_text()))
         if "input4 name" in asds:
             l.append(str(ab[i]))
@@ -417,6 +424,6 @@ def parse(sch, ad, usecache, x5):
 
 if __name__ == "__main__":
     # parse("sch", "ad", False)
-    #parsepayperiod("C:/Users/kw/AppData/Roaming/demo3/pp/01-25-2022.html")
+    # parsepayperiod("C:/Users/kw/AppData/Roaming/demo3/pp/01-25-2022.html")
     parsepayperiod("C:/Users/twat/AppData/Roaming/demo3/pp/01-25-2022.html")
     parsepayperiod("C:/Users/twat/AppData/Roaming/demo3/pp/11-28-2023.html")
