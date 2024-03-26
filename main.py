@@ -1050,6 +1050,7 @@ class Demo3App(MDApp):
         gg = js["shows"]
         added = 0
         found = 0
+
         if x.get("cal_id") != None:
             # for show in range(len(gg)):
             for show in range(2):
