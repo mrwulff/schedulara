@@ -13,3 +13,4 @@ libs/__pycache__/lib_new.cpython-310.pyc
 libs/__pycache__/*.*
 libs/applibs/__pycache__/constants.cpython-310.pyc
 *.pyc
+sc.json
