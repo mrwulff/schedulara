@@ -54,6 +54,8 @@ python3 -m venv venv
 pip install -e .
 
 
+/dist/root/python3/lib/python3.11/site-packages
+
 
 
 
