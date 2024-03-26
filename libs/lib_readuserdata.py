@@ -40,10 +40,12 @@ def readuserdata(App, config_file, ios):
     import json
 
     ad = config_file
-    if ios == True:
+    if 1 == 1:
         ad = config_file
         app = App.get_running_app()
         ad = app.user_data_dir
+        # print ('IOS IS TRUE')
+    # print (ad,config_file,app,'this is ad')
 
     with open(ad + "/userdata.json.txt") as json_file:
         data = json.load(json_file)

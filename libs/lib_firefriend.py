@@ -1,3 +1,4 @@
+import logging
 def dl_stats(App, ex, x, user):
     from datetime import datetime
     import hashlib
@@ -10,7 +11,7 @@ def dl_stats(App, ex, x, user):
     from datetime import datetime
 
     lol = os.getcwd()
-    logging.info(lol, "getcwd")
+    #logging.info(lol, "getcwd")
     databaseURL = "https://schedulara-default-rtdb.firebaseio.com"
     cred_obj = firebase_admin.credentials.Certificate("sc.json")
     chat_exists_flag = False
@@ -31,7 +32,7 @@ def dl_stats(App, ex, x, user):
     u = str(u)
     u = str.split(u, " ")
     u = u[len(u) - 1]
-    logging.info(u, "md5hash")
+    #logging.info(u, "md5hash")
     if user == "single":
         ref = db.reference("/stats/" + u)
 
@@ -67,19 +68,19 @@ def send_stats(App, ex, x):
     u = u.encode("utf-8")
 
     u = hashlib.md5(u).hexdigest()
-    logging.info(dir(u), "md5hashuu")
+    #logging.info(dir(u), "md5hashuu")
     u = str(u)
     u = str.split(u, " ")
     u = u[len(u) - 1]
-    logging.info(u, "md5hash")
-    u = "f_232344sdf7293847"
+    #logging.info(u, "md5hash")
+    #u = "f_232344sdf7293847"
 
     ref = db.reference("/stats/" + u)
     if x["share_stats"] == False:
         x["name"] = "hidden"
 
     user = {
-        x["name"]: {
+        u: {
             "office": x["city"],
             "update": ex["update"],
             "confirm": ex["confirm"],

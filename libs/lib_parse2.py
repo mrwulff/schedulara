@@ -364,7 +364,7 @@ def parsepayperiod(file):
 
         # logging.info(len(ax))
         real_show = False
-        if len(ax) == 12:
+        if len(ax) == 14:
             try:
                 # logging.info(ax[5].get_text())
                 nIn = datetime.strptime(ax[5].get_text(), "%m/%d/%Y %H:%M:%S %p")
