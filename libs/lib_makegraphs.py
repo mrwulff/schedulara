@@ -1,6 +1,6 @@
 # from kivy_garden.graph import Graph, BarPlot
 # from datetime import datetime
-
+import logging
 
 def make_matplot():
     pass
@@ -209,7 +209,7 @@ def parsepp(self, ad, type, finish, start):
                 all_pos.append(positions[x])
         except:
             logging.info("no poss")
-    logging.info(len(days_ach_list), "DAYSACHLIST")
+    #logging.info(len(days_ach_list), "DAYSACHLIST")
     if type != "hats":
         return (
             dd2,

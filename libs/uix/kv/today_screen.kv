@@ -103,7 +103,8 @@
                     on_release: nav_drawer.set_state("toggle")
                 MDActionTopAppBarButton:
                     icon: "shape"
-                    on_release: app.do_payperiod_f("YTD")
+                    #on_release: app.do_payperiod_f("YTD")
+                    on_release: app.today(False)
             #left_action_items:
             #    [['menu', lambda x: nav_drawer.set_state("open")]]
             #right_action_items: [['reload-alert', lambda screen: app.do_graphOrder(),'order']]
@@ -171,7 +172,7 @@
                     radius: app.cradius
                     #md_bg_color:1,1,1,.5
                     MDListItem:
-                        on_release: app.pop_new(0)
+                        on_release: _new(0)
                         id:first
                         #text: "First Show"
                         #secondary_text: "Secondary text here"
