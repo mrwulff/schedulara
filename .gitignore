@@ -48,3 +48,5 @@ libs/.DS_Store
 libs/applibs/.DS_Store
 libs/applibs/__pycache__/constants.cpython-310.pyc
 libs/applibs/__pycache__/utils.cpython-310.pyc
+libs/applibs/__pycache__/utils.cpython-310.pyc
+libs/applibs/__pycache__/constants.cpython-310.pyc
