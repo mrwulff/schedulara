@@ -14,7 +14,7 @@ from kivy.properties import (
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.utils import get_color_from_hex
-from kivymd.color_definitions import colors, palette
+#from kivymd.color_definitions import colors, palette
 from kivymd.theming import ThemableBehavior
 from kivymd.uix.label import MDLabel
 
